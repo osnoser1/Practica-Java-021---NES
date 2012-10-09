@@ -120,7 +120,7 @@ public class JPanelGrafico extends javax.swing.JPanel{
                 b=random.nextInt(12);
                 c=random.nextInt(8);
             
-                if(JPanelJuego.getMapa().getObjetoMapa(b, a)=="V"){
+                if("V".equals(JPanelJuego.getMapa().getObjetoMapa(b, a))){
                     d=false;
                     Mapa.setObjeto(DeterminarEnemigo(c));
                     JPanelJuego.getMapa().setObjetoMapa((short)b,(short)a);
@@ -145,7 +145,7 @@ public class JPanelGrafico extends javax.swing.JPanel{
             modoEdicion=false;
             this.jpaneljuego1.setEditing(modoEdicion);
         }else{
-            this.jpaneljuego1.setHiloPrincipal(new HiloPrincipal(this.jpaneljuego1));
+            this.jpaneljuego1.setHiloPrincipal(new HiloPrincipal(this.jpaneljuego1, (short)60));
             this.jpaneljuego1.getHiloPrincipal().start();
             generarMapa();
             JPanelJuego.Jugador=new Bomberman(JPanelJuego.getx(),JPanelJuego.gety());
@@ -160,7 +160,7 @@ public class JPanelGrafico extends javax.swing.JPanel{
         jpanelinformacion1.iniciarCuentaRegresiva();
         controladorKeyBoardJPanelJuego=new ControladorKeyBoardJPanelJuego(jpaneljuego1);
         this.jpaneljuego1.addKeyListener(controladorKeyBoardJPanelJuego);
-        this.jpaneljuego1.setHiloPrincipal(new HiloPrincipal(this.jpaneljuego1));
+        this.jpaneljuego1.setHiloPrincipal(new HiloPrincipal(this.jpaneljuego1, (short)60));
         this.jpaneljuego1.getHiloPrincipal().start();
     }
 

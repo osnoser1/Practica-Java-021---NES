@@ -38,13 +38,13 @@ public class JPanelAvisos extends javax.swing.JPanel{
 
 
     public void setMAX_NIVEL(short MAX_NIVEL) {
-        this.MAX_NIVEL=(short)(MAX_NIVEL>50?50:
-                MAX_NIVEL<1?1:MAX_NIVEL);
+        this.MAX_NIVEL=MAX_NIVEL>50?50:
+        MAX_NIVEL<1?1:MAX_NIVEL;
     }
 
     public void setNivel(short nivel) {
-        this.nivel=(short)(nivel>50?50:
-                nivel<1?1:nivel);
+        this.nivel=nivel>50?50:
+        nivel<1?1:nivel;
     }
 
     public void aumentarNivel(){

@@ -4,6 +4,7 @@
  */
 package Personajes;
 
+import Dependencias.Teclado;
 import GUI.JPanelJuego;
 import Hilos.HiloPanelTransicionMuerte;
 import Sonidos.Sonidos;
@@ -21,14 +22,43 @@ public abstract class Personaje extends Sprite {
     protected Animation Arriba;
     protected Animation Abajo;
     protected Animation Muerte;
-    
+    protected Estado estado;
+    protected final Teclado teclado;
+    public enum Estado{
+        INICIO,
+        ARRIBA,
+        ABAJO,
+        DERECHA,
+        IZQUIERDA,
+        MUERTE
+    }
 
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+    
+    public void reiniciar(){
+        estado = Estado.INICIO;
+    }
+    
+    public abstract void estadoInicio();
+    public abstract void estadoArriba();
+    public abstract void estadoAbajo();
+    public abstract void estadoDerecha();
+    public abstract void estadoIzquierda();
+    public abstract void estadoMuerte();
+    public abstract void actualizar(JPanelJuego jPanelJuego);
+    
     public Personajes.Smart getInteligencia() {
         return Inteligencia;
     }
     protected int PosicionArrayList;
     protected Timer timer;
-    protected boolean Muerto=false;
+    protected boolean Muerto = false;
 
     public Personaje(Animation Izquierda,Animation Derecha,Animation Arriba,Animation Abajo,Animation Muerte){
         super(Izquierda);
@@ -37,6 +67,8 @@ public abstract class Personaje extends Sprite {
         this.Arriba=Arriba;
         this.Abajo=Abajo;
         this.Muerte=Muerte;
+        this.estado = Estado.INICIO;
+        this.teclado = Teclado.getInstance();
     } 
 
     public void MovimientoDerecha(){
@@ -59,8 +91,7 @@ public abstract class Personaje extends Sprite {
         Speed=Math.abs(Speed);
         updateY();
     }
-    
-   public void Muerte(int a){
+    public void Muerte(int a){
         if(a!=-1)Inteligencia.getTimer().stop();
         Muerto=true;
         animation=Muerte;
@@ -101,32 +132,24 @@ public abstract class Personaje extends Sprite {
         timer.start();
 
     }
-
-
     public Animation getDerecha() {
         return Derecha;
     }
-
     public Animation getIzquierda() {
         return Izquierda;
     }
-
     public Animation getAbajo() {
         return Abajo;
     }
-
     public Animation getArriba() {
         return Arriba;
     }
-
     public void iniciarInteligencia(){
         if(Inteligencia!=null)
             Inteligencia.iniciarInteligencia();
     }
-    
     public void detenerInteligencia(){
         if(Inteligencia!=null)
             Inteligencia.detenerInteligencia();
     }
-    
 }

@@ -30,6 +30,41 @@ public class Enemigo extends Personaje {
         }
         Dibujar(g); 
      }
+
+    @Override
+    public void actualizar(JPanelJuego jPanelJuego) {
+        
+    }
+
+    @Override
+    public void estadoInicio() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void estadoArriba() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void estadoAbajo() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void estadoDerecha() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void estadoIzquierda() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void estadoMuerte() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
    
 }

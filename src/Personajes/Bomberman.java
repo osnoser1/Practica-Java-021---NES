@@ -108,5 +108,60 @@ public class Bomberman extends Personaje {
     public int bombasPuestas() {
         return Bombs.size();
     }
+
+    @Override
+    public void actualizar(JPanelJuego jPanelJuego) {
+        switch(estado){
+            case INICIO:
+                estadoInicio();
+                break;
+            case ARRIBA:
+                estadoArriba();
+                break;
+            case ABAJO:
+                estadoAbajo();
+                break;
+            case DERECHA:
+                estadoDerecha();
+                break;
+            case IZQUIERDA:
+                estadoIzquierda();
+                break;
+            case MUERTE:
+                estadoMuerte();
+                break;
+        }
+    }
+
+    @Override
+    public void estadoInicio() {
+        this.setEstado(Estado.DERECHA);
+    }
+
+    @Override
+    public void estadoArriba() {
+        
+    }
+
+    @Override
+    public void estadoAbajo() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void estadoDerecha() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void estadoIzquierda() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void estadoMuerte() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
         
 }

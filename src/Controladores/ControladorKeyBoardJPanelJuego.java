@@ -4,6 +4,7 @@
  */
 package Controladores;
 import Dependencias.Metodos;
+import Dependencias.Teclado;
 import Dialog.Controles;
 import GUI.JPanelJuego;
 import Sonidos.Sonidos;
@@ -26,17 +27,14 @@ public class ControladorKeyBoardJPanelJuego implements KeyListener,Runnable {
     private static int vecesQueEntro=0;
     private boolean arriba=false,abajo=false,izquierda=false,derecha=false;
     private Thread thread;
+    private final Teclado teclado;
     
     public ControladorKeyBoardJPanelJuego(JPanelJuego jpaneljuego) {
         this.jpaneljuego=jpaneljuego;
         keys=new ArrayList<>();
-        try {
-            robot=new Robot();
-        } catch (AWTException ex) {
-            Logger.getLogger(ControladorKeyBoardJPanelJuego.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        thread=new Thread(this);
-        thread.start();
+        teclado = Teclado.getInstance();
+//        thread=new Thread(this);
+//        thread.start();
     }
 
     @Override
@@ -79,7 +77,7 @@ public class ControladorKeyBoardJPanelJuego implements KeyListener,Runnable {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println((++vecesQueEntro));
+        teclado.presionarTecla(e.getKeyCode());
         if(e.getKeyCode()==Controles.getArriba())
             arriba=true;
         else if(e.getKeyCode()==Controles.getAbajo())
@@ -95,6 +93,7 @@ public class ControladorKeyBoardJPanelJuego implements KeyListener,Runnable {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        teclado.liberarTecla(e.getKeyCode());
         eliminarKeyEvent(e);
     }
 

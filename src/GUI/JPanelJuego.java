@@ -182,14 +182,15 @@ public class JPanelJuego extends javax.swing.JPanel{
         y=(int)Math.round(SIZE.height/13.0);
 
         g2.fillRect(x,y,SIZE.width-x*2,SIZE.height-y*2);
-        for(int i=0;i<Mapa.FILAS;i++)
+        for(int i=0;i<Mapa.FILAS;i++) {
             for(int j=0;j<Mapa.COLUMNAS;j++){
                 switch (mapa1.getObjetoMapa(i,j)) {
                     case "A":
-                        g2.drawImage(Imagenes.ACERO,(int)Math.round(j*x),(int)Math.round(i*y),(int)x,(int)y,this);
+                        g2.drawImage(Imagenes.ACERO, Math.round(j*x),(int)Math.round(i*y),(int)x,(int)y,this);
                         break;
                 }
             }
+        }
     }
     public static short getPosicionX(int X){
         return (short)(X/x);
@@ -211,9 +212,10 @@ public class JPanelJuego extends javax.swing.JPanel{
             return;
         if(Jugador!=null&&getPosicionX(Jugador.getCenterX())==i&&getPosicionY(Jugador.getCenterY())==j)
             Jugador=null;
-        for(int k=0;k<enemigos.size();k++)
+        for(int k=0;k<enemigos.size();k++) {
             if(getPosicionX(enemigos.get(k).getCenterX())==i&&getPosicionY(enemigos.get(k).getCenterY())==j&&(enemigos.get(k).getIdentificacion() == null ? Mapa.getObjeto() != null : !enemigos.get(k).getIdentificacion().equals(Mapa.getObjeto())))
                 enemigos.remove(k);
+        }
         
         mapa1.setObjetoMapa((short)j,(short)i);
         BufferedImage img=null;
@@ -266,9 +268,10 @@ public class JPanelJuego extends javax.swing.JPanel{
     }
     private void DibujarPersonajes(Graphics g) {
        
-        for(int i=0;i<enemigos.size();i++)
+        for(int i=0;i<enemigos.size();i++) {
             if(enemigos.get(i)!=null)
                 enemigos.get(i).DibujarEnemigo((Graphics2D)g);
+        }
 
        if(Jugador!=null)
             Jugador.DibujarJugador((Graphics2D)g);
@@ -334,7 +337,7 @@ public class JPanelJuego extends javax.swing.JPanel{
         return Ladrillos;
     }
     public static void borrarLadrillo(int a,int b){
-        for(int i=0;i<Ladrillos.size();i++)
+        for(int i=0;i<Ladrillos.size();i++) {
             if(Ladrillos.get(i)!=null&&getPosicionX(Ladrillos.get(i).getCenterX())==getPosicionX(a)&&getPosicionY(Ladrillos.get(i).getCenterY())==getPosicionY(b)){
                 Ladrillos.get(i).start(i);
                 
@@ -344,6 +347,7 @@ public class JPanelJuego extends javax.swing.JPanel{
                         Ladrillos.get(i).getLadrilloEspecial().EliminarPowerup();
                 }
             }
+        }
         
     }
     public static void borrarJugador(int a,int b){
@@ -354,8 +358,9 @@ public class JPanelJuego extends javax.swing.JPanel{
         }
     }
     public static void borrarEnemigos() {
-        for(int size=enemigos.size(),i=0;i<size;i++)
+        for(int size=enemigos.size(),i=0;i<size;i++) {
             enemigos.get(i).detenerInteligencia();
+        }
         enemigos.clear();
     }
     public static void borrarEnemigo(int a,int b){
@@ -407,26 +412,29 @@ public class JPanelJuego extends javax.swing.JPanel{
             
             
         }
-        for(int i=0;i<Ladrillos.size();i++)
-               if(Ladrillos.get(i)!=null&&Ladrillos.get(i).getAnimation()!=null)
-                   mapa1.setObjetoMapa(getPosicionY(Ladrillos.get(i).getCenterY()), getPosicionX(Ladrillos.get(i).getCenterX()),"L");
-               else if(Ladrillos.get(i)!=null&&Ladrillos.get(i).getAnimation()==null&&Ladrillos.get(i).getLadrilloEspecial()!=null&&Ladrillos.get(i).getLadrilloEspecial().getImagen()!=null){
-                   if(!Ladrillos.get(i).getLadrilloEspecial().esPuerta())
-                       mapa1.setObjetoMapa(getPosicionY(Ladrillos.get(i).getLadrilloEspecial().getCenterY()), getPosicionX(Ladrillos.get(i).getLadrilloEspecial().getCenterX()),"S");
-                   else
-                       mapa1.setObjetoMapa(getPosicionY(Ladrillos.get(i).getLadrilloEspecial().getCenterY()), getPosicionX(Ladrillos.get(i).getLadrilloEspecial().getCenterX()),"Q");
-                  
-               }
+        for(int i=0;i<Ladrillos.size();i++) {
+            if(Ladrillos.get(i)!=null&&Ladrillos.get(i).getAnimation()!=null)
+                mapa1.setObjetoMapa(getPosicionY(Ladrillos.get(i).getCenterY()), getPosicionX(Ladrillos.get(i).getCenterX()),"L");
+            else if(Ladrillos.get(i)!=null&&Ladrillos.get(i).getAnimation()==null&&Ladrillos.get(i).getLadrilloEspecial()!=null&&Ladrillos.get(i).getLadrilloEspecial().getImagen()!=null){
+                if(!Ladrillos.get(i).getLadrilloEspecial().esPuerta())
+                    mapa1.setObjetoMapa(getPosicionY(Ladrillos.get(i).getLadrilloEspecial().getCenterY()), getPosicionX(Ladrillos.get(i).getLadrilloEspecial().getCenterX()),"S");
+                else
+                    mapa1.setObjetoMapa(getPosicionY(Ladrillos.get(i).getLadrilloEspecial().getCenterY()), getPosicionX(Ladrillos.get(i).getLadrilloEspecial().getCenterX()),"Q");
+               
+            }
+        }
         if(Jugador!=null&&Jugador.getBombs()!=null)
-            for(int i=0;i<Jugador.getBombs().size();i++)
-                if(Jugador.getBombs().get(i) !=null)
-                   mapa1.setObjetoMapa(getPosicionY(Jugador.getBombs().get(i).getCenterY()), getPosicionX(Jugador.getBombs().get(i).getCenterX()), "X");
+            for(int i=0;i<Jugador.getBombs().size();i++) {
+            if(Jugador.getBombs().get(i) !=null)
+               mapa1.setObjetoMapa(getPosicionY(Jugador.getBombs().get(i).getCenterY()), getPosicionX(Jugador.getBombs().get(i).getCenterX()), "X");
+        }
 
     }
     public void activarInteligencias(){
-        for(int i=0;i<enemigos.size();i++)
+        for(int i=0;i<enemigos.size();i++) {
             if(enemigos.get(i)!=null)
                 enemigos.get(i).getInteligencia().getTimer().start();
+        }
  
     }
             

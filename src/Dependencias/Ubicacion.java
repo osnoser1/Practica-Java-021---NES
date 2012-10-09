@@ -12,27 +12,27 @@ import java.util.ArrayList;
 public final class Ubicacion {
     
     
-    public static String TITLE_SCREEN="/Title_Screen.wav";
-    public static String LEVEL_START="/Level_Start.wav";
-    public static String STAGE_THEME="/Stage_Theme.wav";
-    public static String FIND_THE_DOOR="/Find_The_Door.wav";
-    public static final String LOGO="/Ambiente/Logo.png";
-    public static final String APUNTADOR="/Ambiente/Apuntador.png";
-    public static String PISO="/Ambiente/Piso.png";
-    public static String ACERO="/Ambiente/Bloque_Solido.png";
-    public static final String PRESENTACION="/Presentacion.wav";
-    public static final String BONUS_STAGE="/Bonus_Stage.wav";
-    public static final String STAGE="/Stage.wav";
-    public static final String GAME_OVER="/Game_Over.wav";
-    public static final String INVINCIBILITY_THEME="/Invincibility_Theme.wav";
-    public static final String JUST_DIED="/Just_Died.wav";
-    public static final String ENDING_THEME="/Ending_Theme.wav";
-    public static final String LEVEL_COMPLETE="/Level_Complete.wav";
-    public static final String BOMB_PLANT="/Sound Effects/bombplant.wav";
-    public static final String EXPLOSION_2="/Sound Effects/explosion2.wav";
-    public static final String KICK="/Sound Effects/kick.wav";
-    public static final String POWER_UP_2="/Sound Effects/powerup2.wav";
-    public static final String EXPLOSION_1="/Sound Effects/explosion.wav";
+    public static String TITLE_SCREEN = "/Title_Screen.wav";
+    public static String LEVEL_START = "/Level_Start.wav";
+    public static String STAGE_THEME = "/Stage_Theme.wav";
+    public static String FIND_THE_DOOR = "/Find_The_Door.wav";
+    public static final String LOGO = "/Ambiente/Logo.png";
+    public static final String APUNTADOR = "/Ambiente/Apuntador.png";
+    public static String PISO = "/Ambiente/Piso.png";
+    public static String ACERO = "/Ambiente/Bloque_Solido.png";
+    public static final String PRESENTACION = "/Presentacion.wav";
+    public static final String BONUS_STAGE = "/Bonus_Stage.wav";
+    public static final String STAGE = "/Stage.wav";
+    public static final String GAME_OVER = "/Game_Over.wav";
+    public static final String INVINCIBILITY_THEME = "/Invincibility_Theme.wav";
+    public static final String JUST_DIED = "/Just_Died.wav";
+    public static final String ENDING_THEME = "/Ending_Theme.wav";
+    public static final String LEVEL_COMPLETE = "/Level_Complete.wav";
+    public static final String BOMB_PLANT = "/Sound Effects/bombplant.wav";
+    public static final String EXPLOSION_2 = "/Sound Effects/explosion2.wav";
+    public static final String KICK = "/Sound Effects/kick.wav";
+    public static final String POWER_UP_2 = "/Sound Effects/powerup2.wav";
+    public static final String EXPLOSION_1 = "/Sound Effects/explosion.wav";
     public static ArrayList<String> BOMB;
     public static ArrayList<String> BOMBERMAN_1;
     public static ArrayList<String> LADRILLO;
@@ -45,12 +45,12 @@ public final class Ubicacion {
     public static ArrayList<String> PASS_1;
     public static ArrayList<String> PONTAN_0;
     public static ArrayList<String> Muerte;
-    public static String DEATH="/Sound Effects/death.wav";
-    public static String RIGHT="/Sound Effects/right.wav";
-    public static String LEFT="/Sound Effects/left.wav";
-    public static String UP="/Sound Effects/up.wav";
-    public static String DOWN="/Sound Effects/down.wav";
-    public static String PAUSE="/Sound Effects/pause.wav";
+    public static String DEATH = "/Sound Effects/death.wav";
+    public static String RIGHT = "/Sound Effects/right.wav";
+    public static String LEFT = "/Sound Effects/left.wav";
+    public static String UP = "/Sound Effects/up.wav";
+    public static String DOWN = "/Sound Effects/down.wav";
+    public static String PAUSE = "/Sound Effects/pause.wav";
     
     public Ubicacion(){
         initComponent();
@@ -92,32 +92,36 @@ public final class Ubicacion {
     public static ArrayList<String> getEnemigo(String Nombre){
         ArrayList<String> Enemigo=new ArrayList<>();
         try{
-            for(int i=1;i<=7;i++)
+            for(int i=1;i<=7;i++) {
                 Enemigo.add("/Enemigos/"+Nombre+"/"+Nombre+i+".png");
+            }
         }catch(Exception e){}
         return Enemigo;
     }
     public static ArrayList<String> getEnemigo(String Nombre,int a){
         ArrayList<String> Enemigo=new ArrayList<>();
         try{
-            for(int i=1;i<=a;i++)
+            for(int i=1;i<=a;i++) {
                 Enemigo.add("/Enemigos/"+Nombre+"/"+Nombre+i+".png");
+            }
         }catch(Exception e){}
         return Enemigo;
     }
     public static ArrayList<String> getJugador(String Nombre,int a){
         ArrayList<String> Enemigo=new ArrayList<>();
         try{
-            for(int i=1;i<=a;i++)
+            for(int i=1;i<=a;i++) {
                 Enemigo.add("/Jugadores/"+Nombre+"/"+Nombre+i+".png");
+            }
         }catch(Exception e){}
         return Enemigo;
     }
     public static ArrayList<String> getAmbiente(String Nombre,int a){
         ArrayList<String> Enemigo=new ArrayList<>();
         try{
-            for(int i=1;i<=a;i++)
+            for(int i=1;i<=a;i++) {
                 Enemigo.add("/Ambiente/"+Nombre+"/"+Nombre+i+".png");
+            }
         }catch(Exception e){}
         return Enemigo;
     }

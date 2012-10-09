@@ -25,17 +25,15 @@ import javax.swing.ImageIcon;
  */
 public class ManejadorDeArchivos {
 
-    private static ManejadorDeArchivos manejador=null;
+    private static ManejadorDeArchivos manejador;
 
     private ManejadorDeArchivos() {}
     
     public static ManejadorDeArchivos getInstance() {
-        if(manejador==null)
-            manejador=new ManejadorDeArchivos();
-        return manejador;
+        return manejador == null ? (manejador = new ManejadorDeArchivos()) : manejador;
     }
     
-    public boolean guardarArchivo(File file,String string){
+    public boolean guardarArchivo(File file, String string){
         try{
             try (PrintWriter printWriter1 = new PrintWriter(file)) {
                 printWriter1.print(string);
@@ -50,8 +48,9 @@ public class ManejadorDeArchivos {
         try {
             BufferedReader br=new BufferedReader(new FileReader(file));
             String string,string1="";
-            while((string=br.readLine())!=null)
+            while((string=br.readLine())!=null) {
                 string1+=string+"\n";
+            }
             return string1;
         } catch (IOException ex) {
             Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,7 +59,8 @@ public class ManejadorDeArchivos {
     } 
     
     public BufferedImage loadBufferedImage(File file){
-        if(!file.exists())return null;
+        if(file == null || !file.exists())
+            return null;
         try{
             return ImageIO.read(file);
         }catch(IOException e){
