@@ -14,39 +14,31 @@ import java.awt.event.KeyEvent;
  * @author Alfonso Andrés
  */
 public class ControladorJPanelPresentacion extends java.awt.event.KeyAdapter{
-    
-    private JPanelPresentacion jpanelpresentacion1;
-    private JPanelGrafico jpanelgrafico1;
-    private JPanelAvisos jpanelavisos1;
-    private JPanelContenedor jpanelcontenedor1;
 
-    public ControladorJPanelPresentacion(JPanelContenedor parent) {
-        this.jpanelpresentacion1 = parent.getJPanelPresentacion();
-        this.jpanelgrafico1 = parent.getJPanelGrafico();
-        this.jpanelavisos1 = parent.getJPanelAvisos();
-        this.jpanelcontenedor1=parent;
-    }
+    public ControladorJPanelPresentacion() { }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        JPanelPresentacion jPanelPresentacion = JPanelPresentacion.getInstance();
         if(e.getKeyCode()==Controles.getSelect()){
-            this.jpanelpresentacion1.siguienteOpcion();
+            jPanelPresentacion.siguienteOpcion();
             System.out.println("Prueba de accion: keyPressed");
         }
         else if(e.getKeyCode()==Controles.getStart()){
-            this.jpanelpresentacion1.setOpcionSeleccionada();
-            int opcion=this.jpanelpresentacion1.getOpcionSeleccionada();
-            this.jpanelpresentacion1.setVisible(false);
+            jPanelPresentacion.setOpcionSeleccionada();
+            int opcion = jPanelPresentacion.getOpcionSeleccionada();
+            jPanelPresentacion.setVisible(false);
             Sonidos.getInstance().getSonido(Sonidos.TITLE_SCREEN).stop();
             switch(opcion){
                 case JPanelPresentacion.START:
-                    this.jpanelcontenedor1.add(jpanelavisos1);
-                    this.jpanelavisos1.iniciarJPanelStage();
-                    new Hilos.HiloPanelPresentacion(jpanelcontenedor1).start();
+                    JPanelContenedor.getInstance().add(JPanelAvisos.getInstance());
+                    JPanelAvisos.getInstance().iniciarJPanelStage();
+                    new Hilos.HiloPanelPresentacion().start();
                     break;
                 case JPanelPresentacion.MAP_EDITOR:
-                    this.jpanelcontenedor1.add(jpanelgrafico1);
-                    this.jpanelgrafico1.modoEditor();
+                    JPanelContenedor.getInstance().add(JEditorDeMapas.getInstance());
+//                    JPanelContenedor.getInstance().add(JPanelGrafico.getInstance());
+//                    JPanelGrafico.getInstance().modoEditor();
                     break;
             }
             

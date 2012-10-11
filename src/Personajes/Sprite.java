@@ -4,6 +4,7 @@
  */
 package Personajes;
 
+import Dependencias.Mapa;
 import GUI.JPanelJuego;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -15,8 +16,7 @@ import java.util.ArrayList;
  */
 
 public class Sprite {
-    
-    
+        
     protected ArrayList<BufferedImage> Sprite;
     protected Animation animation;
     protected boolean Wallpass,DentroBomb;
@@ -41,7 +41,7 @@ public class Sprite {
             //if(JPanelJuego.getJugador().getX()>=widthjPaneljuego/4&&JPanelJuego.getJugador().getX()<=3*widthjPaneljuego/4)
                 
         }
-        if(tx%(30/Speed)==0&&animation!=null&&Speed!=0)
+        if(Speed!=0&&tx%(30/Speed)==0&&animation!=null)
             animation.MovimientoSprite();
     }
     
@@ -57,7 +57,7 @@ public class Sprite {
         if(AvanzarY())
             y += Speed ;
         
-        if(ty%(30/Speed)==0&&animation!=null&&Speed!=0)
+        if(Speed!=0&&ty%(30/Speed)==0&&animation!=null)
             animation.MovimientoSprite();
     }
     
@@ -69,11 +69,20 @@ public class Sprite {
         return x;
     }
     public int getCenterX() {
-        return x+JPanelJuego.getx()/2;
+        return x + JPanelJuego.getx() / 2;
     }
     public int getCenterY() {
-        return y+JPanelJuego.gety()/2;
+        return y + JPanelJuego.gety() / 2;
     }
+    
+    public int getWidth() {
+        return animation.getImageSprite().getWidth();
+    }
+    
+    public int getHeight() {
+        return animation.getImageSprite().getHeight();
+    }
+    
     public void setX(int x) {
         this.x = x;
     }
@@ -122,6 +131,10 @@ public class Sprite {
             g.drawImage(animation.getImageSprite(),x1,y1,JPanelJuego.getx(),JPanelJuego.gety(),null);
     }
     
+    public BufferedImage getSpriteActual(){
+        return animation == null ? null : animation.getImageSprite();
+    }
+    
     public ArrayList<BufferedImage> getSprite() {
         return Sprite;
     }
@@ -134,27 +147,27 @@ public class Sprite {
         return new Sprite( animation );
     }
     public boolean ChoqueDerecha(String a,int n){
-        return ((JPanelJuego.getMapa().getObjetoMapa(JPanelJuego.getPosicionY(y+2*vary),JPanelJuego.getPosicionX(x+varx)+n)==a)||
-                (JPanelJuego.getMapa().getObjetoMapa(JPanelJuego.getPosicionY(y+JPanelJuego.gety()-2*vary),JPanelJuego.getPosicionX(x+varx)+n)==a));
+        return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+2*vary),JPanelJuego.getPosicionX(x+varx)+n)==a)||
+                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+JPanelJuego.gety()-2*vary),JPanelJuego.getPosicionX(x+varx)+n)==a));
 
     }
     public boolean ChoqueIzquierda(String a,int n){
-        return ((JPanelJuego.getMapa().getObjetoMapa(JPanelJuego.getPosicionY(y+2*vary),JPanelJuego.getPosicionX(x+JPanelJuego.getx()-varx)-n)==a)||
-                (JPanelJuego.getMapa().getObjetoMapa(JPanelJuego.getPosicionY(y+JPanelJuego.gety()-2*vary),JPanelJuego.getPosicionX(x+JPanelJuego.getx()-varx)-n)==a));
+        return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+2*vary),JPanelJuego.getPosicionX(x+JPanelJuego.getx()-varx)-n)==a)||
+                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+JPanelJuego.gety()-2*vary),JPanelJuego.getPosicionX(x+JPanelJuego.getx()-varx)-n)==a));
     }
     public boolean ChoqueArriba(String a,int n){
         return (
-                (JPanelJuego.getMapa().getObjetoMapa(JPanelJuego.getPosicionY(y+JPanelJuego.gety()-vary)-n,JPanelJuego.getPosicionX(x+2*varx))==a  )||
-                (JPanelJuego.getMapa().getObjetoMapa(JPanelJuego.getPosicionY(y+JPanelJuego.gety()-vary)-n,JPanelJuego.getPosicionX(x+JPanelJuego.getx()-2*varx))==a  ));
+                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+JPanelJuego.gety()-vary)-n,JPanelJuego.getPosicionX(x+2*varx))==a  )||
+                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+JPanelJuego.gety()-vary)-n,JPanelJuego.getPosicionX(x+JPanelJuego.getx()-2*varx))==a  ));
     }
     public boolean ChoqueAbajo(String a,int n){
-        return ((JPanelJuego.getMapa().getObjetoMapa(JPanelJuego.getPosicionY(y)+n,JPanelJuego.getPosicionX(x+2*varx))==a  )||
-                (JPanelJuego.getMapa().getObjetoMapa(JPanelJuego.getPosicionY(y)+n,JPanelJuego.getPosicionX(x+JPanelJuego.getx()-2*varx))==a  ));
+        return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y)+n,JPanelJuego.getPosicionX(x+2*varx))==a  )||
+                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y)+n,JPanelJuego.getPosicionX(x+JPanelJuego.getx()-2*varx))==a  ));
     }
 
        
     public boolean ChoqueCentral(String a){
-       return ((JPanelJuego.getMapa().getObjetoMapa(JPanelJuego.getPosicionY(getCenterY()),JPanelJuego.getPosicionX(getCenterX()))==a  ));
+       return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(getCenterY()),JPanelJuego.getPosicionX(getCenterX()))==a  ));
     }
     public void setWallpass(boolean Wallpass) {
         this.Wallpass = Wallpass;
@@ -185,4 +198,38 @@ public class Sprite {
                );
     }
 
+    public static Sprite getInstance(String identificador){
+        Sprite value = null;
+        switch(identificador){
+            case "B":
+                value = new Bomberman(0, 0);
+                break;
+            case "b":
+                value = new Balloom(0, 0);
+                break;
+            case "O":
+                value = new Oneal(0, 0); 
+                break;
+            case "D":
+                value = new Doll(0, 0);
+                break;
+            case "M":
+                value = new Minvo(0, 0);  
+                break;
+            case "K":
+                value = new Kondoria(0, 0); 
+                break;
+            case "o":
+                value = new Ovapi(0, 0);
+                break;
+            case "P":
+                value = new Pass(0, 0);
+                break;
+            case "p":
+                value = new Pontan(0, 0);
+                break;
+        }
+        return value;
+    }
+    
 }

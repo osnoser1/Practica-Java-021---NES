@@ -5,6 +5,8 @@
 package Controladores;
 
 import GUI.JPanelContenedor;
+import GUI.JPanelJuego;
+import GUI.JPanelPresentacion;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
@@ -15,19 +17,16 @@ import java.awt.event.WindowEvent;
  */
 public class ControladorJFramePrincipal extends java.awt.event.WindowAdapter implements ComponentListener{
     
-    JPanelContenedor jpanelcontenedor1;
-
-    public ControladorJFramePrincipal(JPanelContenedor jpanelcontenedor1) {
-        this.jpanelcontenedor1 = jpanelcontenedor1;
+    public ControladorJFramePrincipal() {
     }
 
     @Override
     public void windowGainedFocus(WindowEvent e) {
         System.out.println("windowGainedFocus");
-        if(this.jpanelcontenedor1.getJPanelPresentacion().isVisible())
-            this.jpanelcontenedor1.getJPanelPresentacion().requestFocus();
-        else if(this.jpanelcontenedor1.getJPanelGrafico().getJPanelJuego().isVisible())
-            this.jpanelcontenedor1.getJPanelGrafico().getJPanelJuego().requestFocus();
+        if(JPanelPresentacion.getInstance().isVisible())
+            JPanelPresentacion.getInstance().requestFocus();
+        else if(JPanelJuego.getInstance().isVisible())
+            JPanelJuego.getInstance().requestFocus();
     }
 
     @Override

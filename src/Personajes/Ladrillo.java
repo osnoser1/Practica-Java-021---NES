@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
+import Dependencias.Mapa;
 import GUI.JPanelJuego;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
@@ -39,7 +40,7 @@ public class Ladrillo extends Sprite {
                if(time==0){
                    timer.stop();
                    animation=null;
-                   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(getCenterY()), JPanelJuego.getPosicionX(getCenterX()), "V");
+                   Mapa.getInstance().setObjetoMapa("V", JPanelJuego.getPosicionY(getCenterY()), JPanelJuego.getPosicionX(getCenterX()));
                  
                    if(Especial){
                        ladrilloespecial=new LadrilloEspecial(x,y,tipo,i);

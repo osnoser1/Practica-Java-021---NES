@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
  */
 public class ControladorPanelEspecial implements java.awt.event.ActionListener{
 
-    BotonEspecial botonespecial1;
+    private BotonEspecial botonespecial1;
     
     public ControladorPanelEspecial(BotonEspecial botonespecial1) {
         this.botonespecial1 = botonespecial1;

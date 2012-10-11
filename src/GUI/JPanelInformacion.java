@@ -18,7 +18,8 @@ import javax.swing.Timer;
  * @author Alfonso Andrés
  */
 public class JPanelInformacion extends javax.swing.JPanel{
-
+    
+    private static JPanelInformacion instance;
     private BufferedImage imagen;
     private Fuentes fuentes;
     private ManejadorDeArchivos manejadordearchivos1;
@@ -28,11 +29,15 @@ public class JPanelInformacion extends javax.swing.JPanel{
     private Timer timer;
     private Dimension SIZE;
     
-    public JPanelInformacion() {
+    private JPanelInformacion() {
         super();
         initComponents();
     }
 
+    public static JPanelInformacion getInstance() {
+        return instance == null ? (instance = new JPanelInformacion()) : instance;
+    }
+    
     private void initComponents() {
         SIZE=new Dimension(640,60);
         this.setBackground(new Color(188,188,188));

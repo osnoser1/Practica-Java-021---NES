@@ -5,7 +5,6 @@
 package UtilidadesJuego;
 
 import java.awt.event.KeyEvent;
-import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -15,19 +14,18 @@ import java.util.HashMap;
 public class GamePad {
     
     public enum Botones {
-            ARRIBA,
-            ABAJO,
-            IZQUIERDA,
-            DERECHA,
-            A,
-            B,
-            R,
-            L,
-            START,
-            SELECT
-        }
-    private HashMap<Botones, Integer> boton = (HashMap<Botones, Integer>)Collections.synchronizedMap(
-            new HashMap<Botones, Integer>(){{
+        ARRIBA,
+        ABAJO,
+        IZQUIERDA,
+        DERECHA,
+        A,
+        B,
+        R,
+        L,
+        START,
+        SELECT
+    }
+    private HashMap<Botones, Integer> boton = new HashMap<Botones, Integer>(){{
                 put(Botones.ABAJO, KeyEvent.VK_DOWN);
                 put(Botones.ARRIBA, KeyEvent.VK_UP);
                 put(Botones.DERECHA, KeyEvent.VK_RIGHT);
@@ -38,8 +36,7 @@ public class GamePad {
                 put(Botones.START, KeyEvent.VK_SHIFT);
                 put(Botones.R, KeyEvent.VK_A);
                 put(Botones.L, KeyEvent.VK_S);
-            }}
-    );
+            }};
     
     public int getBoton(Botones boton){
         return this.boton.get(boton);

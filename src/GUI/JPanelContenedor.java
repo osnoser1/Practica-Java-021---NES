@@ -13,23 +13,20 @@ import javax.swing.JPanel;
  */
 public class JPanelContenedor extends JPanel{
     
-    JBarraMenu jbarramenu1;
-    JPanelPresentacion jpanelpresentacion1;
-    JPanelAvisos jpanelavisos1;
-    JPanelGrafico jpanelgrafico1;
-    JPanelFinDeJuego jpanelfindejuego1;
+    private static JPanelContenedor instance;
+    private JBarraMenu jbarramenu1;
     
-    public JPanelContenedor() {
+    private JPanelContenedor() {
         super(new java.awt.BorderLayout());
         initComponents();
     }
 
+    public static JPanelContenedor getInstance() {
+        return instance == null ? (instance = new JPanelContenedor()) : instance;
+    }
+    
     private void initComponents() {
         this.jbarramenu1=new JBarraMenu();
-        this.jpanelpresentacion1=new JPanelPresentacion();
-        this.jpanelavisos1= new JPanelAvisos();
-        this.jpanelfindejuego1=new JPanelFinDeJuego();
-        this.jpanelgrafico1=new JPanelGrafico(this);
         agregarComponentesMenuInicial();
         agregarControladores();
     }
@@ -38,32 +35,16 @@ public class JPanelContenedor extends JPanel{
         return jbarramenu1;
     }
 
-    public JPanelFinDeJuego getJPanelFinDeJuego() {
-        return jpanelfindejuego1;
-    }
-
-    public JPanelAvisos getJPanelAvisos() {
-        return jpanelavisos1;
-    }
-
-    public JPanelGrafico getJPanelGrafico() {
-        return jpanelgrafico1;
-    }
-
-    public JPanelPresentacion getJPanelPresentacion() {
-        return jpanelpresentacion1;
-    }
-
     private void agregarControladores() {
-        this.jpanelpresentacion1.addKeyListener(new ControladorJPanelPresentacion(this));
+        JPanelPresentacion.getInstance().addKeyListener(new ControladorJPanelPresentacion());
     }
 
     public void agregarComponentesMenuInicial() {
         add(jbarramenu1,BorderLayout.NORTH);
-        add(this.jpanelpresentacion1);
-        this.jpanelpresentacion1.iniciar();
-        this.jpanelpresentacion1.setVisible(true);
-        this.jpanelpresentacion1.requestFocus();
+        add(JPanelPresentacion.getInstance());
+        JPanelPresentacion.getInstance().iniciar();
+        JPanelPresentacion.getInstance().setVisible(true);
+        JPanelPresentacion.getInstance().requestFocus();
         Sonidos.getInstance().getSonido(Sonidos.TITLE_SCREEN).play();
     }
     

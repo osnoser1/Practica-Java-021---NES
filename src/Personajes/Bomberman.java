@@ -7,6 +7,7 @@ package Personajes;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
 import Sonidos.Sonidos;
+import UtilidadesJuego.GamePad;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
@@ -17,21 +18,19 @@ public class Bomberman extends Personaje {
     
     public Bomberman(int x,int y){
         super(new Animation(Imagenes.BOMBERMAN_1,0,3),new Animation(Imagenes.BOMBERMAN_1,3,3),new Animation(Imagenes.BOMBERMAN_1,6,3),new Animation(Imagenes.BOMBERMAN_1,9,3),new Animation(Imagenes.BOMBERMAN_1,12,6));
-        Bombs=new ArrayList<>();
-
-        this.Speed=this.SPEED_MID;
-        this.BOMBS=10;
-        this.FLAMES=5;
-        this.SPEED=true;
-        this.Wallpass=true;
-        this.DETONATOR=true;
-        this.BOMBPASS=true;
-        this.FLAMEPASS=true;
-        this.MYSTERY=true;
-        this.x=x;
-        this.y=y;
-        this.Identificacion="B";
-        
+        Bombs = new ArrayList<>();
+        this.Speed = this.SPEED_MID;
+        this.BOMBS = 10;
+        this.FLAMES = 5;
+        this.SPEED = false;
+        this.Wallpass = true;
+        this.DETONATOR = true;
+        this.BOMBPASS = true;
+        this.FLAMEPASS = true;
+        this.MYSTERY = true;
+        this.x = x;
+        this.y = y;
+        this.Identificacion = "B";
     }
 
     public void setDETONATOR(boolean DETONATOR) {
@@ -94,9 +93,7 @@ public class Bomberman extends Personaje {
                 Bombs.add(new Bomb(JPanelJuego.getPosicionX(getCenterX())*JPanelJuego.getx(),JPanelJuego.getPosicionY(getCenterY())*JPanelJuego.gety()));
             }
     }
-
-    
-    
+  
     public ArrayList<Bomb> getBombs() {
         return Bombs;
     }
@@ -116,16 +113,16 @@ public class Bomberman extends Personaje {
                 estadoInicio();
                 break;
             case ARRIBA:
-                estadoArriba();
+                estadoArriba(jPanelJuego);
                 break;
             case ABAJO:
-                estadoAbajo();
+                estadoAbajo(jPanelJuego);
                 break;
             case DERECHA:
-                estadoDerecha();
+                estadoDerecha(jPanelJuego);
                 break;
             case IZQUIERDA:
-                estadoIzquierda();
+                estadoIzquierda(jPanelJuego);
                 break;
             case MUERTE:
                 estadoMuerte();
@@ -134,34 +131,117 @@ public class Bomberman extends Personaje {
     }
 
     @Override
+    public boolean avanzarAnimacion() {
+        return true;
+    }
+    
+    @Override
     public void estadoInicio() {
         this.setEstado(Estado.DERECHA);
     }
 
     @Override
-    public void estadoArriba() {
-        
+    public void estadoArriba(JPanelJuego jPanelJuego) {
+        verificarTeclasAccion();
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
+            this.setEstado(Estado.DERECHA);
+        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
+            this.setEstado(Estado.IZQUIERDA);
+        }
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
+            //Mover jugador
+            JPanelJuego.getJugador().MovimientoArriba();
+            Sonidos.getInstance().getSonido(Sonidos.UP).play();
+        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
+            this.setEstado(Estado.ABAJO);
+        }else{
+            return;
+        }
+        avanzarAnimacion();
     }
 
     @Override
-    public void estadoAbajo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void estadoAbajo(JPanelJuego jPanelJuego) {
+        verificarTeclasAccion();
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
+            this.setEstado(Estado.DERECHA);
+        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
+            this.setEstado(Estado.IZQUIERDA);
+        }
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
+            //Mover jugador
+            JPanelJuego.getJugador().MovimientoAbajo();
+            Sonidos.getInstance().getSonido(Sonidos.DOWN).play();
+        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
+            this.setEstado(Estado.ARRIBA);
+        }else{
+            return;
+        }
+        avanzarAnimacion();
     }
 
     @Override
-    public void estadoDerecha() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void estadoDerecha(JPanelJuego jPanelJuego) {
+        verificarTeclasAccion();
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
+            this.setEstado(Estado.ARRIBA);
+        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
+            this.setEstado(Estado.ABAJO);
+        }
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
+            //Mover jugador
+            JPanelJuego.getJugador().MovimientoDerecha();
+            Sonidos.getInstance().getSonido(Sonidos.RIGHT).play();
+            //Desplazamiento de ventana temporal
+            if(JPanelJuego.getJugador().AvanzarX()&&JPanelJuego.getJugador().getX()>=jPanelJuego.getWidth()/4&&JPanelJuego.getJugador().getX()<=(3*jPanelJuego.getWidth()/4-30)){
+                    jPanelJuego.setLocation(jPanelJuego.getX()-JPanelJuego.getJugador().getSpeed(), 0);
+            }
+        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
+            this.setEstado(Estado.IZQUIERDA);
+        }else{
+            return;
+        }
+        avanzarAnimacion();
     }
 
     @Override
-    public void estadoIzquierda() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void estadoIzquierda(JPanelJuego jPanelJuego) {
+        verificarTeclasAccion();
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
+            this.setEstado(Estado.ARRIBA);
+        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
+            this.setEstado(Estado.ABAJO);
+        }
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
+            //Mover jugador
+            JPanelJuego.getJugador().MovimientoIzquierda();
+            Sonidos.getInstance().getSonido(Sonidos.LEFT).play();
+            //Desplazamiento de ventana temporal
+            if(JPanelJuego.getJugador().AvanzarX()&&JPanelJuego.getJugador().getX()>=jPanelJuego.getWidth()/4&&JPanelJuego.getJugador().getX()<=(3*jPanelJuego.getWidth()/4-30)){
+                jPanelJuego.setLocation(jPanelJuego.getX()-JPanelJuego.getJugador().getSpeed(), 0);
+            }
+        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
+            this.setEstado(Estado.DERECHA);
+        }else{
+            return;
+        }
+        avanzarAnimacion();
     }
 
     @Override
     public void estadoMuerte() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(!avanzarAnimacion()){
+            activo = false;
+        }
     }
 
-        
+    private void verificarTeclasAccion() {
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.A))){
+            //Poner Bomba
+        }
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.B))){
+            //Explotar primera bomba colocada
+        }
+    }
+
 }

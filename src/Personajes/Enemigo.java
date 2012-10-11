@@ -1,7 +1,6 @@
 
 package Personajes;
 
-import GUI.JPanelInformacion;
 import GUI.JPanelJuego;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -42,22 +41,22 @@ public class Enemigo extends Personaje {
     }
 
     @Override
-    public void estadoArriba() {
+    public void estadoArriba(JPanelJuego jPanelJuego) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void estadoAbajo() {
+    public void estadoAbajo(JPanelJuego jPanelJuego) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void estadoDerecha() {
+    public void estadoDerecha(JPanelJuego jPanelJuego) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void estadoIzquierda() {
+    public void estadoIzquierda(JPanelJuego jPanelJuego) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -65,6 +64,10 @@ public class Enemigo extends Personaje {
     public void estadoMuerte() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
+    @Override
+    public boolean avanzarAnimacion() {
+        return false;
+    }    
    
 }

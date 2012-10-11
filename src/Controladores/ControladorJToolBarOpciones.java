@@ -4,7 +4,7 @@
  */
 package Controladores;
 
-import GUI.JPanelContenedor;
+import GUI.JPanelJuego;
 import Modelos.ModelosJToolBarOpciones;
 import java.awt.event.ActionEvent;
 
@@ -14,27 +14,25 @@ import java.awt.event.ActionEvent;
  */
 public class ControladorJToolBarOpciones implements java.awt.event.ActionListener{
 
-    private JPanelContenedor jpanelcontenedor1;
     private ModelosJToolBarOpciones modelosjtoolbaropciones;
 
-    public ControladorJToolBarOpciones(JPanelContenedor jpanelcontenedor1) {
-        this.jpanelcontenedor1 = jpanelcontenedor1;
-        this.modelosjtoolbaropciones=new ModelosJToolBarOpciones(this.jpanelcontenedor1);
+    public ControladorJToolBarOpciones() {
+        this.modelosjtoolbaropciones = new ModelosJToolBarOpciones();
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()){
-            case "Load map":
+            case "Cargar mapa":
                 this.modelosjtoolbaropciones.loadMapa();
                 break;
-            case "Save map":
+            case "Guardar mapa":
                 this.modelosjtoolbaropciones.saveMapa();
                 break;
-            case "Start":
+            case "Iniciar":
                 this.modelosjtoolbaropciones.start();
-                if(this.jpanelcontenedor1.getJPanelGrafico().getJPanelJuego().getenemigos()!=null)
-                    this.jpanelcontenedor1.getJPanelGrafico().getJPanelJuego().activarInteligencias();
+                if(JPanelJuego.getInstance().getenemigos()!=null)
+                    JPanelJuego.getInstance().activarInteligencias();
                 break;
         }
     }

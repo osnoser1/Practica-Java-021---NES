@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Bomberman.Core.Constantes;
+import Controladores.ControladorKeyBoardJPanelJuego;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
 import Hilos.HiloPrincipal;
@@ -13,8 +15,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 
 /**
  *
@@ -22,20 +24,18 @@ import java.util.Random;
  */
 public class JPanelJuego extends javax.swing.JPanel{
 
-    public  static Personajes.Bomberman Jugador=null;
-    private static boolean derrotados=false;
-
-
-    HiloPrincipal hiloPrincipal;
-    boolean editing=false,Powerup=false,Puerta=false;
-    private static Mapa mapa1;
-    BufferedImage imagen;
-    Dimension SIZE;
-    static ArrayList<Personajes.Enemigo> enemigos;
-    static ArrayList<Personajes.Ladrillo> Ladrillos;
-    private static int x,y;
+    public  static Bomberman Jugador;
+    private static boolean derrotados;
+    private static JPanelJuego instance;
+    private HiloPrincipal hiloPrincipal;
+    boolean Powerup, Puerta;
+    private Mapa mapa;
+    private BufferedImage imagen;
+    private Dimension SIZE;
+    static Vector<Enemigo> enemigos;
+    static Vector<Ladrillo> ladrillos;
+    private static int x, y;
     private int posX;
-    private static JPanelGrafico jPanelGrafico1;
     
 //    
 //    public JPanelJuego(){
@@ -43,39 +43,43 @@ public class JPanelJuego extends javax.swing.JPanel{
 //        initComponents();
 //    }
 
-    public JPanelJuego(JPanelGrafico jPanelGrafico1) {
+    
+    private JPanelJuego() {
         super(new java.awt.GridLayout(Mapa.FILAS,Mapa.COLUMNAS));
-        JPanelJuego.jPanelGrafico1=jPanelGrafico1;
         initComponents();
     }
     
+    public static JPanelJuego getInstance() {
+        return instance == null ? (instance = new JPanelJuego()) : instance;
+    }
+    
     private void initComponents() {
-        SIZE=new Dimension(1240,520);
-        this.setOpaque(false);
-        this.setRequestFocusEnabled(true);
-        this.requestFocusInWindow();
-        this.setFocusable(true);
-        this.setPreferredSize(SIZE);
-        Ladrillos=new ArrayList<>();
-        enemigos=new ArrayList<>();
-        mapa1=new Mapa();
-        imagen=new BufferedImage(SIZE.width,SIZE.height,BufferedImage.TYPE_INT_RGB);
-        
-        Graphics2D g2=imagen.createGraphics();
-           pintarMapa(g2);
+        SIZE = new Dimension(1240,520);
+        setOpaque(false);
+        setRequestFocusEnabled(true);
+        requestFocusInWindow();
+        setFocusable(true);
+        setPreferredSize(SIZE);
+        addKeyListener(ControladorKeyBoardJPanelJuego.getInstance());
+        ladrillos = new Vector<>();
+        enemigos = new Vector<>();
+        mapa = Mapa.getInstance();
+        imagen = new BufferedImage(SIZE.width, SIZE.height, BufferedImage.TYPE_INT_RGB);
+        x = imagen.getWidth() / 31;
+        y = imagen.getHeight() / 13;
+        pintarMapa(imagen.createGraphics());
 //        Jugador=new Personajes.Bomberman(x,y);
-
     }
     
     public void reiniciarJPanelJuego(){
         hiloPrincipal.stop();
-        hiloPrincipal=null;
-        Jugador=null;
+        hiloPrincipal = null;
+        Jugador = null;
         borrarEnemigos();
         borrarLadrillos();
-        mapa1.borrarMapa();
-        this.Powerup=false;
-        this.Puerta=false;
+        mapa.borrarMapa();
+        this.Powerup = false;
+        this.Puerta = false;
     }
 
     public HiloPrincipal getHiloPrincipal() {
@@ -100,10 +104,6 @@ public class JPanelJuego extends javax.swing.JPanel{
         
         
     }
-
-    public static JPanelGrafico getJPanelGrafico() {
-        return jPanelGrafico1;
-    }
     
     public int getPosX() {
         return posX;
@@ -120,40 +120,21 @@ public class JPanelJuego extends javax.swing.JPanel{
         
     }
 
-    public boolean isEditing() {
-        return editing;
-    }
-
-    public void setEditing(boolean editing) {
-        this.editing = editing;
-    }
-
-    public static Mapa getMapa() {
-        return mapa1;
-    }
-
-    public void setMapa(Mapa mapa) {
-        JPanelJuego.mapa1 = mapa;
-    }
-
-    public static ArrayList<Enemigo> getenemigos() {
+    public static Vector<Enemigo> getenemigos() {
         return enemigos;
     }
-
-
-
 
     void setSIZE(Dimension dim) {
         
         int x1=(int)Math.round(dim.width/16.0);
         int y1/*=(int)Math.round(dim.height/13.0)*/;
-        if(!editing){
-            y1=(int)Math.round(dim.height/14.0);
-            this.SIZE=new Dimension(dim.width*2-x1,dim.height-y1);
-        }else{
+//        if(!editing){
+//            y1=(int)Math.round(dim.height/14.0);
+//            this.SIZE=new Dimension(dim.width*2-x1,dim.height-y1);
+//        }else{
             y1=(int)Math.round(dim.height/26.0);
             this.SIZE=new Dimension(dim.width*2-x1,dim.height-y1);
-        }
+//        }
         
 //        this.SIZE=new Dimension(dim.width*2-x1,dim.height-y1);
         System.out.println(dim+" "+SIZE+" "+y1+" "+x1);
@@ -161,8 +142,8 @@ public class JPanelJuego extends javax.swing.JPanel{
         this.setSize(SIZE);
         double x0=x;
         double y0=y;
-        x=(int)Math.round(SIZE.width/31.0);
-        y=(int)Math.round(SIZE.height/13.0);
+        //x=(int)Math.round(SIZE.width/31.0);
+        //y=(int)Math.round(SIZE.height/13.0);
         escalamientoSprite(x0,y0);
         
         // this.imagen=ImageUtilities.convertImage(this.imagen.getScaledInstance(this.SIZE.width,this.SIZE.height,Image.SCALE_DEFAULT));
@@ -178,13 +159,13 @@ public class JPanelJuego extends javax.swing.JPanel{
     }
     public void pintarMapa(Graphics2D g2) {
         g2.setColor(new java.awt.Color(80,160,0));
-        x=(int)Math.round(SIZE.width/31.0);
-        y=(int)Math.round(SIZE.height/13.0);
+        //x=(int)Math.round(SIZE.width/31.0);
+        //y=(int)Math.round(SIZE.height/13.0);
 
         g2.fillRect(x,y,SIZE.width-x*2,SIZE.height-y*2);
         for(int i=0;i<Mapa.FILAS;i++) {
             for(int j=0;j<Mapa.COLUMNAS;j++){
-                switch (mapa1.getObjetoMapa(i,j)) {
+                switch (mapa.getObjetoMapa(i,j)) {
                     case "A":
                         g2.drawImage(Imagenes.ACERO, Math.round(j*x),(int)Math.round(i*y),(int)x,(int)y,this);
                         break;
@@ -208,7 +189,7 @@ public class JPanelJuego extends javax.swing.JPanel{
             Powerup=true;
             c=new Random().nextInt(6);
         }
-        if(mapa1.getObjetoMapa(j,i).equals("A"))
+        if(mapa.getObjetoMapa(j,i).equals("A"))
             return;
         if(Jugador!=null&&getPosicionX(Jugador.getCenterX())==i&&getPosicionY(Jugador.getCenterY())==j)
             Jugador=null;
@@ -217,7 +198,7 @@ public class JPanelJuego extends javax.swing.JPanel{
                 enemigos.remove(k);
         }
         
-        mapa1.setObjetoMapa((short)j,(short)i);
+        mapa.setObjetoMapa((short)j,(short)i);
         BufferedImage img=null;
         
         switch(Mapa.getObjeto()){
@@ -225,49 +206,26 @@ public class JPanelJuego extends javax.swing.JPanel{
                 Jugador=new Bomberman(i*x,j*y);
                 break;
             case "L":
-                Ladrillos.add(new Ladrillo(i*x,j*y,c));
+                ladrillos.add(new Ladrillo(i*x,j*y,c));
                 break;
             case "V":
                 break;
             default:
-               enemigos.add(DeterminarEnemigo(i,j,Mapa.getObjeto()));
-               if(editing)
-                   enemigos.get(enemigos.size()-1).getInteligencia().getTimer().stop();
+               enemigos.add(determinarEnemigo(i, j, Mapa.getObjeto()));
+//               if(editing)
+//                   enemigos.get(enemigos.size()-1).getInteligencia().getTimer().stop();
                 break;
         }
         imagen.createGraphics().drawImage(img,imagen.getWidth()/31*i,imagen.getHeight()/13*j,imagen.getWidth()/31,imagen.getHeight()/13, this);
     }
-    public Enemigo DeterminarEnemigo(int i,int j,String a){
-        switch(a){
-            case "b":
-                return new Balloom(i*x,j*y);    
-                
-            case "O":
-                return new Oneal(i*x,j*y); 
-                
-            case "D":
-                return new Doll(i*x,j*y);
-                
-            case "M":
-                return new Minvo(i*x,j*y);    
-                
-            case "K":
-                return new Kondoria(i*x,j*y); 
-                
-            case "o":
-                return new Ovapi(i*x,j*y);
-                
-            case "P":
-                return new Pass(i*x,j*y);
-                
-            case "p":
-                return new Pontan(i*x,j*y);
-                
-        }
-        return null;
+    public Enemigo determinarEnemigo(int i, int j, String a){
+        Personaje personaje = Constantes.Objetos.getInstance(a);
+        if(personaje != null)
+            personaje.setLocation(i * x, j * y);
+        return (Enemigo)personaje;
     }
+    
     private void DibujarPersonajes(Graphics g) {
-       
         for(int i=0;i<enemigos.size();i++) {
             if(enemigos.get(i)!=null)
                 enemigos.get(i).DibujarEnemigo((Graphics2D)g);
@@ -280,7 +238,7 @@ public class JPanelJuego extends javax.swing.JPanel{
 
     private void escalamientoSprite(double x0, double y0) {
 
-       mapa1.mostrarMapa();
+       mapa.mostrarMapa();
         if(Jugador!=null){
             Jugador.setX((int)Math.round((Jugador.getX()/x0)*x));
             Jugador.setY((int)Math.round((Jugador.getY()/y0)*y));
@@ -300,9 +258,9 @@ public class JPanelJuego extends javax.swing.JPanel{
             }
             
         }
-        for(int i=0;i<Ladrillos.size();i++){
-            Ladrillos.get(i).setX((int)Math.round(Ladrillos.get(i).getX()/x0*x));
-            Ladrillos.get(i).setY((int)Math.round(Ladrillos.get(i).getY()/y0*y));
+        for(int i=0;i<ladrillos.size();i++){
+            ladrillos.get(i).setX((int)Math.round(ladrillos.get(i).getX()/x0*x));
+            ladrillos.get(i).setY((int)Math.round(ladrillos.get(i).getY()/y0*y));
         }
         for(int i=0;i<enemigos.size();i++){
             enemigos.get(i).setX((int)Math.round(enemigos.get(i).getX()/x0*x));
@@ -325,26 +283,25 @@ public class JPanelJuego extends javax.swing.JPanel{
 
 
     private void DibujarLadrillos(Graphics g) {
-        
-        for(int i=0;i<Ladrillos.size();i++){
-               Ladrillos.get(i).Dibujar((Graphics2D)g);
-               if(Ladrillos.get(i).ladrilloespecial!=null)
-                   Ladrillos.get(i).ladrilloespecial.Dibujar(g);
+        for(Ladrillo ladrillo : ladrillos){
+            ladrillo.Dibujar((Graphics2D)g);
+               if(ladrillo.ladrilloespecial != null)
+                   ladrillo.ladrilloespecial.Dibujar(g);
         }
     }
 
-    public static ArrayList<Ladrillo> getLadrillos() {
-        return Ladrillos;
+    public static Vector<Ladrillo> getLadrillos() {
+        return ladrillos;
     }
     public static void borrarLadrillo(int a,int b){
-        for(int i=0;i<Ladrillos.size();i++) {
-            if(Ladrillos.get(i)!=null&&getPosicionX(Ladrillos.get(i).getCenterX())==getPosicionX(a)&&getPosicionY(Ladrillos.get(i).getCenterY())==getPosicionY(b)){
-                Ladrillos.get(i).start(i);
+        for(int i=0;i<ladrillos.size();i++) {
+            if(ladrillos.get(i)!=null&&getPosicionX(ladrillos.get(i).getCenterX())==getPosicionX(a)&&getPosicionY(ladrillos.get(i).getCenterY())==getPosicionY(b)){
+                ladrillos.get(i).start(i);
                 
-                if(Ladrillos.get(i).getAnimation()==null&&Ladrillos.get(i).getLadrilloEspecial()!=null&&Ladrillos.get(i).getLadrilloEspecial().getImagen()!=null){
-                    Ladrillos.get(i).getLadrilloEspecial().CrearEnemigos();
-                    if(!Ladrillos.get(i).getLadrilloEspecial().esPuerta())
-                        Ladrillos.get(i).getLadrilloEspecial().EliminarPowerup();
+                if(ladrillos.get(i).getAnimation()==null&&ladrillos.get(i).getLadrilloEspecial()!=null&&ladrillos.get(i).getLadrilloEspecial().getImagen()!=null){
+                    ladrillos.get(i).getLadrilloEspecial().CrearEnemigos();
+                    if(!ladrillos.get(i).getLadrilloEspecial().esPuerta())
+                        ladrillos.get(i).getLadrilloEspecial().EliminarPowerup();
                 }
             }
         }
@@ -393,7 +350,7 @@ public class JPanelJuego extends javax.swing.JPanel{
     }
 
     private void borrarLadrillos() {
-        Ladrillos.clear();
+        ladrillos.clear();
     }
 
     public int getCantidadEnemigos(){
@@ -401,32 +358,32 @@ public class JPanelJuego extends javax.swing.JPanel{
     }
     
     private void ActualizarMapa() {
-         mapa1=new Mapa();
-         if(Jugador!=null)
-                mapa1.setObjetoMapa(getPosicionY(Jugador.getCenterY()), getPosicionX(Jugador.getCenterX()), Jugador.getIdentificacion());
+        mapa.borrarMapa();
+        if(Jugador!=null)
+                mapa.setObjetoMapa(Jugador.getIdentificacion(), getPosicionY(Jugador.getCenterY()), getPosicionX(Jugador.getCenterX()));
         
         for(int i=0;i<enemigos.size();i++){
            
             if(enemigos.get(i)!=null)             
-                mapa1.setObjetoMapa(getPosicionY(enemigos.get(i).getCenterY()), getPosicionX(enemigos.get(i).getCenterX()), enemigos.get(i).getIdentificacion());  
+                mapa.setObjetoMapa(enemigos.get(i).getIdentificacion(), getPosicionY(enemigos.get(i).getCenterY()), getPosicionX(enemigos.get(i).getCenterX()));  
             
             
         }
-        for(int i=0;i<Ladrillos.size();i++) {
-            if(Ladrillos.get(i)!=null&&Ladrillos.get(i).getAnimation()!=null)
-                mapa1.setObjetoMapa(getPosicionY(Ladrillos.get(i).getCenterY()), getPosicionX(Ladrillos.get(i).getCenterX()),"L");
-            else if(Ladrillos.get(i)!=null&&Ladrillos.get(i).getAnimation()==null&&Ladrillos.get(i).getLadrilloEspecial()!=null&&Ladrillos.get(i).getLadrilloEspecial().getImagen()!=null){
-                if(!Ladrillos.get(i).getLadrilloEspecial().esPuerta())
-                    mapa1.setObjetoMapa(getPosicionY(Ladrillos.get(i).getLadrilloEspecial().getCenterY()), getPosicionX(Ladrillos.get(i).getLadrilloEspecial().getCenterX()),"S");
+        for(int i=0;i<ladrillos.size();i++) {
+            if(ladrillos.get(i)!=null&&ladrillos.get(i).getAnimation()!=null)
+                mapa.setObjetoMapa("L", getPosicionY(ladrillos.get(i).getCenterY()), getPosicionX(ladrillos.get(i).getCenterX()));
+            else if(ladrillos.get(i)!=null&&ladrillos.get(i).getAnimation()==null&&ladrillos.get(i).getLadrilloEspecial()!=null&&ladrillos.get(i).getLadrilloEspecial().getImagen()!=null){
+                if(!ladrillos.get(i).getLadrilloEspecial().esPuerta())
+                    mapa.setObjetoMapa("S", getPosicionY(ladrillos.get(i).getLadrilloEspecial().getCenterY()), getPosicionX(ladrillos.get(i).getLadrilloEspecial().getCenterX()));
                 else
-                    mapa1.setObjetoMapa(getPosicionY(Ladrillos.get(i).getLadrilloEspecial().getCenterY()), getPosicionX(Ladrillos.get(i).getLadrilloEspecial().getCenterX()),"Q");
+                    mapa.setObjetoMapa("Q", getPosicionY(ladrillos.get(i).getLadrilloEspecial().getCenterY()), getPosicionX(ladrillos.get(i).getLadrilloEspecial().getCenterX()));
                
             }
         }
         if(Jugador!=null&&Jugador.getBombs()!=null)
             for(int i=0;i<Jugador.getBombs().size();i++) {
             if(Jugador.getBombs().get(i) !=null)
-               mapa1.setObjetoMapa(getPosicionY(Jugador.getBombs().get(i).getCenterY()), getPosicionX(Jugador.getBombs().get(i).getCenterX()), "X");
+               mapa.setObjetoMapa("X", getPosicionY(Jugador.getBombs().get(i).getCenterY()), getPosicionX(Jugador.getBombs().get(i).getCenterX()));
         }
 
     }
@@ -437,6 +394,9 @@ public class JPanelJuego extends javax.swing.JPanel{
         }
  
     }
-            
+
+    public BufferedImage getImagen() {
+        return imagen;
+    }
     
 }

@@ -14,8 +14,6 @@ import Dependencias.ManejadorDeArchivos;
  */
 public class JFramePrincipal extends javax.swing.JFrame{
 
-    public JPanelContenedor jpanelcontenedor1;
-    
     public JFramePrincipal(){
         super("Bomberman - NES");
         initComponents();
@@ -23,11 +21,10 @@ public class JFramePrincipal extends javax.swing.JFrame{
 
     private void initComponents() {
         Imagenes.cargarImagenes();
-        this.jpanelcontenedor1=new JPanelContenedor();
-        this.add(jpanelcontenedor1);
+        this.add(JPanelContenedor.getInstance());
         this.setSize(656,620);
         this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        ControladorJFramePrincipal controladorJFramePrincipal = new ControladorJFramePrincipal(this.jpanelcontenedor1);
+        ControladorJFramePrincipal controladorJFramePrincipal = new ControladorJFramePrincipal();
         this.addWindowFocusListener(controladorJFramePrincipal);
         this.addWindowListener(controladorJFramePrincipal);
         this.addComponentListener(controladorJFramePrincipal);

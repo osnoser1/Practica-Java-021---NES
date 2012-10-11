@@ -10,18 +10,18 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class BotonEspecial extends JPanel implements MouseMotionListener,MouseListener{
+public class BotonEspecial extends JPanel implements MouseMotionListener, MouseListener{
 
-    private BufferedImage imagen=null;
-    private Personajes.Personaje personaje=null;
-    private MouseListener listener=null;
-    private ActionListener listener1=null;
+    private BufferedImage imagen;
+    private Personajes.Personaje personaje;
+    private MouseListener listener;
+    private ActionListener listener1;
     private boolean Dentro;
     Timer animacion;
     public BotonEspecial(Personajes.Personaje personaje) {
-        this.personaje=personaje;
+        this.personaje = personaje;
         personaje.getAnimation().resetCont();
-      //  personaje.getAnimation().suspend();
+        //personaje.getAnimation().suspend();
         initComponents();
     }
     public BotonEspecial(BufferedImage imagen) {
@@ -36,7 +36,7 @@ public class BotonEspecial extends JPanel implements MouseMotionListener,MouseLi
     	this.addMouseMotionListener(this);
     	this.addMouseListener(this);
     	this.setBorder(BorderFactory.createLineBorder(Color.gray));
-        this.animacion=new Timer(150,new AbstractAction(){
+        this.animacion = new Timer(150, new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 update();

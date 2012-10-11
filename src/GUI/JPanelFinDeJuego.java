@@ -11,12 +11,18 @@ import java.awt.Color;
  * @author Alfonso Andrés
  */
 public class JPanelFinDeJuego extends javax.swing.JPanel{
+    
+    private static JPanelFinDeJuego instance;
 
-    public JPanelFinDeJuego() {
+    private JPanelFinDeJuego() {
         super();
         initComponents();
     }
 
+    public static JPanelFinDeJuego getInstance() {
+        return instance == null ? (instance = new JPanelFinDeJuego()) : instance;
+    }
+    
     private void initComponents() {
         this.setBackground(Color.BLACK);
     }

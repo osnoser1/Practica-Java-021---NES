@@ -13,24 +13,24 @@ import java.awt.event.MouseEvent;
  */
 public class ControladorMouseJPanelJuego extends java.awt.event.MouseAdapter{
     
-    JPanelJuego jpaneljuego1;
+    private JPanelJuego jPanelJuego;
 
-    public ControladorMouseJPanelJuego(JPanelJuego jpaneljuego) {
-        this.jpaneljuego1 = jpaneljuego;
+    public ControladorMouseJPanelJuego() {
+        this.jPanelJuego = JPanelJuego.getInstance();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
-        this.jpaneljuego1.pintarCasilla(JPanelJuego.getPosicionX(e.getX()),JPanelJuego.getPosicionY(e.getY()));
-        this.jpaneljuego1.repaint();
+        this.jPanelJuego.pintarCasilla(JPanelJuego.getPosicionX(e.getX()),JPanelJuego.getPosicionY(e.getY()));
+        this.jPanelJuego.repaint();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         super.mouseDragged(e);
-        this.jpaneljuego1.pintarCasilla(JPanelJuego.getPosicionX(e.getX()),JPanelJuego.getPosicionY(e.getY()));
-        this.jpaneljuego1.repaint();
+        this.jPanelJuego.pintarCasilla(JPanelJuego.getPosicionX(e.getX()),JPanelJuego.getPosicionY(e.getY()));
+        this.jPanelJuego.repaint();
     //    ((JPanelJuego)e.getComponent()).setLocation(e.getComponent().getLocationOnScreen().x-e.getXOnScreen(),e.getComponent().getY());
     }
 

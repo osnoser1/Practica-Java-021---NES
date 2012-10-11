@@ -15,40 +15,37 @@ import Sonidos.Sonidos;
  */
 public class HiloPanelTransicionMuerte implements Runnable{
 
-    private JPanelContenedor jpanelcontenedor1;
     private Thread hilo;
 
-    public HiloPanelTransicionMuerte(JPanelContenedor jpanelcontenedor1) {
-        this.jpanelcontenedor1 = jpanelcontenedor1;
+    public HiloPanelTransicionMuerte() {
         this.hilo = new Thread(this);
     }
     
     @Override
     public void run() {
-        JPanelGrafico jpanelgrafico1=this.jpanelcontenedor1.getJPanelGrafico();
         Sonido sonido = Sonidos.getInstance().getSonido(Sonidos.JUST_DIED);
         while(sonido.isPlaying()){
             Metodos.sleep(500);
             System.out.println("Sonido: "+sonido.getFramePosition()+" "+sonido.getFrameLength());
         }
-        JPanelJuego.Jugador=null;
-        JPanelInformacion jPanelInformacion = jpanelgrafico1.getJPanelInformacion();
-        this.jpanelcontenedor1.remove(JPanelJuego.getJPanelGrafico());
-        jpanelgrafico1.getJPanelJuego().reiniciarJPanelJuego();
+        JPanelJuego.Jugador = null;
+        JPanelInformacion jPanelInformacion = JPanelInformacion.getInstance();
+        JPanelContenedor.getInstance().remove(JPanelGrafico.getInstance());
+        JPanelJuego.getInstance().reiniciarJPanelJuego();
         jPanelInformacion.disminuirVidasRestantes();
         jPanelInformacion.detenerCuentaRegresiva();
-        JPanelAvisos jPanelAvisos = this.jpanelcontenedor1.getJPanelAvisos();
+        JPanelAvisos jPanelAvisos = JPanelAvisos.getInstance();
         if(jPanelInformacion.getVidasRestantes()<0){
             jPanelInformacion.setVidasRestantes(2);
             jPanelAvisos.iniciarJPanelGameOver();
             jPanelAvisos.setNivel(new Short(1+""));
-            this.jpanelcontenedor1.add(jPanelAvisos);
+            JPanelContenedor.getInstance().add(jPanelAvisos);
             jPanelAvisos.requestFocus();
-            jPanelAvisos.addKeyListener(new Controladores.ControladorTecladoJPanelAvisos(JPanelJuego.getJPanelGrafico().getJPanelContenedor()));
+            jPanelAvisos.addKeyListener(new Controladores.ControladorTecladoJPanelAvisos());
         }else{
             jPanelAvisos.iniciarJPanelStage(); 
-            this.jpanelcontenedor1.add(jPanelAvisos);
-            new HiloPanelPresentacion(this.jpanelcontenedor1).start();
+            JPanelContenedor.getInstance().add(jPanelAvisos);
+            new HiloPanelPresentacion().start();
         }
     }
 

@@ -6,8 +6,6 @@ package Hilos;
 
 import Dependencias.Metodos;
 import GUI.JPanelJuego;
-import Personajes.Bomberman;
-import java.awt.Graphics2D;
 
 /**
  *
@@ -16,19 +14,15 @@ import java.awt.Graphics2D;
 public class HiloPrincipal implements Runnable {
     
     private Thread hilo;
-    private JPanelJuego jpaneljuego;
+    private JPanelJuego jPanelJuego;
     private short FPS;
     private long tiempoEnMilisegundos;
 
-    public HiloPrincipal(Thread hilo, JPanelJuego jpaneljuego, short FPS) {
-        this.hilo = hilo;
-        this.jpaneljuego = jpaneljuego;
-        this.FPS = FPS;
-        this.tiempoEnMilisegundos = 1000 / FPS;
-    }
-    
     public HiloPrincipal(JPanelJuego jPanelJuego, short FPS) {
-        this(new Thread(), jPanelJuego, FPS);
+        this.hilo = new Thread(this);
+        this.jPanelJuego = jPanelJuego;
+        this.FPS = FPS;
+        this.tiempoEnMilisegundos = 1000 / 30;
     }
     
     @Override
@@ -48,11 +42,11 @@ public class HiloPrincipal implements Runnable {
     }
 
     private void Actualizar() {
-        
+        jPanelJuego.getJugador().actualizar(jPanelJuego);
     }
 
     private void Pintar() {
-        jpaneljuego.repaint();
+        jPanelJuego.repaint();
     }
 
     public void setFPS(short FPS) {

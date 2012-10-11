@@ -20,7 +20,9 @@ public class Teclado {
     private static Teclado instance;
     private HashMap<Integer, EstadoTecla> teclas;
 
-    private Teclado() { }
+    private Teclado() {
+        teclas = new HashMap<>();
+    }
 
     public static Teclado getInstance() {
         return instance == null ? (instance = new Teclado()) : instance;

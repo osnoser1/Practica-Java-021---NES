@@ -16,24 +16,29 @@ import java.awt.image.BufferedImage;
  * @author Alfonso Andrés
  */
 public class JPanelAvisos extends javax.swing.JPanel{
-
+    
+    private static JPanelAvisos instance;
     private short nivel=1,MAX_NIVEL=50;
     private BufferedImage imagen;
     private Fuentes fuentes;
     
-    public JPanelAvisos() {
+    private JPanelAvisos() {
         super();
         initComponents();
     }
-
+    
+    public static JPanelAvisos getInstance() {
+        return instance == null ? (instance = new JPanelAvisos()) : instance;
+    }
+    
     private void initComponents() {
         this.setBackground(Color.BLACK);
         this.setVisible(false);
         this.setRequestFocusEnabled(true);
         this.requestFocusInWindow();
         this.setFocusable(true);
-        fuentes=new Fuentes();
-        imagen=new BufferedImage(640,560,BufferedImage.TYPE_INT_RGB);
+        fuentes = new Fuentes();
+        imagen = new BufferedImage(640,560,BufferedImage.TYPE_INT_RGB);
     }
 
 

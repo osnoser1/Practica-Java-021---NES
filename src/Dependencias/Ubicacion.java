@@ -19,6 +19,7 @@ public final class Ubicacion {
     public static final String LOGO = "/Ambiente/Logo.png";
     public static final String APUNTADOR = "/Ambiente/Apuntador.png";
     public static String PISO = "/Ambiente/Piso.png";
+    public static String FONDO = "/Ambiente/Fondo.png";
     public static String ACERO = "/Ambiente/Bloque_Solido.png";
     public static final String PRESENTACION = "/Presentacion.wav";
     public static final String BONUS_STAGE = "/Bonus_Stage.wav";

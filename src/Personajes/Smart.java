@@ -126,7 +126,7 @@ public class Smart {
         });
          
         }
-        timer.start();   
+//        timer.start();   
     }
 
     public Timer getTimer() {

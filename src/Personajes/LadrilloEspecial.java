@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
+import GUI.JPanelGrafico;
 import GUI.JPanelJuego;
 import Hilos.HiloTransicionPuerta;
 import Sonidos.Sonidos;
@@ -47,11 +48,11 @@ public class LadrilloEspecial {
                     //     JPanelJuego.getLadrillos().remove(i);
                         //    JPanelJuego.getLadrillos().set(i,null);
                         }
-                    else if(JPanelJuego.getJPanelGrafico().getJPanelJuego().getCantidadEnemigos()==0){
+                    else if(JPanelJuego.getInstance().getCantidadEnemigos()==0){
                         Sonidos.getInstance().detenerSonidos();
                         Sonidos.getInstance().getSonido(Sonidos.LEVEL_COMPLETE).play();
-                        JPanelJuego.getJPanelGrafico().getJPanelJuego().removeKeyListener(JPanelJuego.getJPanelGrafico().getControladorKeyBoardJPanelJuego());
-                        new HiloTransicionPuerta(JPanelJuego.getJPanelGrafico().getJPanelContenedor()).start();
+                        
+                        new HiloTransicionPuerta().start();
                         System.out.println("Entro en la puerta");
                         timer.stop();
                     }
@@ -119,9 +120,10 @@ public class LadrilloEspecial {
         
         timer1=new Timer(500,new AbstractAction(){
             int time=5;    
+            @Override
             public void actionPerformed(ActionEvent e){
                 time--;
-                JPanelJuego.getenemigos().add(JPanelJuego.getJPanelGrafico().getJPanelJuego().DeterminarEnemigo(JPanelJuego.getPosicionX(x),JPanelJuego.getPosicionY(y),JPanelJuego.getJPanelGrafico().DeterminarEnemigo(3)));  
+                JPanelJuego.getenemigos().add(JPanelJuego.getInstance().determinarEnemigo(JPanelJuego.getPosicionX(x), JPanelJuego.getPosicionY(y), JPanelGrafico.getInstance().determinarEnemigo(3)));  
                    if(time==0){
                        timer1.stop();
                    }

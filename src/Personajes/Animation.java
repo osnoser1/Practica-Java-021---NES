@@ -14,22 +14,24 @@ public class Animation  {
     private int currFrameIndex;
     
     public Animation(ArrayList<BufferedImage> sprite,int inicio,int CantImg) {
-        this.Sprite=new ArrayList<>();
-        this.Sprite=sprite;
-        this.inicio=inicio;
-        this.CantImg=CantImg;
-        cont=inicio;
+        this.Sprite = sprite;
+        this.inicio = inicio;
+        this.CantImg = CantImg;
+        cont = inicio;
          
     }
     public Animation(BufferedImage imagen,ArrayList<BufferedImage> sprite,int inicio,int CantImg) {
-        this.Sprite=new ArrayList<BufferedImage>();
-
+        this.Sprite = new ArrayList<>();
         this.Sprite.add(imagen);
         this.Sprite.addAll(sprite);
-        this.inicio=inicio;
-        this.CantImg=CantImg;
-        cont=inicio;
-     
+        this.inicio = inicio;
+        this.CantImg = CantImg;
+        cont = inicio;
+    }
+    
+    public Animation(ArrayList<BufferedImage> sprite){
+        this.Sprite = sprite;
+        this.CantImg = sprite.size();
     }
 
     public void MovimientoSprite(){

@@ -20,7 +20,8 @@ import java.util.ArrayList;
  * @author Alfonso Andrés
  */
 public class JPanelPresentacion extends javax.swing.JPanel {
-
+    
+    private static JPanelPresentacion instance;
     private BufferedImage imagen,flecha;
     private ArrayList<Point> opciones;
     private ManejadorDeArchivos manejadordearchivos1;
@@ -30,9 +31,13 @@ public class JPanelPresentacion extends javax.swing.JPanel {
     private int opcionSeleccionada=-1;
     public static final int START=0,MAP_EDITOR=1;
     
-    public JPanelPresentacion() {
+    private JPanelPresentacion() {
         super();
         initComponents();
+    }
+    
+    public static JPanelPresentacion getInstance() {
+        return instance == null ? (instance = new JPanelPresentacion()) : instance;
     }
 
     private void initComponents() {
