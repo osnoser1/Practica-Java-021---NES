@@ -31,7 +31,7 @@ public class ControladorJToolBarOpciones implements java.awt.event.ActionListene
                 break;
             case "Iniciar":
                 this.modelosjtoolbaropciones.start();
-                if(JPanelJuego.getInstance().getenemigos()!=null)
+                if(JPanelJuego.getInstance().getEnemigos()!=null)
                     JPanelJuego.getInstance().activarInteligencias();
                 break;
         }

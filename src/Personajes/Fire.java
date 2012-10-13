@@ -16,7 +16,8 @@ import javax.swing.Timer;
  * @author hp
  */
 public class Fire extends Sprite {
-        int time=6,SpaceDerecha,SpaceIzquierda,SpaceArriba,SpaceAbajo,Space,i;
+        int time = 6, SpaceDerecha, SpaceIzquierda, SpaceArriba, SpaceAbajo, Space;
+        Bomb bomba;
         Timer timer;
         Animation Derecha;
         Animation Izquierda;
@@ -27,7 +28,7 @@ public class Fire extends Sprite {
         Animation Central;
                 
         
-    public Fire(final int x1,final int y1,int space,int i1) {
+    public Fire(final int x1,final int y1,int space, Bomb bomba) {
         super(new Animation(Imagenes.FIRE,0,4));
         Izquierda=new Animation(Imagenes.FIRE,0,4);
         Derecha=new Animation(Imagenes.FIRE,4,4);
@@ -39,7 +40,7 @@ public class Fire extends Sprite {
         this.x=x1;
         this.y=y1;
         this.Space=space;
-        this.i=i1;
+        this.bomba = bomba;
         SpaceIzquierda=Space;
         SpaceDerecha=Space;
         SpaceArriba=Space;
@@ -55,8 +56,8 @@ public class Fire extends Sprite {
                
                if(time==0){
                     timer.stop();
-                    if(JPanelJuego.getJugador()!=null)
-                        JPanelJuego.getJugador().getBombs().remove(i);
+                    if(JPanelJuego.getInstance().primerJugador() != null)
+                        remover();
                    
                }
             }
@@ -72,6 +73,10 @@ public class Fire extends Sprite {
             }
         });
         timer.start();
+    }
+    
+    private void remover(){
+        JPanelJuego.getInstance().primerJugador().getBombs().remove(bomba);
     }
     
     public void DibujarFire(Graphics g){
@@ -115,53 +120,53 @@ public class Fire extends Sprite {
         for(int i=1;i<=Space;i++) 
              if(ChoqueArriba("A",i)||ChoqueArriba("L",i)||ChoqueArriba("X",i)||ChoqueArriba("Q",i)||ChoqueArriba("S",i)){
                  SpaceArriba=i-1;
-                 JPanelJuego.borrarLadrillo(getCenterX(), getCenterY()-JPanelJuego.gety()*i);
-                 JPanelJuego.borrarBombs(getCenterX(), getCenterY()-JPanelJuego.gety()*i);
+                 JPanelJuego.getInstance().borrarLadrillo(getCenterX(), getCenterY()-JPanelJuego.gety()*i);
+                 JPanelJuego.getInstance().borrarBombs(getCenterX(), getCenterY()-JPanelJuego.gety()*i);
                  break;
              }else if(!ChoqueArriba("V",i)){
-                 JPanelJuego.borrarEnemigo(getCenterX(), getCenterY()-JPanelJuego.gety()*i);
+                 JPanelJuego.getInstance().borrarEnemigo(getCenterX(), getCenterY()-JPanelJuego.gety()*i);
                  
-                 if(!JPanelJuego.getJugador().getFLAMEPASS())
-                    JPanelJuego.borrarJugador(getCenterX(), getCenterY()-JPanelJuego.gety()*i);
+                 if(!JPanelJuego.getInstance().primerJugador().getFLAMEPASS())
+                    JPanelJuego.getInstance().borrarJugador(getCenterX(), getCenterY()-JPanelJuego.gety()*i);
                  
              }
         for(int i=1;i<=Space;i++) 
              if(ChoqueAbajo("A",i)||ChoqueAbajo("L",i)||ChoqueAbajo("X",i)||ChoqueAbajo("Q",i)||ChoqueAbajo("S",i)){
                  SpaceAbajo=i-1;
-                 JPanelJuego.borrarLadrillo(getCenterX(), getCenterY()+JPanelJuego.gety()*i);
-                 JPanelJuego.borrarBombs(getCenterX(), getCenterY()+JPanelJuego.gety()*i);
+                 JPanelJuego.getInstance().borrarLadrillo(getCenterX(), getCenterY()+JPanelJuego.gety()*i);
+                 JPanelJuego.getInstance().borrarBombs(getCenterX(), getCenterY()+JPanelJuego.gety()*i);
                  break;
              }else if(!ChoqueAbajo("V",i)){
-                 JPanelJuego.borrarEnemigo(getCenterX(), getCenterY()+JPanelJuego.gety()*i);
+                 JPanelJuego.getInstance().borrarEnemigo(getCenterX(), getCenterY()+JPanelJuego.gety()*i);
                  
-                 if(!JPanelJuego.getJugador().getFLAMEPASS())
-                    JPanelJuego.borrarJugador(getCenterX(), getCenterY()+JPanelJuego.gety()*i);
+                 if(!JPanelJuego.getInstance().primerJugador().getFLAMEPASS())
+                    JPanelJuego.getInstance().borrarJugador(getCenterX(), getCenterY()+JPanelJuego.gety()*i);
                  
              }
         for(int i=1;i<=Space;i++) 
              if(ChoqueIzquierda("A",i)||ChoqueIzquierda("L",i)||ChoqueIzquierda("X",i)||ChoqueIzquierda("Q",i)||ChoqueIzquierda("S",i)){
                  SpaceIzquierda=i-1;
-                 JPanelJuego.borrarLadrillo(getCenterX()-JPanelJuego.getx()*i, getCenterY());
-                 JPanelJuego.borrarBombs(getCenterX()-JPanelJuego.getx()*i, getCenterY());
+                 JPanelJuego.getInstance().borrarLadrillo(getCenterX()-JPanelJuego.getx()*i, getCenterY());
+                 JPanelJuego.getInstance().borrarBombs(getCenterX()-JPanelJuego.getx()*i, getCenterY());
                  break;
              }else if(!ChoqueIzquierda("V",i)){
-                 JPanelJuego.borrarEnemigo(getCenterX()-JPanelJuego.getx()*i, getCenterY());
+                 JPanelJuego.getInstance().borrarEnemigo(getCenterX()-JPanelJuego.getx()*i, getCenterY());
                  
-                 if(!JPanelJuego.getJugador().getFLAMEPASS())
-                    JPanelJuego.borrarJugador(getCenterX()-JPanelJuego.getx()*i, getCenterY());
+                 if(!JPanelJuego.getInstance().primerJugador().getFLAMEPASS())
+                    JPanelJuego.getInstance().borrarJugador(getCenterX()-JPanelJuego.getx()*i, getCenterY());
                  
              }
         for(int i=0;i<=Space;i++) 
              if(ChoqueDerecha("A",i)||ChoqueDerecha("L",i)||ChoqueDerecha("X",i)&&i!=0||ChoqueDerecha("Q",i)&&i!=0||ChoqueDerecha("S",i)&&i!=0){
                  if(i!=0)SpaceDerecha=i-1;
-                 JPanelJuego.borrarLadrillo(getCenterX()+JPanelJuego.getx()*i, getCenterY());
+                 JPanelJuego.getInstance().borrarLadrillo(getCenterX()+JPanelJuego.getx()*i, getCenterY());
                  if(i!=0)
-                     JPanelJuego.borrarBombs(getCenterX()+JPanelJuego.getx()*i, getCenterY());
+                     JPanelJuego.getInstance().borrarBombs(getCenterX()+JPanelJuego.getx()*i, getCenterY());
                  break;
              }else if(!ChoqueDerecha("V",i)){
-                 JPanelJuego.borrarEnemigo(getCenterX()+JPanelJuego.getx()*i, getCenterY());
-                 if(!JPanelJuego.getJugador().getFLAMEPASS())
-                    JPanelJuego.borrarJugador(getCenterX()+JPanelJuego.getx()*i, getCenterY());
+                 JPanelJuego.getInstance().borrarEnemigo(getCenterX()+JPanelJuego.getx()*i, getCenterY());
+                 if(!JPanelJuego.getInstance().primerJugador().getFLAMEPASS())
+                    JPanelJuego.getInstance().borrarJugador(getCenterX()+JPanelJuego.getx()*i, getCenterY());
                  
              }
 

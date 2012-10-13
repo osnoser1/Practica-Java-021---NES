@@ -99,7 +99,7 @@ public class JPanelGrafico extends javax.swing.JPanel implements Constantes{
     public void iniciarJuego() {
         JPanelJuego jPanelJuego = JPanelJuego.getInstance();
         generarMapa();
-        JPanelJuego.Jugador = new Bomberman(JPanelJuego.getx(),JPanelJuego.gety());
+        jPanelJuego.fijarJugador(0, new Bomberman(JPanelJuego.getx(),JPanelJuego.gety()));
         jPanelJuego.setHiloPrincipal(new HiloPrincipal(jPanelJuego, (short)60));
         jPanelJuego.getHiloPrincipal().start();
         this.add(JPanelInformacion.getInstance(), java.awt.BorderLayout.NORTH);

@@ -24,16 +24,17 @@ import java.util.Vector;
  */
 public class JPanelJuego extends javax.swing.JPanel{
 
-    public  static Bomberman Jugador;
-    private static boolean derrotados;
+//    private Bomberman Jugador;
+    private boolean derrotados;
     private static JPanelJuego instance;
     private HiloPrincipal hiloPrincipal;
-    boolean Powerup, Puerta;
+    private boolean Powerup, Puerta;
     private Mapa mapa;
     private BufferedImage imagen;
     private Dimension SIZE;
-    static Vector<Enemigo> enemigos;
-    static Vector<Ladrillo> ladrillos;
+    private Vector<Enemigo> enemigos;
+    private Vector<Ladrillo> ladrillos;
+    private Bomberman[] jugadores;
     private static int x, y;
     private int posX;
     
@@ -53,6 +54,7 @@ public class JPanelJuego extends javax.swing.JPanel{
         return instance == null ? (instance = new JPanelJuego()) : instance;
     }
     
+    @SuppressWarnings("UseOfObsoleteCollectionType")
     private void initComponents() {
         SIZE = new Dimension(1240,520);
         setOpaque(false);
@@ -63,18 +65,18 @@ public class JPanelJuego extends javax.swing.JPanel{
         addKeyListener(ControladorKeyBoardJPanelJuego.getInstance());
         ladrillos = new Vector<>();
         enemigos = new Vector<>();
+        jugadores = new Bomberman[4];
         mapa = Mapa.getInstance();
         imagen = new BufferedImage(SIZE.width, SIZE.height, BufferedImage.TYPE_INT_RGB);
         x = imagen.getWidth() / 31;
         y = imagen.getHeight() / 13;
         pintarMapa(imagen.createGraphics());
-//        Jugador=new Personajes.Bomberman(x,y);
+//        primerJugador()=new Personajes.Bomberman(x,y);
     }
     
     public void reiniciarJPanelJuego(){
         hiloPrincipal.stop();
         hiloPrincipal = null;
-        Jugador = null;
         borrarEnemigos();
         borrarLadrillos();
         mapa.borrarMapa();
@@ -113,14 +115,14 @@ public class JPanelJuego extends javax.swing.JPanel{
         this.posX = posX;
     }
     
-    public static Personajes.Bomberman getJugador() {
-        return Jugador;
-    }
+//    public static Personajes.Bomberman getJugador() {
+//        return primerJugador();
+//    }
     private void modoEdicion(Graphics2D g2) {
         
     }
 
-    public static Vector<Enemigo> getenemigos() {
+    public Vector<Enemigo> getEnemigos() {
         return enemigos;
     }
 
@@ -191,8 +193,8 @@ public class JPanelJuego extends javax.swing.JPanel{
         }
         if(mapa.getObjetoMapa(j,i).equals("A"))
             return;
-        if(Jugador!=null&&getPosicionX(Jugador.getCenterX())==i&&getPosicionY(Jugador.getCenterY())==j)
-            Jugador=null;
+        if(primerJugador()!=null&&getPosicionX(primerJugador().getCenterX())==i&&getPosicionY(primerJugador().getCenterY())==j)
+            jugadores[0] = null;
         for(int k=0;k<enemigos.size();k++) {
             if(getPosicionX(enemigos.get(k).getCenterX())==i&&getPosicionY(enemigos.get(k).getCenterY())==j&&(enemigos.get(k).getIdentificacion() == null ? Mapa.getObjeto() != null : !enemigos.get(k).getIdentificacion().equals(Mapa.getObjeto())))
                 enemigos.remove(k);
@@ -203,7 +205,7 @@ public class JPanelJuego extends javax.swing.JPanel{
         
         switch(Mapa.getObjeto()){
             case "B":
-                Jugador=new Bomberman(i*x,j*y);
+                jugadores[0] = new Bomberman(i*x,j*y);
                 break;
             case "L":
                 ladrillos.add(new Ladrillo(i*x,j*y,c));
@@ -231,27 +233,27 @@ public class JPanelJuego extends javax.swing.JPanel{
                 enemigos.get(i).DibujarEnemigo((Graphics2D)g);
         }
 
-       if(Jugador!=null)
-            Jugador.DibujarJugador((Graphics2D)g);
+       if(primerJugador()!=null)
+            primerJugador().DibujarJugador((Graphics2D)g);
        
     }
 
     private void escalamientoSprite(double x0, double y0) {
 
        mapa.mostrarMapa();
-        if(Jugador!=null){
-            Jugador.setX((int)Math.round((Jugador.getX()/x0)*x));
-            Jugador.setY((int)Math.round((Jugador.getY()/y0)*y));
-            if(Jugador.getBombs()!=null){
+        if(primerJugador()!=null){
+            primerJugador().setX((int)Math.round((primerJugador().getX()/x0)*x));
+            primerJugador().setY((int)Math.round((primerJugador().getY()/y0)*y));
+            if(primerJugador().getBombs()!=null){
 
-                for(int i=0;i<Jugador.getBombs().size();i++){
-                    if(Jugador.getBombs().get(i)!=null){
-                        Jugador.getBombs().get(i).setX((int)Math.round((Jugador.getBombs().get(i).getX()/x0)*x));
-                        Jugador.getBombs().get(i).setY((int)Math.round((Jugador.getBombs().get(i).getY()/y0)*y));
+                for(int i=0;i<primerJugador().getBombs().size();i++){
+                    if(primerJugador().getBombs().get(i)!=null){
+                        primerJugador().getBombs().get(i).setX((int)Math.round((primerJugador().getBombs().get(i).getX()/x0)*x));
+                        primerJugador().getBombs().get(i).setY((int)Math.round((primerJugador().getBombs().get(i).getY()/y0)*y));
 
-                    if(Jugador.getBombs().get(i).getFire()!=null){
-                        Jugador.getBombs().get(i).getFire().setX((int)Math.round((Jugador.getBombs().get(i).getFire().getX()/x0)*x));
-                        Jugador.getBombs().get(i).getFire().setY((int)Math.round((Jugador.getBombs().get(i).getFire().getY()/y0)*y));
+                    if(primerJugador().getBombs().get(i).getFire()!=null){
+                        primerJugador().getBombs().get(i).getFire().setX((int)Math.round((primerJugador().getBombs().get(i).getFire().getX()/x0)*x));
+                        primerJugador().getBombs().get(i).getFire().setY((int)Math.round((primerJugador().getBombs().get(i).getFire().getY()/y0)*y));
                         }
                     }
                 }
@@ -269,15 +271,15 @@ public class JPanelJuego extends javax.swing.JPanel{
     }
 
     private void DibujarBombs(Graphics g) {
-        if(Jugador==null)
+        if(primerJugador()==null)
             return;
-        if(Jugador.getBombs()!=null)
-            for(int i=0;i<Jugador.getBombs().size();i++){
-                if(Jugador.getBombs().get(i) !=null)
-                    Jugador.getBombs().get(i).Dibujar((Graphics2D)g);
+        if(primerJugador().getBombs()!=null)
+            for(int i=0;i<primerJugador().getBombs().size();i++){
+                if(primerJugador().getBombs().get(i) !=null)
+                    primerJugador().getBombs().get(i).Dibujar((Graphics2D)g);
                 
-                if(Jugador.getBombs().get(i).getFire()!=null)
-                    Jugador.getBombs().get(i).getFire().DibujarFire(g);
+                if(primerJugador().getBombs().get(i).getFire()!=null)
+                    primerJugador().getBombs().get(i).getFire().DibujarFire(g);
             }
     }
 
@@ -290,10 +292,10 @@ public class JPanelJuego extends javax.swing.JPanel{
         }
     }
 
-    public static Vector<Ladrillo> getLadrillos() {
+    public Vector<Ladrillo> getLadrillos() {
         return ladrillos;
     }
-    public static void borrarLadrillo(int a,int b){
+    public void borrarLadrillo(int a,int b){
         for(int i=0;i<ladrillos.size();i++) {
             if(ladrillos.get(i)!=null&&getPosicionX(ladrillos.get(i).getCenterX())==getPosicionX(a)&&getPosicionY(ladrillos.get(i).getCenterY())==getPosicionY(b)){
                 ladrillos.get(i).start(i);
@@ -307,23 +309,23 @@ public class JPanelJuego extends javax.swing.JPanel{
         }
         
     }
-    public static void borrarJugador(int a,int b){
+    public void borrarJugador(int a,int b){
 
-        if(getPosicionX(Jugador.getCenterX())==getPosicionX(a)&&getPosicionY(Jugador.getCenterY())==getPosicionY(b)){
-            Jugador.Muerte(-1);
+        if(getPosicionX(primerJugador().getCenterX())==getPosicionX(a)&&getPosicionY(primerJugador().getCenterY())==getPosicionY(b)){
+            primerJugador().Muerte(null);
 
         }
     }
-    public static void borrarEnemigos() {
+    public void borrarEnemigos() {
         for(int size=enemigos.size(),i=0;i<size;i++) {
             enemigos.get(i).detenerInteligencia();
         }
         enemigos.clear();
     }
-    public static void borrarEnemigo(int a,int b){
+    public void borrarEnemigo(int a,int b){
         for(int i=0;i<enemigos.size();i++){
             if(getPosicionX(enemigos.get(i).getCenterX())==getPosicionX(a)&&getPosicionY(enemigos.get(i).getCenterY())==getPosicionY(b)){
-                enemigos.get(i).Muerte(i);
+                enemigos.get(i).Muerte(enemigos.get(i));
                 JPanelInformacion.aumentarPuntaje(enemigos.get(i).getPoint());
     
             }
@@ -336,13 +338,13 @@ public class JPanelJuego extends javax.swing.JPanel{
             derrotados=false;
         }
     }
-    public static void borrarBombs(int a,int b){
+    public void borrarBombs(int a,int b){
         
-        if(Jugador!=null&&Jugador.getBombs()!=null)
-            for(int i=0;i<Jugador.getBombs().size();i++){
-                if(Jugador.getBombs().get(i)!=null&&Jugador.getBombs().get(i).getAnimation()!=null)
-                  if(getPosicionX(Jugador.getBombs().get(i).getCenterX())==getPosicionX(a)&&getPosicionY(Jugador.getBombs().get(i).getCenterY())==getPosicionY(b)){ 
-                        Jugador.getBombs().get(i).detonar(i);
+        if(primerJugador()!=null&&primerJugador().getBombs()!=null)
+            for(int i=0;i<primerJugador().getBombs().size();i++){
+                if(primerJugador().getBombs().get(i)!=null&&primerJugador().getBombs().get(i).getAnimation()!=null)
+                  if(getPosicionX(primerJugador().getBombs().get(i).getCenterX())==getPosicionX(a)&&getPosicionY(primerJugador().getBombs().get(i).getCenterY())==getPosicionY(b)){ 
+                        primerJugador().getBombs().get(i).detonar();
                            break;
 
                     }
@@ -359,8 +361,8 @@ public class JPanelJuego extends javax.swing.JPanel{
     
     private void ActualizarMapa() {
         mapa.borrarMapa();
-        if(Jugador!=null)
-                mapa.setObjetoMapa(Jugador.getIdentificacion(), getPosicionY(Jugador.getCenterY()), getPosicionX(Jugador.getCenterX()));
+        if(primerJugador()!=null)
+                mapa.setObjetoMapa(primerJugador().getIdentificacion(), getPosicionY(primerJugador().getCenterY()), getPosicionX(primerJugador().getCenterX()));
         
         for(int i=0;i<enemigos.size();i++){
            
@@ -380,10 +382,10 @@ public class JPanelJuego extends javax.swing.JPanel{
                
             }
         }
-        if(Jugador!=null&&Jugador.getBombs()!=null)
-            for(int i=0;i<Jugador.getBombs().size();i++) {
-            if(Jugador.getBombs().get(i) !=null)
-               mapa.setObjetoMapa("X", getPosicionY(Jugador.getBombs().get(i).getCenterY()), getPosicionX(Jugador.getBombs().get(i).getCenterX()));
+        if(primerJugador()!=null&&primerJugador().getBombs()!=null)
+            for(int i=0;i<primerJugador().getBombs().size();i++) {
+            if(primerJugador().getBombs().get(i) !=null)
+               mapa.setObjetoMapa("X", getPosicionY(primerJugador().getBombs().get(i).getCenterY()), getPosicionX(primerJugador().getBombs().get(i).getCenterX()));
         }
 
     }
@@ -398,5 +400,24 @@ public class JPanelJuego extends javax.swing.JPanel{
     public BufferedImage getImagen() {
         return imagen;
     }
+
+    public Bomberman[] getJugadores() {
+        return jugadores;
+    }
     
+    public Bomberman getJugador(int i){
+        return jugadores[i];
+    }
+    
+    public void fijarJugador(int index, Bomberman bomberman){
+        jugadores[index] = bomberman;
+    }
+    
+    public Bomberman primerJugador(){
+        return jugadores[0];
+    }
+    
+    public Enemigo getEnemigo(int i){
+        return enemigos.get(i);
+    }
 }

@@ -1,8 +1,6 @@
 
 package Personajes;
 
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -35,11 +33,9 @@ public class Animation  {
     }
 
     public void MovimientoSprite(){
-
         if(cont==(inicio)||cont==(inicio+CantImg-1))
             aux*=-1;
-            cont+=aux;
-
+        cont+=aux;
     }
     
      public void resetCont(){
@@ -47,7 +43,6 @@ public class Animation  {
      }
      
     public BufferedImage getImageSprite(){
-        
         return Sprite.get(cont);
     }
     public ArrayList<BufferedImage> getSprite(){

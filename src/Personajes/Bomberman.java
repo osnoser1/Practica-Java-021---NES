@@ -150,7 +150,7 @@ public class Bomberman extends Personaje {
         }
         if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
             //Mover jugador
-            JPanelJuego.getJugador().MovimientoArriba();
+            MovimientoArriba();
             Sonidos.getInstance().getSonido(Sonidos.UP).play();
         }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
             this.setEstado(Estado.ABAJO);
@@ -170,7 +170,7 @@ public class Bomberman extends Personaje {
         }
         if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
             //Mover jugador
-            JPanelJuego.getJugador().MovimientoAbajo();
+            MovimientoAbajo();
             Sonidos.getInstance().getSonido(Sonidos.DOWN).play();
         }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
             this.setEstado(Estado.ARRIBA);
@@ -190,11 +190,11 @@ public class Bomberman extends Personaje {
         }
         if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
             //Mover jugador
-            JPanelJuego.getJugador().MovimientoDerecha();
+            MovimientoDerecha();
             Sonidos.getInstance().getSonido(Sonidos.RIGHT).play();
             //Desplazamiento de ventana temporal
-            if(JPanelJuego.getJugador().AvanzarX()&&JPanelJuego.getJugador().getX()>=jPanelJuego.getWidth()/4&&JPanelJuego.getJugador().getX()<=(3*jPanelJuego.getWidth()/4-30)){
-                    jPanelJuego.setLocation(jPanelJuego.getX()-JPanelJuego.getJugador().getSpeed(), 0);
+            if(AvanzarX()&&getX()>=jPanelJuego.getWidth()/4&&getX()<=(3*jPanelJuego.getWidth()/4-30)){
+                    jPanelJuego.setLocation(jPanelJuego.getX()-getSpeed(), 0);
             }
         }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
             this.setEstado(Estado.IZQUIERDA);
@@ -214,11 +214,11 @@ public class Bomberman extends Personaje {
         }
         if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
             //Mover jugador
-            JPanelJuego.getJugador().MovimientoIzquierda();
+            MovimientoIzquierda();
             Sonidos.getInstance().getSonido(Sonidos.LEFT).play();
             //Desplazamiento de ventana temporal
-            if(JPanelJuego.getJugador().AvanzarX()&&JPanelJuego.getJugador().getX()>=jPanelJuego.getWidth()/4&&JPanelJuego.getJugador().getX()<=(3*jPanelJuego.getWidth()/4-30)){
-                jPanelJuego.setLocation(jPanelJuego.getX()-JPanelJuego.getJugador().getSpeed(), 0);
+            if(AvanzarX()&&getX()>=jPanelJuego.getWidth()/4&&getX()<=(3*jPanelJuego.getWidth()/4-30)){
+                jPanelJuego.setLocation(jPanelJuego.getX()-getSpeed(), 0);
             }
         }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
             this.setEstado(Estado.DERECHA);

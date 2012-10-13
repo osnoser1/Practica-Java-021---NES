@@ -34,11 +34,11 @@ public class LadrilloEspecial {
         timer=new Timer(10,new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JPanelJuego.getJugador()==null){
+                if(JPanelJuego.getInstance().primerJugador()==null){
                     timer.stop();
                     return;
                 }
-                if(JPanelJuego.getPosicionX(JPanelJuego.getJugador().getCenterX())==JPanelJuego.getPosicionX(getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getJugador().getCenterY())==JPanelJuego.getPosicionY(getCenterY())){
+                if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(getCenterY())){
                     if(tipo!=Imagenes.LADRILLO_ESPECIAL.size()-1){
                         DeterminarHabilidad();
                         Sonidos.getInstance().getSonido(Sonidos.STAGE_THEME).stop();
@@ -90,14 +90,14 @@ public class LadrilloEspecial {
     
     public void DeterminarHabilidad(){
         if(tipo==7)return;
-        else if(tipo==0)JPanelJuego.getJugador().IncrementarFLAMES();
-        else if(tipo==1)JPanelJuego.getJugador().IncrementarBOMBS();
-        else if(tipo==2)JPanelJuego.getJugador().setDETONATOR(true);
-        else if(tipo==3)JPanelJuego.getJugador().setSPEED(true);
-        else if(tipo==4)JPanelJuego.getJugador().setBOMBPASS(true);
-        else if(tipo==5)JPanelJuego.getJugador().setWallpass(true);
-        else if(tipo==6)JPanelJuego.getJugador().setFLAMEPASS(true);
-        else if(tipo==7)JPanelJuego.getJugador().setMYSTERY(true);
+        else if(tipo==0)JPanelJuego.getInstance().primerJugador().IncrementarFLAMES();
+        else if(tipo==1)JPanelJuego.getInstance().primerJugador().IncrementarBOMBS();
+        else if(tipo==2)JPanelJuego.getInstance().primerJugador().setDETONATOR(true);
+        else if(tipo==3)JPanelJuego.getInstance().primerJugador().setSPEED(true);
+        else if(tipo==4)JPanelJuego.getInstance().primerJugador().setBOMBPASS(true);
+        else if(tipo==5)JPanelJuego.getInstance().primerJugador().setWallpass(true);
+        else if(tipo==6)JPanelJuego.getInstance().primerJugador().setFLAMEPASS(true);
+        else if(tipo==7)JPanelJuego.getInstance().primerJugador().setMYSTERY(true);
           
     }
     public void Dibujar(Graphics g){
@@ -123,7 +123,7 @@ public class LadrilloEspecial {
             @Override
             public void actionPerformed(ActionEvent e){
                 time--;
-                JPanelJuego.getenemigos().add(JPanelJuego.getInstance().determinarEnemigo(JPanelJuego.getPosicionX(x), JPanelJuego.getPosicionY(y), JPanelGrafico.getInstance().determinarEnemigo(3)));  
+                JPanelJuego.getInstance().getEnemigos().add(JPanelJuego.getInstance().determinarEnemigo(JPanelJuego.getPosicionX(x), JPanelJuego.getPosicionY(y), JPanelGrafico.getInstance().determinarEnemigo(3)));  
                    if(time==0){
                        timer1.stop();
                    }

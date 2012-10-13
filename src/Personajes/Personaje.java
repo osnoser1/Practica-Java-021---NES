@@ -4,6 +4,7 @@
  */
 package Personajes;
 
+import Dependencias.Mapa;
 import Dependencias.Teclado;
 import GUI.JPanelGrafico;
 import GUI.JPanelJuego;
@@ -60,6 +61,11 @@ public abstract class Personaje extends Sprite {
         activo = true;
     }
     
+    public void fijarCasilla(int x, int y){
+        this.x = x * JPanelJuego.getInstance().getImagen().getWidth() / Mapa.COLUMNAS;
+        this.y = x * JPanelJuego.getInstance().getImagen().getHeight() / Mapa.FILAS;
+    }
+    
     public abstract void estadoInicio();
     public abstract void estadoArriba(JPanelJuego jPanelJuego);
     public abstract void estadoAbajo(JPanelJuego jPanelJuego);
@@ -72,7 +78,7 @@ public abstract class Personaje extends Sprite {
     public Smart getInteligencia() {
         return Inteligencia;
     }
-    protected int PosicionArrayList;
+//    protected int PosicionArrayList;
     protected Timer timer;
     protected boolean Muerto = false;
 
@@ -108,12 +114,14 @@ public abstract class Personaje extends Sprite {
         Speed=Math.abs(Speed);
         updateY();
     }
-    public void Muerte(int a){
-        if(a != -1)Inteligencia.getTimer().stop();
+    private Personaje personaje;
+    public void Muerte(Personaje personaje){
+        this.personaje = personaje;
+        if(personaje != null)Inteligencia.getTimer().stop();
         Muerto = true;
         animation = Muerte;
-        PosicionArrayList = a;
-        if(a == -1){
+//        PosicionArrayList = a;
+        if(personaje == null){
             this.setEstado(Estado.MUERTE);
             Sonidos.getInstance().getSonido(Sonidos.UP).stop();
             Sonidos.getInstance().getSonido(Sonidos.DOWN).stop();
@@ -130,25 +138,31 @@ public abstract class Personaje extends Sprite {
                time--;
                
                if(time==0){
-                 
                  timer.stop();
-                  if(PosicionArrayList==-1){
-                     Sonidos.getInstance().detenerSonidos();
-                     Sonidos.getInstance().getSonido(Sonidos.JUST_DIED).play();
-                     new HiloPanelTransicionMuerte().start();
-                 }
-                 else {
-                   //  JPanelJuego.getenemigos().set(PosicionArrayList,null);
-                      Enemigo enemigo = JPanelJuego.getenemigos().get(PosicionArrayList);
-                     JPanelJuego.getenemigos().remove(enemigo);
-                 
-                 }
+                 tiempoIgualCero();
                }
             }            
         });
         timer.start();
 
     }
+    
+    private void tiempoIgualCero(){
+        if(personaje == null){
+             Sonidos.getInstance().detenerSonidos();
+             Sonidos.getInstance().getSonido(Sonidos.JUST_DIED).play();
+             new HiloPanelTransicionMuerte().start();
+         }
+         else {
+           //  JPanelJuego.getEnemigos().set(PosicionArrayList,null);
+    //                      Enemigo enemigo = JPanelJuego.getEnemigos().get(PosicionArrayList);
+              remover();
+         }
+    }
+    private void remover(){
+        JPanelJuego.getInstance().getEnemigos().remove(personaje);
+    }
+    
     public Animation getDerecha() {
         return Derecha;
     }

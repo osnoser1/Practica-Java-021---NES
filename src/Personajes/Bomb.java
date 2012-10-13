@@ -29,8 +29,8 @@ public class Bomb extends Sprite {
                update();
                time--;
               
-               if(time==0&&!JPanelJuego.getJugador().getDETONATOR())
-                  detonar(0);
+               if(time==0&&!JPanelJuego.getInstance().primerJugador().getDETONATOR())
+                  detonar();
   
             }            
         });
@@ -40,10 +40,10 @@ public class Bomb extends Sprite {
     public Fire getFire() {
         return fire;
     }
-    public void detonar(int i){
+    public void detonar(){
         timer.stop();
         animation=null;
-        fire=new Fire(x,y,JPanelJuego.getJugador().getFLAMES(),i);
+        fire=new Fire(x,y,JPanelJuego.getInstance().primerJugador().getFLAMES(), this);
         Sonidos.getInstance().getNewSonido(Sonidos.EXPLOSION_1).play();
         
     }

@@ -38,13 +38,13 @@ public class ControladorKeyBoardJPanelJuego extends KeyAdapter{
     }
 
     private void ejecutarAcciones(KeyEvent e) {KeyEvent get = e;
-        if(JPanelJuego.getJugador()!=null){
+        if(JPanelJuego.getInstance().primerJugador()!=null){
             if(get.getKeyCode()==Dialog.Controles.getA()){
-                JPanelJuego.getJugador().CrearBomb();
+                JPanelJuego.getInstance().primerJugador().CrearBomb();
             }
             if(get.getKeyCode()==Dialog.Controles.getB()){
-                if(JPanelJuego.getJugador().getDETONATOR()&&JPanelJuego.getJugador().bombasPuestas()!=0)
-                    JPanelJuego.getJugador().getBombs().get(0).detonar(0);
+                if(JPanelJuego.getInstance().primerJugador().getDETONATOR()&&JPanelJuego.getInstance().primerJugador().bombasPuestas()!=0)
+                    JPanelJuego.getInstance().primerJugador().getBombs().get(0).detonar();
             }
             if(get.getKeyCode()==Dialog.Controles.getStart());
         }

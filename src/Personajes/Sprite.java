@@ -38,7 +38,7 @@ public class Sprite {
             DentroBomb=false;
         if(AvanzarX()){
             x += Speed ;
-            //if(JPanelJuego.getJugador().getX()>=widthjPaneljuego/4&&JPanelJuego.getJugador().getX()<=3*widthjPaneljuego/4)
+            //if(JPanelJuego.getInstance().primerJugador().getX()>=widthjPaneljuego/4&&JPanelJuego.getInstance().primerJugador().getX()<=3*widthjPaneljuego/4)
                 
         }
         if(Speed!=0&&tx%(30/Speed)==0&&animation!=null)
@@ -182,7 +182,7 @@ public class Sprite {
                 ((!ChoqueDerecha("L",1)&&Speed>0||!ChoqueIzquierda("L",1)&&Speed<0)||Wallpass)&&
                 (
                   (!ChoqueDerecha("X",1)&&Speed>0||!ChoqueIzquierda("X",1)&&Speed<0)&&Identificacion!="B"||
-                  (!ChoqueDerecha("X",1)&&Speed>0||!ChoqueIzquierda("X",1)&&Speed<0||JPanelJuego.getJugador().getBOMBPASS()||DentroBomb)&&Identificacion=="B"
+                  (!ChoqueDerecha("X",1)&&Speed>0||!ChoqueIzquierda("X",1)&&Speed<0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&Identificacion=="B"
                 )
                );
     }
@@ -193,7 +193,7 @@ public class Sprite {
                 ((!ChoqueArriba("L",1)&&Speed<0||!ChoqueAbajo("L",1)&&Speed>0)||Wallpass)&&
                 (
                   (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0)&&Identificacion!="B"||
-                  (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0||JPanelJuego.getJugador().getBOMBPASS()||DentroBomb)&&Identificacion=="B"
+                  (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&Identificacion=="B"
                 )
                );
     }

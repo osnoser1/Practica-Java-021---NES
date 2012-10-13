@@ -49,9 +49,9 @@ public class Smart {
 
                 else if(a==3)
                     personaje.MovimientoAbajo();
-                if(JPanelJuego.getJugador()!=null&&JPanelJuego.getPosicionX(JPanelJuego.getJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getJugador().getMYSTERY()){
+                if(JPanelJuego.getInstance().primerJugador()!=null&&JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                     timer.stop();
-                    JPanelJuego.getJugador().Muerte(-1);
+                    JPanelJuego.getInstance().primerJugador().Muerte(null);
                 }
                 
              //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCenterY()),JPanelJuego.getPosicionX(personaje.getCenterX()), personaje.Identificacion);
@@ -82,9 +82,9 @@ public class Smart {
 
                 else if(b==1)
                     personaje.MovimientoAbajo();
-                if(JPanelJuego.getJugador()!=null&&JPanelJuego.getPosicionX(JPanelJuego.getJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getJugador().getMYSTERY()){
+                if(JPanelJuego.getInstance().primerJugador()!=null&&JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                    timer.stop();
-                   JPanelJuego.getJugador().Muerte(-1);
+                   JPanelJuego.getInstance().primerJugador().Muerte(null);
                 }
                 
              //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCenterY()),JPanelJuego.getPosicionX(personaje.getCenterX()), personaje.Identificacion);
@@ -116,9 +116,9 @@ public class Smart {
                 else if(b==1)
                     personaje.MovimientoAbajo();
 
-                if(JPanelJuego.getJugador()!=null&&JPanelJuego.getPosicionX(JPanelJuego.getJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getJugador().getMYSTERY()){
+                if(JPanelJuego.getInstance().primerJugador()!=null&&JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                     timer.stop();
-                    JPanelJuego.getJugador().Muerte(-1);
+                    JPanelJuego.getInstance().primerJugador().Muerte(null);
                 }
              //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCenterY()),JPanelJuego.getPosicionX(personaje.getCenterX()), personaje.Identificacion);
                     

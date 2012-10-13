@@ -22,7 +22,7 @@ public class HiloPrincipal implements Runnable {
         this.hilo = new Thread(this);
         this.jPanelJuego = jPanelJuego;
         this.FPS = FPS;
-        this.tiempoEnMilisegundos = 1000 / 30;
+        this.tiempoEnMilisegundos = 1000 / FPS;
     }
     
     @Override
@@ -42,7 +42,8 @@ public class HiloPrincipal implements Runnable {
     }
 
     private void Actualizar() {
-        jPanelJuego.getJugador().actualizar(jPanelJuego);
+        if(jPanelJuego.primerJugador() != null)
+            jPanelJuego.primerJugador().actualizar(jPanelJuego);
     }
 
     private void Pintar() {

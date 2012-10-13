@@ -28,7 +28,7 @@ public class HiloPanelTransicionMuerte implements Runnable{
             Metodos.sleep(500);
             System.out.println("Sonido: "+sonido.getFramePosition()+" "+sonido.getFrameLength());
         }
-        JPanelJuego.Jugador = null;
+        JPanelJuego.getInstance().fijarJugador(0, null);
         JPanelInformacion jPanelInformacion = JPanelInformacion.getInstance();
         JPanelContenedor.getInstance().remove(JPanelGrafico.getInstance());
         JPanelJuego.getInstance().reiniciarJPanelJuego();
