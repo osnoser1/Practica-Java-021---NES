@@ -4,7 +4,6 @@
  */
 package Controladores;
 
-import Dependencias.Mapa;
 import GUI.JEditorDeMapas;
 import Personajes.Sprite;
 import java.awt.event.MouseAdapter;
@@ -17,6 +16,7 @@ import java.awt.event.MouseEvent;
 public class CJEditorDeMapas extends MouseAdapter{
 
     private static CJEditorDeMapas instance;
+    private String objetoSeleccionado;
     
     private CJEditorDeMapas() {
     }
@@ -41,11 +41,25 @@ public class CJEditorDeMapas extends MouseAdapter{
     
     private void pintar(MouseEvent e) {
         JEditorDeMapas jEditorDeMapas = JEditorDeMapas.getInstance();
-        if("V".equals(Mapa.getObjeto())){
+        if("V".equals(objetoSeleccionado)){
             jEditorDeMapas.pintar(jEditorDeMapas.getSpritePiso(), e.getPoint());
         }else{
-            jEditorDeMapas.pintar(Sprite.getInstance(Mapa.getObjeto()), e.getPoint());
+            jEditorDeMapas.pintar(Sprite.getInstance(objetoSeleccionado), e.getPoint());
         }
+    }
+
+    /**
+     * @return the objetoSeleccionado
+     */
+    public String getObjetoSeleccionado() {
+        return objetoSeleccionado;
+    }
+
+    /**
+     * @param objetoSeleccionado the objetoSeleccionado to set
+     */
+    public void setObjetoSeleccionado(String objetoSeleccionado) {
+        this.objetoSeleccionado = objetoSeleccionado;
     }
     
 }

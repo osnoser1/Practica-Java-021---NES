@@ -4,36 +4,37 @@
  */
 package Personajes;
 
+import Dependencias.Imagen;
 import Dependencias.Mapa;
 import Dependencias.Teclado;
-import GUI.JPanelGrafico;
 import GUI.JPanelJuego;
 import Hilos.HiloPanelTransicionMuerte;
 import Sonidos.Sonidos;
 import UtilidadesJuego.GamePad;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
 import javax.swing.AbstractAction;
 import javax.swing.Timer;
 
 public abstract class Personaje extends Sprite {
     
     protected int Smart,PosicionX,PosicionY;
-    protected final int SPEED_SLOWEST=1,SPEED_SLOW=2,SPEED_MID=4,SPEED_FAST=5,SMART_LOW=1,SMART_MID=2,SMART_HIGH=3;
+    protected final int SPEED_SLOWEST=1,SPEED_SLOW=2,SPEED_MID=4,SPEED_FAST=5,SMART_LOW=1,SMART_MID=2,SMART_HIGH=3,SMART_IMPOSSIBLE = 4;
     protected Smart Inteligencia;
     protected Animation Izquierda;    
     protected Animation Derecha;
     protected Animation Arriba;
     protected Animation Abajo;
     protected Animation Muerte;
-    protected Estado estado;
+    private Estado estadoAnterior;
+    private Estado estadoActual;
     protected final Teclado teclado;
-    protected final GamePad gamePad;
+    protected GamePad gamePad;
     protected boolean activo;
-
-    public void setLocation(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+    protected HashMap<Estado, Animation> animaciones;
+    protected Imagen imagen;
     
     public enum Estado {
         INICIO,
@@ -44,20 +45,43 @@ public abstract class Personaje extends Sprite {
         MUERTE
     }
 
-    public Estado getEstado() {
-        return estado;
+    public Estado getEstadoActual() {
+        return estadoActual;
     }
 
-    public void setEstado(Estado estado) {
-        this.estado = estado;
+    public void setEstadoActual(Estado estado) {
+        estadoAnterior = estadoActual;
+        estadoActual = estado;
     }
     
+    public Estado getEstadoAnterior(){
+        return estadoAnterior;
+    }
+    
+    
+    public void setLocation(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    /**
+     *
+     * @return Devuelve true si el personaje esta activo, false si no lo está.
+     */
     public boolean isActivo() {
         return activo;
     }
     
+    /**
+     *
+     * @param activo indica si quieres activar o no el personaje
+     */
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    
     public void reiniciar(){
-        estado = Estado.INICIO;
+        estadoActual = Estado.INICIO;
         activo = true;
     }
     
@@ -66,14 +90,44 @@ public abstract class Personaje extends Sprite {
         this.y = x * JPanelJuego.getInstance().getImagen().getHeight() / Mapa.FILAS;
     }
     
-    public abstract void estadoInicio();
-    public abstract void estadoArriba(JPanelJuego jPanelJuego);
-    public abstract void estadoAbajo(JPanelJuego jPanelJuego);
-    public abstract void estadoDerecha(JPanelJuego jPanelJuego);
-    public abstract void estadoIzquierda(JPanelJuego jPanelJuego);
-    public abstract void estadoMuerte();
-    public abstract void actualizar(JPanelJuego jPanelJuego);
-    public abstract boolean avanzarAnimacion();
+    public boolean actualizarAnimacion(long tiempoTranscurrido) {
+        return animaciones.get(getEstadoActual()).actualizar(tiempoTranscurrido);
+    }
+    
+    public void pintar(Graphics g) {
+        if(!activo)
+            return;
+        imagen.setPosicion(new Point(getCenterX(), getCenterY()));
+        imagen.actualizar(getEstadoActual().ordinal(), animaciones.get(getEstadoActual()).getCuadroActual());
+        imagen.pintar(g);
+    }
+    
+    protected void inicializar(Point posicion) {
+        x = posicion.x;
+        y = posicion.y;
+    }
+    
+     /**
+     * @return the imagen
+     */
+    public Imagen getImagen() {
+        return imagen;
+    }
+
+    /**
+     * @param imagen the imagen to set
+     */
+    public void setImagen(Imagen imagen) {
+        this.imagen = imagen;
+    }
+    
+    public abstract void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido);
+    public abstract void estadoArriba(JPanelJuego jPanelJuego, long tiempoTranscurrido);
+    public abstract void estadoAbajo(JPanelJuego jPanelJuego, long tiempoTranscurrido);
+    public abstract void estadoDerecha(JPanelJuego jPanelJuego, long tiempoTranscurrido);
+    public abstract void estadoIzquierda(JPanelJuego jPanelJuego, long tiempoTranscurrido);
+    public abstract void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido);
+    public abstract void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido);
     
     public Smart getInteligencia() {
         return Inteligencia;
@@ -89,7 +143,7 @@ public abstract class Personaje extends Sprite {
         this.Arriba=Arriba;
         this.Abajo=Abajo;
         this.Muerte=Muerte;
-        this.estado = Estado.INICIO;
+        this.estadoActual = Estado.INICIO;
         this.teclado = Teclado.getInstance();
         this.gamePad = new GamePad();
     } 
@@ -117,12 +171,12 @@ public abstract class Personaje extends Sprite {
     private Personaje personaje;
     public void Muerte(Personaje personaje){
         this.personaje = personaje;
-        if(personaje != null)Inteligencia.getTimer().stop();
+        if(personaje != null)
+            Inteligencia.getTimer().stop();
         Muerto = true;
         animation = Muerte;
-//        PosicionArrayList = a;
         if(personaje == null){
-            this.setEstado(Estado.MUERTE);
+            setEstadoActual(Estado.MUERTE);
             Sonidos.getInstance().getSonido(Sonidos.UP).stop();
             Sonidos.getInstance().getSonido(Sonidos.DOWN).stop();
             Sonidos.getInstance().getSonido(Sonidos.LEFT).stop();
@@ -154,13 +208,11 @@ public abstract class Personaje extends Sprite {
              new HiloPanelTransicionMuerte().start();
          }
          else {
-           //  JPanelJuego.getEnemigos().set(PosicionArrayList,null);
-    //                      Enemigo enemigo = JPanelJuego.getEnemigos().get(PosicionArrayList);
-              remover();
+            remover();
          }
     }
     private void remover(){
-        JPanelJuego.getInstance().getEnemigos().remove(personaje);
+        JPanelJuego.getInstance().removerEnemigo(personaje);
     }
     
     public Animation getDerecha() {

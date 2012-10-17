@@ -24,11 +24,10 @@ public class LadrilloEspecial {
     Timer timer;
     Timer timer1;
     int x,y;
-    int i,tipo;
-    public LadrilloEspecial(int x1,int y1,int tipo1,int i1) {
+    int tipo;
+    public LadrilloEspecial(int x1,int y1,int tipo1) {
         this.x=x1;
         this.y=y1;
-        this.i=i1;
         this.tipo=tipo1;
         Imagen=Imagenes.LADRILLO_ESPECIAL.get(tipo);
         timer=new Timer(10,new AbstractAction(){

@@ -4,7 +4,6 @@
  */
 package Dependencias;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -19,6 +18,7 @@ public class Imagenes{
     public static BufferedImage FONDO;
     public static BufferedImage PISO;
     public static BufferedImage ACERO;
+    public static BufferedImage BOMBERMAN;
     public static ArrayList<BufferedImage> BOMB;
     public static ArrayList<BufferedImage> FIRE;
     public static ArrayList<BufferedImage> LADRILLO;
@@ -36,10 +36,10 @@ public class Imagenes{
     public static ArrayList<BufferedImage> LADRILLO_ESPECIAL;
     
     public Imagenes(){
-        initComponent();   
+        initComponents();   
     }
     
-    public void initComponent(){
+    public final void initComponents(){
         BOMB = new ArrayList<>();
         FIRE = new ArrayList<>();
         LADRILLO = new ArrayList<>();
@@ -55,11 +55,13 @@ public class Imagenes{
         BOMBERMAN_1 = new ArrayList<>();
         LADRILLO_ESPECIAL = new ArrayList<>();
     }
+    
     public static void cargarImagenes(){
         LOGO = ManejadorDeArchivos.getInstance().loadBufferedImageJAR(Ubicacion.LOGO);
         APUNTADOR = ManejadorDeArchivos.getInstance().loadBufferedImageJAR(Ubicacion.APUNTADOR);
         PISO = ManejadorDeArchivos.getInstance().loadBufferedImageJAR(Ubicacion.PISO);
         ACERO = ManejadorDeArchivos.getInstance().loadBufferedImageJAR(Ubicacion.ACERO);
+        BOMBERMAN = ManejadorDeArchivos.getInstance().loadBufferedImageJAR(Ubicacion.BOMBERMAN);
 //        FONDO = ManejadorDeArchivos.getInstance().loadBufferedImageJAR(Ubicacion.FONDO);
         LADRILLO_ESPECIAL = getAmbiente("Ladrillo Especial",9);
         LADRILLO = getAmbiente("Bloque",7);

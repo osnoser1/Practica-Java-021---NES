@@ -50,7 +50,6 @@ public class JEditorDeMapas extends JPanel{
         panelEditor.setFocusable(true);
         panelEditor.addMouseListener(CJEditorDeMapas.getInstance());
         panelEditor.addMouseMotionListener(CJEditorDeMapas.getInstance());
-        Mapa.setObjeto("B");
         pintar(Sprite.getInstance("B"), posicionBombeman);
     }
     
@@ -64,7 +63,8 @@ public class JEditorDeMapas extends JPanel{
         //No simplificar
         int x = posicion.x * Mapa.COLUMNAS / panelEditor.getWidth() * relacionDeTamaño[1].width / Mapa.COLUMNAS;
         int y = posicion.y * Mapa.FILAS / panelEditor.getHeight() * relacionDeTamaño[1].height / Mapa.FILAS;
-        Graphics g = panelEditor.getImagen().getGraphics();if("B".equals(sprite.getIdentificacion())){
+        Graphics g = panelEditor.getImagen().getGraphics();
+        if("B".equals(sprite.getIdentificacion())){
             g.drawImage(Imagenes.PISO, posicionBombeman.x, posicionBombeman.y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
             Mapa.getInstance().setObjetoMapa("V", 
                 (short)(Mapa.FILAS * posicionBombeman.y / panelEditor.getHeight()), 
@@ -120,7 +120,7 @@ public class JEditorDeMapas extends JPanel{
             int y = getHeight() / Mapa.FILAS;
             Mapa mapa = Mapa.getInstance();
             for(short i = 0; i < Mapa.FILAS; i++) {
-                for(int j = 0; j < Mapa.COLUMNAS; j++){
+                for(int j = 0; j < Mapa.COLUMNAS; j++) {
                     switch (mapa.getObjetoMapa(i, j)) {
                         case "V":
                             g.drawImage(Imagenes.PISO, j * x, i * y, x, y, this);

@@ -14,7 +14,7 @@ import javax.swing.Timer;
 public class Bomb extends Sprite {
     int time=8;
     Timer timer;
-    Fire fire=null;
+    Fire fire;
 
     
     public Bomb(final int x,final int y) {

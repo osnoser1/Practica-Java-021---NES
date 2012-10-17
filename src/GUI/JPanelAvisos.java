@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Controladores.ControladorTecladoJPanelAvisos;
 import Fuentes.Fuentes;
 import Sonidos.Sonidos;
 import java.awt.Color;
@@ -32,11 +33,12 @@ public class JPanelAvisos extends javax.swing.JPanel{
     }
     
     private void initComponents() {
-        this.setBackground(Color.BLACK);
-        this.setVisible(false);
-        this.setRequestFocusEnabled(true);
-        this.requestFocusInWindow();
-        this.setFocusable(true);
+        addKeyListener(new ControladorTecladoJPanelAvisos());
+        setBackground(Color.BLACK);
+        setVisible(false);
+        setRequestFocusEnabled(true);
+        requestFocusInWindow();
+        setFocusable(true);
         fuentes = new Fuentes();
         imagen = new BufferedImage(640,560,BufferedImage.TYPE_INT_RGB);
     }

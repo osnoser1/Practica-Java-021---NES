@@ -30,7 +30,6 @@ public class HiloTransicionPuerta implements Runnable{
             Metodos.sleep(500);
             System.out.println("Sonido: "+sonido.getFramePosition()+" "+sonido.getFrameLength());
         }
-        JPanelJuego.getInstance().fijarJugador(0, null);
         JPanelInformacion jPanelInformacion = JPanelInformacion.getInstance();
         JPanelContenedor.getInstance().remove(JPanelGrafico.getInstance());
         JPanelJuego.getInstance().reiniciarJPanelJuego();
@@ -43,7 +42,6 @@ public class HiloTransicionPuerta implements Runnable{
             jPanelFinDeJuego.iniciarJPanelFinDeJuego();
             JPanelContenedor.getInstance().add(jPanelFinDeJuego);
             jPanelFinDeJuego.requestFocus();
-            jPanelFinDeJuego.addKeyListener(new ControladorTecladoJPanelFinDeJuego());
         }else{
             jPanelAvisos.iniciarJPanelStage(); 
             JPanelContenedor.getInstance().add(jPanelAvisos);

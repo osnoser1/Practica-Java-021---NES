@@ -21,6 +21,7 @@ public final class Ubicacion {
     public static String PISO = "/Ambiente/Piso.png";
     public static String FONDO = "/Ambiente/Fondo.png";
     public static String ACERO = "/Ambiente/Bloque_Solido.png";
+    public static String BOMBERMAN = "/Jugadores/Bomberman/Bomberman.png";
     public static final String PRESENTACION = "/Presentacion.wav";
     public static final String BONUS_STAGE = "/Bonus_Stage.wav";
     public static final String STAGE = "/Stage.wav";

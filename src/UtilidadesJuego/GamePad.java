@@ -37,7 +37,7 @@ public class GamePad {
                 put(Botones.R, KeyEvent.VK_A);
                 put(Botones.L, KeyEvent.VK_S);
             }};
-    
+
     public int getBoton(Botones boton){
         return this.boton.get(boton);
     }

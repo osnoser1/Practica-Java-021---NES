@@ -22,18 +22,18 @@ import Personajes.Pontan;
 public interface Constantes {
     
     public enum Objetos{
+        LADRILLO("L"),
+        PISO("V"),
         BOMBERMAN("B"),
         BALLOM("b"),
-        DOLL("D"),
-        FIRE,
-        KONDORIA("K"),
-        LADRILLO("L"),
-        MINVO("M"),
         ONEAL("O"),
+        DOLL("D"),
+        MINVO("M"),
+        KONDORIA("K"),
         OVAPI("o"),
         PASS("P"),
         PONTAN("p"),
-        PISO("V");
+        FIRE;
         
         private String value;
 

@@ -31,43 +31,38 @@ public class Enemigo extends Personaje {
      }
 
     @Override
-    public void actualizar(JPanelJuego jPanelJuego) {
-        
-    }
-
-    @Override
-    public void estadoInicio() {
+    public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void estadoArriba(JPanelJuego jPanelJuego) {
+    public void estadoArriba(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void estadoAbajo(JPanelJuego jPanelJuego) {
+    public void estadoAbajo(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void estadoDerecha(JPanelJuego jPanelJuego) {
+    public void estadoDerecha(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void estadoIzquierda(JPanelJuego jPanelJuego) {
+    public void estadoIzquierda(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void estadoMuerte() {
+    public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean avanzarAnimacion() {
-        return false;
-    }    
+    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
    
 }

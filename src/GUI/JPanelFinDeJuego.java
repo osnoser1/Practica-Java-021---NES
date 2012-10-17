@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Controladores.ControladorTecladoJPanelFinDeJuego;
 import java.awt.Color;
 
 /**
@@ -24,7 +25,8 @@ public class JPanelFinDeJuego extends javax.swing.JPanel{
     }
     
     private void initComponents() {
-        this.setBackground(Color.BLACK);
+        addKeyListener(new ControladorTecladoJPanelFinDeJuego());
+        setBackground(Color.BLACK);
     }
 
     public void iniciarJPanelFinDeJuego() {

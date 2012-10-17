@@ -16,7 +16,7 @@ import javax.swing.Timer;
  * @author hp
  */
 public class Ladrillo extends Sprite {
-    int time=6,i,tipo;
+    int time=6,tipo;
     Timer timer;
     boolean Especial=false;
     public LadrilloEspecial ladrilloespecial=null;
@@ -43,7 +43,7 @@ public class Ladrillo extends Sprite {
                    Mapa.getInstance().setObjetoMapa("V", JPanelJuego.getPosicionY(getCenterY()), JPanelJuego.getPosicionX(getCenterX()));
                  
                    if(Especial){
-                       ladrilloespecial=new LadrilloEspecial(x,y,tipo,i);
+                       ladrilloespecial=new LadrilloEspecial(x,y,tipo);
                    }
                    else{
                       // JPanelJuego.getLadrillos().set(i,null);
@@ -55,8 +55,7 @@ public class Ladrillo extends Sprite {
         });
         
     }
-    public void start(int a){
-            this.i=a;
+    public void start(){
             timer.start();
         }
     public Timer getTimer() {

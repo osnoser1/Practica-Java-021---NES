@@ -111,7 +111,7 @@ public class ModelosJToolBarOpciones {
                 mapa[i][j++] = Character.toString(letra);
             }
         }
-        pintarMapa(JPanelGrafico.getInstance(), mapa);
+        pintarMapa(mapa);
     }
 
     private void initFiltrosArchivos() {
@@ -122,15 +122,14 @@ public class ModelosJToolBarOpciones {
         }
     }
 
-    private void pintarMapa(JPanelGrafico jPanelGrafico, String[][] mapa) {
+    private void pintarMapa(String[][] mapa) {
         Mapa mapa1 = Mapa.getInstance();
         mapa1.setMapa(mapa);
-        mapa1.mostrarMapa();
         JPanelJuego jPanelJuego = JPanelJuego.getInstance();
         jPanelJuego.borrarEnemigos();
         for(int i = 1; i < Mapa.FILAS; i++) {
             for(int j = 1; j < Mapa.COLUMNAS; j++){
-                Mapa.setObjeto(mapa1.getObjetoMapa(i, j));
+                mapa1.setObjetoMapa(mapa[i][j], (short)i, (short)j);
                 jPanelJuego.pintarCasilla(j, i);
             }
         }

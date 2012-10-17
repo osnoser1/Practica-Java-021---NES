@@ -56,9 +56,7 @@ public class Fire extends Sprite {
                
                if(time==0){
                     timer.stop();
-                    if(JPanelJuego.getInstance().primerJugador() != null)
-                        remover();
-                   
+                    remover();
                }
             }
 
@@ -79,7 +77,7 @@ public class Fire extends Sprite {
         JPanelJuego.getInstance().primerJugador().getBombs().remove(bomba);
     }
     
-    public void DibujarFire(Graphics g){
+    public void dibujarFuego(Graphics g){
         
         g.drawImage(Central.getImageSprite(),x,y,JPanelJuego.getx(),JPanelJuego.gety(),null);
 //        if(Space>SpaceIzquierda)

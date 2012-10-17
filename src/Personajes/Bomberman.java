@@ -4,35 +4,56 @@
  */
 package Personajes;
 
+import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
 import Sonidos.Sonidos;
 import UtilidadesJuego.GamePad;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Bomberman extends Personaje {
+        
     private boolean SPEED,DETONATOR,BOMBPASS,FLAMEPASS,MYSTERY;
     private int FLAMES,BOMBS;
-    private static ArrayList<Bomb> Bombs=null;
+    private static ArrayList<Bomb> bombas;
     
     public Bomberman(int x,int y){
         super(new Animation(Imagenes.BOMBERMAN_1,0,3),new Animation(Imagenes.BOMBERMAN_1,3,3),new Animation(Imagenes.BOMBERMAN_1,6,3),new Animation(Imagenes.BOMBERMAN_1,9,3),new Animation(Imagenes.BOMBERMAN_1,12,6));
-        Bombs = new ArrayList<>();
-        this.Speed = this.SPEED_MID;
-        this.BOMBS = 10;
-        this.FLAMES = 5;
-        this.SPEED = false;
-        this.Wallpass = true;
-        this.DETONATOR = true;
-        this.BOMBPASS = true;
-        this.FLAMEPASS = true;
-        this.MYSTERY = true;
+        bombas = new ArrayList<>();
+        Speed = SPEED_MID;
+        BOMBS = 10;
+        FLAMES = 5;
+        SPEED = false;
+        Wallpass = true;
+        DETONATOR = true;
+        BOMBPASS = true;
+        FLAMEPASS = false;
+        MYSTERY = true;
         this.x = x;
         this.y = y;
-        this.Identificacion = "B";
+        Identificacion = "B";
+        inicializar(Imagenes.BOMBERMAN, new Point(x, y), gamePad);
     }
-
+    
+    public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
+        super.inicializar(posicion);
+        activo = true;
+        super.imagen = new Imagen(imagen, 6, 6, posicion, (float)2.5);
+        super.gamePad = gamePad;
+        super.animaciones = new HashMap<Estado, Animation>(){{
+            put(Estado.INICIO, new Animation("0", 4000 / 60));
+            put(Estado.ARRIBA, new Animation("2,1,0,1", 4000 / 60));
+            put(Estado.ABAJO, new Animation("2,1,0,1", 4000 / 60));
+            put(Estado.DERECHA, new Animation("2,1,0,1", 4000 / 60));
+            put(Estado.IZQUIERDA, new Animation("2,1,0,1", 4000 / 60));
+            put(Estado.MUERTE, new Animation("0,1,2,3,4", 500));
+        }};
+    }
+    
     public void setDETONATOR(boolean DETONATOR) {
         this.DETONATOR = DETONATOR;
     }
@@ -40,9 +61,9 @@ public class Bomberman extends Personaje {
     public void setSPEED(boolean SPEED) {
         this.SPEED = SPEED;
         if(SPEED)
-            Speed=this.SPEED_FAST;
+            Speed=SPEED_FAST;
         else
-            Speed=this.SPEED_MID;
+            Speed=SPEED_MID;
     }
 
     public void setMYSTERY(boolean MYSTERY) {
@@ -54,11 +75,11 @@ public class Bomberman extends Personaje {
     }
 
     public void IncrementarBOMBS() {
-        this.BOMBS++;
+        BOMBS++;
     }
     
     public void IncrementarFLAMES() {
-        this.FLAMES++;
+        FLAMES++;
     }
 
     public void setBOMBPASS(boolean BOMBPASS) {
@@ -69,7 +90,7 @@ public class Bomberman extends Personaje {
         return BOMBS;
     }
     public boolean getMYSTERY() {
-        return this.MYSTERY;
+        return MYSTERY;
     }
 
     public int getFLAMES() {
@@ -79,23 +100,23 @@ public class Bomberman extends Personaje {
         return DETONATOR;
     }
      public boolean getFLAMEPASS() {
-        return this.FLAMEPASS;
+        return FLAMEPASS;
     }
      public boolean getBOMBPASS() {
-        return this.BOMBPASS;
+        return BOMBPASS;
     }
     public void CrearBomb(){
         if(ChoqueCentral("B"))
-            if(Bombs.size()<BOMBS){
+            if(bombas.size()<BOMBS){
                 if(!ChoqueCentral("X"))
                 DentroBomb=true;
                 Sonidos.getInstance().getSonido(Sonidos.BOMB_PLANT).play();
-                Bombs.add(new Bomb(JPanelJuego.getPosicionX(getCenterX())*JPanelJuego.getx(),JPanelJuego.getPosicionY(getCenterY())*JPanelJuego.gety()));
+                bombas.add(new Bomb(JPanelJuego.getPosicionX(getCenterX())*JPanelJuego.getx(),JPanelJuego.getPosicionY(getCenterY())*JPanelJuego.gety()));
             }
     }
   
     public ArrayList<Bomb> getBombs() {
-        return Bombs;
+        return bombas;
     }
     
     public void DibujarJugador(Graphics2D g){
@@ -103,136 +124,71 @@ public class Bomberman extends Personaje {
     }
 
     public int bombasPuestas() {
-        return Bombs.size();
+        return bombas.size();
     }
 
     @Override
-    public void actualizar(JPanelJuego jPanelJuego) {
-        switch(estado){
+    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+        switch(getEstadoActual()){
             case INICIO:
-                estadoInicio();
+                estadoInicio(jPanelJuego, tiempoTranscurrido);
                 break;
             case ARRIBA:
-                estadoArriba(jPanelJuego);
+                estadoArriba(jPanelJuego, tiempoTranscurrido);
                 break;
             case ABAJO:
-                estadoAbajo(jPanelJuego);
+                estadoAbajo(jPanelJuego, tiempoTranscurrido);
                 break;
             case DERECHA:
-                estadoDerecha(jPanelJuego);
+                estadoDerecha(jPanelJuego, tiempoTranscurrido);
                 break;
             case IZQUIERDA:
-                estadoIzquierda(jPanelJuego);
+                estadoIzquierda(jPanelJuego, tiempoTranscurrido);
                 break;
             case MUERTE:
-                estadoMuerte();
+                estadoMuerte(jPanelJuego, tiempoTranscurrido);
                 break;
         }
-    }
-
-    @Override
-    public boolean avanzarAnimacion() {
-        return true;
     }
     
     @Override
-    public void estadoInicio() {
-        this.setEstado(Estado.DERECHA);
+    public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+        if(actualizarAnimacion(tiempoTranscurrido))
+            setEstadoActual(Estado.IZQUIERDA);
     }
 
     @Override
-    public void estadoArriba(JPanelJuego jPanelJuego) {
+    public void estadoArriba(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         verificarTeclasAccion();
-        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
-            this.setEstado(Estado.DERECHA);
-        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
-            this.setEstado(Estado.IZQUIERDA);
-        }
-        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
-            //Mover jugador
-            MovimientoArriba();
-            Sonidos.getInstance().getSonido(Sonidos.UP).play();
-        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
-            this.setEstado(Estado.ABAJO);
-        }else{
-            return;
-        }
-        avanzarAnimacion();
+        if(verificarMovimiento())
+            actualizarAnimacion(tiempoTranscurrido);
     }
 
     @Override
-    public void estadoAbajo(JPanelJuego jPanelJuego) {
+    public void estadoAbajo(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         verificarTeclasAccion();
-        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
-            this.setEstado(Estado.DERECHA);
-        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
-            this.setEstado(Estado.IZQUIERDA);
-        }
-        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
-            //Mover jugador
-            MovimientoAbajo();
-            Sonidos.getInstance().getSonido(Sonidos.DOWN).play();
-        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
-            this.setEstado(Estado.ARRIBA);
-        }else{
-            return;
-        }
-        avanzarAnimacion();
+        if(verificarMovimiento())
+            actualizarAnimacion(tiempoTranscurrido);
     }
 
     @Override
-    public void estadoDerecha(JPanelJuego jPanelJuego) {
+    public void estadoDerecha(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         verificarTeclasAccion();
-        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
-            this.setEstado(Estado.ARRIBA);
-        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
-            this.setEstado(Estado.ABAJO);
-        }
-        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
-            //Mover jugador
-            MovimientoDerecha();
-            Sonidos.getInstance().getSonido(Sonidos.RIGHT).play();
-            //Desplazamiento de ventana temporal
-            if(AvanzarX()&&getX()>=jPanelJuego.getWidth()/4&&getX()<=(3*jPanelJuego.getWidth()/4-30)){
-                    jPanelJuego.setLocation(jPanelJuego.getX()-getSpeed(), 0);
-            }
-        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
-            this.setEstado(Estado.IZQUIERDA);
-        }else{
-            return;
-        }
-        avanzarAnimacion();
+        if(verificarMovimiento())
+            actualizarAnimacion(tiempoTranscurrido);
     }
 
     @Override
-    public void estadoIzquierda(JPanelJuego jPanelJuego) {
+    public void estadoIzquierda(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         verificarTeclasAccion();
-        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
-            this.setEstado(Estado.ARRIBA);
-        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
-            this.setEstado(Estado.ABAJO);
-        }
-        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
-            //Mover jugador
-            MovimientoIzquierda();
-            Sonidos.getInstance().getSonido(Sonidos.LEFT).play();
-            //Desplazamiento de ventana temporal
-            if(AvanzarX()&&getX()>=jPanelJuego.getWidth()/4&&getX()<=(3*jPanelJuego.getWidth()/4-30)){
-                jPanelJuego.setLocation(jPanelJuego.getX()-getSpeed(), 0);
-            }
-        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
-            this.setEstado(Estado.DERECHA);
-        }else{
-            return;
-        }
-        avanzarAnimacion();
+        if(verificarMovimiento())
+            actualizarAnimacion(tiempoTranscurrido);
     }
 
     @Override
-    public void estadoMuerte() {
-        if(!avanzarAnimacion()){
+    public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+        if(actualizarAnimacion(tiempoTranscurrido))
             activo = false;
-        }
     }
 
     private void verificarTeclasAccion() {
@@ -242,6 +198,45 @@ public class Bomberman extends Personaje {
         if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.B))){
             //Explotar primera bomba colocada
         }
+    }
+
+    private boolean verificarMovimiento() {
+        boolean movimiento = true;
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ARRIBA))){
+            setEstadoActual(Estado.ARRIBA);
+            Sonidos.getInstance().getSonido(Sonidos.UP).play();
+            MovimientoArriba();
+        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.ABAJO))){
+            Sonidos.getInstance().getSonido(Sonidos.UP).stop();
+            setEstadoActual(Estado.ABAJO);
+            Sonidos.getInstance().getSonido(Sonidos.DOWN).play();
+            MovimientoAbajo();
+        }else{
+            Sonidos.getInstance().getSonido(Sonidos.UP).stop();
+            Sonidos.getInstance().getSonido(Sonidos.DOWN).stop();
+            movimiento = false;
+        }
+        if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
+            setEstadoActual(Estado.DERECHA);
+            Sonidos.getInstance().getSonido(Sonidos.LEFT).play();
+            MovimientoDerecha();
+            movimiento = true;
+        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
+            Sonidos.getInstance().getSonido(Sonidos.LEFT).stop();
+            setEstadoActual(Estado.IZQUIERDA);
+            Sonidos.getInstance().getSonido(Sonidos.RIGHT).play();
+            MovimientoIzquierda();
+            movimiento = true;
+        }else{
+            Sonidos.getInstance().getSonido(Sonidos.LEFT).stop();
+            Sonidos.getInstance().getSonido(Sonidos.RIGHT).stop();
+        }
+        return movimiento;
+    }
+
+    public void reiniciar(int x, int y) {
+        super.reiniciar();
+        fijarCasilla(x, y);
     }
 
 }

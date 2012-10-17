@@ -4,6 +4,7 @@
  */
 package Hilos;
 
+import Dependencias.Metodos;
 import GUI.JPanelJuego;
 
 /**
@@ -17,51 +18,70 @@ public class HiloPrincipal implements Runnable {
     private short FPS;
     private long tiempoEnMilisegundos;
     private long tiempoTranscurrido;
+    private boolean estaActivo;
+    private boolean pausa;
 
     public HiloPrincipal(JPanelJuego jPanelJuego, short FPS) {
-        this.hilo = new Thread(this);
+        hilo = new Thread(this);
         this.jPanelJuego = jPanelJuego;
         this.FPS = FPS;
-        this.tiempoEnMilisegundos = 1000 / FPS;
+        tiempoEnMilisegundos = 1000 / FPS;
     }
     
     @Override
     public void run() {
-        long tiempoActual = System.currentTimeMillis();
-        while(true){
-            tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
-            if(tiempoTranscurrido > tiempoEnMilisegundos){
-                tiempoActual = System.currentTimeMillis();
-                Actualizar(tiempoTranscurrido);
-                Pintar();
-                tiempoTranscurrido = 0;
+//        long tiempoActual = System.currentTimeMillis();
+        while(estaActivo){
+            if(pausa){
+                Metodos.sleep(500);
+                continue;
             }
+            Metodos.sleep(tiempoEnMilisegundos);
+//            tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
+//            if(tiempoTranscurrido > tiempoEnMilisegundos){
+//                tiempoActual = System.currentTimeMillis();
+                actualizar(tiempoEnMilisegundos);
+                pintar();
+//                tiempoTranscurrido = 0;
+//            }
         }
     }
+    
     public void start(){
+        estaActivo = true;
         hilo.start();
     }
 
     public void stop(){
-        hilo.stop();
+        estaActivo = false;
     }
 
-    private void Actualizar(long tiempoTranscurrido) {
-        if(jPanelJuego.primerJugador() != null)
-            jPanelJuego.primerJugador().actualizar(jPanelJuego, tiempoTranscurrido);
+    private void actualizar(long tiempoTranscurrido) {
+        jPanelJuego.primerJugador().actualizar(jPanelJuego, tiempoTranscurrido);
     }
 
-    private void Pintar() {
+    private void pintar() {
         jPanelJuego.repaint();
     }
 
     public void setFPS(short FPS) {
         this.FPS = FPS;
-        this.tiempoEnMilisegundos = 1000 / FPS;
+        tiempoEnMilisegundos = 1000 / FPS;
     }
 
     public short getFPS() {
         return FPS;
     }
     
+    public void pausar() {
+        if(!estaActivo)
+            throw new IllegalArgumentException();
+        pausa = true;
+    }
+    
+    public void reanudar() {
+        if(!estaActivo)
+            throw new IllegalArgumentException();
+        pausa = false;
+    }
 }

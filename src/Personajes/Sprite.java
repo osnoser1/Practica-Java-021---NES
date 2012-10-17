@@ -181,8 +181,8 @@ public class Sprite {
                 (!ChoqueDerecha("A",1)&&Speed>0||!ChoqueIzquierda("A",1)&&Speed<0)&&
                 ((!ChoqueDerecha("L",1)&&Speed>0||!ChoqueIzquierda("L",1)&&Speed<0)||Wallpass)&&
                 (
-                  (!ChoqueDerecha("X",1)&&Speed>0||!ChoqueIzquierda("X",1)&&Speed<0)&&Identificacion!="B"||
-                  (!ChoqueDerecha("X",1)&&Speed>0||!ChoqueIzquierda("X",1)&&Speed<0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&Identificacion=="B"
+                  (!ChoqueDerecha("X",1)&&Speed>0||!ChoqueIzquierda("X",1)&&Speed<0)&&!"B".equals(Identificacion)||
+                  (!ChoqueDerecha("X",1)&&Speed>0||!ChoqueIzquierda("X",1)&&Speed<0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&"B".equals(Identificacion)
                 )
                );
     }
@@ -192,8 +192,8 @@ public class Sprite {
                 (!ChoqueArriba("A",1)&&Speed<0||!ChoqueAbajo("A",1)&&Speed>0)&&
                 ((!ChoqueArriba("L",1)&&Speed<0||!ChoqueAbajo("L",1)&&Speed>0)||Wallpass)&&
                 (
-                  (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0)&&Identificacion!="B"||
-                  (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&Identificacion=="B"
+                  (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0)&&!"B".equals(Identificacion)||
+                  (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&"B".equals(Identificacion)
                 )
                );
     }
