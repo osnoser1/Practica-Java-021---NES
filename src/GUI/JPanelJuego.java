@@ -277,22 +277,22 @@ public class JPanelJuego extends javax.swing.JPanel {
 
     private void actualizarMapa() {
         mapa.borrarMapa();
-        mapa.setObjetoMapa(primerJugador().getIdentificacion(), getPosicionY(primerJugador().getCenterY()), getPosicionX(primerJugador().getCenterX()));
+        mapa.setObjeto(primerJugador().getIdentificacion(), getPosicionY(primerJugador().getCenterY()), getPosicionX(primerJugador().getCenterX()));
         for(Enemigo enemigo : enemigos) {
-            mapa.setObjetoMapa(enemigo.getIdentificacion(), getPosicionY(enemigo.getCenterY()), getPosicionX(enemigo.getCenterX()));
+            mapa.setObjeto(enemigo.getIdentificacion(), getPosicionY(enemigo.getCenterY()), getPosicionX(enemigo.getCenterX()));
         }
         for(Ladrillo ladrillo : ladrillos) {
             if (ladrillo.getAnimation() != null) 
-                mapa.setObjetoMapa("L", getPosicionY(ladrillo.getCenterY()), getPosicionX(ladrillo.getCenterX()));
-            else if((ladrillo.getAnimation() == null) && (ladrillo.getLadrilloEspecial() != null) && (ladrillo.getLadrilloEspecial().getImagen() != null)) {
+                mapa.setObjeto("L", getPosicionY(ladrillo.getCenterY()), getPosicionX(ladrillo.getCenterX()));
+            else if(ladrillo.getAnimation() == null && ladrillo.getLadrilloEspecial() != null && ladrillo.getLadrilloEspecial().getImagen() != null) {
                 if(!ladrillo.getLadrilloEspecial().esPuerta())
-                    mapa.setObjetoMapa("S", getPosicionY(ladrillo.getLadrilloEspecial().getCenterY()), getPosicionX(ladrillo.getLadrilloEspecial().getCenterX()));
+                    mapa.setObjeto("S", getPosicionY(ladrillo.getLadrilloEspecial().getCenterY()), getPosicionX(ladrillo.getLadrilloEspecial().getCenterX()));
                 else
-                    mapa.setObjetoMapa("Q", getPosicionY(ladrillo.getLadrilloEspecial().getCenterY()), getPosicionX(ladrillo.getLadrilloEspecial().getCenterX()));
+                    mapa.setObjeto("Q", getPosicionY(ladrillo.getLadrilloEspecial().getCenterY()), getPosicionX(ladrillo.getLadrilloEspecial().getCenterX()));
             }
         }
         for(Bomb bomba : primerJugador().getBombs()) {
-            mapa.setObjetoMapa("X", getPosicionY(bomba.getCenterY()), getPosicionX(bomba.getCenterX()));
+            mapa.setObjeto("X", getPosicionY(bomba.getCenterY()), getPosicionX(bomba.getCenterX()));
         }
     }
 
