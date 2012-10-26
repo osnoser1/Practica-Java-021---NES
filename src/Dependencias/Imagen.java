@@ -28,15 +28,15 @@ public class Imagen {
     private boolean active;
     private Color color;
     // The scale used to display the sprite strip
-    private float scale;
+    private float escala;
 
 
-    public Imagen(BufferedImage textura, int filas, int columnas, Point posicion, float scale) {
+    public Imagen(BufferedImage textura, int filas, int columnas, Point posicion, float escala) {
         active = true;
         this.filas = filas;
         this.columnas = columnas;
         this.posicion = posicion;
-        this.scale = scale;
+        this.escala = escala;
         imagen = textura;
         /* El ancho y alto de una imagen de la rejilla 
         es el total entre el número de columnas y el
@@ -59,8 +59,8 @@ public class Imagen {
         // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
         sourceRect = new Rectangle(frameActual * width, estado * height, width, height);
         // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
-        destinationRect = new Rectangle(posicion.x - (int)(width * scale) / 2, posicion.y - (int)(height * scale) / 2,
-        (int)(width * scale), (int)(height * scale));
+        destinationRect = new Rectangle(posicion.x - (int)(width * escala) / 2, posicion.y - (int)(height * escala) / 2,
+        (int)(width * escala), (int)(height * escala));
     }
 
     /**
@@ -79,7 +79,7 @@ public class Imagen {
     /**
      * @return the posicion
      */
-    public Point getposicion() {
+    public Point getPosicion() {
         return posicion;
     }
 
@@ -135,15 +135,15 @@ public class Imagen {
     /**
      * @return the scale
      */
-    public float getScale() {
-        return scale;
+    public float getEscala() {
+        return escala;
     }
 
     /**
      * @param scale the scale to set
      */
-    public void setScale(float scale) {
-        this.scale = scale;
+    public void setEscala(float scale) {
+        this.escala = scale;
     }
 
     /**
