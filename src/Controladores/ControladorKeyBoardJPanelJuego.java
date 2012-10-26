@@ -18,8 +18,6 @@ public class ControladorKeyBoardJPanelJuego extends KeyAdapter{
     
     private ControladorKeyBoardJPanelJuego() {
         teclado = Teclado.getInstance();
-//        thread=new Thread(this);
-//        thread.start();
     }
 
     public static ControladorKeyBoardJPanelJuego getInstance() {
@@ -29,25 +27,11 @@ public class ControladorKeyBoardJPanelJuego extends KeyAdapter{
     @Override
     public void keyPressed(KeyEvent e) {
         teclado.presionarTecla(e.getKeyCode());
-        ejecutarAcciones(e);        
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         teclado.liberarTecla(e.getKeyCode());
-    }
-
-    private void ejecutarAcciones(KeyEvent e) {KeyEvent get = e;
-        if(JPanelJuego.getInstance().primerJugador()!=null){
-            if(get.getKeyCode()==Dialog.Controles.getA()){
-                JPanelJuego.getInstance().primerJugador().CrearBomb();
-            }
-            if(get.getKeyCode()==Dialog.Controles.getB()){
-                if(JPanelJuego.getInstance().primerJugador().getDETONATOR()&&JPanelJuego.getInstance().primerJugador().bombasPuestas()!=0)
-                    JPanelJuego.getInstance().primerJugador().getBombs().get(0).detonar();
-            }
-            if(get.getKeyCode()==Dialog.Controles.getStart());
-        }
     }
     
 }
