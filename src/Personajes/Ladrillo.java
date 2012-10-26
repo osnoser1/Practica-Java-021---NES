@@ -40,7 +40,7 @@ public class Ladrillo extends Sprite {
                if(time==0){
                    timer.stop();
                    animation=null;
-                   Mapa.getInstance().setObjetoMapa("V", JPanelJuego.getPosicionY(getCenterY()), JPanelJuego.getPosicionX(getCenterX()));
+                   Mapa.getInstance().setObjeto("V", JPanelJuego.getPosicionY(getCenterY()), JPanelJuego.getPosicionX(getCenterX()));
                  
                    if(Especial){
                        ladrilloespecial=new LadrilloEspecial(x,y,tipo);

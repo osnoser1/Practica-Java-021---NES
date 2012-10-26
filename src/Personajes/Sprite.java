@@ -143,6 +143,7 @@ public class Sprite {
         this.Sprite = Sprite;
     }
    
+    @Override
     public Object clone() {
         return new Sprite( animation );
     }
@@ -165,10 +166,10 @@ public class Sprite {
                 (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y)+n,JPanelJuego.getPosicionX(x+JPanelJuego.getx()-2*varx))==a  ));
     }
 
-       
     public boolean ChoqueCentral(String a){
-       return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(getCenterY()),JPanelJuego.getPosicionX(getCenterX()))==a  ));
+       return a.equals(Mapa.getInstance().getObjeto(JPanelJuego.getPosicionY(getCenterY()),JPanelJuego.getPosicionX(getCenterX())));
     }
+    
     public void setWallpass(boolean Wallpass) {
         this.Wallpass = Wallpass;
     }
@@ -190,46 +191,12 @@ public class Sprite {
     public boolean AvanzarY() {
        return (
                 (!ChoqueArriba("A",1)&&Speed<0||!ChoqueAbajo("A",1)&&Speed>0)&&
-                ((!ChoqueArriba("L",1)&&Speed<0||!ChoqueAbajo("L",1)&&Speed>0)||Wallpass)&&
+                (!ChoqueArriba("L",1)&&Speed<0||!ChoqueAbajo("L",1)&&Speed>0||Wallpass)&&
                 (
                   (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0)&&!"B".equals(Identificacion)||
                   (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&"B".equals(Identificacion)
                 )
                );
-    }
-
-    public static Sprite getInstance(String identificador){
-        Sprite value = null;
-        switch(identificador){
-            case "B":
-                value = new Bomberman(0, 0);
-                break;
-            case "b":
-                value = new Balloom(0, 0);
-                break;
-            case "O":
-                value = new Oneal(0, 0); 
-                break;
-            case "D":
-                value = new Doll(0, 0);
-                break;
-            case "M":
-                value = new Minvo(0, 0);  
-                break;
-            case "K":
-                value = new Kondoria(0, 0); 
-                break;
-            case "o":
-                value = new Ovapi(0, 0);
-                break;
-            case "P":
-                value = new Pass(0, 0);
-                break;
-            case "p":
-                value = new Pontan(0, 0);
-                break;
-        }
-        return value;
     }
     
 }

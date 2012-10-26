@@ -17,9 +17,10 @@ import javax.swing.Timer;
 
 public class Smart {
     
-    Enemigo personaje;
-    Timer timer;
-    Random random;
+    private Enemigo personaje;
+    private Timer timer;
+    private Random random;
+    
     public Smart(Enemigo personaje){
         this.personaje=personaje;
         random=new Random();
@@ -30,13 +31,14 @@ public class Smart {
         if(personaje.Smart==personaje.SMART_LOW){
             timer=new Timer(50,new AbstractAction(){
             int a=1,time=0;
+                @Override
             public void actionPerformed(ActionEvent e) {
                 time++;
                 if(time%50==0){
                     if(ReconocimientoX())
-                        a=random.nextInt(2);
+                        a=getRandom().nextInt(2);
                     if(ReconocimientoY())
-                        a=random.nextInt(2);
+                        a=getRandom().nextInt(2);
                 }
                 if(a==0)
                     personaje.MovimientoIzquierda();
@@ -63,13 +65,14 @@ public class Smart {
         else if(personaje.Smart==personaje.SMART_MID){
             timer=new Timer(50,new AbstractAction(){
             int a=1,b=1,time=0;
+                @Override
             public void actionPerformed(ActionEvent e) {
                 time++;
                 if(time%50==0){
                     if(ReconocimientoX())
-                        a=random.nextInt(2);
+                        a=getRandom().nextInt(2);
                     if(ReconocimientoY())
-                        b=random.nextInt(2);
+                        b=getRandom().nextInt(2);
                 }
                 if(a==0)
                     personaje.MovimientoIzquierda();
@@ -82,7 +85,7 @@ public class Smart {
 
                 else if(b==1)
                     personaje.MovimientoAbajo();
-                if(JPanelJuego.getInstance().primerJugador()!=null&&JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
+                if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                    timer.stop();
                    JPanelJuego.getInstance().primerJugador().Muerte(null);
                 }
@@ -96,13 +99,14 @@ public class Smart {
         else if(personaje.Smart==personaje.SMART_HIGH){
                         timer=new Timer(50,new AbstractAction(){
             int a=1,b=1,time=0;
+                            @Override
             public void actionPerformed(ActionEvent e) {
                 time++;
                 if(time%50==0){
                     if(ReconocimientoX())
-                        a=random.nextInt(2);
+                        a=getRandom().nextInt(2);
                     if(ReconocimientoY())
-                        b=random.nextInt(2);
+                        b=getRandom().nextInt(2);
                 }
                 if(a==0)
                     personaje.MovimientoIzquierda();
@@ -116,7 +120,7 @@ public class Smart {
                 else if(b==1)
                     personaje.MovimientoAbajo();
 
-                if(JPanelJuego.getInstance().primerJugador()!=null&&JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
+                if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                     timer.stop();
                     JPanelJuego.getInstance().primerJugador().Muerte(null);
                 }
@@ -146,6 +150,20 @@ public class Smart {
     }
     public boolean ReconocimientoY(){
         return (personaje.ChoqueArriba("V", 1)||personaje.ChoqueAbajo("V", 1));
+    }
+
+    /**
+     * @return the random
+     */
+    public Random getRandom() {
+        return random;
+    }
+
+    /**
+     * @param random the random to set
+     */
+    public void setRandom(Random random) {
+        this.random = random;
     }
 
 }

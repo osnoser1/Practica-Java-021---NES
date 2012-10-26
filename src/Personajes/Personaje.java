@@ -64,6 +64,10 @@ public abstract class Personaje extends Sprite {
         this.y = y;
     }
     
+    public Point getCentro(){
+        return imagen.getPosicion();
+    }
+    
     /**
      *
      * @return Devuelve true si el personaje esta activo, false si no lo está.

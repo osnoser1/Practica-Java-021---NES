@@ -31,9 +31,9 @@ public class GamePad {
                 put(Botones.DERECHA, KeyEvent.VK_RIGHT);
                 put(Botones.IZQUIERDA, KeyEvent.VK_LEFT);
                 put(Botones.A, KeyEvent.VK_X);
-                put(Botones.B, KeyEvent.VK_C);
-                put(Botones.SELECT, KeyEvent.VK_C);
-                put(Botones.START, KeyEvent.VK_SHIFT);
+                put(Botones.B, KeyEvent.VK_Z);
+                put(Botones.SELECT, KeyEvent.VK_SHIFT);
+                put(Botones.START, KeyEvent.VK_ENTER);
                 put(Botones.R, KeyEvent.VK_A);
                 put(Botones.L, KeyEvent.VK_S);
             }};

@@ -129,7 +129,7 @@ public class ModelosJToolBarOpciones {
         jPanelJuego.borrarEnemigos();
         for(int i = 1; i < Mapa.FILAS; i++) {
             for(int j = 1; j < Mapa.COLUMNAS; j++){
-                mapa1.setObjetoMapa(mapa[i][j], (short)i, (short)j);
+                mapa1.setObjeto(mapa[i][j], (short)i, (short)j);
                 jPanelJuego.pintarCasilla(j, i);
             }
         }

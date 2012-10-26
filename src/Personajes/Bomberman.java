@@ -194,9 +194,12 @@ public class Bomberman extends Personaje {
     private void verificarTeclasAccion() {
         if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.A))){
             //Poner Bomba
+            JPanelJuego.getInstance().primerJugador().CrearBomb();
         }
         if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.B))){
             //Explotar primera bomba colocada
+            if(JPanelJuego.getInstance().primerJugador().getDETONATOR()&&JPanelJuego.getInstance().primerJugador().bombasPuestas()!=0)
+                JPanelJuego.getInstance().primerJugador().getBombs().get(0).detonar();
         }
     }
 
