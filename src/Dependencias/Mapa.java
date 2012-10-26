@@ -1,4 +1,3 @@
-
 /*
 * To change this template, choose Tools | Templates
 * and open the template in the editor.
@@ -12,14 +11,10 @@ package Dependencias;
 public class Mapa {
     public static final short COLUMNAS = 31, FILAS = 13;
     private static Mapa instance;
-//    private static String objeto = "";
     private String mapa[][];
-    private short x, y;
 
     private Mapa() {
         mapa = new String[FILAS][COLUMNAS];
-        x = 0;
-        y = 0;
         for(int i = 0; i < FILAS; i++) {
             for(int j = 0; j < COLUMNAS; j++) {
                 if(i % 2 != 1 && j % 2 != 1 || i == 0 || i == 12 || j == 0 || j == 30)
@@ -42,15 +37,11 @@ public class Mapa {
         return mapa;
     }
 
-    public void setObjetoMapa(String Objeto, short x, short y) {
+    public void setObjeto(String Objeto, short x, short y) {
         mapa[x][y] = Objeto;
     }
 
-    public String getObjetoMapa() {
-        return mapa[x][y];
-    }
-
-    public String getObjetoMapa(short x, short y) {
+    public String getObjeto(short x, short y) {
         return mapa[x][y];
     }
 
@@ -79,6 +70,3 @@ public class Mapa {
         return mapa[i][j];
     }
 }
-
-
-//~ Formatted by Jindent --- http://www.jindent.com
