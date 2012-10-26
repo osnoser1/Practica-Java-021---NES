@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Bomberman.Core.Constantes;
 import Controladores.CJEditorDeMapas;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
@@ -50,7 +51,7 @@ public class JEditorDeMapas extends JPanel{
         panelEditor.setFocusable(true);
         panelEditor.addMouseListener(CJEditorDeMapas.getInstance());
         panelEditor.addMouseMotionListener(CJEditorDeMapas.getInstance());
-        pintar(Sprite.getInstance("B"), posicionBombeman);
+        pintar(Constantes.Objetos.getInstance("B"), posicionBombeman);
     }
     
     public void escalamiento(Dimension tamañoJFrame) {
@@ -66,7 +67,7 @@ public class JEditorDeMapas extends JPanel{
         Graphics g = panelEditor.getImagen().getGraphics();
         if("B".equals(sprite.getIdentificacion())){
             g.drawImage(Imagenes.PISO, posicionBombeman.x, posicionBombeman.y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
-            Mapa.getInstance().setObjetoMapa("V", 
+            Mapa.getInstance().setObjeto("V", 
                 (short)(Mapa.FILAS * posicionBombeman.y / panelEditor.getHeight()), 
                 (short)(Mapa.COLUMNAS * posicionBombeman.x / panelEditor.getWidth()));
             posicionBombeman = new Point(x, y);
@@ -75,7 +76,7 @@ public class JEditorDeMapas extends JPanel{
             return;
         g.drawImage(Imagenes.PISO, x, y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
         g.drawImage(sprite.getSpriteActual(), x, y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
-        Mapa.getInstance().setObjetoMapa(sprite.getIdentificacion(), 
+        Mapa.getInstance().setObjeto(sprite.getIdentificacion(), 
                 (short)(Mapa.FILAS * posicion.y / panelEditor.getHeight()), 
                 (short)(Mapa.COLUMNAS * posicion.x / panelEditor.getWidth()));
         panelEditor.repaint();
