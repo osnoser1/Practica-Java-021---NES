@@ -22,6 +22,7 @@ import javax.swing.JPanel;
  * @author Alfonso Andrés
  */
 public class JPanelGrafico extends javax.swing.JPanel implements Constantes {
+    
     private static JPanelGrafico instance;
     private JPanel jPanel;
 
@@ -64,7 +65,7 @@ public class JPanelGrafico extends javax.swing.JPanel implements Constantes {
         Random random = new Random();
         int a, b, c;
         JPanelJuego jPanelJuego = JPanelJuego.getInstance();
-        Mapa.getInstance().setObjetoMapa("B", (short)1, (short)1);
+        Mapa.getInstance().setObjeto("B", (short)1, (short)1);
         for(int i = 0; i < 55; i++) {
             do {
                 a = random.nextInt(30);
@@ -72,7 +73,7 @@ public class JPanelGrafico extends javax.swing.JPanel implements Constantes {
                 if(a < 3 && b == 1 || a == 1 && b < 3)
                     continue;
                 if("V".equals(Mapa.getInstance().getObjetoMapa(b, a))) {
-                    Mapa.getInstance().setObjetoMapa("L", (short)b, (short)a);
+                    Mapa.getInstance().setObjeto("L", (short)b, (short)a);
                     jPanelJuego.pintarCasilla(b, a);
                     break;
                 }
@@ -84,7 +85,7 @@ public class JPanelGrafico extends javax.swing.JPanel implements Constantes {
                 b = random.nextInt(12);
                 c = random.nextInt(8);
                 if("V".equals(Mapa.getInstance().getObjetoMapa(b, a))) {
-                    Mapa.getInstance().setObjetoMapa(determinarEnemigo(c), (short)b, (short)a);
+                    Mapa.getInstance().setObjeto(determinarEnemigo(c), (short)b, (short)a);
                     jPanelJuego.pintarCasilla(b, a);
                     break;
                 }
