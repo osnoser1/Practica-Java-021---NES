@@ -3,6 +3,7 @@ package GUI;
 import Bomberman.Core.Constantes;
 import Controladores.ControladorPanelEspecial;
 import Dependencias.Imagenes;
+import Personajes.Ladrillo;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class JToolBarBotonesEditor extends JToolBar implements Constantes{
 
     private BufferedImage getBufferedImage(int i) {
         int opcion=0;
-        if(i == opcion++) return Imagenes.LADRILLO.get(0);
+        if(i == opcion++) return new Ladrillo(0, 0, 0).getImagen().getSubimage(0, 0);
         return Imagenes.PISO;
     }
     

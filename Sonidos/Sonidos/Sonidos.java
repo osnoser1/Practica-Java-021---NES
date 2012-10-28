@@ -15,7 +15,7 @@ import javax.sound.sampled.Clip;
  * @author Alfonso Andrés
  */
 public class Sonidos {
-    public static int PAUSE=20;
+    public static int PAUSE = 20;
     
     private ArrayList<Sonido> sonidos;
     private static Sonidos musica=null;
@@ -34,7 +34,7 @@ public class Sonidos {
     }
     
     public Sonido getSonido(int nombreSonido){
-        return nombreSonido<sonidos.size()?sonidos.get(nombreSonido):null;
+        return nombreSonido < sonidos.size() ? sonidos.get(nombreSonido) : null;
     }
 
     private void initComponents() {
@@ -45,27 +45,28 @@ public class Sonidos {
 
     private Clip getClip(int i) {
         String path;
-        if(i==TITLE_SCREEN) path=Ubicacion.TITLE_SCREEN;
-        else if(i==LEVEL_START)path=Ubicacion.STAGE;
-        else if(i==STAGE_THEME)path=Ubicacion.STAGE_THEME;
-        else if(i==FIND_THE_DOOR)path=Ubicacion.FIND_THE_DOOR;
-        else if(i==GAME_OVER)path=Ubicacion.GAME_OVER;
-        else if(i==INVINCIBILITY_THEME)path=Ubicacion.INVINCIBILITY_THEME;
-        else if(i==JUST_DIED)path=Ubicacion.JUST_DIED;
-        else if(i==ENDING_THEME)path=Ubicacion.ENDING_THEME;
-        else if(i==LEVEL_COMPLETE)path=Ubicacion.LEVEL_COMPLETE;
-        else if(i==BONUS_STAGE)path=Ubicacion.BONUS_STAGE;
-        else if(i==BOMB_PLANT)path=Ubicacion.BOMB_PLANT;
-        else if(i==EXPLOSION_1)path=Ubicacion.EXPLOSION_1;
-        else if(i==EXPLOSION_2)path=Ubicacion.EXPLOSION_2;
-        else if(i==KICK)path=Ubicacion.KICK;
-        else if(i==POWER_UP_2)path=Ubicacion.POWER_UP_2;
-        else if(i==DEATH)path=Ubicacion.DEATH;
-        else if(i==LEFT)path=Ubicacion.LEFT;
-        else if(i==RIGHT)path=Ubicacion.RIGHT;
-        else if(i==UP)path=Ubicacion.UP;
-        else if(i==PAUSE)path=Ubicacion.PAUSE;
-        else path=Ubicacion.DOWN;
+        Ubicacion ubicacion = new Ubicacion();
+        if(i==TITLE_SCREEN) path = ubicacion.TITLE_SCREEN;
+        else if(i==LEVEL_START) path = ubicacion.STAGE;
+        else if(i==STAGE_THEME) path = ubicacion.STAGE_THEME;
+        else if(i==FIND_THE_DOOR) path = ubicacion.FIND_THE_DOOR;
+        else if(i==GAME_OVER) path = ubicacion.GAME_OVER;
+        else if(i==INVINCIBILITY_THEME) path = ubicacion.INVINCIBILITY_THEME;
+        else if(i==JUST_DIED) path = ubicacion.JUST_DIED;
+        else if(i==ENDING_THEME) path = ubicacion.ENDING_THEME;
+        else if(i==LEVEL_COMPLETE) path = ubicacion.LEVEL_COMPLETE;
+        else if(i==BONUS_STAGE) path = ubicacion.BONUS_STAGE;
+        else if(i==BOMB_PLANT) path = ubicacion.BOMB_PLANT;
+        else if(i==EXPLOSION_1) path = ubicacion.EXPLOSION_1;
+        else if(i==EXPLOSION_2) path = ubicacion.EXPLOSION_2;
+        else if(i==KICK) path = ubicacion.KICK;
+        else if(i==POWER_UP_2) path = ubicacion.POWER_UP_2;
+        else if(i==DEATH) path = ubicacion.DEATH;
+        else if(i==LEFT) path = ubicacion.LEFT;
+        else if(i==RIGHT) path = ubicacion.RIGHT;
+        else if(i==UP) path = ubicacion.UP;
+        else if(i==PAUSE) path = ubicacion.PAUSE;
+        else path = ubicacion.DOWN;
         return ManejadorDeArchivos.getInstance().cargarClipJAR(path);
     }
 

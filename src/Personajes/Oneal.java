@@ -7,24 +7,24 @@ package Personajes;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  *
  * @author hp
  */
-public class Oneal extends Enemigo{
+public class Oneal extends Enemigo {
 
     public Oneal(int x,int y){
-        super(new Animation(Imagenes.ONEAL_1,0,3),new Animation(Imagenes.ONEAL_1,3,3),new Animation(Imagenes.ONEAL_1,3,3),new Animation(Imagenes.ONEAL_1,0,3),new Animation(Imagenes.ONEAL_1.get(Imagenes.ONEAL_1.size()-1),Imagenes.MUERTE_ENEMIGOS,0,5));
-        
-       // this.Sprite=Imagenes.ONEAL_1;
+        super();
         this.Speed=this.SPEED_MID;
         this.Smart=this.SMART_MID;
         this.Point=200;
         this.Wallpass=false;
         this.x=x;
         this.y=y;
-        this.Identificacion="O";
-        this.Inteligencia=new Smart(this);
+        this.identificacion="O";
+        this.inteligencia=new Smart(this);
+        inicializar(Imagenes.ONEAL, new Point(x, y), null);
     }
 }

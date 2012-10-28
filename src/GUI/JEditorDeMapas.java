@@ -75,7 +75,7 @@ public class JEditorDeMapas extends JPanel{
         if(!noEstaSobreElBomberman(x, y) && !"B".equals(sprite.getIdentificacion()))
             return;
         g.drawImage(Imagenes.PISO, x, y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
-        g.drawImage(sprite.getSpriteActual(), x, y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
+//        g.drawImage(sprite.getSpriteActual(), x, y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
         Mapa.getInstance().setObjeto(sprite.getIdentificacion(), 
                 (short)(Mapa.FILAS * posicion.y / panelEditor.getHeight()), 
                 (short)(Mapa.COLUMNAS * posicion.x / panelEditor.getWidth()));
@@ -83,10 +83,11 @@ public class JEditorDeMapas extends JPanel{
     }
     
     public Sprite getSpritePiso() {
-        return new Sprite(new Animation(
-                new ArrayList<BufferedImage>(){{ 
-                    add(Imagenes.PISO);
-                }}));
+//        return new Sprite(new Animation(
+//                new ArrayList<BufferedImage>(){{ 
+//                    add(Imagenes.PISO);
+//                }}));
+        return null;
     }
 
     private boolean noEstaSobreElBomberman(int x, int y) {

@@ -23,14 +23,22 @@ public class Imagen {
     private Rectangle sourceRect; //Rectangulo del frameActual
     private Rectangle destinationRect; //Rectangulo en donde se va a pintar
     private Point posicion;
-    private int width;
-    private int height;
+    private int ancho;
+    private int alto;
+    private int estado;
+    private float anchoEscalado;
+    private float altoEscalado;
     private boolean active;
     private Color color;
     // The scale used to display the sprite strip
     private float escala;
 
 
+    public Imagen(BufferedImage textura, int filas, int columnas, Point posicion, float escala, int estadoInicial) {
+        this(textura, filas, columnas, posicion, escala);
+        estado = estadoInicial;
+    }
+    
     public Imagen(BufferedImage textura, int filas, int columnas, Point posicion, float escala) {
         active = true;
         this.filas = filas;
@@ -41,10 +49,24 @@ public class Imagen {
         /* El ancho y alto de una imagen de la rejilla 
         es el total entre el número de columnas y el
         total entre el numero de filas respectivamente.*/
-        width = imagen.getWidth() / columnas;
-        height = imagen.getHeight() / filas;
+        ancho = imagen.getWidth() / columnas;
+        alto = imagen.getHeight() / filas;
+        anchoEscalado = ancho * escala;
+        altoEscalado = alto * escala;
     }
 
+    public void actualizar(int frameActual) {
+        if (!active)
+            return;
+        if (frameActual < 0 || frameActual > getColumnas())
+            System.err.println("No existe el cuadro " + frameActual + ".");
+        // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
+        sourceRect = new Rectangle(frameActual * ancho, estado * alto, ancho, alto);
+        // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
+        destinationRect = new Rectangle(posicion.x - (int)(anchoEscalado) / 2, posicion.y - (int)(altoEscalado) / 2,
+        (int)(anchoEscalado), (int)(altoEscalado));
+    }
+    
     /**
      *
      * @param estado
@@ -52,15 +74,8 @@ public class Imagen {
      */
     public void actualizar(int estado, int frameActual)
     {
-        if (!active)
-            return;
-        if (frameActual < 0 || frameActual > getColumnas())
-            System.err.println("No existe el cuadro " + frameActual + ".");
-        // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
-        sourceRect = new Rectangle(frameActual * width, estado * height, width, height);
-        // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
-        destinationRect = new Rectangle(posicion.x - (int)(width * escala) / 2, posicion.y - (int)(height * escala) / 2,
-        (int)(width * escala), (int)(height * escala));
+        this.estado = estado;
+        actualizar(frameActual);
     }
 
     /**
@@ -93,15 +108,15 @@ public class Imagen {
     /**
      * @return the getWidth()
      */
-    public int getWidth() {
-        return width;
+    public int getAncho() {
+        return ancho;
     }
 
     /**
      * @return the getHeight()
      */
-    public int getHeight() {
-        return height;
+    public int getAlto() {
+        return alto;
     }
 
     /**
@@ -119,59 +134,98 @@ public class Imagen {
     }
 
     /**
-     * @return the color
+     * @return el color
      */
     public Color getColor() {
         return color;
     }
 
     /**
-     * @param color the color to set
+     * @param color el color a establecer
      */
     public void setColor(Color color) {
         this.color = color;
     }
 
     /**
-     * @return the scale
+     * @return la escala
      */
     public float getEscala() {
         return escala;
     }
 
     /**
-     * @param scale the scale to set
+     * @param scale la escala a establecer
      */
     public void setEscala(float scale) {
         this.escala = scale;
     }
 
     /**
-     * @return the columnas
+     * @return las columnas
      */
     public int getColumnas() {
         return columnas;
     }
 
     /**
-     * @param columnas the columnas to set
+     * @param columnas las columnas a establecer
      */
     public void setColumnas(int columnas) {
         this.columnas = columnas;
     }
 
     /**
-     * @return the filas
+     * @return las filas
      */
     public int getFilas() {
         return filas;
     }
 
     /**
-     * @param filas the filas to set
+     * @param filas las filas a establecer
      */
     public void setFilas(int filas) {
         this.filas = filas;
+    }
+
+    /**
+     * @return la imagen
+     */
+    public BufferedImage getImagen() {
+        return imagen;
+    }
+
+    /**
+     * @param imagen la imagen a establecer
+     */
+    public void setImagen(BufferedImage imagen) {
+        this.imagen = imagen;
+    }
+
+    /**
+     * @return the anchoEscalado
+     */
+    public float getAnchoEscalado() {
+        return anchoEscalado;
+    }
+
+    /**
+     * @return the altoEscalado
+     */
+    public float getAltoEscalado() {
+        return altoEscalado;
+    }
+
+    /**
+     * @return the estado
+     */
+    public int getEstado() {
+        return estado;
+    }
+
+    public BufferedImage getSubimage(int fila, int columna) {
+        return imagen.getSubimage(columna * ancho, fila * alto, ancho, alto);
     }
 
 }

@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Bomberman.Core.Configuracion;
 import Controladores.ControladorJFramePrincipal;
 import Dependencias.Imagenes;
 import Dependencias.ManejadorDeArchivos;
@@ -21,14 +22,14 @@ public class JFramePrincipal extends javax.swing.JFrame{
 
     private void initComponents() {
         Imagenes.cargarImagenes();
-        this.add(JPanelContenedor.getInstance());
-        this.setSize(656,620);
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        add(JPanelContenedor.getInstance());
+        setSize(Configuracion.getInstance().tamañoVentana);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         ControladorJFramePrincipal controladorJFramePrincipal = new ControladorJFramePrincipal();
-        this.addWindowFocusListener(controladorJFramePrincipal);
-        this.addWindowListener(controladorJFramePrincipal);
-        this.addComponentListener(controladorJFramePrincipal);
-        this.setIconImage(ManejadorDeArchivos.getInstance().loadBufferedImageJAR("/bomber_32x32.png"));
+        addWindowFocusListener(controladorJFramePrincipal);
+        addWindowListener(controladorJFramePrincipal);
+        addComponentListener(controladorJFramePrincipal);
+        setIconImage(ManejadorDeArchivos.getInstance().loadBufferedImageJAR("/bomber_32x32.png"));
     }
     
 }

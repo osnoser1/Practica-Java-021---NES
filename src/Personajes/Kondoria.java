@@ -7,6 +7,7 @@ package Personajes;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  *
@@ -15,16 +16,16 @@ import java.awt.Graphics;
 public class Kondoria extends Enemigo {
   
     public Kondoria(int x,int y){
-        super(new Animation(Imagenes.KONDORIA_1,0,3),new Animation(Imagenes.KONDORIA_1,3,3),new Animation(Imagenes.KONDORIA_1,3,3),new Animation(Imagenes.KONDORIA_1,0,3),new Animation(Imagenes.KONDORIA_1.get(Imagenes.KONDORIA_1.size()-1),Imagenes.MUERTE_ENEMIGOS,0,5));
-       // this.Sprite=Imagenes.KONDORIA_1;
+        super();
         this.Speed=this.SPEED_SLOWEST;
         this.Smart=this.SMART_HIGH;
         this.Wallpass=true;
         this.Point=1000;
         this.x=x;
         this.y=y;
-        this.Identificacion="K";
-        this.Inteligencia=new Smart(this);
+        this.identificacion="K";
+        this.inteligencia=new Smart(this);
+        inicializar(Imagenes.KONDORIA, new Point(x, y), null);
     }
  
 

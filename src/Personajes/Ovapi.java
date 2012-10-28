@@ -7,6 +7,7 @@ package Personajes;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  *
@@ -15,16 +16,15 @@ import java.awt.Graphics;
 public class Ovapi extends Enemigo{
 
     public Ovapi(int x,int y){
-        super(new Animation(Imagenes.OVAPI_1,0,3),new Animation(Imagenes.OVAPI_1,3,3),new Animation(Imagenes.OVAPI_1,3,3),new Animation(Imagenes.OVAPI_1,0,3),new Animation(Imagenes.OVAPI_1.get(Imagenes.OVAPI_1.size()-1),Imagenes.MUERTE_ENEMIGOS,0,5));
-        
-        //this.Sprite=Imagenes.OVAPI_1;
+        super();
         this.Speed=this.SPEED_SLOW;
         this.Smart=this.SMART_MID;
         this.Point=2000;
         this.Wallpass=true;
         this.x=x;
         this.y=y;
-        this.Identificacion="o";
-        this.Inteligencia=new Smart(this);
+        this.identificacion="o";
+        this.inteligencia=new Smart(this);
+        inicializar(Imagenes.OVAPI, new Point(x, y), null);
     }
 }

@@ -5,7 +5,6 @@
 package Personajes;
 
 import Dependencias.Imagen;
-import Dependencias.Mapa;
 import Dependencias.Teclado;
 import GUI.JPanelJuego;
 import Hilos.HiloPanelTransicionMuerte;
@@ -22,18 +21,20 @@ public abstract class Personaje extends Sprite {
     
     protected int Smart,PosicionX,PosicionY;
     protected final int SPEED_SLOWEST=1,SPEED_SLOW=2,SPEED_MID=4,SPEED_FAST=5,SMART_LOW=1,SMART_MID=2,SMART_HIGH=3,SMART_IMPOSSIBLE = 4;
-    protected Smart Inteligencia;
+    protected Smart inteligencia;
     protected Animation Izquierda;    
     protected Animation Derecha;
     protected Animation Arriba;
     protected Animation Abajo;
     protected Animation Muerte;
+//    protected int PosicionArrayList;
+    protected Timer timer;
     private Estado estadoAnterior;
     private Estado estadoActual;
     protected final Teclado teclado;
     protected GamePad gamePad;
     protected boolean activo;
-    protected HashMap<Estado, Animation> animaciones;
+    protected HashMap<Integer, Animation> animaciones;
     protected Imagen imagen;
     
     public enum Estado {
@@ -42,7 +43,8 @@ public abstract class Personaje extends Sprite {
         ABAJO,
         DERECHA,
         IZQUIERDA,
-        MUERTE
+        MUERTE,
+        ELIMINADO
     }
 
     public Estado getEstadoActual() {
@@ -90,19 +92,19 @@ public abstract class Personaje extends Sprite {
     }
     
     public void fijarCasilla(int x, int y){
-        this.x = x * JPanelJuego.getInstance().getImagen().getWidth() / Mapa.COLUMNAS;
-        this.y = x * JPanelJuego.getInstance().getImagen().getHeight() / Mapa.FILAS;
+        this.x = (int) (x * imagen.getAncho() * imagen.getEscala());
+        this.y = (int) (y * imagen.getAlto() * imagen.getEscala());
     }
     
-    public boolean actualizarAnimacion(long tiempoTranscurrido) {
-        return animaciones.get(getEstadoActual()).actualizar(tiempoTranscurrido);
+    protected boolean actualizarAnimacion(long tiempoTranscurrido) {
+        return animaciones.get(getEstadoActual().ordinal()).actualizar(tiempoTranscurrido);
     }
     
     public void pintar(Graphics g) {
-        if(!activo)
+        if(!activo || getEstadoActual() == Estado.ELIMINADO)
             return;
         imagen.setPosicion(new Point(getCenterX(), getCenterY()));
-        imagen.actualizar(getEstadoActual().ordinal(), animaciones.get(getEstadoActual()).getCuadroActual());
+        imagen.actualizar(getEstadoActual().ordinal(), animaciones.get(getEstadoActual().ordinal()).getCuadroActual());
         imagen.pintar(g);
     }
     
@@ -125,23 +127,48 @@ public abstract class Personaje extends Sprite {
         this.imagen = imagen;
     }
     
-    public abstract void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido);
-    public abstract void estadoArriba(JPanelJuego jPanelJuego, long tiempoTranscurrido);
-    public abstract void estadoAbajo(JPanelJuego jPanelJuego, long tiempoTranscurrido);
-    public abstract void estadoDerecha(JPanelJuego jPanelJuego, long tiempoTranscurrido);
-    public abstract void estadoIzquierda(JPanelJuego jPanelJuego, long tiempoTranscurrido);
-    public abstract void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido);
-    public abstract void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido);
+    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+        switch(getEstadoActual()){
+            case INICIO:
+                estadoInicio(jPanelJuego, tiempoTranscurrido);
+                break;
+            case ARRIBA:
+                estadoArriba(jPanelJuego, tiempoTranscurrido);
+                break;
+            case ABAJO:
+                estadoAbajo(jPanelJuego, tiempoTranscurrido);
+                break;
+            case DERECHA:
+                estadoDerecha(jPanelJuego, tiempoTranscurrido);
+                break;
+            case IZQUIERDA:
+                estadoIzquierda(jPanelJuego, tiempoTranscurrido);
+                break;
+            case MUERTE:
+                estadoMuerte(jPanelJuego, tiempoTranscurrido);
+                break;
+        }
+    }
+    
+    public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
+    public void estadoArriba(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
+    public void estadoAbajo(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
+    public void estadoDerecha(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
+    public void estadoIzquierda(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
+    public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
     
     public Smart getInteligencia() {
-        return Inteligencia;
+        return inteligencia;
     }
-//    protected int PosicionArrayList;
-    protected Timer timer;
-    protected boolean Muerto = false;
 
+    public Personaje() { 
+        super();
+        this.teclado = Teclado.getInstance();
+        this.estadoActual = Estado.INICIO;
+    }
+    
     public Personaje(Animation Izquierda,Animation Derecha,Animation Arriba,Animation Abajo,Animation Muerte){
-        super(Izquierda);
+        super();
         this.Izquierda=Izquierda;
         this.Derecha=Derecha;
         this.Arriba=Arriba;
@@ -153,70 +180,24 @@ public abstract class Personaje extends Sprite {
     } 
 
     public void MovimientoDerecha(){
-        animation=Derecha;
+//        animation=Derecha;
         Speed=Math.abs(Speed);
         updateX();
     }
     public void MovimientoIzquierda(){
-        animation=Izquierda;
+//        animation=Izquierda;
         Speed=-Math.abs(Speed);
         updateX();
     }
     public void MovimientoArriba(){
-        animation=Arriba;
+//        animation=Arriba;
         Speed=-Math.abs(Speed);
         updateY();
     }
     public void MovimientoAbajo(){
-        animation=Abajo;
+//        animation=Abajo;
         Speed=Math.abs(Speed);
         updateY();
-    }
-    private Personaje personaje;
-    public void Muerte(Personaje personaje){
-        this.personaje = personaje;
-        if(personaje != null)
-            Inteligencia.getTimer().stop();
-        Muerto = true;
-        animation = Muerte;
-        if(personaje == null){
-            setEstadoActual(Estado.MUERTE);
-            Sonidos.getInstance().getSonido(Sonidos.UP).stop();
-            Sonidos.getInstance().getSonido(Sonidos.DOWN).stop();
-            Sonidos.getInstance().getSonido(Sonidos.LEFT).stop();
-            Sonidos.getInstance().getSonido(Sonidos.RIGHT).stop();
-            Sonidos.getInstance().getSonido(Sonidos.DEATH).play();
-        }
-        timer=new Timer(300,new AbstractAction(){
-            int time=5;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               
-               animation.MovimientoSprite();
-               time--;
-               
-               if(time==0){
-                 timer.stop();
-                 tiempoIgualCero();
-               }
-            }            
-        });
-        timer.start();
-
-    }
-    
-    private void tiempoIgualCero(){
-        if(personaje == null){
-             Sonidos.getInstance().detenerSonidos();
-             Sonidos.getInstance().getSonido(Sonidos.JUST_DIED).play();
-             new HiloPanelTransicionMuerte().start();
-         }
-         else {
-            remover();
-         }
-    }
-    private void remover(){
-        JPanelJuego.getInstance().removerEnemigo(personaje);
     }
     
     public Animation getDerecha() {
@@ -232,12 +213,12 @@ public abstract class Personaje extends Sprite {
         return Arriba;
     }
     public void iniciarInteligencia(){
-        if(Inteligencia!=null)
-            Inteligencia.iniciarInteligencia();
+        if(inteligencia!=null)
+            inteligencia.iniciarInteligencia();
     }
     
     public void detenerInteligencia(){
-        if(Inteligencia!=null)
-            Inteligencia.detenerInteligencia();
+        if(inteligencia!=null)
+            inteligencia.detenerInteligencia();
     }
 }

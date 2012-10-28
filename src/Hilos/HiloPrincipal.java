@@ -40,7 +40,9 @@ public class HiloPrincipal implements Runnable {
 //            tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
 //            if(tiempoTranscurrido > tiempoEnMilisegundos){
 //                tiempoActual = System.currentTimeMillis();
-                actualizar(tiempoEnMilisegundos);
+                jPanelJuego.actualizar(tiempoEnMilisegundos);
+                colisiones();
+                jPanelJuego.limpiar();
                 pintar();
 //                tiempoTranscurrido = 0;
 //            }
@@ -56,10 +58,10 @@ public class HiloPrincipal implements Runnable {
         estaActivo = false;
     }
 
-    private void actualizar(long tiempoTranscurrido) {
-        jPanelJuego.primerJugador().actualizar(jPanelJuego, tiempoTranscurrido);
+    private void colisiones() {
+        
     }
-
+    
     private void pintar() {
         jPanelJuego.repaint();
     }

@@ -20,8 +20,6 @@ public class BotonEspecial extends JPanel implements MouseMotionListener, MouseL
     Timer animacion;
     public BotonEspecial(Personajes.Personaje personaje) {
         this.personaje = personaje;
-        personaje.getAnimation().resetCont();
-        //personaje.getAnimation().suspend();
         initComponents();
     }
     public BotonEspecial(BufferedImage imagen) {
@@ -57,7 +55,7 @@ public class BotonEspecial extends JPanel implements MouseMotionListener, MouseL
     	super.paintComponent(g);
     	
         if(personaje!=null){
-            personaje.Dibujar((Graphics2D)g,2*getWidth()/7,getHeight()/5,3*getWidth()/7,3*getHeight()/5);
+//            personaje.Dibujar((Graphics2D)g,2*getWidth()/7,getHeight()/5,3*getWidth()/7,3*getHeight()/5);
             
             if(Dentro)
                 animacion.start();
@@ -91,7 +89,7 @@ public class BotonEspecial extends JPanel implements MouseMotionListener, MouseL
         if(personaje!=null){
           
             Dentro=false;
-            personaje.getAnimation().resetCont();
+//            personaje.getAnimation().resetCont();
             repaint();
         }
         

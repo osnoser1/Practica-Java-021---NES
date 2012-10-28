@@ -4,6 +4,8 @@
  */
 package Bomberman.Core;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author AlfonsoAndrés
@@ -11,6 +13,7 @@ package Bomberman.Core;
 public class Configuracion {
     
     private static Configuracion instance;
+    public Dimension tamañoVentana = new Dimension(656,620);
     
     private Configuracion() { }
 

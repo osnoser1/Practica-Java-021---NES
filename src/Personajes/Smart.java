@@ -40,20 +40,21 @@ public class Smart {
                     if(ReconocimientoY())
                         a=getRandom().nextInt(2);
                 }
-                if(a==0)
+                if(a==0) {
+                    personaje.setEstadoActual(Personaje.Estado.IZQUIERDA);
                     personaje.MovimientoIzquierda();
-
-                else if(a==1)
+                } else if(a==1) {
+                    personaje.setEstadoActual(Personaje.Estado.DERECHA);
                     personaje.MovimientoDerecha();
-                
-                else if(a==2)
+                } else if(a==2) {
+                    personaje.setEstadoActual(Personaje.Estado.ARRIBA);
                     personaje.MovimientoArriba();
-
-                else if(a==3)
+                } else if(a==3) {
+                    personaje.setEstadoActual(Personaje.Estado.ABAJO);
                     personaje.MovimientoAbajo();
-                if(JPanelJuego.getInstance().primerJugador()!=null&&JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
+                } if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                     timer.stop();
-                    JPanelJuego.getInstance().primerJugador().Muerte(null);
+                    JPanelJuego.getInstance().borrarJugador();
                 }
                 
              //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCenterY()),JPanelJuego.getPosicionX(personaje.getCenterX()), personaje.Identificacion);
@@ -74,20 +75,24 @@ public class Smart {
                     if(ReconocimientoY())
                         b=getRandom().nextInt(2);
                 }
-                if(a==0)
+                if(a==0) {
+                    personaje.setEstadoActual(Personaje.Estado.IZQUIERDA);
                     personaje.MovimientoIzquierda();
-
-                else if(a==1)
+                } else if(a==1) {
+                    personaje.setEstadoActual(Personaje.Estado.DERECHA);
                     personaje.MovimientoDerecha();
-                
-                if(b==0)
+                }
+                if(b==0) {
+                    personaje.setEstadoActual(Personaje.Estado.ARRIBA);
                     personaje.MovimientoArriba();
-
-                else if(b==1)
+                }
+                else if(b==1) {
+                    personaje.setEstadoActual(Personaje.Estado.ABAJO);
                     personaje.MovimientoAbajo();
+                }
                 if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                    timer.stop();
-                   JPanelJuego.getInstance().primerJugador().Muerte(null);
+                    JPanelJuego.getInstance().borrarJugador();
                 }
                 
              //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCenterY()),JPanelJuego.getPosicionX(personaje.getCenterX()), personaje.Identificacion);
@@ -108,21 +113,25 @@ public class Smart {
                     if(ReconocimientoY())
                         b=getRandom().nextInt(2);
                 }
-                if(a==0)
+                if(a==0) {
+                    personaje.setEstadoActual(Personaje.Estado.IZQUIERDA);
                     personaje.MovimientoIzquierda();
-
-                else if(a==1)
+                }
+                else if(a==1) {
+                    personaje.setEstadoActual(Personaje.Estado.DERECHA);
                     personaje.MovimientoDerecha();
-                
-                if(b==0)
+                }
+                if(b==0) {
+                    personaje.setEstadoActual(Personaje.Estado.ARRIBA);
                     personaje.MovimientoArriba();
-
-                else if(b==1)
+                }
+                else if(b==1) {
+                    personaje.setEstadoActual(Personaje.Estado.ABAJO);
                     personaje.MovimientoAbajo();
-
+                }
                 if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                     timer.stop();
-                    JPanelJuego.getInstance().primerJugador().Muerte(null);
+                    JPanelJuego.getInstance().borrarJugador();
                 }
              //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCenterY()),JPanelJuego.getPosicionX(personaje.getCenterX()), personaje.Identificacion);
                     

@@ -8,7 +8,6 @@ import Dependencias.ManejadorDeArchivos;
 import Dependencias.Mapa;
 import GUI.JPanelAvisos;
 import GUI.JPanelContenedor;
-import GUI.JPanelGrafico;
 import GUI.JPanelJuego;
 import java.io.File;
 import javax.swing.JFileChooser;
