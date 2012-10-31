@@ -15,34 +15,31 @@ import GUI.JPanelJuego;
 public class Sprite {
     
     protected boolean Wallpass,DentroBomb;
-    protected int x,y,varx=3,vary=3,Speed,tx=0,ty=0;
+    protected int x, y, varx = 3, vary = 3, velocidad;
 
     protected String identificacion;
 
     public Sprite() { }
 
-    public void updateX(){
-        tx++;
-//         if(animation.getCont()%2==1)
+    public boolean updateX(){
         if(!ChoqueCentral("X"))
             DentroBomb=false;
         if(AvanzarX()){
-            x += Speed ;
-//            if(JPanelJuego.getInstance().primerJugador().getX()>=widthjPaneljuego/4&&JPanelJuego.getInstance().primerJugador().getX()<=3*widthjPaneljuego/4)
+            x += velocidad ;
+            return true;
         }
+        return false;
     }
-    
 
     public void setDentroBomb(boolean DentroBomb) {
         this.DentroBomb = DentroBomb;
     }
+    
     public void updateY(){
-        ty++;
         if(!ChoqueCentral("X"))
             DentroBomb=false;
-//        if(animation.getCont()%2==1)
         if(AvanzarY())
-            y += Speed ;
+            y += velocidad ;
     }
     
     public String getIdentificacion() {
@@ -74,11 +71,11 @@ public class Sprite {
     }
 
     public int getSpeed() {
-        return Speed;
+        return velocidad;
     }
     
     public void setSpeed(int velocityX) {
-        this.Speed = velocityX;
+        velocidad = velocityX;
     }
 
     public boolean ChoqueDerecha(String a,int n){
@@ -116,22 +113,22 @@ public class Sprite {
 
     public boolean AvanzarX() {
        return (
-                (!ChoqueDerecha("A",1)&&Speed>0||!ChoqueIzquierda("A",1)&&Speed<0)&&
-                ((!ChoqueDerecha("L",1)&&Speed>0||!ChoqueIzquierda("L",1)&&Speed<0)||Wallpass)&&
+                (!ChoqueDerecha("A",1)&&velocidad>0||!ChoqueIzquierda("A",1)&&velocidad<0)&&
+                ((!ChoqueDerecha("L",1)&&velocidad>0||!ChoqueIzquierda("L",1)&&velocidad<0)||Wallpass)&&
                 (
-                  (!ChoqueDerecha("X",1)&&Speed>0||!ChoqueIzquierda("X",1)&&Speed<0)&&!"B".equals(identificacion)||
-                  (!ChoqueDerecha("X",1)&&Speed>0||!ChoqueIzquierda("X",1)&&Speed<0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&"B".equals(identificacion)
+                  (!ChoqueDerecha("X",1)&&velocidad>0||!ChoqueIzquierda("X",1)&&velocidad<0)&&!"B".equals(identificacion)||
+                  (!ChoqueDerecha("X",1)&&velocidad>0||!ChoqueIzquierda("X",1)&&velocidad<0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&"B".equals(identificacion)
                 )
                );
     }
 
     public boolean AvanzarY() {
        return (
-                (!ChoqueArriba("A",1)&&Speed<0||!ChoqueAbajo("A",1)&&Speed>0)&&
-                (!ChoqueArriba("L",1)&&Speed<0||!ChoqueAbajo("L",1)&&Speed>0||Wallpass)&&
+                (!ChoqueArriba("A",1)&&velocidad<0||!ChoqueAbajo("A",1)&&velocidad>0)&&
+                (!ChoqueArriba("L",1)&&velocidad<0||!ChoqueAbajo("L",1)&&velocidad>0||Wallpass)&&
                 (
-                  (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0)&&!"B".equals(identificacion)||
-                  (!ChoqueArriba("X",1)&&Speed<0||!ChoqueAbajo("X",1)&&Speed>0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&"B".equals(identificacion)
+                  (!ChoqueArriba("X",1)&&velocidad<0||!ChoqueAbajo("X",1)&&velocidad>0)&&!"B".equals(identificacion)||
+                  (!ChoqueArriba("X",1)&&velocidad<0||!ChoqueAbajo("X",1)&&velocidad>0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||DentroBomb)&&"B".equals(identificacion)
                 )
                );
     }

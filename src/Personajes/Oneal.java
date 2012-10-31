@@ -17,7 +17,7 @@ public class Oneal extends Enemigo {
 
     public Oneal(int x,int y){
         super();
-        this.Speed=this.SPEED_MID;
+        this.velocidad=this.SPEED_MID;
         this.Smart=this.SMART_MID;
         this.Point=200;
         this.Wallpass=false;

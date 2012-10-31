@@ -7,7 +7,7 @@ package Personajes;
 import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
-import UtilidadesJuego.GamePad;
+import Utilidades.Juego.GamePad;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class Ladrillo extends Personaje {
     
     public Ladrillo(int x1, int y1, int tipo1) {
         super();
-        Speed = 0;
+        velocidad = 0;
         this.tipo = tipo1;
         if(tipo != -1)
             especial = true;
@@ -47,9 +47,7 @@ public class Ladrillo extends Personaje {
     }
 
     @Override
-    public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-//        setEstadoActual(Estado.MUERTE);
-    }
+    public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
     
     @Override
     public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {

@@ -8,7 +8,7 @@ import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
 import Sonidos.Sonidos;
-import UtilidadesJuego.GamePad;
+import Utilidades.Juego.GamePad;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;

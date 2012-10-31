@@ -17,7 +17,7 @@ public class Ovapi extends Enemigo{
 
     public Ovapi(int x,int y){
         super();
-        this.Speed=this.SPEED_SLOW;
+        this.velocidad=this.SPEED_SLOW;
         this.Smart=this.SMART_MID;
         this.Point=2000;
         this.Wallpass=true;

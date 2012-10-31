@@ -17,7 +17,7 @@ public class Pass extends Enemigo{
 
     public Pass(int x,int y){
         super();
-        this.Speed=this.SPEED_FAST;
+        this.velocidad=this.SPEED_FAST;
         this.Smart=this.SMART_HIGH;
         this.Point=4000;
         this.Wallpass=false;

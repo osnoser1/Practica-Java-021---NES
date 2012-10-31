@@ -5,10 +5,6 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import GUI.JPanelJuego;
-import java.awt.DisplayMode;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 
 /**
@@ -19,7 +15,7 @@ public class Balloom extends Enemigo {
     
     public Balloom(int x,int y){
         super();
-        this.Speed=this.SPEED_SLOW;
+        this.velocidad=this.SPEED_SLOW;
         this.Smart=this.SMART_LOW;
         this.Point=100;
         this.Wallpass=false;

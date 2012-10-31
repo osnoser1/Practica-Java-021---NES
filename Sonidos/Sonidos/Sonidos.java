@@ -23,7 +23,7 @@ public class Sonidos {
     final int cantidadDeSonidos=PAUSE+1;
 
     private Sonidos() {
-        this.sonidos=new ArrayList<>();
+        this.sonidos = new ArrayList<>();
         initComponents();
     }
     
@@ -81,16 +81,22 @@ public class Sonidos {
     }
     
     public void detenerSonidos(){
-        for(int size=sonidos.size(),i=0;i<size;i++){
-            sonidos.get(i).stop();
+        for(Sonido sonido : sonidos){
+            sonido.stop();
         }
     }
     
+    public void detenerSonidos(int... sonido) {
+        for(int indice : sonido) {
+            sonidos.get(indice).stop();
+        }
+        
+    }
+    
     public void reanudarSonidos(){
-        for(int size=sonidos.size(),i=0;i<size;i++){
-            Sonido get = sonidos.get(i);
-            if(get.isAlive())
-                get.play();
+        for(Sonido sonido : sonidos) {
+            if(sonido.isAlive())
+                sonido.play();
         }
     }
     

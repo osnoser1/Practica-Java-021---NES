@@ -26,7 +26,7 @@ public class ControladorTecladoJPanelAvisos extends java.awt.event.KeyAdapter{
             Sonidos.getInstance().getSonido(Sonidos.GAME_OVER).stop();
             JPanelContenedor.getInstance().removeAll();
             JPanelContenedor.getInstance().agregarComponentesMenuInicial();
-            JPanelJuego.getInstance().reiniciarJPanelJuego();
+            JPanelJuego.getInstance().reiniciar();
             ((JPanelAvisos)e.getSource()).removeKeyListener(this);
         }
     }

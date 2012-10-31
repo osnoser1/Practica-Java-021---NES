@@ -5,7 +5,7 @@
  */
 package GUI;
 
-import Bomberman.Core.Constantes;
+import Bomberman.Core.Constantes.Objetos;
 import Dependencias.Mapa;
 import Sonidos.Sonidos;
 import java.awt.Color;
@@ -21,7 +21,7 @@ import javax.swing.JPanel;
  *
  * @author Alfonso Andrés
  */
-public class JPanelGrafico extends javax.swing.JPanel implements Constantes {
+public class JPanelGrafico extends javax.swing.JPanel {
     
     private static JPanelGrafico instance;
     private JPanel jPanel;
@@ -101,7 +101,6 @@ public class JPanelGrafico extends javax.swing.JPanel implements Constantes {
         add(jPanel);
         Sonidos.getInstance().getSonido(Sonidos.STAGE_THEME).loop();
         setVisible(true);
-        jPanelJuego.requestFocus();
         JPanelInformacion.getInstance().iniciarCuentaRegresiva();
         jPanelJuego.iniciarHiloPrincipal();
     }

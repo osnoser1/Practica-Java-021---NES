@@ -20,37 +20,32 @@ import javax.swing.Timer;
  * @author hp
  */
 public class LadrilloEspecial {
-    BufferedImage Imagen;
-    Timer timer;
-    Timer timer1;
-    int x,y;
-    int tipo;
-    public LadrilloEspecial(int x1,int y1,int tipo1) {
-        this.x=x1;
-        this.y=y1;
+    
+    private BufferedImage imagen;
+    private Timer timer;
+    private Timer timer1;
+    private int x, y;
+    private int tipo;
+    
+    public LadrilloEspecial(int x1, int y1, int tipo1) {
+        this.x = x1;
+        this.y = y1;
         this.tipo=tipo1;
-        Imagen=Imagenes.LADRILLO_ESPECIAL.get(tipo);
-        timer=new Timer(10,new AbstractAction(){
+        imagen=Imagenes.LADRILLO_ESPECIAL.get(tipo);
+        timer=new Timer(10, new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JPanelJuego.getInstance().primerJugador()==null){
-                    timer.stop();
-                    return;
-                }
                 if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(getCenterY())){
                     if(tipo!=Imagenes.LADRILLO_ESPECIAL.size()-1){
                         DeterminarHabilidad();
                         Sonidos.getInstance().getSonido(Sonidos.STAGE_THEME).stop();
                         Sonidos.getInstance().getSonido(Sonidos.POWER_UP_2).play();
                         Sonidos.getInstance().getSonido(Sonidos.FIND_THE_DOOR).loop();
-                        EliminarPowerup();
-                    //     JPanelJuego.getLadrillos().remove(i);
-                        //    JPanelJuego.getLadrillos().set(i,null);
+                        eliminarPowerup();
                         }
                     else if(JPanelJuego.getInstance().getCantidadEnemigos()==0){
                         Sonidos.getInstance().detenerSonidos();
                         Sonidos.getInstance().getSonido(Sonidos.LEVEL_COMPLETE).play();
-                        
                         new HiloTransicionPuerta().start();
                         System.out.println("Entro en la puerta");
                         timer.stop();
@@ -73,10 +68,10 @@ public class LadrilloEspecial {
     public boolean esPuerta(){
         return (tipo==getPuerta());
     }
-    public void EliminarPowerup() {
+    public void eliminarPowerup() {
         if(tipo!=Imagenes.LADRILLO_ESPECIAL.size()-1){
             timer.stop();
-            Imagen=null;
+            imagen=null;
         }
     }
     public int getCenterX(){
@@ -100,12 +95,11 @@ public class LadrilloEspecial {
           
     }
     public void Dibujar(Graphics g){
-        if(Imagen!=null);
-            g.drawImage(Imagen, x, y,JPanelJuego.getx(),JPanelJuego.gety(), null);
+        g.drawImage(imagen, x, y,JPanelJuego.getx(),JPanelJuego.gety(), null);
     }
 
     public BufferedImage getImagen() {
-        return Imagen;
+        return imagen;
     }
 
     public int getX() {
@@ -115,7 +109,7 @@ public class LadrilloEspecial {
     public int getY() {
         return y;
     }
-    public void CrearEnemigos() {
+    public void crearEnemigos() {
         
         timer1=new Timer(500,new AbstractAction(){
             int time=5;    

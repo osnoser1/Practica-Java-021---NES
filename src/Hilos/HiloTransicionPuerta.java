@@ -32,7 +32,7 @@ public class HiloTransicionPuerta implements Runnable{
         }
         JPanelInformacion jPanelInformacion = JPanelInformacion.getInstance();
         JPanelContenedor.getInstance().remove(JPanelGrafico.getInstance());
-        JPanelJuego.getInstance().reiniciarJPanelJuego();
+        JPanelJuego.getInstance().reiniciar();
         jPanelInformacion.detenerCuentaRegresiva();
         JPanelAvisos jPanelAvisos = JPanelAvisos.getInstance();
         jPanelAvisos.aumentarNivel();

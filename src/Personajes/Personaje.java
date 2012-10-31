@@ -7,14 +7,10 @@ package Personajes;
 import Dependencias.Imagen;
 import Dependencias.Teclado;
 import GUI.JPanelJuego;
-import Hilos.HiloPanelTransicionMuerte;
-import Sonidos.Sonidos;
-import UtilidadesJuego.GamePad;
+import Utilidades.Juego.GamePad;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
 import java.util.HashMap;
-import javax.swing.AbstractAction;
 import javax.swing.Timer;
 
 public abstract class Personaje extends Sprite {
@@ -22,15 +18,8 @@ public abstract class Personaje extends Sprite {
     protected int Smart,PosicionX,PosicionY;
     protected final int SPEED_SLOWEST=1,SPEED_SLOW=2,SPEED_MID=4,SPEED_FAST=5,SMART_LOW=1,SMART_MID=2,SMART_HIGH=3,SMART_IMPOSSIBLE = 4;
     protected Smart inteligencia;
-    protected Animation Izquierda;    
-    protected Animation Derecha;
-    protected Animation Arriba;
-    protected Animation Abajo;
-    protected Animation Muerte;
-//    protected int PosicionArrayList;
     protected Timer timer;
-    private Estado estadoAnterior;
-    private Estado estadoActual;
+    private Estado estadoAnterior, estadoActual;
     protected final Teclado teclado;
     protected GamePad gamePad;
     protected boolean activo;
@@ -169,50 +158,29 @@ public abstract class Personaje extends Sprite {
     
     public Personaje(Animation Izquierda,Animation Derecha,Animation Arriba,Animation Abajo,Animation Muerte){
         super();
-        this.Izquierda=Izquierda;
-        this.Derecha=Derecha;
-        this.Arriba=Arriba;
-        this.Abajo=Abajo;
-        this.Muerte=Muerte;
         this.estadoActual = Estado.INICIO;
         this.teclado = Teclado.getInstance();
         this.gamePad = new GamePad();
     } 
 
-    public void MovimientoDerecha(){
-//        animation=Derecha;
-        Speed=Math.abs(Speed);
-        updateX();
+    public boolean MovimientoDerecha() {
+        velocidad=Math.abs(velocidad);
+        return updateX();
     }
-    public void MovimientoIzquierda(){
-//        animation=Izquierda;
-        Speed=-Math.abs(Speed);
-        updateX();
+    public boolean MovimientoIzquierda() {
+        velocidad=-Math.abs(velocidad);
+        return updateX();
     }
-    public void MovimientoArriba(){
-//        animation=Arriba;
-        Speed=-Math.abs(Speed);
+    public void MovimientoArriba() {
+        velocidad=-Math.abs(velocidad);
         updateY();
     }
-    public void MovimientoAbajo(){
-//        animation=Abajo;
-        Speed=Math.abs(Speed);
+    public void MovimientoAbajo() {
+        velocidad=Math.abs(velocidad);
         updateY();
     }
     
-    public Animation getDerecha() {
-        return Derecha;
-    }
-    public Animation getIzquierda() {
-        return Izquierda;
-    }
-    public Animation getAbajo() {
-        return Abajo;
-    }
-    public Animation getArriba() {
-        return Arriba;
-    }
-    public void iniciarInteligencia(){
+    public void iniciarInteligencia() {
         if(inteligencia!=null)
             inteligencia.iniciarInteligencia();
     }

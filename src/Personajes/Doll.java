@@ -15,7 +15,7 @@ public class Doll extends Enemigo{
 
     public Doll(int x,int y){
          super();
-        this.Speed=this.SPEED_MID;
+        this.velocidad=this.SPEED_MID;
         this.Smart=this.SMART_LOW;
         this.Wallpass=false;
         this.Point=400;

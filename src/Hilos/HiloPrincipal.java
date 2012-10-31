@@ -30,22 +30,22 @@ public class HiloPrincipal implements Runnable {
     
     @Override
     public void run() {
-//        long tiempoActual = System.currentTimeMillis();
+        long tiempoActual = System.currentTimeMillis();
         while(estaActivo){
             if(pausa){
                 Metodos.sleep(500);
                 continue;
             }
-            Metodos.sleep(tiempoEnMilisegundos);
-//            tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
-//            if(tiempoTranscurrido > tiempoEnMilisegundos){
-//                tiempoActual = System.currentTimeMillis();
+            tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
+            if(tiempoTranscurrido > tiempoEnMilisegundos){
+                tiempoActual = System.currentTimeMillis();
+                jPanelJuego.limpiar();
                 jPanelJuego.actualizar(tiempoEnMilisegundos);
                 colisiones();
-                jPanelJuego.limpiar();
-                pintar();
-//                tiempoTranscurrido = 0;
-//            }
+                jPanelJuego.repaint();
+                tiempoTranscurrido = 0;
+            }else
+                Metodos.sleep(tiempoEnMilisegundos - tiempoTranscurrido);
         }
     }
     
@@ -60,10 +60,6 @@ public class HiloPrincipal implements Runnable {
 
     private void colisiones() {
         
-    }
-    
-    private void pintar() {
-        jPanelJuego.repaint();
     }
 
     public void setFPS(short FPS) {

@@ -17,7 +17,7 @@ public class Minvo extends Enemigo{
 
     public Minvo(int x,int y){
         super();
-        this.Speed=this.SPEED_FAST;
+        this.velocidad=this.SPEED_FAST;
         this.Smart=this.SMART_MID;
         this.Point=800;
         this.Wallpass=false;

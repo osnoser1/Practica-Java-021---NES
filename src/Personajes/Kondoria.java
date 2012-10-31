@@ -17,7 +17,7 @@ public class Kondoria extends Enemigo {
   
     public Kondoria(int x,int y){
         super();
-        this.Speed=this.SPEED_SLOWEST;
+        this.velocidad=this.SPEED_SLOWEST;
         this.Smart=this.SMART_HIGH;
         this.Wallpass=true;
         this.Point=1000;

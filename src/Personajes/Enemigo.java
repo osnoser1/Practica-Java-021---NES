@@ -3,7 +3,7 @@ package Personajes;
 
 import Dependencias.Imagen;
 import GUI.JPanelJuego;
-import UtilidadesJuego.GamePad;
+import Utilidades.Juego.GamePad;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;

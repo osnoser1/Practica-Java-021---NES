@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package UtilidadesJuego;
+package Utilidades.Juego;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;

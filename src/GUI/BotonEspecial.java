@@ -47,7 +47,7 @@ public class BotonEspecial extends JPanel implements MouseMotionListener, MouseL
     }
     
     private void update(){
-        personaje.getIzquierda().MovimientoSprite();
+//        personaje.getIzquierda().MovimientoSprite();
     }
     
     @Override

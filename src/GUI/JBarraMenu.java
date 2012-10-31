@@ -16,18 +16,23 @@ import javax.swing.KeyStroke;
  */
 public class JBarraMenu extends javax.swing.JMenuBar{
 
-    ArrayList<JMenu> jmenu;
-    ArrayList<JMenuItem> jmenuitem;
-    final int TOPE_JMENU=5,TOPE_JMENU_ITEM=10; 
+    private ArrayList<JMenu> jmenu;
+    private ArrayList<JMenuItem> jMenuItem;
+    private final int TOPE_JMENU = 5, TOPE_JMENU_ITEM = 10; 
+    private static JBarraMenu instance;
     
-    public JBarraMenu() {
+    private JBarraMenu() {
         super();
         initComponents();
     }
 
+    public static JBarraMenu getInstance() {
+        return instance == null ? (instance = new JBarraMenu()) : instance;
+    }
+    
     private void initComponents() {
-        jmenu=new ArrayList<>();
-        jmenuitem=new ArrayList<>();
+        jmenu = new ArrayList<>();
+        jMenuItem = new ArrayList<>();
         initJMenu();
         initJMenuItem();
     }
@@ -41,10 +46,10 @@ public class JBarraMenu extends javax.swing.JMenuBar{
         }
     }
     private String getTitleJMenu(int i){
-        if(i==0)return "Archivo";
-        else if(i==1)return "Editar";
-        else if(i==2)return "Opciones";
-        else if(i==3)return "Herramientas";
+        if(i==0) return "Archivo";
+        if(i==1) return "Editar";
+        if(i==2) return "Opciones";
+        if(i==3) return "Herramientas";
         return "Ayuda";
     }
 
@@ -150,12 +155,12 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     private String getTextOpciones(int i) {
         int opcion=0;
         if(i==opcion++) return "Juego...";
-        else if(i==opcion++) return "Graficos...";
-        else if(i==opcion++) return "Sonidos...";
-        else if(i==opcion++) return "Controles...";
-        else if(i==opcion++) return "Atajos del teclado...";
-        else if(i==opcion++) return "Directorios...";
-        else if(i==opcion++) return "Pantalla completa";
+        if(i==opcion++) return "Graficos...";
+        if(i==opcion++) return "Sonidos...";
+        if(i==opcion++) return "Controles...";
+        if(i==opcion++) return "Atajos del teclado...";
+        if(i==opcion++) return "Directorios...";
+        if(i==opcion++) return "Pantalla completa";
         return "Mostrar FPS";
     }
 

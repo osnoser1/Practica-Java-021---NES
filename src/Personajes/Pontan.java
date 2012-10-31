@@ -17,7 +17,7 @@ public class Pontan extends Enemigo{
 
     public Pontan(int x,int y){
         super();
-        this.Speed=this.SPEED_FAST;
+        this.velocidad=this.SPEED_FAST;
         this.Smart=this.SMART_HIGH;
         this.Point=8000;
         this.Wallpass=true;

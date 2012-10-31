@@ -5,16 +5,16 @@
 package GUI;
 import Controladores.ControladorJPanelPresentacion;
 import Sonidos.Sonidos;
-import java.awt.BorderLayout;
+import Utilidades.Juego.Interfaz;
 import javax.swing.JPanel;
 /**
  *
  * @author Alfonso Andrés
  */
-public class JPanelContenedor extends JPanel{
+public class JPanelContenedor extends JPanel implements Interfaz{
     
     private static JPanelContenedor instance;
-    private JBarraMenu jbarramenu1;
+    private Interfaz actual;
     
     private JPanelContenedor() {
         super(new java.awt.BorderLayout());
@@ -26,13 +26,8 @@ public class JPanelContenedor extends JPanel{
     }
     
     private void initComponents() {
-        this.jbarramenu1=new JBarraMenu();
         agregarComponentesMenuInicial();
         agregarControladores();
-    }
-
-    public JBarraMenu getJBarraMenu() {
-        return jbarramenu1;
     }
 
     private void agregarControladores() {
@@ -40,12 +35,26 @@ public class JPanelContenedor extends JPanel{
     }
 
     public void agregarComponentesMenuInicial() {
-        add(jbarramenu1,BorderLayout.NORTH);
         add(JPanelPresentacion.getInstance());
         JPanelPresentacion.getInstance().iniciar();
         JPanelPresentacion.getInstance().setVisible(true);
         JPanelPresentacion.getInstance().requestFocus();
         Sonidos.getInstance().getSonido(Sonidos.TITLE_SCREEN).play();
+    }
+
+    @Override
+    public void reiniciar() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void pintar() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void actualizar() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

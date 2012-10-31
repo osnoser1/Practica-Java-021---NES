@@ -4,20 +4,46 @@
  */
 package Controladores;
 
-import GUI.JPanelContenedor;
-import GUI.JPanelJuego;
 import GUI.JPanelPresentacion;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
 /**
  *
  * @author Alfonso Andrés
  */
-public class ControladorJFramePrincipal extends java.awt.event.WindowAdapter implements ComponentListener{
+public class CJFramePrincipal extends java.awt.event.WindowAdapter implements ComponentListener{
     
-    public ControladorJFramePrincipal() {
+    public static final class Teclado extends java.awt.event.KeyAdapter{
+
+        private static Teclado instance;
+        
+        private Teclado() { }
+        
+        public static Teclado getInstance(){
+            return instance == null ? (instance = new Teclado()) : instance;
+        }
+        
+        @Override
+        public void keyPressed(KeyEvent e) {
+            Dependencias.Teclado.getInstance().presionarTecla(e.getKeyCode());
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            Dependencias.Teclado.getInstance().liberarTecla(e.getKeyCode());
+        }
+        
+    } 
+    
+    private static CJFramePrincipal instance;
+    
+    private CJFramePrincipal() { }
+    
+    public static CJFramePrincipal getInstance() {
+        return instance == null ? (instance = new CJFramePrincipal()) : instance;
     }
 
     @Override
@@ -25,8 +51,6 @@ public class ControladorJFramePrincipal extends java.awt.event.WindowAdapter imp
         System.out.println("windowGainedFocus");
         if(JPanelPresentacion.getInstance().isVisible())
             JPanelPresentacion.getInstance().requestFocus();
-        else if(JPanelJuego.getInstance().isVisible())
-            JPanelJuego.getInstance().requestFocus();
     }
 
     @Override

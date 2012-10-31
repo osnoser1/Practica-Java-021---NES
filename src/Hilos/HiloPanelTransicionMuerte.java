@@ -30,7 +30,7 @@ public class HiloPanelTransicionMuerte implements Runnable{
         }
         JPanelInformacion jPanelInformacion = JPanelInformacion.getInstance();
         JPanelContenedor.getInstance().remove(JPanelGrafico.getInstance());
-        JPanelJuego.getInstance().reiniciarJPanelJuego();
+        JPanelJuego.getInstance().reiniciar();
         jPanelInformacion.disminuirVidasRestantes();
         jPanelInformacion.detenerCuentaRegresiva();
         JPanelAvisos jPanelAvisos = JPanelAvisos.getInstance();

@@ -67,7 +67,6 @@ public class ModelosJToolBarOpciones {
         JPanelContenedor jPanelContenedor = JPanelContenedor.getInstance();
         JPanelAvisos jPanelAvisos = JPanelAvisos.getInstance();
         jPanelContenedor.removeAll();
-        jPanelContenedor.add(jPanelContenedor.getJBarraMenu(),java.awt.BorderLayout.NORTH);
         jPanelContenedor.add(jPanelAvisos);
         jPanelAvisos.iniciarJPanelStage();
         jPanelAvisos.setMAX_NIVEL((short)1);
@@ -114,11 +113,8 @@ public class ModelosJToolBarOpciones {
     }
 
     private void initFiltrosArchivos() {
-        int c = 0;
-	filtro[c++] = new FileNameExtensionFilter("Archivos de mapa (*.map)", "map");
-        for(c = 0; c < 1; c++) {
-            jFileChooser.setFileFilter(filtro[c]);
-        }
+	filtro[0] = new FileNameExtensionFilter("Archivos de mapa (*.map)", "map");
+        jFileChooser.setFileFilter(filtro[0]);
     }
 
     private void pintarMapa(String[][] mapa) {

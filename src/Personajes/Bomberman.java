@@ -9,22 +9,22 @@ import Dependencias.Imagenes;
 import GUI.JPanelJuego;
 import Hilos.HiloPanelTransicionMuerte;
 import Sonidos.Sonidos;
-import UtilidadesJuego.GamePad;
+import Utilidades.Juego.GamePad;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Bomberman extends Personaje {
         
     private boolean SPEED,DETONATOR,BOMBPASS,FLAMEPASS,MYSTERY;
     private int FLAMES,BOMBS;
-    private static ArrayList<Bomb> bombas;
+    private static CopyOnWriteArrayList<Bomb> bombas;
     
     public Bomberman(int x,int y){
         super();
-        bombas = new ArrayList<>();
-        Speed = SPEED_MID;
+        bombas = new CopyOnWriteArrayList<>();
+        velocidad = SPEED_MID;
         BOMBS = 10;
         FLAMES = 5;
         SPEED = false;
@@ -62,6 +62,17 @@ public class Bomberman extends Personaje {
         }
     }
     
+    public void colisionaCon(Personaje otro) {
+        if(getEstadoActual() == Estado.MUERTE)
+            return;
+        Sonidos.getInstance().getSonido(Sonidos.UP).stop();
+        Sonidos.getInstance().getSonido(Sonidos.DOWN).stop();
+        Sonidos.getInstance().getSonido(Sonidos.LEFT).stop();
+        Sonidos.getInstance().getSonido(Sonidos.RIGHT).stop();
+        Sonidos.getInstance().getSonido(Sonidos.DEATH).play();
+        setEstadoActual(Personaje.Estado.MUERTE);
+    }
+    
     public void setDETONATOR(boolean DETONATOR) {
         this.DETONATOR = DETONATOR;
     }
@@ -69,9 +80,9 @@ public class Bomberman extends Personaje {
     public void setSPEED(boolean SPEED) {
         this.SPEED = SPEED;
         if(SPEED)
-            Speed=SPEED_FAST;
+            velocidad=SPEED_FAST;
         else
-            Speed=SPEED_MID;
+            velocidad=SPEED_MID;
     }
 
     public void setMYSTERY(boolean MYSTERY) {
@@ -123,7 +134,7 @@ public class Bomberman extends Personaje {
             }
     }
   
-    public ArrayList<Bomb> getBombs() {
+    public CopyOnWriteArrayList<Bomb> getBombs() {
         return bombas;
     }
 
@@ -205,21 +216,19 @@ public class Bomberman extends Personaje {
         if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.DERECHA))){
             setEstadoActual(Estado.DERECHA);
             Sonidos.getInstance().getSonido(Sonidos.LEFT).play();
-            MovimientoDerecha();
-            if(AvanzarX() && getX() >= jPanelJuego.getImagen().getWidth() / 4 && getX() <= (3 * jPanelJuego.getImagen().getWidth() / 4 - 30)) {
-                jPanelJuego.setPosicionX(jPanelJuego.getPosicionX() - getSpeed());
+            if(MovimientoDerecha() && getCenterX() >= jPanelJuego.getCuartoImagen().x && getCenterX() <= jPanelJuego.getTresCuartosImagen().x) {
+                jPanelJuego.setPosicionX(jPanelJuego.getPosicionX() - getSpeed() * jPanelJuego.getWidth() / jPanelJuego.getImagen().getWidth());
             }
             movimiento = true;
-        }else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))){
+        } else if(teclado.teclaPresionada(gamePad.getBoton(GamePad.Botones.IZQUIERDA))) {
             Sonidos.getInstance().getSonido(Sonidos.LEFT).stop();
             setEstadoActual(Estado.IZQUIERDA);
             Sonidos.getInstance().getSonido(Sonidos.RIGHT).play();
-            MovimientoIzquierda();
-            if(AvanzarX() && getX() >= jPanelJuego.getImagen().getWidth() / 4 && getX() <= (3 * jPanelJuego.getImagen().getWidth() / 4 - 30)) {
-                jPanelJuego.setPosicionX(jPanelJuego.getPosicionX() - getSpeed());
+            if(MovimientoIzquierda() && getCenterX() >= jPanelJuego.getCuartoImagen().x && getCenterX() <= jPanelJuego.getTresCuartosImagen().x) {
+                jPanelJuego.setPosicionX(jPanelJuego.getPosicionX() - getSpeed() * jPanelJuego.getWidth() / jPanelJuego.getImagen().getWidth());
             }
             movimiento = true;
-        }else{
+        } else {
             Sonidos.getInstance().getSonido(Sonidos.LEFT).stop();
             Sonidos.getInstance().getSonido(Sonidos.RIGHT).stop();
         }

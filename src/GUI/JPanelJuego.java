@@ -5,7 +5,6 @@
 package GUI;
 
 import Bomberman.Core.Constantes;
-import Controladores.ControladorKeyBoardJPanelJuego;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
 import Hilos.HiloPrincipal;
@@ -13,11 +12,10 @@ import Personajes.*;
 import Sonidos.Sonidos;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Random;
-import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -33,10 +31,11 @@ public class JPanelJuego extends javax.swing.JPanel {
     private Mapa mapa;
     private BufferedImage imagen;
     private Dimension SIZE;
-    private Vector<Enemigo> enemigos;
-    private Vector<Ladrillo> ladrillos;
+    private CopyOnWriteArrayList<Enemigo> enemigos;
+    private CopyOnWriteArrayList<Ladrillo> ladrillos;
     private Bomberman[] jugadores;
     private int posicionX;
+    private Point cuartoImagen, tresCuartosImagen;
 
     private JPanelJuego() {
         super(new java.awt.GridLayout(Mapa.FILAS, Mapa.COLUMNAS));
@@ -49,14 +48,12 @@ public class JPanelJuego extends javax.swing.JPanel {
 
     private void initComponents() {
         SIZE = new Dimension(1240, 520);
+        cuartoImagen = new Point(SIZE.width / 4, SIZE.height / 4);
+        tresCuartosImagen = new Point(3 * SIZE.width / 4, 3 * SIZE.height / 4);
         setOpaque(false);
-        setRequestFocusEnabled(true);
-        requestFocusInWindow();
-        setFocusable(true);
         setPreferredSize(SIZE);
-        addKeyListener(ControladorKeyBoardJPanelJuego.getInstance());
-        ladrillos = new Vector<>();
-        enemigos = new Vector<>();
+        ladrillos = new CopyOnWriteArrayList<>();
+        enemigos = new CopyOnWriteArrayList<>();
         jugadores = new Bomberman[4];
         mapa = Mapa.getInstance();
         imagen = new BufferedImage(SIZE.width, SIZE.height, BufferedImage.TYPE_INT_RGB);
@@ -66,7 +63,8 @@ public class JPanelJuego extends javax.swing.JPanel {
         pintarMapa(imagen.createGraphics());
     }
 
-    public void reiniciarJPanelJuego() {
+    public void reiniciar() {
+        posicionX = 0;
         hiloPrincipal.stop();
         borrarEnemigos();
         borrarLadrillos();
@@ -80,7 +78,7 @@ public class JPanelJuego extends javax.swing.JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics g2 = imagen.getGraphics();
-        pintarMapa((Graphics2D)g2);
+        pintarMapa(g2);
         actualizarMapa();
         dibujarLadrillos(g2);
         dibujarBombas(g2);
@@ -88,7 +86,7 @@ public class JPanelJuego extends javax.swing.JPanel {
         g.drawImage(imagen, getPosicionX(), 0, SIZE.width, SIZE.height, this);
     }
 
-    public Vector<Enemigo> getEnemigos() {
+    public CopyOnWriteArrayList<Enemigo> getEnemigos() {
         return enemigos;
     }
 
@@ -106,11 +104,8 @@ public class JPanelJuego extends javax.swing.JPanel {
         System.out.println(dim + " " + SIZE + " " + y1 + " " + x1);
         setPreferredSize(SIZE);
         setSize(SIZE);
-//        double x0 = x;
-//        double y0 = y;
 //         x = (int)Math.round(SIZE.width / 31.0);
 //         y = (int)Math.round(SIZE.height / 13.0);
-//        escalamientoSprite(x0, y0);
     }
 
     public static int gety() {
@@ -121,7 +116,7 @@ public class JPanelJuego extends javax.swing.JPanel {
         return x;
     }
 
-    public void pintarMapa(Graphics2D g2) {
+    public void pintarMapa(Graphics g2) {
         g2.setColor(new java.awt.Color(80, 160, 0));
         g2.fillRect(x, y, SIZE.width - x * 2, SIZE.height - y * 2);
         for(int i = 0; i < Mapa.FILAS; i++) {
@@ -175,35 +170,16 @@ public class JPanelJuego extends javax.swing.JPanel {
 
     private void dibujarPersonajes(Graphics g) {
         for(Enemigo enemigo : enemigos) {
+            if(!getVisibleRect().contains(enemigo.getCentro()))
+                continue;
             enemigo.pintar(g);
         }
         primerJugador().pintar(g);
     }
 
-    private void escalamientoSprite(double x0, double y0) {
-        primerJugador().setX((int)Math.round(primerJugador().getX() / x0 * x));
-        primerJugador().setY((int)Math.round(primerJugador().getY() / y0 * y));
-        for(Bomb bomba : primerJugador().getBombs()) {
-            bomba.setX((int)Math.round(bomba.getX() / x0 * x));
-            bomba.setY((int)Math.round(bomba.getY() / y0 * y));
-            if(bomba.getFire() != null) {
-                bomba.getFire().setX((int)Math.round(bomba.getFire().getX() / x0 * x));
-                bomba.getFire().setY((int)Math.round(bomba.getFire().getY() / y0 * y));
-            }
-        }
-        for(Ladrillo ladrillo : ladrillos) {
-            ladrillo.setX((int)Math.round(ladrillo.getX() / x0 * x));
-            ladrillo.setY((int)Math.round(ladrillo.getY() / y0 * y));
-        }
-        for(Enemigo enemigo : enemigos) {
-            enemigo.setX((int)Math.round(enemigo.getX() / x0 * x));
-            enemigo.setY((int)Math.round(enemigo.getY() / y0 * y));
-        }
-    }
-
     private void dibujarBombas(Graphics g) {
         for(Bomb bomba : primerJugador().getBombs()) {
-            bomba.pintar((Graphics2D) g);
+            bomba.pintar(g);
         }
     }
 
@@ -215,18 +191,18 @@ public class JPanelJuego extends javax.swing.JPanel {
         }
     }
 
-    public Vector<Ladrillo> getLadrillos() {
+    public CopyOnWriteArrayList<Ladrillo> getLadrillos() {
         return ladrillos;
     }
 
     public void borrarLadrillo(int a, int b) {
         for(Ladrillo ladrillo : ladrillos) {
-            if(getPosicionX(ladrillo.getCenterX()) == getPosicionX(a) && getPosicionY(ladrillo.getCenterY()) == getPosicionY(b)) {
+            if(ladrillo.getCenterX() == a && ladrillo.getCenterY() == b) {
                 ladrillo.setEstadoActual(Personaje.Estado.MUERTE);
-                if(ladrillo.getLadrilloEspecial() != null && ladrillo.getLadrilloEspecial().getImagen() != null) {
-                    ladrillo.getLadrilloEspecial().CrearEnemigos();
+                if(ladrillo.getLadrilloEspecial() != null) {
+                    ladrillo.getLadrilloEspecial().crearEnemigos();
                     if(!ladrillo.getLadrilloEspecial().esPuerta())
-                        ladrillo.getLadrilloEspecial().EliminarPowerup();
+                        ladrillo.getLadrilloEspecial().eliminarPowerup();
                 }
             }
         }
@@ -239,10 +215,7 @@ public class JPanelJuego extends javax.swing.JPanel {
     }
     
     public void borrarJugador() {
-        Sonidos.getInstance().getSonido(Sonidos.UP).stop();
-        Sonidos.getInstance().getSonido(Sonidos.DOWN).stop();
-        Sonidos.getInstance().getSonido(Sonidos.LEFT).stop();
-        Sonidos.getInstance().getSonido(Sonidos.RIGHT).stop();
+        Sonidos.getInstance().detenerSonidos(Sonidos.UP, Sonidos.DOWN, Sonidos.LEFT, Sonidos.RIGHT);
         Sonidos.getInstance().getSonido(Sonidos.DEATH).play();
         primerJugador().setEstadoActual(Personaje.Estado.MUERTE);
     }
@@ -289,7 +262,7 @@ public class JPanelJuego extends javax.swing.JPanel {
         for(Ladrillo ladrillo : ladrillos) {
             if (ladrillo.getEstadoActual() != Personaje.Estado.ELIMINADO) 
                 mapa.setObjeto("L", getPosicionY(ladrillo.getCenterY()), getPosicionX(ladrillo.getCenterX()));
-            else if(ladrillo.getLadrilloEspecial() != null && ladrillo.getLadrilloEspecial().getImagen() != null) {
+            else if(ladrillo.getLadrilloEspecial() != null) {
                 if(!ladrillo.getLadrilloEspecial().esPuerta())
                     mapa.setObjeto("S", getPosicionY(ladrillo.getLadrilloEspecial().getCenterY()), getPosicionX(ladrillo.getLadrilloEspecial().getCenterX()));
                 else
@@ -336,10 +309,6 @@ public class JPanelJuego extends javax.swing.JPanel {
         hiloPrincipal.start();
     }
 
-    public void detenerHiloPrincipal() {
-        hiloPrincipal.stop();
-    }
-
     public void removerEnemigo(Personaje personaje) {
         enemigos.remove(personaje);
         if(enemigos.isEmpty()){
@@ -361,22 +330,22 @@ public class JPanelJuego extends javax.swing.JPanel {
     }
     
     public void limpiar() {
-        for(short i = 0; i < enemigos.size(); i++) {
-            if(enemigos.get(i).getEstadoActual() == Personaje.Estado.ELIMINADO) {
-                removerEnemigo(enemigos.get(i--));
+        for(Enemigo enemigo : enemigos) {
+            if(enemigo.getEstadoActual() == Personaje.Estado.ELIMINADO) {
+                removerEnemigo(enemigo);
             }
         }
-        for(short i = 0; i < ladrillos.size(); i++) {
-            if(ladrillos.get(i).getEstadoActual() == Personaje.Estado.ELIMINADO &&
-                    !ladrillos.get(i).isEspecial()) {
-                Mapa.getInstance().setObjeto("V", JPanelJuego.getPosicionY(ladrillos.get(i).getCenterY()), JPanelJuego.getPosicionX(ladrillos.get(i).getCenterX()));
-                ladrillos.remove(ladrillos.get(i--));
+        for(Ladrillo ladrillo : ladrillos) {
+            if(ladrillo.getEstadoActual() == Personaje.Estado.ELIMINADO &&
+                    !ladrillo.isEspecial()) {
+                Mapa.getInstance().setObjeto("V", JPanelJuego.getPosicionY(ladrillo.getCenterY()), JPanelJuego.getPosicionX(ladrillo.getCenterX()));
+                ladrillos.remove(ladrillo);
             }
         }
-        ArrayList<Bomb> bombas = primerJugador().getBombs();
-        for(short i = 0; i < bombas.size(); i++) {
-            if(bombas.get(i).getEstadoActual() == Personaje.Estado.ELIMINADO) {
-                bombas.remove(bombas.get(i--));
+        CopyOnWriteArrayList<Bomb> bombas = primerJugador().getBombs();
+        for(Bomb bomba : bombas) {
+            if(bomba.getEstadoActual() == Personaje.Estado.ELIMINADO) {
+                bombas.remove(bomba);
             }
         }
     }
@@ -394,5 +363,19 @@ public class JPanelJuego extends javax.swing.JPanel {
     public int getPosicionX() {
         return posicionX;
     }
-    
+
+    /**
+     * @return the cuartoImagen
+     */
+    public Point getCuartoImagen() {
+        return cuartoImagen;
+    }
+
+    /**
+     * @return the tresCuartosImagen
+     */
+    public Point getTresCuartosImagen() {
+        return tresCuartosImagen;
+    }
+       
 }
