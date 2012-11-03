@@ -19,8 +19,8 @@ public class Minvo extends Enemigo{
         super();
         this.velocidad=this.SPEED_FAST;
         this.Smart=this.SMART_MID;
-        this.Point=800;
-        this.Wallpass=false;
+        this.puntaje=800;
+        this.wallpass=false;
         this.x=x;
         this.y=y;
         this.identificacion="M";

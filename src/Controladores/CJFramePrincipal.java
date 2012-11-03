@@ -29,6 +29,7 @@ public class CJFramePrincipal extends java.awt.event.WindowAdapter implements Co
         @Override
         public void keyPressed(KeyEvent e) {
             Dependencias.Teclado.getInstance().presionarTecla(e.getKeyCode());
+//            System.out.println("Tecla presionada");
         }
 
         @Override

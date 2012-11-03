@@ -19,8 +19,8 @@ public class Kondoria extends Enemigo {
         super();
         this.velocidad=this.SPEED_SLOWEST;
         this.Smart=this.SMART_HIGH;
-        this.Wallpass=true;
-        this.Point=1000;
+        this.wallpass=true;
+        this.puntaje=1000;
         this.x=x;
         this.y=y;
         this.identificacion="K";

@@ -6,12 +6,13 @@ package GUI;
 import Controladores.ControladorJPanelPresentacion;
 import Sonidos.Sonidos;
 import Utilidades.Juego.Interfaz;
+import Utilidades.Juego.Interfaz.Escenas;
 import javax.swing.JPanel;
 /**
  *
  * @author Alfonso Andrés
  */
-public class JPanelContenedor extends JPanel implements Interfaz{
+public class JPanelContenedor extends JPanel {
     
     private static JPanelContenedor instance;
     private Interfaz actual;
@@ -26,6 +27,8 @@ public class JPanelContenedor extends JPanel implements Interfaz{
     }
     
     private void initComponents() {
+        actual = JPanelJuego.getInstance();
+        cambiarInterfaz(Escenas.ESCENA_MENU);
         agregarComponentesMenuInicial();
         agregarControladores();
     }
@@ -41,20 +44,27 @@ public class JPanelContenedor extends JPanel implements Interfaz{
         JPanelPresentacion.getInstance().requestFocus();
         Sonidos.getInstance().getSonido(Sonidos.TITLE_SCREEN).play();
     }
-
-    @Override
-    public void reiniciar() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    
+    public void cambiarInterfaz(Escenas nueva) {
+        switch(nueva) {
+            case ESCENA_MENU:
+                actual = JPanelPresentacion.getInstance();
+                break;
+            case ESCENA_JUEGO:
+                actual = JPanelJuego.getInstance();
+                break;
+            case ESCENA_EDITOR:
+                break;
+        }
+        actual.reiniciar();
+    }
+    
+    public void terminar() {
+        
     }
 
-    @Override
-    public void pintar() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void actualizar() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Interfaz getActual() {
+        return actual;
     }
     
 }

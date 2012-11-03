@@ -29,7 +29,7 @@ public class Animation  {
         tiempoTranscurrido += totalTiempo;
         // Si el tiempo transcurrido es mayor que el plazo de tiempo
         // Tenemos que cambiar los fotogramas
-        if(tiempoTranscurrido > tiempoFotograma) {//frame 
+        if(tiempoTranscurrido > tiempoFotograma) {
             tiempoTranscurrido = 0;
             if(cuadros.get(++paso) == -1){
                 paso = 0;
@@ -39,6 +39,11 @@ public class Animation  {
         return false;
     }
 
+    public void reiniciar() {
+        paso = 0;
+        tiempoTranscurrido = 0;
+    }
+    
     /**
      * @return El indice del fotograma actual
      */

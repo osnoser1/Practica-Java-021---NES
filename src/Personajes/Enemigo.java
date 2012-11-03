@@ -12,12 +12,10 @@ import java.util.HashMap;
 
 public class Enemigo extends Personaje {
 
-    protected int Point;
+    protected int puntaje;
     
     public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
-        super.inicializar(posicion);
-        activo = true;
-        super.imagen = new Imagen(imagen, 6, 5, posicion, (float)2.5);
+        inicializar(new Imagen(imagen, 6, 5, posicion, (float)2.5), posicion);
         super.gamePad = gamePad;
         animaciones = new HashMap<Integer, Animation>(){{
             put(Estado.INICIO.ordinal(), new Animation("0", 4000 / 60));
@@ -29,17 +27,13 @@ public class Enemigo extends Personaje {
         }};
         setEstadoActual(Estado.IZQUIERDA);
     }
-    
-    public Enemigo(){
-        super();
+
+    public void setPuntaje(int puntaje) {
+        this.puntaje = puntaje;    
     }
 
-    public void setPoint(int Point) {
-        this.Point = Point;    
-    }
-
-    public int getPoint() {
-        return Point;
+    public int getPuntaje() {
+        return puntaje;
     }
 
     @Override
@@ -47,7 +41,7 @@ public class Enemigo extends Personaje {
         super.pintar(g);
         if(getEstadoActual() == Estado.MUERTE) {
             g.setColor(Color.white);
-            g.drawString("" + Point, x + JPanelJuego.getx() / 5, getCenterY());
+            g.drawString("" + puntaje, x + imagen.getAnchoEscalado() / 5, getCentro().y);
         }
     }
 

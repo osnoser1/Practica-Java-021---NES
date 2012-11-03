@@ -19,8 +19,8 @@ public class Pass extends Enemigo{
         super();
         this.velocidad=this.SPEED_FAST;
         this.Smart=this.SMART_HIGH;
-        this.Point=4000;
-        this.Wallpass=false;
+        this.puntaje=4000;
+        this.wallpass=false;
         this.x=x;
         this.y=y;
         this.identificacion="P";

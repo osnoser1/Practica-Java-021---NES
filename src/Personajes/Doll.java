@@ -17,8 +17,8 @@ public class Doll extends Enemigo{
          super();
         this.velocidad=this.SPEED_MID;
         this.Smart=this.SMART_LOW;
-        this.Wallpass=false;
-        this.Point=400;
+        this.wallpass=false;
+        this.puntaje=400;
         this.x=x;
         this.y=y;
         this.identificacion="D";

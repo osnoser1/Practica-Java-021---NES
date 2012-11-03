@@ -19,8 +19,8 @@ public class Oneal extends Enemigo {
         super();
         this.velocidad=this.SPEED_MID;
         this.Smart=this.SMART_MID;
-        this.Point=200;
-        this.Wallpass=false;
+        this.puntaje=200;
+        this.wallpass=false;
         this.x=x;
         this.y=y;
         this.identificacion="O";

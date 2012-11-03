@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author estudiante
  */
-public class Imagenes{
+public class Imagenes {
     
     public static BufferedImage LOGO;
     public static BufferedImage APUNTADOR;

@@ -42,7 +42,7 @@ public class CJEditorDeMapas extends MouseAdapter{
     private void pintar(MouseEvent e) {
         JEditorDeMapas jEditorDeMapas = JEditorDeMapas.getInstance();
         if("V".equals(objetoSeleccionado)){
-            jEditorDeMapas.pintar(jEditorDeMapas.getSpritePiso(), e.getPoint());
+//            jEditorDeMapas.pintar(jEditorDeMapas.getSpritePiso(), e.getPoint());
         }else{
             jEditorDeMapas.pintar(Constantes.Objetos.getInstance(objetoSeleccionado), e.getPoint());
         }

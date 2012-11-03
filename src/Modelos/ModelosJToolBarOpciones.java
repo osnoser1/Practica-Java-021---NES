@@ -28,8 +28,8 @@ public class ModelosJToolBarOpciones {
     }
 
     private void initComponents() {
-        this.filtro = new FileNameExtensionFilter[1];
-        this.jFileChooser = new JFileChooser(){
+        filtro = new FileNameExtensionFilter[1];
+        jFileChooser = new JFileChooser(){
             @Override
             public void approveSelection() {
                 File f = getSelectedFile();

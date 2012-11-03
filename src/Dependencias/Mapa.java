@@ -4,11 +4,14 @@
  */
 package Dependencias;
 
+import java.awt.Point;
+
 /**
  *
  * @author hp
  */
 public class Mapa {
+    
     public static final short COLUMNAS = 31, FILAS = 13;
     private static Mapa instance;
     private String mapa[][];
@@ -37,12 +40,20 @@ public class Mapa {
         return mapa;
     }
 
-    public void setObjeto(String Objeto, short x, short y) {
-        mapa[x][y] = Objeto;
+    public void setObjeto(String objeto, short x, short y) {
+        mapa[x][y] = objeto;
     }
 
-    public String getObjeto(short x, short y) {
+    public void setObjeto(String objeto, Point posicion) {
+        mapa[posicion.y][posicion.x] = objeto;
+    }
+    
+    public String getObjeto(int x, int y) {
         return mapa[x][y];
+    }
+    
+    public String getObjeto(Point posicion) {
+        return mapa[posicion.y][posicion.x];
     }
 
     public void borrarMapa() {
@@ -69,4 +80,5 @@ public class Mapa {
     public String getObjetoMapa(int i, int j) {
         return mapa[i][j];
     }
+
 }

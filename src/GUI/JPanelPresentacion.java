@@ -8,18 +8,20 @@ import Dependencias.Imagenes;
 import Dependencias.ManejadorDeArchivos;
 import Dependencias.Ubicacion;
 import Fuentes.Fuentes;
+import Utilidades.Juego.Interfaz;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import Bomberman.Core.Configuracion;
 
 /**
  *
  * @author Alfonso Andrés
  */
-public class JPanelPresentacion extends javax.swing.JPanel {
+public class JPanelPresentacion extends javax.swing.JPanel implements Interfaz {
     
     private static JPanelPresentacion instance;
     private BufferedImage imagen,flecha;
@@ -120,6 +122,21 @@ public class JPanelPresentacion extends javax.swing.JPanel {
 
     public void setOpcionSeleccionada() {
         opcionSeleccionada = opcionApuntando;
+    }
+
+    @Override
+    public void reiniciar() {
+        iniciar();
+    }
+
+    @Override
+    public void pintar(Graphics g) {
+//        g.drawImage(imagen, 0, 0, , getHeight(), null);
+    }
+
+    @Override
+    public void actualizar(long tiempoEnMilisegundos) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

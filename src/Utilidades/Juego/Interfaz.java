@@ -17,7 +17,7 @@ public interface Interfaz {
     }
   
     public abstract void reiniciar();
-    public abstract void pintar();
-    public abstract void actualizar();
+    public abstract void pintar(java.awt.Graphics g);
+    public abstract void actualizar(long tiempoEnMilisegundos);
     
 }

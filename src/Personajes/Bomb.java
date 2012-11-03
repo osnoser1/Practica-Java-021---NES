@@ -22,13 +22,14 @@ public class Bomb extends Personaje {
     private boolean detonar;
     private Fire fire;
     
-    public Bomb(final int x,final int y) {
-        super();
-        timer = new Timer(3200, new AbstractAction(){
+    public Bomb(int x, int y, final Bomberman jugador) {
+        timer = new Timer(3200, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!JPanelJuego.getInstance().primerJugador().getDETONATOR())
+                if(!jugador.getDETONADOR() || jugador.getEstadoActual() == Estado.MUERTE)
                     detonar = true;
+                else
+                    timer.stop();
             }            
         });
         timer.start();
@@ -36,13 +37,12 @@ public class Bomb extends Personaje {
     }
     
     public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
-        super.inicializar(posicion);
-        activo = true;
-        super.imagen = new Imagen(imagen, 1, 3, posicion, (float)2.5);
+        super.inicializar(new Imagen(imagen, 1, 3, posicion, (float)2.5), posicion);
         super.gamePad = gamePad;
         super.animaciones = new HashMap<Integer, Animation>(){{
             put(Estado.INICIO.ordinal(), new Animation("0,1,2", 400));
         }};
+        setEstadoActual(Estado.INICIO);
     }
     
     public Fire getFire() {
@@ -83,4 +83,13 @@ public class Bomb extends Personaje {
         if(fire.getEstadoActual() == Estado.ELIMINADO) 
             setEstadoActual(Estado.ELIMINADO);
     }
+
+    @Override
+    public void borrar(Graphics g, BufferedImage imagen) {
+        super.borrar(g, imagen);
+        if(fire == null)
+            return;
+        fire.borrar(g, imagen);
+    }
+    
 }

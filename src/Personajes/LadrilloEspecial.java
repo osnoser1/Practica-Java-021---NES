@@ -5,11 +5,11 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import GUI.JPanelGrafico;
 import GUI.JPanelJuego;
 import Hilos.HiloTransicionPuerta;
 import Sonidos.Sonidos;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.AbstractAction;
@@ -23,41 +23,40 @@ public class LadrilloEspecial {
     
     private BufferedImage imagen;
     private Timer timer;
-    private Timer timer1;
-    private int x, y;
-    private int tipo;
+    private Point centro, posicionMapa;
+    private int tipo, anchoEscalado, altoEscalado, x, y;
+    private boolean estadoEliminado;
     
-    public LadrilloEspecial(int x1, int y1, int tipo1) {
-        this.x = x1;
-        this.y = y1;
-        this.tipo=tipo1;
-        imagen=Imagenes.LADRILLO_ESPECIAL.get(tipo);
-        timer=new Timer(10, new AbstractAction(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(getCenterY())){
-                    if(tipo!=Imagenes.LADRILLO_ESPECIAL.size()-1){
-                        DeterminarHabilidad();
-                        Sonidos.getInstance().getSonido(Sonidos.STAGE_THEME).stop();
-                        Sonidos.getInstance().getSonido(Sonidos.POWER_UP_2).play();
-                        Sonidos.getInstance().getSonido(Sonidos.FIND_THE_DOOR).loop();
-                        eliminarPowerup();
-                        }
-                    else if(JPanelJuego.getInstance().getCantidadEnemigos()==0){
-                        Sonidos.getInstance().detenerSonidos();
-                        Sonidos.getInstance().getSonido(Sonidos.LEVEL_COMPLETE).play();
-                        new HiloTransicionPuerta().start();
-                        System.out.println("Entro en la puerta");
-                        timer.stop();
-                    }
-                }
-            }
-
-            
-        });
-        timer.start();
-        
+    public LadrilloEspecial(final Point centro, int tipo1) {
+        this.centro = centro;
+        this.tipo = tipo1;
+        anchoEscalado = 40;
+        altoEscalado = 40;
+        x = centro.x - anchoEscalado / 2;
+        y = centro.y - altoEscalado / 2;
+        posicionMapa = new Point(centro.x / anchoEscalado, centro.y / altoEscalado);
+        imagen = Imagenes.LADRILLO_ESPECIAL.get(tipo);
     }
+    
+    public void actualizar() {
+        Point punto = JPanelJuego.getInstance().primerJugador().getPosicionMapa();
+        if(posicionMapa.equals(punto)) {
+            if(tipo != Imagenes.LADRILLO_ESPECIAL.size() - 1 && !estadoEliminado) {
+                determinarHabilidad();
+                Sonidos.getInstance().getSonido(Sonidos.STAGE_THEME).stop();
+                Sonidos.getInstance().getSonido(Sonidos.POWER_UP_2).play();
+                Sonidos.getInstance().getSonido(Sonidos.FIND_THE_DOOR).loop();
+                eliminarPowerup();
+            }
+            else if(JPanelJuego.getInstance().getCantidadEnemigos() == 0) {
+                Sonidos.getInstance().detenerSonidos();
+                Sonidos.getInstance().getSonido(Sonidos.LEVEL_COMPLETE).play();
+                new HiloTransicionPuerta().start();
+                System.out.println("Entro en la puerta");
+            }
+        }
+    }
+    
     public int getPuerta(){
         return Imagenes.LADRILLO_ESPECIAL.size()-1;
     }
@@ -65,65 +64,58 @@ public class LadrilloEspecial {
     public int getTipo() {
         return tipo;
     }
+    
     public boolean esPuerta(){
-        return (tipo==getPuerta());
+        return tipo == getPuerta();
     }
+    
     public void eliminarPowerup() {
-        if(tipo!=Imagenes.LADRILLO_ESPECIAL.size()-1){
-            timer.stop();
+        if(tipo != Imagenes.LADRILLO_ESPECIAL.size() - 1){
+            estadoEliminado = true;
             imagen=null;
         }
     }
-    public int getCenterX(){
-        return x+JPanelJuego.getx()/2;
+    public Point getCentro(){
+        return centro;
     }
     
-    public int getCenterY(){
-        return y+JPanelJuego.gety()/2;
-    }
-    
-    public void DeterminarHabilidad(){
+    public void determinarHabilidad(){
         if(tipo==7)return;
-        else if(tipo==0)JPanelJuego.getInstance().primerJugador().IncrementarFLAMES();
-        else if(tipo==1)JPanelJuego.getInstance().primerJugador().IncrementarBOMBS();
+        else if(tipo==0)JPanelJuego.getInstance().primerJugador().incrementarFlamas(1);
+        else if(tipo==1)JPanelJuego.getInstance().primerJugador().incrementarBombas(1);
         else if(tipo==2)JPanelJuego.getInstance().primerJugador().setDETONATOR(true);
         else if(tipo==3)JPanelJuego.getInstance().primerJugador().setSPEED(true);
         else if(tipo==4)JPanelJuego.getInstance().primerJugador().setBOMBPASS(true);
         else if(tipo==5)JPanelJuego.getInstance().primerJugador().setWallpass(true);
         else if(tipo==6)JPanelJuego.getInstance().primerJugador().setFLAMEPASS(true);
-        else if(tipo==7)JPanelJuego.getInstance().primerJugador().setMYSTERY(true);
-          
+        else if(tipo==7)JPanelJuego.getInstance().primerJugador().setMYSTERY(true); 
     }
+    
     public void Dibujar(Graphics g){
-        g.drawImage(imagen, x, y,JPanelJuego.getx(),JPanelJuego.gety(), null);
+        g.drawImage(imagen, x, y, anchoEscalado, altoEscalado, null);
     }
 
     public BufferedImage getImagen() {
         return imagen;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
     public void crearEnemigos() {
-        
-        timer1=new Timer(500,new AbstractAction(){
+        timer = new Timer(500,new AbstractAction(){
             int time=5;    
             @Override
             public void actionPerformed(ActionEvent e){
                 time--;
-                JPanelJuego.getInstance().getEnemigos().add(JPanelJuego.getInstance().determinarEnemigo(JPanelJuego.getPosicionX(x), JPanelJuego.getPosicionY(y), JPanelGrafico.getInstance().determinarEnemigo(3)));  
+                JPanelJuego.getInstance().getEnemigos().add(JPanelJuego.getInstance().determinarEnemigo(JPanelJuego.getPosicionX(x), JPanelJuego.getPosicionY(y), JPanelJuego.getInstance().determinarEnemigo(3)));  
                    if(time==0){
-                       timer1.stop();
+                       timer.stop();
                    }
             }
         });
-        timer1.start();
-       
-           
+        timer.start();  
     }
+
+    public boolean isEstadoEliminado() {
+        return estadoEliminado;
+    }
+    
 }

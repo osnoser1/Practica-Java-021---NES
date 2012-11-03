@@ -18,28 +18,25 @@ import java.util.HashMap;
  */
 public class Ladrillo extends Personaje {
     
-    int tipo;
+    private int tipo;
     private boolean especial;
     public LadrilloEspecial ladrilloespecial;
     
-    public Ladrillo(int x1, int y1, int tipo1) {
-        super();
-        velocidad = 0;
-        this.tipo = tipo1;
+    public Ladrillo(int x, int y, int tipo) {
+        this.tipo = tipo;
         if(tipo != -1)
             especial = true;
-        this.inicializar(Imagenes.BLOQUE, new Point(x1, y1), null);
+        inicializar(Imagenes.BLOQUE, new Point(x, y), null);
     }
     
     public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
-        super.inicializar(posicion);
-        activo = true;
-        super.imagen = new Imagen(imagen, 6, 6, posicion, (float)2.5);
+        super.inicializar(new Imagen(imagen, 6, 6, posicion, (float)2.5), posicion);
         super.gamePad = gamePad;
         super.animaciones = new HashMap<Integer, Animation>(){{
             put(Estado.INICIO.ordinal(), new Animation("0", 4000 / 60));
             put(Estado.MUERTE.ordinal(), new Animation("0,1,2,3,4,5", 4000 / 60));
         }};
+        setEstadoActual(Estado.INICIO);
     }
     
     public LadrilloEspecial getLadrilloEspecial(){
@@ -47,20 +44,27 @@ public class Ladrillo extends Personaje {
     }
 
     @Override
+    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+        super.actualizar(jPanelJuego, tiempoTranscurrido);
+        if(ladrilloespecial != null) 
+            ladrilloespecial.actualizar();
+    }
+    
+    @Override
     public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
     
     @Override
     public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         if(actualizarAnimacion(tiempoTranscurrido)) {
             setEstadoActual(Estado.ELIMINADO);
-            if(isEspecial()) {
-               ladrilloespecial = new LadrilloEspecial(x, y, tipo);
+            if(especial) {
+               ladrilloespecial = new LadrilloEspecial(getCentro(), tipo);
            }
         }
     }
 
     public boolean isEspecial() {
-        return especial;
+        return especial && !ladrilloespecial.isEstadoEliminado();
     }
 
     public void setEspecial(boolean especial) {

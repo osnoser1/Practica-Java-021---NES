@@ -24,7 +24,6 @@ public class HiloTransicionPuerta implements Runnable{
     
     @Override
     public void run() {
-//        JPanelGrafico jpanelgrafico1=this.jpanelcontenedor1.getJPanelGrafico();
         Sonido sonido = Sonidos.getInstance().getSonido(Sonidos.LEVEL_COMPLETE);
         while(sonido.isPlaying()){
             Metodos.sleep(500);

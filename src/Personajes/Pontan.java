@@ -19,8 +19,8 @@ public class Pontan extends Enemigo{
         super();
         this.velocidad=this.SPEED_FAST;
         this.Smart=this.SMART_HIGH;
-        this.Point=8000;
-        this.Wallpass=true;
+        this.puntaje=8000;
+        this.wallpass=true;
         this.x=x;
         this.y=y;
         this.identificacion="p";

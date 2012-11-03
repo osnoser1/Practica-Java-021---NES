@@ -5,17 +5,12 @@
  */
 package GUI;
 
-import Bomberman.Core.Constantes.Objetos;
-import Dependencias.Mapa;
 import Sonidos.Sonidos;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.Random;
-import javax.swing.JPanel;
 
 /**
  *
@@ -24,7 +19,6 @@ import javax.swing.JPanel;
 public class JPanelGrafico extends javax.swing.JPanel {
     
     private static JPanelGrafico instance;
-    private JPanel jPanel;
 
     private JPanelGrafico() {
         super(new java.awt.BorderLayout());
@@ -37,14 +31,11 @@ public class JPanelGrafico extends javax.swing.JPanel {
 
     private void initComponents() {
         setVisible(false);
-        jPanel = new JPanel(new java.awt.FlowLayout(0, 0, 0));
-        jPanel.setBackground(new Color(188, 188, 188));
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 Component c = (Component)e.getSource();
                 escalamientoJPanel(c.getSize());
-                // System.out.println("Prueba evento componentResized "+c.getSize());
             }
         });
     }
@@ -61,52 +52,16 @@ public class JPanelGrafico extends javax.swing.JPanel {
         super.paintComponent(g);
     }
 
-    public void generarMapa() {
-        Random random = new Random();
-        int a, b, c;
-        JPanelJuego jPanelJuego = JPanelJuego.getInstance();
-        Mapa.getInstance().setObjeto("B", (short)1, (short)1);
-        for(int i = 0; i < 55; i++) {
-            do {
-                a = random.nextInt(30);
-                b = random.nextInt(12);
-                if(a < 3 && b == 1 || a == 1 && b < 3)
-                    continue;
-                if("V".equals(Mapa.getInstance().getObjetoMapa(b, a))) {
-                    Mapa.getInstance().setObjeto("L", (short)b, (short)a);
-                    jPanelJuego.pintarCasilla(b, a);
-                    break;
-                }
-            } while(true);
-        }
-        for(int i = 0; i < 10; i++) {
-            do {
-                a = random.nextInt(30);
-                b = random.nextInt(12);
-                c = random.nextInt(8);
-                if("V".equals(Mapa.getInstance().getObjetoMapa(b, a))) {
-                    Mapa.getInstance().setObjeto(determinarEnemigo(c), (short)b, (short)a);
-                    jPanelJuego.pintarCasilla(b, a);
-                    break;
-                }
-            } while(true);
-        }
-    }
-
     public void iniciarJuego() {
         JPanelJuego jPanelJuego = JPanelJuego.getInstance();
-        generarMapa();
+        jPanelJuego.generarMapa();
+        jPanelJuego.repaint();
         add(JPanelInformacion.getInstance(), java.awt.BorderLayout.NORTH);
-        jPanel.add(jPanelJuego);
-        add(jPanel);
+        add(jPanelJuego);
         Sonidos.getInstance().getSonido(Sonidos.STAGE_THEME).loop();
         setVisible(true);
         JPanelInformacion.getInstance().iniciarCuentaRegresiva();
         jPanelJuego.iniciarHiloPrincipal();
-    }
-
-    public String determinarEnemigo(int c) {
-        return c > 6 ? Objetos.PONTAN.getValue() : Objetos.getEnemigos()[c].getValue();
     }
     
 }

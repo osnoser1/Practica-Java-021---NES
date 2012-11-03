@@ -9,7 +9,7 @@ import Controladores.CJEditorDeMapas;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
 import Personajes.Animation;
-import Personajes.Sprite;
+import Personajes.Personaje;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -60,7 +60,7 @@ public class JEditorDeMapas extends JPanel{
         panelEditor.repaint();
     }
     
-    public void pintar(Sprite sprite, Point posicion) {
+    public void pintar(Personaje sprite, Point posicion) {
         //No simplificar
         int x = posicion.x * Mapa.COLUMNAS / panelEditor.getWidth() * relacionDeTamaño[1].width / Mapa.COLUMNAS;
         int y = posicion.y * Mapa.FILAS / panelEditor.getHeight() * relacionDeTamaño[1].height / Mapa.FILAS;
@@ -80,14 +80,6 @@ public class JEditorDeMapas extends JPanel{
                 (short)(Mapa.FILAS * posicion.y / panelEditor.getHeight()), 
                 (short)(Mapa.COLUMNAS * posicion.x / panelEditor.getWidth()));
         panelEditor.repaint();
-    }
-    
-    public Sprite getSpritePiso() {
-//        return new Sprite(new Animation(
-//                new ArrayList<BufferedImage>(){{ 
-//                    add(Imagenes.PISO);
-//                }}));
-        return null;
     }
 
     private boolean noEstaSobreElBomberman(int x, int y) {

@@ -104,6 +104,11 @@ public class Imagen {
     public void setPosicion(Point posicion) {
         this.posicion = posicion;
     }
+    
+    public void trasladar(int dx, int dy) {
+        posicion.x += dx;
+        posicion.y += dy;
+    }
 
     /**
      * @return the getWidth()
@@ -202,19 +207,19 @@ public class Imagen {
     public void setImagen(BufferedImage imagen) {
         this.imagen = imagen;
     }
-
+    
     /**
      * @return the anchoEscalado
      */
-    public float getAnchoEscalado() {
-        return anchoEscalado;
+    public int getAnchoEscalado() {
+        return (int) anchoEscalado;
     }
 
     /**
      * @return the altoEscalado
      */
-    public float getAltoEscalado() {
-        return altoEscalado;
+    public int getAltoEscalado() {
+        return (int) altoEscalado;
     }
 
     /**
@@ -226,6 +231,12 @@ public class Imagen {
 
     public BufferedImage getSubimage(int fila, int columna) {
         return imagen.getSubimage(columna * ancho, fila * alto, ancho, alto);
+    }
+
+    public void borrar(Graphics g, BufferedImage imagen) {
+        if(destinationRect == null)
+            return;
+        g.drawImage(imagen.getSubimage(destinationRect.x, destinationRect.y, destinationRect.width, destinationRect.height), destinationRect.x, destinationRect.y, null);
     }
 
 }

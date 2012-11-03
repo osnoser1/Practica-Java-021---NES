@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagen;
+import Dependencias.Mapa;
 import Dependencias.Teclado;
 import GUI.JPanelJuego;
 import Utilidades.Juego.GamePad;
@@ -13,19 +14,21 @@ import java.awt.Point;
 import java.util.HashMap;
 import javax.swing.Timer;
 
-public abstract class Personaje extends Sprite {
+public abstract class Personaje {
     
-    protected int Smart,PosicionX,PosicionY;
+    protected int x, y, varx = 3, vary = 3, velocidad, Smart;
     protected final int SPEED_SLOWEST=1,SPEED_SLOW=2,SPEED_MID=4,SPEED_FAST=5,SMART_LOW=1,SMART_MID=2,SMART_HIGH=3,SMART_IMPOSSIBLE = 4;
     protected Smart inteligencia;
     protected Timer timer;
     private Estado estadoAnterior, estadoActual;
-    protected final Teclado teclado;
+    protected Teclado teclado;
     protected GamePad gamePad;
-    protected boolean activo;
+    protected boolean activo, wallpass, dentroBomb;
     protected HashMap<Integer, Animation> animaciones;
     protected Imagen imagen;
-    
+    protected Point posicionMapa;
+    protected String identificacion;
+
     public enum Estado {
         INICIO,
         ARRIBA,
@@ -49,15 +52,28 @@ public abstract class Personaje extends Sprite {
         return estadoAnterior;
     }
     
+    public java.awt.Rectangle getRectagulo() {
+        return new java.awt.Rectangle(x, y, imagen.getAnchoEscalado(), imagen.getAltoEscalado());
+    }
     
     public void setLocation(int x, int y) {
         this.x = x;
         this.y = y;
+        imagen.setPosicion(new Point(x + imagen.getAnchoEscalado() / 2, y + imagen.getAltoEscalado() / 2));
+        posicionMapa.x = x / imagen.getAnchoEscalado();
+        posicionMapa.y = y / imagen.getAltoEscalado();
     }
     
     public Point getCentro(){
         return imagen.getPosicion();
     }
+    
+    public void trasladar(int dx, int dy) {
+        x += dx;
+        y += dy;
+        imagen.trasladar(dx, dy);
+    }
+    
     
     /**
      *
@@ -75,14 +91,17 @@ public abstract class Personaje extends Sprite {
         this.activo = activo;
     }
     
+    public Point getPosicionMapa() {
+        return posicionMapa;
+    }
+    
     public void reiniciar(){
-        estadoActual = Estado.INICIO;
+        setEstadoActual(Estado.INICIO);
         activo = true;
     }
     
     public void fijarCasilla(int x, int y){
-        this.x = (int) (x * imagen.getAncho() * imagen.getEscala());
-        this.y = (int) (y * imagen.getAlto() * imagen.getEscala());
+        setLocation(x * imagen.getAnchoEscalado(), y * imagen.getAltoEscalado());
     }
     
     protected boolean actualizarAnimacion(long tiempoTranscurrido) {
@@ -92,14 +111,18 @@ public abstract class Personaje extends Sprite {
     public void pintar(Graphics g) {
         if(!activo || getEstadoActual() == Estado.ELIMINADO)
             return;
-        imagen.setPosicion(new Point(getCenterX(), getCenterY()));
         imagen.actualizar(getEstadoActual().ordinal(), animaciones.get(getEstadoActual().ordinal()).getCuadroActual());
         imagen.pintar(g);
     }
     
-    protected void inicializar(Point posicion) {
+    protected void inicializar(Imagen imagen, Point posicion) {
+        this.imagen = imagen;
         x = posicion.x;
         y = posicion.y;
+        imagen.setPosicion(new Point(x + imagen.getAnchoEscalado() / 2, y + imagen.getAltoEscalado() / 2));
+        posicionMapa = new Point(getCentro().x / imagen.getAnchoEscalado(), getCentro().y / imagen.getAltoEscalado());
+        activo = true;
+        teclado = Teclado.getInstance();
     }
     
      /**
@@ -150,33 +173,20 @@ public abstract class Personaje extends Sprite {
         return inteligencia;
     }
 
-    public Personaje() { 
-        super();
-        this.teclado = Teclado.getInstance();
-        this.estadoActual = Estado.INICIO;
+    public void MovimientoDerecha() {
+        velocidad = Math.abs(velocidad);
+        updateX();
     }
-    
-    public Personaje(Animation Izquierda,Animation Derecha,Animation Arriba,Animation Abajo,Animation Muerte){
-        super();
-        this.estadoActual = Estado.INICIO;
-        this.teclado = Teclado.getInstance();
-        this.gamePad = new GamePad();
-    } 
-
-    public boolean MovimientoDerecha() {
-        velocidad=Math.abs(velocidad);
-        return updateX();
-    }
-    public boolean MovimientoIzquierda() {
-        velocidad=-Math.abs(velocidad);
-        return updateX();
+    public void MovimientoIzquierda() {
+        velocidad = -Math.abs(velocidad);
+        updateX();
     }
     public void MovimientoArriba() {
-        velocidad=-Math.abs(velocidad);
+        velocidad = -Math.abs(velocidad);
         updateY();
     }
     public void MovimientoAbajo() {
-        velocidad=Math.abs(velocidad);
+        velocidad = Math.abs(velocidad);
         updateY();
     }
     
@@ -189,4 +199,106 @@ public abstract class Personaje extends Sprite {
         if(inteligencia!=null)
             inteligencia.detenerInteligencia();
     }
+
+    public void updateX(){
+        if(!ChoqueCentral("X"))
+            dentroBomb = false;
+        if(AvanzarX()) {
+            trasladar(velocidad, 0);
+            posicionMapa.x = imagen.getPosicion().x / imagen.getAnchoEscalado();
+        }
+    }
+
+    public void setDentroBomb(boolean dentroBomb) {
+        this.dentroBomb = dentroBomb;
+    }
+    
+    public void updateY(){
+        if(!ChoqueCentral("X"))
+            dentroBomb = false;
+        if(AvanzarY()) {
+            trasladar(0, velocidad);
+            posicionMapa.y = imagen.getPosicion().y / imagen.getAltoEscalado();
+        }
+    }
+    
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public int getVelocidad() {
+        return velocidad;
+    }
+    
+    public void setVelocidad(int velocityX) {
+        velocidad = velocityX;
+    }
+
+    public boolean ChoqueDerecha(String a,int n){
+        return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+2*vary),JPanelJuego.getPosicionX(x+varx)+n)==a)||
+                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+imagen.getAltoEscalado()-2*vary),JPanelJuego.getPosicionX(x+varx)+n)==a));
+    }
+    
+    public boolean ChoqueIzquierda(String a,int n){
+        return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+2*vary),JPanelJuego.getPosicionX(x+imagen.getAnchoEscalado()-varx)-n)==a)||
+                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+imagen.getAltoEscalado()-2*vary),JPanelJuego.getPosicionX(x+imagen.getAnchoEscalado()-varx)-n)==a));
+    }
+    
+    public boolean ChoqueArriba(String a,int n){
+        return (
+                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+imagen.getAltoEscalado()-vary)-n,JPanelJuego.getPosicionX(x+2*varx))==a  )||
+                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+imagen.getAltoEscalado()-vary)-n,JPanelJuego.getPosicionX(x+imagen.getAnchoEscalado()-2*varx))==a  ));
+    }
+    
+    public boolean ChoqueAbajo(String a,int n){
+        return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionX(y) + n, JPanelJuego.getPosicionX(x+2*varx)) == a  )||
+                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionX(y) + n, JPanelJuego.getPosicionX(x+imagen.getAnchoEscalado()-2*varx))==a  ));
+    }
+
+    public boolean ChoqueCentral(String a){
+       return a.equals(Mapa.getInstance().getObjeto(posicionMapa));
+    }
+    
+    public void setWallpass(boolean Wallpass) {
+        this.wallpass = Wallpass;
+    }
+    
+    public boolean getWallpass() {
+        return wallpass;
+    }
+
+    public boolean AvanzarX() {
+       return (
+                (!ChoqueDerecha("A",1)&&velocidad>0||!ChoqueIzquierda("A",1)&&velocidad<0)&&
+                ((!ChoqueDerecha("L",1)&&velocidad>0||!ChoqueIzquierda("L",1)&&velocidad<0)||wallpass)&&
+                (
+                  (!ChoqueDerecha("X",1)&&velocidad>0||!ChoqueIzquierda("X",1)&&velocidad<0)&&!"B".equals(identificacion)||
+                  (!ChoqueDerecha("X",1)&&velocidad>0||!ChoqueIzquierda("X",1)&&velocidad<0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||dentroBomb)&&"B".equals(identificacion)
+                )
+               );
+    }
+
+    public boolean AvanzarY() {
+       return (
+                (!ChoqueArriba("A",1)&&velocidad<0||!ChoqueAbajo("A",1)&&velocidad>0)&&
+                (!ChoqueArriba("L",1)&&velocidad<0||!ChoqueAbajo("L",1)&&velocidad>0||wallpass)&&
+                (
+                  (!ChoqueArriba("X",1)&&velocidad<0||!ChoqueAbajo("X",1)&&velocidad>0)&&!"B".equals(identificacion)||
+                  (!ChoqueArriba("X",1)&&velocidad<0||!ChoqueAbajo("X",1)&&velocidad>0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||dentroBomb)&&"B".equals(identificacion)
+                )
+               );
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    
+    public void borrar(Graphics g, java.awt.image.BufferedImage imagen) {
+        g.drawImage(imagen.getSubimage(x, y, this.imagen.getAnchoEscalado(), this.imagen.getAltoEscalado()), x, y, null);
+    }
+    
 }

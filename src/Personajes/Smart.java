@@ -52,12 +52,12 @@ public class Smart {
                 } else if(a==3) {
                     personaje.setEstadoActual(Personaje.Estado.ABAJO);
                     personaje.MovimientoAbajo();
-                } if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
+                } if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCentro().x)==JPanelJuego.getPosicionX(personaje.getCentro().x)&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCentro().y)==JPanelJuego.getPosicionY(personaje.getCentro().y)&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                     timer.stop();
                     JPanelJuego.getInstance().borrarJugador();
                 }
                 
-             //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCenterY()),JPanelJuego.getPosicionX(personaje.getCenterX()), personaje.Identificacion);
+             //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCentro().y),JPanelJuego.getPosicionX(personaje.getCentro().x), personaje.Identificacion);
                     
             }            
         });
@@ -90,12 +90,12 @@ public class Smart {
                     personaje.setEstadoActual(Personaje.Estado.ABAJO);
                     personaje.MovimientoAbajo();
                 }
-                if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
+                if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCentro().x)==JPanelJuego.getPosicionX(personaje.getCentro().x)&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCentro().y)==JPanelJuego.getPosicionY(personaje.getCentro().y)&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                    timer.stop();
                     JPanelJuego.getInstance().borrarJugador();
                 }
                 
-             //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCenterY()),JPanelJuego.getPosicionX(personaje.getCenterX()), personaje.Identificacion);
+             //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCentro().y),JPanelJuego.getPosicionX(personaje.getCentro().x), personaje.Identificacion);
                     
             }            
         });
@@ -129,11 +129,11 @@ public class Smart {
                     personaje.setEstadoActual(Personaje.Estado.ABAJO);
                     personaje.MovimientoAbajo();
                 }
-                if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCenterX())==JPanelJuego.getPosicionX(personaje.getCenterX())&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCenterY())==JPanelJuego.getPosicionY(personaje.getCenterY())&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
+                if(JPanelJuego.getPosicionX(JPanelJuego.getInstance().primerJugador().getCentro().x)==JPanelJuego.getPosicionX(personaje.getCentro().x)&&JPanelJuego.getPosicionY(JPanelJuego.getInstance().primerJugador().getCentro().y)==JPanelJuego.getPosicionY(personaje.getCentro().y)&&!JPanelJuego.getInstance().primerJugador().getMYSTERY()){
                     timer.stop();
                     JPanelJuego.getInstance().borrarJugador();
                 }
-             //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCenterY()),JPanelJuego.getPosicionX(personaje.getCenterX()), personaje.Identificacion);
+             //   JPanelJuego.getMapa().setObjetoMapa(JPanelJuego.getPosicionY(personaje.getCentro().y),JPanelJuego.getPosicionX(personaje.getCentro().x), personaje.Identificacion);
                     
             }            
         });

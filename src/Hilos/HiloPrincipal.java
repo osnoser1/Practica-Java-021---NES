@@ -5,6 +5,7 @@
 package Hilos;
 
 import Dependencias.Metodos;
+import GUI.JPanelContenedor;
 import GUI.JPanelJuego;
 
 /**
@@ -15,15 +16,17 @@ public class HiloPrincipal implements Runnable {
     
     private Thread hilo;
     private JPanelJuego jPanelJuego;
+    private JPanelContenedor jPanelContenedor;
     private short FPS;
     private long tiempoEnMilisegundos;
     private long tiempoTranscurrido;
     private boolean estaActivo;
     private boolean pausa;
 
-    public HiloPrincipal(JPanelJuego jPanelJuego, short FPS) {
+    public HiloPrincipal(JPanelContenedor jPanelContenedor, short FPS) {
         hilo = new Thread(this);
-        this.jPanelJuego = jPanelJuego;
+        this.jPanelJuego = JPanelJuego.getInstance();
+        this.jPanelContenedor = jPanelContenedor;
         this.FPS = FPS;
         tiempoEnMilisegundos = 1000 / FPS;
     }
@@ -39,9 +42,9 @@ public class HiloPrincipal implements Runnable {
             tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
             if(tiempoTranscurrido > tiempoEnMilisegundos){
                 tiempoActual = System.currentTimeMillis();
-                jPanelJuego.limpiar();
+//                jPanelContenedor.getActual().actualizar(tiempoEnMilisegundos);
+//                jPanelContenedor.repaint();
                 jPanelJuego.actualizar(tiempoEnMilisegundos);
-                colisiones();
                 jPanelJuego.repaint();
                 tiempoTranscurrido = 0;
             }else
