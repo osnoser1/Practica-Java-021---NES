@@ -5,18 +5,20 @@
 package GUI;
 
 import Fuentes.Fuentes;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.AbstractAction;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
  *
  * @author Alfonso Andrés
  */
-public class JPanelInformacion extends javax.swing.JPanel {
+public class JPanelInformacion {
     
     private int puntaje;
     private static JPanelInformacion instance;
@@ -38,8 +40,6 @@ public class JPanelInformacion extends javax.swing.JPanel {
 
     private void initComponents() {
         SIZE = new Dimension(640, 60);
-        setBackground(new Color(188, 188, 188));
-        setPreferredSize(new java.awt.Dimension(SIZE.width, SIZE.height));
         fuentes = new Fuentes();
         iniciar();
         timer = new Timer(1000, new AbstractAction() {
@@ -49,14 +49,8 @@ public class JPanelInformacion extends javax.swing.JPanel {
             }
         });
     }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(imagen, 0, 0, SIZE.width, SIZE.height, this);
-    }
-
-    private void drawString(Graphics2D g2, String string, Point point) {
+    
+    private void drawString(Graphics g2, String string, Point point) {
         g2.setColor(Color.BLACK);
         g2.setFont(fuentes.getJoystixMonospacce(25));
         g2.drawString(string, point.x + 1, point.y + 1);
@@ -67,7 +61,7 @@ public class JPanelInformacion extends javax.swing.JPanel {
 
     private void iniciar() {
         imagen = new BufferedImage(640, 60, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = imagen.createGraphics();
+        Graphics g2 = imagen.createGraphics();
         g2.setColor(new Color(188, 188, 188));
         g2.fillRect(0, 0, 639, 69);
         drawStrings(g2);
@@ -105,7 +99,7 @@ public class JPanelInformacion extends javax.swing.JPanel {
         return vidasRestantes;
     }
 
-    private void drawStrings(Graphics2D g2) {
+    private void drawStrings(Graphics g2) {
         for(int i = 0; i < this.cantidadOpciones; i++) {
             drawString(g2, getString(i), getPosicion(i));
         }
@@ -143,7 +137,6 @@ public class JPanelInformacion extends javax.swing.JPanel {
     public void detenerCuentaRegresiva() {
         timer.stop();
         iniciar();
-        repaint();
     }
 
     private void disminuirContador() {
@@ -153,15 +146,20 @@ public class JPanelInformacion extends javax.swing.JPanel {
         }
         tiempoRestante--;
         iniciar();
-        repaint();
     }
 
     public void setSIZE(Dimension dim) {
         int y = (int)Math.round(dim.height / 14.0);
         SIZE = new Dimension(dim.width, y + y / 2);
         System.out.println(dim + " " + SIZE + " " + y);
-        this.setPreferredSize(SIZE);
-        this.setSize(SIZE);
-        SwingUtilities.updateComponentTreeUI(this);
     }
+    
+    public int getAlto() {
+        return SIZE.height;
+    }
+    
+    public void pintar(Graphics g) {
+        g.drawImage(imagen, 0, 0, SIZE.width, SIZE.height, null);
+    }
+    
 }

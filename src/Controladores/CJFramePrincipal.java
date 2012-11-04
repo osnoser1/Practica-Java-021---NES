@@ -50,8 +50,6 @@ public class CJFramePrincipal extends java.awt.event.WindowAdapter implements Co
     @Override
     public void windowGainedFocus(WindowEvent e) {
         System.out.println("windowGainedFocus");
-        if(JPanelPresentacion.getInstance().isVisible())
-            JPanelPresentacion.getInstance().requestFocus();
     }
 
     @Override

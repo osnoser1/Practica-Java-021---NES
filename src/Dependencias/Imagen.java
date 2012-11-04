@@ -58,7 +58,7 @@ public class Imagen {
     public void actualizar(int frameActual) {
         if (!active)
             return;
-        if (frameActual < 0 || frameActual > getColumnas())
+        if (frameActual < 0 || frameActual > columnas)
             System.err.println("No existe el cuadro " + frameActual + ".");
         // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
         sourceRect = new Rectangle(frameActual * ancho, estado * alto, ancho, alto);

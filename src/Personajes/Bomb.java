@@ -52,7 +52,7 @@ public class Bomb extends Personaje {
     public void detonar(){
         setActivo(false);
         setEstadoActual(Estado.MUERTE);
-        fire = new Fire(x, y, JPanelJuego.getInstance().primerJugador().getFLAMES());
+        fire = new Fire(x, y, JPanelJuego.getInstance(null).primerJugador().getFLAMES());
         Sonidos.getInstance().getNewSonido(Sonidos.EXPLOSION_1).play();
     }
 

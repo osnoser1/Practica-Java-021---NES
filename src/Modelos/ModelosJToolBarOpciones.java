@@ -64,13 +64,13 @@ public class ModelosJToolBarOpciones {
     }
     
     public void start() {
-        JPanelContenedor jPanelContenedor = JPanelContenedor.getInstance();
-        JPanelAvisos jPanelAvisos = JPanelAvisos.getInstance();
-        jPanelContenedor.removeAll();
-        jPanelContenedor.add(jPanelAvisos);
-        jPanelAvisos.iniciarJPanelStage();
-        jPanelAvisos.setMAX_NIVEL((short)1);
-        new Hilos.HiloPanelPresentacion().start();
+//        JPanelContenedor jPanelContenedor = JPanelContenedor.getInstance();
+//        JPanelAvisos jPanelAvisos = JPanelAvisos.getInstance();
+//        jPanelContenedor.removeAll();
+//        jPanelContenedor.add(jPanelAvisos);
+//        jPanelAvisos.iniciarJPanelStage();
+//        jPanelAvisos.setMAX_NIVEL((short)1);
+//        new Hilos.HiloPanelPresentacion().start();
     }
 
     public void saveMapa() {
@@ -120,7 +120,7 @@ public class ModelosJToolBarOpciones {
     private void pintarMapa(String[][] mapa) {
         Mapa mapa1 = Mapa.getInstance();
         mapa1.setMapa(mapa);
-        JPanelJuego jPanelJuego = JPanelJuego.getInstance();
+        JPanelJuego jPanelJuego = JPanelJuego.getInstance(null);
         jPanelJuego.borrarEnemigos();
         for(int i = 1; i < Mapa.FILAS; i++) {
             for(int j = 1; j < Mapa.COLUMNAS; j++){
@@ -128,7 +128,6 @@ public class ModelosJToolBarOpciones {
                 jPanelJuego.pintarCasilla(j, i);
             }
         }
-        jPanelJuego.repaint();
     }
     
 }

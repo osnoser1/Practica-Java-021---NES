@@ -4,10 +4,12 @@
  */
 package GUI;
 
+import Bomberman.Core.Configuracion;
 import Bomberman.Core.Constantes;
+import Bomberman.Core.ControlJuego;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
-import Hilos.HiloPrincipal;
+import Dependencias.Sonido;
 import Personajes.*;
 import Sonidos.Sonidos;
 import Utilidades.Graficos.Ventana;
@@ -24,35 +26,35 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * @author Alfonso Andrés
  */
-public class JPanelJuego extends javax.swing.JPanel implements Interfaz{
+public class JPanelJuego extends Interfaz {
     
     private static JPanelJuego instance;
-    private static int x, y;
-    private boolean derrotados;
-    private HiloPrincipal hiloPrincipal;
-    private boolean Powerup, Puerta;
+    private int x, y;
+    private boolean derrotados, powerup, puerta;
     private Mapa mapa;
     private BufferedImage imagen, buffer;
-    private Dimension SIZE;
+    private Dimension SIZE, tamañoVentana;
     private CopyOnWriteArrayList<Enemigo> enemigos;
     private CopyOnWriteArrayList<Ladrillo> ladrillos;
     private Bomberman[] jugadores;
     private Ventana ventana;
     private Graphics g2;
-
-    private JPanelJuego() {
-        super(new java.awt.GridLayout(Mapa.FILAS, Mapa.COLUMNAS));
+    private ControlJuego controlJuego;
+    private JPanelInformacion jPanelInformacion;
+    
+    private JPanelJuego(JPanelContenedor jPanelContenedor) {
+        super(jPanelContenedor);
         initComponents();
     }
-
-    public static JPanelJuego getInstance() {
-        return instance == null ? (instance = new JPanelJuego()) : instance;
+    
+    public static JPanelJuego getInstance(JPanelContenedor jPanelContenedor) {
+        return instance == null ? (instance = new JPanelJuego(jPanelContenedor)) : instance;
     }
 
     private void initComponents() {
         SIZE = new Dimension(1240, 520);
+        tamañoVentana = Configuracion.getInstance().tamañoVentana;
         ventana = new Ventana(new Rectangle(640, 520), SIZE);
-        setOpaque(false);
         ladrillos = new CopyOnWriteArrayList<>();
         enemigos = new CopyOnWriteArrayList<>();
         jugadores = new Bomberman[4];
@@ -65,23 +67,20 @@ public class JPanelJuego extends javax.swing.JPanel implements Interfaz{
         pintarMapa(buffer.createGraphics());
         g2 = imagen.getGraphics();
         g2.drawImage(buffer, 0, 0, null);
+        controlJuego = new ControlJuego(this);
+        jPanelInformacion = JPanelInformacion.getInstance();
     }
 
     @Override
     public void reiniciar() {
-        hiloPrincipal.stop();
         borrarEnemigos();
         ladrillos.clear();
         mapa.borrarMapa();
+        pintarMapa(g2);
         ventana.reiniciar();
         primerJugador().reiniciar(1, 1);
-        Powerup = false;
-        Puerta = false;
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        pintar(g);
+        powerup = false;
+        puerta = false;
     }
 
     public CopyOnWriteArrayList<Enemigo> getEnemigos() {
@@ -90,51 +89,32 @@ public class JPanelJuego extends javax.swing.JPanel implements Interfaz{
 
     void setSIZE(Dimension dim) {
         int x1 = (int) Math.round(dim.width / 16.0);
-        int y1 /* = (int)Math.round(dim.height / 13.0) */;
-//      if(!editing) {
-        y1 = (int) Math.round(dim.height / 14.0);
-//      SIZE = new Dimension(dim.width * 2 - x1, dim.height - y1);
-//        } else {
-//      y1 = (int)Math.round(dim.height / 26.0);
+        int y1 = (int) Math.round(dim.height / 14.0);
         SIZE = new Dimension(dim.width * 2 - x1, dim.height - y1);
-//      }
-//      SIZE = new Dimension(dim.width * 2 - x1, dim.height - y1);
         System.out.println(dim + " " + SIZE + " " + y1 + " " + x1);
-        setPreferredSize(SIZE);
-        setSize(SIZE);
-//         x = (int)Math.round(SIZE.width / 31.0);
-//         y = (int)Math.round(SIZE.height / 13.0);
     }
 
-    public void pintarMapa(Graphics g2) {
-        g2.setColor(new java.awt.Color(80, 160, 0));
-        g2.fillRect(x, y, SIZE.width - x * 2, SIZE.height - y * 2);
+    public void pintarMapa(Graphics g) {
+        g.setColor(new java.awt.Color(80, 160, 0));
+        g.fillRect(x, y, SIZE.width - x * 2, SIZE.height - y * 2);
         for(int i = 0; i < Mapa.FILAS; i++) {
             for(int j = 0; j < Mapa.COLUMNAS; j++) {
                 switch(mapa.getObjetoMapa(i, j)) {
                     case "A":
-                        g2.drawImage(Imagenes.ACERO, Math.round(j * x), Math.round(i * y), x, y, this);
+                        g.drawImage(Imagenes.ACERO, Math.round(j * x), Math.round(i * y), x, y, null);
                         break;
                 }
             }
         }
     }
 
-    public static short getPosicionX(int X) {
-        return (short)(X / x);
-    }
-
-    public static short getPosicionY(int Y) {
-        return (short)(Y / y);
-    }
-
     public void pintarCasilla(int i, int j) {
         int c = -1;
-        if (!Puerta) {
-            Puerta = true;
+        if (!puerta) {
+            puerta = true;
             c = Imagenes.LADRILLO_ESPECIAL.size() - 1;
-        } else if(!Powerup) {
-            Powerup = true;
+        } else if(!powerup) {
+            powerup = true;
             c = new Random().nextInt(6);
         }
         if(mapa.getObjetoMapa(i, j).equals("A"))
@@ -297,11 +277,6 @@ public class JPanelJuego extends javax.swing.JPanel implements Interfaz{
         return enemigos.get(i);
     }
 
-    public void iniciarHiloPrincipal() {
-        hiloPrincipal = new HiloPrincipal(JPanelContenedor.getInstance(), (short) 60);
-        hiloPrincipal.start();
-    }
-
     @SuppressWarnings("element-type-mismatch")
     public void removerEnemigo(Personaje personaje) {
         enemigos.remove(personaje);
@@ -316,8 +291,7 @@ public class JPanelJuego extends javax.swing.JPanel implements Interfaz{
     @Override
     public void actualizar(long tiempoTranscurrido) {
         ventana.actualizar(primerJugador().getCentro());
-        primerJugador().borrar(g2, buffer);
-        primerJugador().actualizar(this, tiempoTranscurrido);
+        actualizarJugador(tiempoTranscurrido);
         for(Enemigo enemigo : getEnemigos()) {
             enemigo.borrar(g2, buffer);
             enemigo.actualizar(this, tiempoTranscurrido);
@@ -334,16 +308,23 @@ public class JPanelJuego extends javax.swing.JPanel implements Interfaz{
                 ladrillos.remove(ladrillo);
             }
         }
+        controlJuego.actualizar();
     }
 
     @Override
     public void pintar(Graphics g) {
+        jPanelInformacion.pintar(g);
         Rectangle posicion = ventana.getPosicion();
         actualizarMapa();
+        pintarImagen();
+        g.create(0, jPanelInformacion.getAlto(), tamañoVentana.width, tamañoVentana.height).drawImage(imagen.getSubimage(posicion.x, posicion.y, posicion.width, posicion.height), 0, 0, tamañoVentana.width, SIZE.height, null);
+    }
+    
+    public void pintarImagen() {
         dibujarLadrillos(g2);
         dibujarBombas(g2);
         dibujarPersonajes(g2);
-        g.drawImage(imagen.getSubimage(posicion.x, posicion.y, posicion.width, posicion.height), 0, 0, getWidth(), SIZE.height, this);
+        controlJuego.pintar(g2);
     }
     
     public void generarMapa() {
@@ -379,6 +360,32 @@ public class JPanelJuego extends javax.swing.JPanel implements Interfaz{
         
     public String determinarEnemigo(int c) {
         return c > 6 ? Constantes.Objetos.PONTAN.getValue() : Constantes.Objetos.getEnemigos()[c].getValue();
+    }
+
+    private void actualizarJugador(long tiempoTranscurrido) {
+        primerJugador().borrar(g2, buffer);
+        primerJugador().actualizar(this, tiempoTranscurrido);
+        if(primerJugador().getEstadoActual() == Personaje.Estado.ELIMINADO) {
+            if(Sonidos.getInstance().getSonido(Sonidos.JUST_DIED).isPlaying())
+                return;
+            jPanelInformacion.disminuirVidasRestantes();
+            jPanelInformacion.detenerCuentaRegresiva();
+            if(jPanelInformacion.getVidasRestantes() < 0) {
+                jPanelInformacion.setVidasRestantes(2);
+                JPanelAvisos.getInstance(null).setNivel((short)1);
+                jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_GAME_OVER);
+            }else
+                jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_STAGE);
+        }else if(primerJugador().isEntroALaPuerta()) {
+            if(Sonidos.getInstance().getSonido(Sonidos.LEVEL_COMPLETE).isPlaying())
+                return;
+            jPanelInformacion.detenerCuentaRegresiva();
+            JPanelAvisos.getInstance(null).aumentarNivel();
+            if(JPanelAvisos.getInstance(null).finDeJuego()) {
+                
+            }else
+                jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_STAGE);
+        }
     }
        
 }

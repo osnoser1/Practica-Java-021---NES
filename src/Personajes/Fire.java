@@ -105,50 +105,50 @@ public class Fire extends Personaje {
         for(int i=1;i<=espacio;i++) {
             if(ChoqueArriba("A",i)||ChoqueArriba("L",i)||ChoqueArriba("X",i)||ChoqueArriba("Q",i)||ChoqueArriba("S",i)){
                 espacioArriba=i-1;
-                JPanelJuego.getInstance().borrarLadrillo(new Point(posicionMapa.x, posicionMapa.y - i));
-                JPanelJuego.getInstance().borrarBombs(new Point(posicionMapa.x, posicionMapa.y - i));
+                JPanelJuego.getInstance(null).borrarLadrillo(new Point(posicionMapa.x, posicionMapa.y - i));
+                JPanelJuego.getInstance(null).borrarBombs(new Point(posicionMapa.x, posicionMapa.y - i));
                 break;
             }else if(!ChoqueArriba("V",i)){
-                JPanelJuego.getInstance().borrarEnemigo(new Point(posicionMapa.x, posicionMapa.y - i));
+                JPanelJuego.getInstance(null).borrarEnemigo(new Point(posicionMapa.x, posicionMapa.y - i));
                 
-                if(!JPanelJuego.getInstance().primerJugador().getFLAMEPASS())
-                   JPanelJuego.getInstance().borrarJugador(new Point(posicionMapa.x, posicionMapa.y - i));
+                if(!JPanelJuego.getInstance(null).primerJugador().getFLAMEPASS())
+                   JPanelJuego.getInstance(null).borrarJugador(new Point(posicionMapa.x, posicionMapa.y - i));
             }
         }
         for(int i=1;i<=espacio;i++) {
             if(ChoqueAbajo("A",i)||ChoqueAbajo("L",i)||ChoqueAbajo("X",i)||ChoqueAbajo("Q",i)||ChoqueAbajo("S",i)){
                 espacioAbajo=i-1;
-                JPanelJuego.getInstance().borrarLadrillo(new Point(posicionMapa.x, posicionMapa.y + i));
-                JPanelJuego.getInstance().borrarBombs(new Point(posicionMapa.x, posicionMapa.y + i));     
+                JPanelJuego.getInstance(null).borrarLadrillo(new Point(posicionMapa.x, posicionMapa.y + i));
+                JPanelJuego.getInstance(null).borrarBombs(new Point(posicionMapa.x, posicionMapa.y + i));     
                 break;
             }else if(!ChoqueAbajo("V",i)) {
-                JPanelJuego.getInstance().borrarEnemigo(new Point(posicionMapa.x, posicionMapa.y + i));
-                if(!JPanelJuego.getInstance().primerJugador().getFLAMEPASS())
-                   JPanelJuego.getInstance().borrarJugador(new Point(posicionMapa.x, posicionMapa.y + i));
+                JPanelJuego.getInstance(null).borrarEnemigo(new Point(posicionMapa.x, posicionMapa.y + i));
+                if(!JPanelJuego.getInstance(null).primerJugador().getFLAMEPASS())
+                   JPanelJuego.getInstance(null).borrarJugador(new Point(posicionMapa.x, posicionMapa.y + i));
             }
         }
         for(int i=1;i<=espacio;i++) {
             if(ChoqueIzquierda("A",i)||ChoqueIzquierda("L",i)||ChoqueIzquierda("X",i)||ChoqueIzquierda("Q",i)||ChoqueIzquierda("S",i)){
                 espacioIzquierda=i-1;
-                JPanelJuego.getInstance().borrarLadrillo(new Point(posicionMapa.x - i, posicionMapa.y));
-                JPanelJuego.getInstance().borrarBombs(new Point(posicionMapa.x - i, posicionMapa.y));
+                JPanelJuego.getInstance(null).borrarLadrillo(new Point(posicionMapa.x - i, posicionMapa.y));
+                JPanelJuego.getInstance(null).borrarBombs(new Point(posicionMapa.x - i, posicionMapa.y));
                 break;
             }else if(!ChoqueIzquierda("V",i)) {
-                JPanelJuego.getInstance().borrarEnemigo(new Point(posicionMapa.x - i, posicionMapa.y));
-                if(!JPanelJuego.getInstance().primerJugador().getFLAMEPASS())
-                   JPanelJuego.getInstance().borrarJugador(new Point(posicionMapa.x - i, posicionMapa.y));
+                JPanelJuego.getInstance(null).borrarEnemigo(new Point(posicionMapa.x - i, posicionMapa.y));
+                if(!JPanelJuego.getInstance(null).primerJugador().getFLAMEPASS())
+                   JPanelJuego.getInstance(null).borrarJugador(new Point(posicionMapa.x - i, posicionMapa.y));
             }
         }
         for(int i=1;i<=espacio;i++) {
             if(ChoqueDerecha("A",i)||ChoqueDerecha("L",i)||ChoqueDerecha("X",i)||ChoqueDerecha("Q",i)||ChoqueDerecha("S",i)){
                 espacioDerecha=i-1;
-                JPanelJuego.getInstance().borrarLadrillo(new Point(posicionMapa.x + i, posicionMapa.y));
-                JPanelJuego.getInstance().borrarBombs(new Point(posicionMapa.x + i, posicionMapa.y));
+                JPanelJuego.getInstance(null).borrarLadrillo(new Point(posicionMapa.x + i, posicionMapa.y));
+                JPanelJuego.getInstance(null).borrarBombs(new Point(posicionMapa.x + i, posicionMapa.y));
                 break;
             }else if(!ChoqueDerecha("V",i)) {
-                JPanelJuego.getInstance().borrarEnemigo(new Point(posicionMapa.x + i, posicionMapa.y));
-                if(!JPanelJuego.getInstance().primerJugador().getFLAMEPASS())
-                   JPanelJuego.getInstance().borrarJugador(new Point(posicionMapa.x + i, posicionMapa.y));
+                JPanelJuego.getInstance(null).borrarEnemigo(new Point(posicionMapa.x + i, posicionMapa.y));
+                if(!JPanelJuego.getInstance(null).primerJugador().getFLAMEPASS())
+                   JPanelJuego.getInstance(null).borrarJugador(new Point(posicionMapa.x + i, posicionMapa.y));
             }
         }
 

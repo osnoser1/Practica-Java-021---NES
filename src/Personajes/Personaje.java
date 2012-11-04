@@ -173,19 +173,19 @@ public abstract class Personaje {
         return inteligencia;
     }
 
-    public void MovimientoDerecha() {
+    public void movimientoDerecha() {
         velocidad = Math.abs(velocidad);
         updateX();
     }
-    public void MovimientoIzquierda() {
+    public void movimientoIzquierda() {
         velocidad = -Math.abs(velocidad);
         updateX();
     }
-    public void MovimientoArriba() {
+    public void movimientoArriba() {
         velocidad = -Math.abs(velocidad);
         updateY();
     }
-    public void MovimientoAbajo() {
+    public void movimientoAbajo() {
         velocidad = Math.abs(velocidad);
         updateY();
     }
@@ -235,24 +235,24 @@ public abstract class Personaje {
     }
 
     public boolean ChoqueDerecha(String a,int n){
-        return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+2*vary),JPanelJuego.getPosicionX(x+varx)+n)==a)||
-                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+imagen.getAltoEscalado()-2*vary),JPanelJuego.getPosicionX(x+varx)+n)==a));
+        return ((Mapa.getInstance().getObjetoMapa(getPosicionY(y+2*vary),getPosicionX(x+varx)+n)==a)||
+                (Mapa.getInstance().getObjetoMapa(getPosicionY(y+imagen.getAltoEscalado()-2*vary),getPosicionX(x+varx)+n)==a));
     }
     
     public boolean ChoqueIzquierda(String a,int n){
-        return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+2*vary),JPanelJuego.getPosicionX(x+imagen.getAnchoEscalado()-varx)-n)==a)||
-                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+imagen.getAltoEscalado()-2*vary),JPanelJuego.getPosicionX(x+imagen.getAnchoEscalado()-varx)-n)==a));
+        return ((Mapa.getInstance().getObjetoMapa(getPosicionY(y+2*vary),getPosicionX(x+imagen.getAnchoEscalado()-varx)-n)==a)||
+                (Mapa.getInstance().getObjetoMapa(getPosicionY(y+imagen.getAltoEscalado()-2*vary),getPosicionX(x+imagen.getAnchoEscalado()-varx)-n)==a));
     }
     
     public boolean ChoqueArriba(String a,int n){
         return (
-                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+imagen.getAltoEscalado()-vary)-n,JPanelJuego.getPosicionX(x+2*varx))==a  )||
-                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionY(y+imagen.getAltoEscalado()-vary)-n,JPanelJuego.getPosicionX(x+imagen.getAnchoEscalado()-2*varx))==a  ));
+                (Mapa.getInstance().getObjetoMapa(getPosicionY(y+imagen.getAltoEscalado()-vary)-n,getPosicionX(x+2*varx))==a  )||
+                (Mapa.getInstance().getObjetoMapa(getPosicionY(y+imagen.getAltoEscalado()-vary)-n,getPosicionX(x+imagen.getAnchoEscalado()-2*varx))==a  ));
     }
     
     public boolean ChoqueAbajo(String a,int n){
-        return ((Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionX(y) + n, JPanelJuego.getPosicionX(x+2*varx)) == a  )||
-                (Mapa.getInstance().getObjetoMapa(JPanelJuego.getPosicionX(y) + n, JPanelJuego.getPosicionX(x+imagen.getAnchoEscalado()-2*varx))==a  ));
+        return ((Mapa.getInstance().getObjetoMapa(getPosicionX(y) + n, getPosicionX(x+2*varx)) == a  )||
+                (Mapa.getInstance().getObjetoMapa(getPosicionX(y) + n, getPosicionX(x+imagen.getAnchoEscalado()-2*varx))==a  ));
     }
 
     public boolean ChoqueCentral(String a){
@@ -273,7 +273,7 @@ public abstract class Personaje {
                 ((!ChoqueDerecha("L",1)&&velocidad>0||!ChoqueIzquierda("L",1)&&velocidad<0)||wallpass)&&
                 (
                   (!ChoqueDerecha("X",1)&&velocidad>0||!ChoqueIzquierda("X",1)&&velocidad<0)&&!"B".equals(identificacion)||
-                  (!ChoqueDerecha("X",1)&&velocidad>0||!ChoqueIzquierda("X",1)&&velocidad<0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||dentroBomb)&&"B".equals(identificacion)
+                  (!ChoqueDerecha("X",1)&&velocidad>0||!ChoqueIzquierda("X",1)&&velocidad<0||JPanelJuego.getInstance(null).primerJugador().getBOMBPASS()||dentroBomb)&&"B".equals(identificacion)
                 )
                );
     }
@@ -284,7 +284,7 @@ public abstract class Personaje {
                 (!ChoqueArriba("L",1)&&velocidad<0||!ChoqueAbajo("L",1)&&velocidad>0||wallpass)&&
                 (
                   (!ChoqueArriba("X",1)&&velocidad<0||!ChoqueAbajo("X",1)&&velocidad>0)&&!"B".equals(identificacion)||
-                  (!ChoqueArriba("X",1)&&velocidad<0||!ChoqueAbajo("X",1)&&velocidad>0||JPanelJuego.getInstance().primerJugador().getBOMBPASS()||dentroBomb)&&"B".equals(identificacion)
+                  (!ChoqueArriba("X",1)&&velocidad<0||!ChoqueAbajo("X",1)&&velocidad>0||JPanelJuego.getInstance(null).primerJugador().getBOMBPASS()||dentroBomb)&&"B".equals(identificacion)
                 )
                );
     }
@@ -299,6 +299,14 @@ public abstract class Personaje {
     
     public void borrar(Graphics g, java.awt.image.BufferedImage imagen) {
         g.drawImage(imagen.getSubimage(x, y, this.imagen.getAnchoEscalado(), this.imagen.getAltoEscalado()), x, y, null);
+    }
+    
+    public short getPosicionX(int X) {
+        return (short)(X / imagen.getAnchoEscalado());
+    }
+
+    public short getPosicionY(int Y) {
+        return (short)(Y / imagen.getAltoEscalado());
     }
     
 }

@@ -40,6 +40,14 @@ public class Teclado {
         return teclas.containsKey(keyCode) && teclas.get(keyCode) == EstadoTecla.PRESIONADA;
     }
     
+    public boolean teclaPresionada() {
+        for(EstadoTecla estado : teclas.values()) {
+            if(estado == EstadoTecla.PRESIONADA)
+                return true;
+        }
+        return false;
+    }
+    
     public boolean teclaLiberada(int keyCode){
         return !teclaPresionada(keyCode);
     }

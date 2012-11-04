@@ -8,7 +8,6 @@ import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
 import GUI.JPanelJuego;
-import Hilos.HiloPanelTransicionMuerte;
 import Sonidos.Sonidos;
 import Utilidades.Juego.GamePad;
 import Utilidades.Juego.GamePad.Botones;
@@ -23,6 +22,7 @@ public class Bomberman extends Personaje {
     private boolean SPEED,DETONADOR,BOMBPASS,FLAMEPASS,MYSTERY;
     private int FLAMES,BOMBS;
     private static CopyOnWriteArrayList<Bomb> bombas;
+    private boolean entroALaPuerta;
     
     public Bomberman(int x,int y) {
         bombas = new CopyOnWriteArrayList<>();
@@ -50,7 +50,7 @@ public class Bomberman extends Personaje {
             put(Estado.ABAJO.ordinal(), new Animation("2,1,0,1", 4000 / 60));
             put(Estado.DERECHA.ordinal(), new Animation("2,1,0,1", 4000 / 60));
             put(Estado.IZQUIERDA.ordinal(), new Animation("2,1,0,1", 4000 / 60));
-            put(Estado.MUERTE.ordinal(), new Animation("0,1,2,3,4", 500));
+            put(Estado.MUERTE.ordinal(), new Animation("0,1,2,3,4", 300));
         }};
         setEstadoActual(Estado.IZQUIERDA);
     }
@@ -132,7 +132,7 @@ public class Bomberman extends Personaje {
                 if(!ChoqueCentral("X"))
                     dentroBomb = true;
                 Sonidos.getInstance().getSonido(Sonidos.BOMB_PLANT).play();
-                bombas.add(new Bomb((int)(posicionMapa.x * imagen.getAnchoEscalado()), (int)(posicionMapa.y * imagen.getAltoEscalado()), this));
+                bombas.add(new Bomb(posicionMapa.x * imagen.getAnchoEscalado(), posicionMapa.y * imagen.getAltoEscalado(), this));
             }
     }
   
@@ -182,33 +182,33 @@ public class Bomberman extends Personaje {
     public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         if(actualizarAnimacion(tiempoTranscurrido)) {
             Sonidos.getInstance().detenerSonidos();
-            Sonidos.getInstance().getSonido(Sonidos.JUST_DIED).play();
-            new HiloPanelTransicionMuerte().start();
             setEstadoActual(Estado.ELIMINADO);
+            Sonidos.getInstance().getSonido(Sonidos.JUST_DIED).play();
         }
     }
 
     private void verificarTeclasAccion() {
         if(teclado.teclaPresionada(gamePad.getBoton(Botones.A))) {
-            JPanelJuego.getInstance().primerJugador().crearBomba();
+            crearBomba();
         }
-        if(teclado.teclaPresionada(gamePad.getBoton(Botones.B))) {
-            if(DETONADOR)
-                detonarBomba();
+        if(teclado.teclaPresionada(gamePad.getBoton(Botones.B)) && DETONADOR) {
+            detonarBomba();
         }
     }
 
     private boolean verificarMovimiento(JPanelJuego jPanelJuego) {
+        if(entroALaPuerta)
+            return false;
         boolean movimiento = true;
         if(teclado.teclaPresionada(gamePad.getBoton(Botones.ARRIBA))){
             setEstadoActual(Estado.ARRIBA);
             Sonidos.getInstance().getSonido(Sonidos.UP).play();
-            MovimientoArriba();
+            movimientoArriba();
         }else if(teclado.teclaPresionada(gamePad.getBoton(Botones.ABAJO))){
             Sonidos.getInstance().getSonido(Sonidos.UP).stop();
             setEstadoActual(Estado.ABAJO);
             Sonidos.getInstance().getSonido(Sonidos.DOWN).play();
-            MovimientoAbajo();
+            movimientoAbajo();
         }else{
             Sonidos.getInstance().detenerSonidos(Sonidos.UP, Sonidos.DOWN);
             movimiento = false;
@@ -216,19 +216,13 @@ public class Bomberman extends Personaje {
         if(teclado.teclaPresionada(gamePad.getBoton(Botones.DERECHA))){
             setEstadoActual(Estado.DERECHA);
             Sonidos.getInstance().getSonido(Sonidos.LEFT).play();
-            MovimientoDerecha();
-//            if(MovimientoDerecha() && getCentro().x >= jPanelJuego.getCuartoImagen().x && getCentro().x <= jPanelJuego.getTresCuartosImagen().x) {
-//                jPanelJuego.setPosicionX(jPanelJuego.getPosicionX() - getVelocidad() * jPanelJuego.getWidth() / jPanelJuego.getImagen().getWidth());
-//            }
+            movimientoDerecha();
             movimiento = true;
         } else if(teclado.teclaPresionada(gamePad.getBoton(Botones.IZQUIERDA))) {
             Sonidos.getInstance().getSonido(Sonidos.LEFT).stop();
             setEstadoActual(Estado.IZQUIERDA);
             Sonidos.getInstance().getSonido(Sonidos.RIGHT).play();
-            MovimientoIzquierda();
-//            if(MovimientoIzquierda() && getCentro().x >= jPanelJuego.getCuartoImagen().x && getCentro().x <= jPanelJuego.getTresCuartosImagen().x) {
-//                jPanelJuego.setPosicionX(jPanelJuego.getPosicionX() - getVelocidad() * jPanelJuego.getWidth() / jPanelJuego.getImagen().getWidth());
-//            }
+            movimientoIzquierda();
             movimiento = true;
         } else {
             Sonidos.getInstance().detenerSonidos(Sonidos.LEFT, Sonidos.RIGHT);
@@ -239,6 +233,7 @@ public class Bomberman extends Personaje {
     public void reiniciar(int x, int y) {
         super.reiniciar();
         fijarCasilla(x, y);
+        entroALaPuerta = false;
     }
 
     private void detonarBomba() {
@@ -260,4 +255,19 @@ public class Bomberman extends Personaje {
         }
     }
 
+    public void setEntroALaPuerta(boolean b) {
+        entroALaPuerta = true;
+    }
+
+    public boolean isEntroALaPuerta() {
+        return entroALaPuerta;
+    }
+
+    @Override
+    public void reiniciar() {
+        super.reiniciar();
+        entroALaPuerta = false;
+        bombas.clear();
+    }
+    
 }

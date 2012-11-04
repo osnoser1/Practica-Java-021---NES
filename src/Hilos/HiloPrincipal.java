@@ -15,7 +15,6 @@ import GUI.JPanelJuego;
 public class HiloPrincipal implements Runnable {
     
     private Thread hilo;
-    private JPanelJuego jPanelJuego;
     private JPanelContenedor jPanelContenedor;
     private short FPS;
     private long tiempoEnMilisegundos;
@@ -25,7 +24,6 @@ public class HiloPrincipal implements Runnable {
 
     public HiloPrincipal(JPanelContenedor jPanelContenedor, short FPS) {
         hilo = new Thread(this);
-        this.jPanelJuego = JPanelJuego.getInstance();
         this.jPanelContenedor = jPanelContenedor;
         this.FPS = FPS;
         tiempoEnMilisegundos = 1000 / FPS;
@@ -42,10 +40,8 @@ public class HiloPrincipal implements Runnable {
             tiempoTranscurrido = System.currentTimeMillis() - tiempoActual;
             if(tiempoTranscurrido > tiempoEnMilisegundos){
                 tiempoActual = System.currentTimeMillis();
-//                jPanelContenedor.getActual().actualizar(tiempoEnMilisegundos);
-//                jPanelContenedor.repaint();
-                jPanelJuego.actualizar(tiempoEnMilisegundos);
-                jPanelJuego.repaint();
+                jPanelContenedor.actualizar(tiempoEnMilisegundos);
+                jPanelContenedor.repaint();
                 tiempoTranscurrido = 0;
             }else
                 Metodos.sleep(tiempoEnMilisegundos - tiempoTranscurrido);
@@ -59,10 +55,6 @@ public class HiloPrincipal implements Runnable {
 
     public void stop(){
         estaActivo = false;
-    }
-
-    private void colisiones() {
-        
     }
 
     public void setFPS(short FPS) {
