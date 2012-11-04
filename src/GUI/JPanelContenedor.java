@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package GUI;
+import Bomberman.Core.Configuracion;
 import Hilos.HiloPrincipal;
 import Sonidos.Sonidos;
 import Utilidades.Juego.Interfaz;
@@ -41,6 +42,8 @@ public class JPanelContenedor extends JPanel {
             public void componentResized(ComponentEvent e) {
                 Component c = (Component)e.getSource();
                 escalamientoJPanel(c.getSize());
+                Configuracion.getInstance().tamañoVentana.width = c.getWidth();
+                Configuracion.getInstance().tamañoVentana.height = c.getHeight();
             }
         });
         new HiloPrincipal(this, (short)60).start();
