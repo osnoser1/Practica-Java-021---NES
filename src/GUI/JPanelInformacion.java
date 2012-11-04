@@ -41,6 +41,7 @@ public class JPanelInformacion {
     private void initComponents() {
         SIZE = new Dimension(640, 60);
         fuentes = new Fuentes();
+        imagen = new BufferedImage(640, 60, BufferedImage.TYPE_INT_RGB);
         iniciar();
         timer = new Timer(1000, new AbstractAction() {
             @Override
@@ -60,7 +61,6 @@ public class JPanelInformacion {
     }
 
     private void iniciar() {
-        imagen = new BufferedImage(640, 60, BufferedImage.TYPE_INT_RGB);
         Graphics g2 = imagen.createGraphics();
         g2.setColor(new Color(188, 188, 188));
         g2.fillRect(0, 0, 639, 69);
