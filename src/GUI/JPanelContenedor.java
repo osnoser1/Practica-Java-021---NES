@@ -4,28 +4,27 @@
  */
 package GUI;
 import Bomberman.Core.Configuracion;
-import Hilos.HiloPrincipal;
 import Sonidos.Sonidos;
 import Utilidades.Juego.Interfaz;
 import Utilidades.Juego.Interfaz.Escenas;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import javax.swing.JPanel;
 /**
  *
  * @author Alfonso Andrés
  */
-public class JPanelContenedor extends JPanel {
+public class JPanelContenedor extends javax.swing.JComponent {
     
     private static JPanelContenedor instance;
     private Interfaz actual;
     public Escenas escenaSeleccionada;
     
     private JPanelContenedor() {
-        super(new java.awt.BorderLayout());
         initComponents();
     }
 
@@ -46,11 +45,11 @@ public class JPanelContenedor extends JPanel {
                 Configuracion.getInstance().tamañoVentana.height = c.getHeight();
             }
         });
-        new HiloPrincipal(this, (short)60).start();
     }
 
     @Override
     public void paint(Graphics g) {
+        ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         actual.pintar(g);
     }
 
@@ -62,6 +61,8 @@ public class JPanelContenedor extends JPanel {
     public void cambiarInterfaz(Escenas nueva) {
         escenaSeleccionada = nueva;
         actual.reiniciar();
+        System.runFinalization();
+        System.gc();
         switch(nueva) {
             case ESCENA_MENU:
                 actual = JPanelPresentacion.getInstance(this);

@@ -28,12 +28,11 @@ public class Bomb extends Personaje {
             public void actionPerformed(ActionEvent e) {
                 if(!jugador.getDETONADOR() || jugador.getEstadoActual() == Estado.MUERTE)
                     detonar = true;
-                else
-                    timer.stop();
+                timer.stop();
             }            
         });
         timer.start();
-        this.inicializar(Imagenes.BOMBA, new Point(x, y), null);
+        inicializar(Imagenes.BOMBA, new Point(x, y), null);
     }
     
     public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {

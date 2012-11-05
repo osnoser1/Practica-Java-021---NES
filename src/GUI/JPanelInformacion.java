@@ -52,6 +52,8 @@ public class JPanelInformacion {
     }
     
     private void drawString(Graphics g2, String string, Point point) {
+        g2.setColor(new Color(188, 188, 188));
+        g2.fillRect(point.x, point.y - 25, 300, 30);
         g2.setColor(Color.BLACK);
         g2.setFont(fuentes.getJoystixMonospacce(25));
         g2.drawString(string, point.x + 1, point.y + 1);
@@ -131,12 +133,12 @@ public class JPanelInformacion {
 
     public void iniciarCuentaRegresiva() {
         tiempoRestante = 200;
+        iniciar();
         timer.start();
     }
 
     public void detenerCuentaRegresiva() {
         timer.stop();
-        iniciar();
     }
 
     private void disminuirContador() {
@@ -145,7 +147,7 @@ public class JPanelInformacion {
             return;
         }
         tiempoRestante--;
-        iniciar();
+        drawStrings(imagen.getGraphics());
     }
 
     public void setSIZE(Dimension dim) {

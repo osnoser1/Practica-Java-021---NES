@@ -16,7 +16,7 @@ import javax.swing.Timer;
 
 public abstract class Personaje {
     
-    protected int x, y, varx = 3, vary = 3, velocidad, Smart;
+    protected int x, y, varx = 3, vary = 3, velocidad, smart;
     protected final int SPEED_SLOWEST=1,SPEED_SLOW=2,SPEED_MID=4,SPEED_FAST=5,SMART_LOW=1,SMART_MID=2,SMART_HIGH=3,SMART_IMPOSSIBLE = 4;
     protected Smart inteligencia;
     protected Timer timer;

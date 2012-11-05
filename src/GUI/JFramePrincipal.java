@@ -8,7 +8,7 @@ import Bomberman.Core.Configuracion;
 import Controladores.CJFramePrincipal;
 import Dependencias.Imagenes;
 import Dependencias.ManejadorDeArchivos;
-import Utilidades.Graficos.AdministradorDePantalla;
+import Hilos.HiloPrincipal;
 import java.awt.DisplayMode;
 
 /**
@@ -17,6 +17,8 @@ import java.awt.DisplayMode;
  */
 public class JFramePrincipal extends javax.swing.JFrame{
 
+    HiloPrincipal hiloPrincipal;
+    
     private static final DisplayMode MODOS_POSIBLES[] = {
         new DisplayMode( 1900, 1080, 32, 0 ),
         new DisplayMode( 1366, 768, 32, 0 ),
@@ -26,15 +28,20 @@ public class JFramePrincipal extends javax.swing.JFrame{
         new DisplayMode( 800, 600, 32, 0 ),
     };
     
-    public JFramePrincipal(){
+    public JFramePrincipal() {
         super("Bomberman - NES");
         initComponents();
+        setVisible(true);
+        createBufferStrategy(2);
+        hiloPrincipal = new HiloPrincipal(this, (short)60);
+        hiloPrincipal.start();
     }
 
     private void initComponents() {
         requestFocusInWindow();
         setFocusable(true);
         setAutoRequestFocus(true);
+        setIgnoreRepaint(true);
         Imagenes.cargarImagenes();
         add(JPanelContenedor.getInstance());
         setSize(Configuracion.getInstance().tamañoVentana);
@@ -47,7 +54,6 @@ public class JFramePrincipal extends javax.swing.JFrame{
 //        AdministradorDePantalla administrador = new AdministradorDePantalla();
 //        administrador.encontrarPrimerModoCompatible(MODOS_POSIBLES);
 //        administrador.establecerPantallaCompleta(this);
-//        JPanelPresentacion.getInstance().repaint();
     }
     
 }

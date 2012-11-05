@@ -12,28 +12,25 @@ import java.io.IOException;
  *
  * @author Alfonso Andrés
  */
-public class Fuentes { 
+public class Fuentes {
     
-    public Fuentes(){}
-    
-    public Font getCalibri(float size){
-        Font calibri=null;
+    private Font calibri, joystixMonospacce;
+
+    public Fuentes() {
         try {
-            calibri=Font.createFont(Font.TRUETYPE_FONT,this.getClass().getResourceAsStream("/Fuentes/calibri.ttf"));
-        } catch (FontFormatException | IOException ex) {
+            calibri = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/Fuentes/calibri.ttf"));
+            joystixMonospacce = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/Fuentes/joystix_monospace.otf"));
+        } catch(FontFormatException | IOException ex) {
             System.out.println("Error al cargar fuente");
         }
-        return calibri.deriveFont(Font.PLAIN,size);
     }
 
-    public Font getJoystixMonospacce(float size){
-        Font joystixmonospace=null;
-        try {
-            joystixmonospace=Font.createFont(Font.TRUETYPE_FONT,this.getClass().getResourceAsStream("/Fuentes/joystix_monospace.otf"));
-        } catch (FontFormatException | IOException ex) {
-            System.out.println("Error al cargar fuente");
-        }
-        return joystixmonospace.deriveFont(Font.CENTER_BASELINE,size);
+    public Font getCalibri(float size) {
+        return calibri != null ? calibri.deriveFont(Font.PLAIN, size) : null;
+    }
+
+    public Font getJoystixMonospacce(float size) {
+        return joystixMonospacce != null ? joystixMonospacce.deriveFont(Font.CENTER_BASELINE, size) : null;
     }
     
 }

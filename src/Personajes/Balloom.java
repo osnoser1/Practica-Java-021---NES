@@ -13,17 +13,14 @@ import java.awt.Point;
  */
 public class Balloom extends Enemigo {
     
-    public Balloom(int x,int y) {
-        this.velocidad=this.SPEED_SLOW;
-        this.Smart=this.SMART_LOW;
-        this.puntaje=100;
-        this.wallpass=false;
-        this.x=x;
-        this.y=y;
-        this.identificacion="b";
-        this.inteligencia=new Smart(this);
+    public Balloom(int x, int y) {
+        velocidad = SPEED_SLOW;
+        smart = SMART_LOW;
+        puntaje = 100;
+        wallpass = false;
+        identificacion = "b";
+        inteligencia = new Smart(this);
         inicializar(Imagenes.BALLOOM, new Point(x, y), null);
     }
-
+    
 }
-

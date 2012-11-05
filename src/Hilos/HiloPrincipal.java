@@ -5,8 +5,9 @@
 package Hilos;
 
 import Dependencias.Metodos;
+import GUI.JFramePrincipal;
 import GUI.JPanelContenedor;
-import GUI.JPanelJuego;
+import java.awt.image.BufferStrategy;
 
 /**
  *
@@ -21,11 +22,15 @@ public class HiloPrincipal implements Runnable {
     private long tiempoTranscurrido;
     private boolean estaActivo;
     private boolean pausa;
+    private BufferStrategy buffer;
+    private final JFramePrincipal jFramePrincipal;
 
-    public HiloPrincipal(JPanelContenedor jPanelContenedor, short FPS) {
+    public HiloPrincipal(JFramePrincipal jFramePrincipal, short FPS) {
         hilo = new Thread(this);
-        this.jPanelContenedor = jPanelContenedor;
+        this.jPanelContenedor = JPanelContenedor.getInstance();
+        this.jFramePrincipal = jFramePrincipal;
         this.FPS = FPS;
+        buffer = jFramePrincipal.getBufferStrategy();
         tiempoEnMilisegundos = 1000 / FPS;
     }
     
@@ -41,7 +46,9 @@ public class HiloPrincipal implements Runnable {
             if(tiempoTranscurrido > tiempoEnMilisegundos){
                 tiempoActual = System.currentTimeMillis();
                 jPanelContenedor.actualizar(tiempoEnMilisegundos);
-                jPanelContenedor.repaint();
+                jFramePrincipal.paintComponents(buffer.getDrawGraphics());
+                buffer.show();
+//                jPanelContenedor.repaint();
                 tiempoTranscurrido = 0;
             }else
                 Metodos.sleep(tiempoEnMilisegundos - tiempoTranscurrido);

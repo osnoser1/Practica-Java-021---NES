@@ -28,7 +28,7 @@ public class PracticaJava021 {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new JFramePrincipal().setVisible(true);
+                new JFramePrincipal();
             }
         });
     }

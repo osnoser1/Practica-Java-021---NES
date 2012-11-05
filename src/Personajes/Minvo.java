@@ -5,26 +5,22 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import GUI.JPanelJuego;
-import java.awt.Graphics;
 import java.awt.Point;
 
 /**
  *
  * @author hp
  */
-public class Minvo extends Enemigo{
+public class Minvo extends Enemigo {
 
-    public Minvo(int x,int y){
-        super();
-        this.velocidad=this.SPEED_FAST;
-        this.Smart=this.SMART_MID;
-        this.puntaje=800;
-        this.wallpass=false;
-        this.x=x;
-        this.y=y;
-        this.identificacion="M";
-        this.inteligencia=new Smart(this);
+    public Minvo(int x, int y) {
+        velocidad = SPEED_FAST;
+        smart = SMART_MID;
+        puntaje = 800;
+        wallpass = false;
+        identificacion = "M";
+        inteligencia = new Smart(this);
         inicializar(Imagenes.MINVO, new Point(x, y), null);
     }
+    
 }

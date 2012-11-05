@@ -28,7 +28,7 @@ public class Smart {
     }
 
     private void determinarInteligencia() {
-        if(personaje.Smart == personaje.SMART_LOW){
+        if(personaje.smart == personaje.SMART_LOW){
             timer=new Timer(50,new AbstractAction(){
             int a=1,time=0;
                 @Override
@@ -60,7 +60,7 @@ public class Smart {
         });
         
         }
-        else if(personaje.Smart==personaje.SMART_MID){
+        else if(personaje.smart==personaje.SMART_MID){
             timer=new Timer(50,new AbstractAction(){
             int a=1,b=1,time=0;
                 @Override
@@ -95,7 +95,7 @@ public class Smart {
         });
       
         }
-        else if(personaje.Smart==personaje.SMART_HIGH){
+        else if(personaje.smart==personaje.SMART_HIGH){
                         timer=new Timer(50,new AbstractAction(){
             int a=1,b=1,time=0;
                             @Override
