@@ -14,6 +14,7 @@ import Personajes.Ovapi;
 import Personajes.Pass;
 import Personajes.Personaje;
 import Personajes.Pontan;
+import Utilidades.Graficos.Sprite;
 
 /**
  *
@@ -51,7 +52,7 @@ public interface Constantes {
             return new Objetos[]{ BALLOM, DOLL, KONDORIA, MINVO, ONEAL, OVAPI, PASS, PONTAN };
         }
         
-        public static Personaje getInstance(String identificador){
+        public static Sprite getInstance(String identificador){
             if(identificador.equals(BOMBERMAN.value))
                 return new Bomberman(0, 0);
             if(identificador.equals(BALLOM.value))

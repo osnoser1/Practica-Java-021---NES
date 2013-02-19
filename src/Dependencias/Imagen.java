@@ -91,6 +91,15 @@ public class Imagen {
                 destinationRect.width, destinationRect.height, color, null);
     }
     
+    public void pintar(Graphics g, int x, int y, int ancho, int alto)
+    {
+        if (!active)
+            return;
+        g.drawImage(imagen.getSubimage(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height), 
+                x, y, 
+                ancho, alto, color, null);
+    }
+    
     /**
      * @return the posicion
      */

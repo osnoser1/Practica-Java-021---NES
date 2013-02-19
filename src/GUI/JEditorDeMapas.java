@@ -8,14 +8,13 @@ import Bomberman.Core.Constantes;
 import Controladores.CJEditorDeMapas;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
-import Personajes.Animation;
 import Personajes.Personaje;
+import Utilidades.Graficos.Sprite;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -60,7 +59,7 @@ public class JEditorDeMapas extends JPanel{
         panelEditor.repaint();
     }
     
-    public void pintar(Personaje sprite, Point posicion) {
+    public void pintar(Sprite sprite, Point posicion) {
         //No simplificar
         int x = posicion.x * Mapa.COLUMNAS / panelEditor.getWidth() * relacionDeTamaño[1].width / Mapa.COLUMNAS;
         int y = posicion.y * Mapa.FILAS / panelEditor.getHeight() * relacionDeTamaño[1].height / Mapa.FILAS;

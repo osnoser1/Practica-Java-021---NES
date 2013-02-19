@@ -15,7 +15,7 @@ import java.awt.DisplayMode;
  *
  * @author Alfonso Andrés
  */
-public class JFramePrincipal extends javax.swing.JFrame{
+public class JFramePrincipal extends javax.swing.JFrame {
 
     HiloPrincipal hiloPrincipal;
     

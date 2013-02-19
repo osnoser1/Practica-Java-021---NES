@@ -7,7 +7,7 @@ package Personajes;
 import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
-import Utilidades.Juego.GamePad;
+import Utilidades.Graficos.Sprite;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -16,27 +16,27 @@ import java.util.HashMap;
  *
  * @author hp
  */
-public class Ladrillo extends Personaje {
+public class Ladrillo extends Sprite {
     
     private int tipo;
     private boolean especial;
     public LadrilloEspecial ladrilloespecial;
     
     public Ladrillo(int x, int y, int tipo) {
+        identificacion = "L";
         this.tipo = tipo;
         if(tipo != -1)
             especial = true;
-        inicializar(Imagenes.BLOQUE, new Point(x, y), null);
+        inicializar(Imagenes.BLOQUE, new Point(x, y));
     }
     
-    public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
+    public final void inicializar(BufferedImage imagen, Point posicion) {
         super.inicializar(new Imagen(imagen, 6, 6, posicion, (float)2.5), posicion);
-        super.gamePad = gamePad;
         super.animaciones = new HashMap<Integer, Animation>(){{
-            put(Estado.INICIO.ordinal(), new Animation("0", 4000 / 60));
-            put(Estado.MUERTE.ordinal(), new Animation("0,1,2,3,4,5", 4000 / 60));
+            put(Sprite.Estado.INICIO.ordinal(), new Animation("0", 4000 / 60));
+            put(Sprite.Estado.MUERTE.ordinal(), new Animation("0,1,2,3,4,5", 4000 / 60));
         }};
-        setEstadoActual(Estado.INICIO);
+        setEstadoActual(Sprite.Estado.INICIO);
     }
     
     public LadrilloEspecial getLadrilloEspecial(){
@@ -45,18 +45,22 @@ public class Ladrillo extends Personaje {
 
     @Override
     public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        super.actualizar(jPanelJuego, tiempoTranscurrido);
+        switch(getEstadoActual()){
+            case INICIO:
+                estadoInicio(jPanelJuego, tiempoTranscurrido);
+                break;
+            case MUERTE:
+                estadoMuerte(jPanelJuego, tiempoTranscurrido);
+                break;
+        }
         if(ladrilloespecial != null) 
             ladrilloespecial.actualizar();
     }
-    
-    @Override
-    public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
-    
+
     @Override
     public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         if(actualizarAnimacion(tiempoTranscurrido)) {
-            setEstadoActual(Estado.ELIMINADO);
+            setEstadoActual(Sprite.Estado.ELIMINADO);
             if(especial) {
                ladrilloespecial = new LadrilloEspecial(getCentro(), tipo);
            }

@@ -15,6 +15,8 @@ import Personajes.Enemigo;
 import Personajes.Ladrillo;
 import Personajes.Personaje;
 import Sonidos.Sonidos;
+import Utilidades.Graficos.Sprite;
+import Utilidades.Graficos.Sprite.Estado;
 import Utilidades.Graficos.Ventana;
 import Utilidades.Juego.Interfaz;
 import java.awt.Dimension;
@@ -135,7 +137,7 @@ public class JPanelJuego extends Interfaz {
     }
 
     public Enemigo determinarEnemigo(int i, int j, String a) {
-        Personaje personaje = Constantes.Objetos.getInstance(a);
+        Sprite personaje = Constantes.Objetos.getInstance(a);
         if(personaje != null)
             personaje.setLocation(j * x, i * y);
         return (Enemigo)personaje;
@@ -252,7 +254,7 @@ public class JPanelJuego extends Interfaz {
 
     public void activarInteligencias() {
         for (Enemigo enemigo : enemigos) {
-            enemigo.getInteligencia().iniciarInteligencia();
+            enemigo.getInteligencia().iniciar();
         }
     }
 
@@ -283,11 +285,11 @@ public class JPanelJuego extends Interfaz {
     @SuppressWarnings("element-type-mismatch")
     public void removerEnemigo(Personaje personaje) {
         enemigos.remove(personaje);
-        if(enemigos.isEmpty()){
+        if(enemigos.isEmpty()) {
             if(!derrotados)
                 Sonidos.getInstance().getSonido(Sonidos.PAUSE).play();
             derrotados = true;
-        }else
+        } else
             derrotados = false;
     }
     
@@ -302,7 +304,7 @@ public class JPanelJuego extends Interfaz {
                 removerEnemigo(enemigo);
             }
         }
-        for(Ladrillo ladrillo : getLadrillos()) {
+        for(Ladrillo ladrillo : ladrillos) {
             ladrillo.borrar(g2, buffer);
             ladrillo.actualizar(this, tiempoTranscurrido);
             if(ladrillo.getEstadoActual() == Personaje.Estado.ELIMINADO &&
@@ -368,7 +370,7 @@ public class JPanelJuego extends Interfaz {
     private void actualizarJugador(long tiempoTranscurrido) {
         primerJugador().borrar(g2, buffer);
         primerJugador().actualizar(this, tiempoTranscurrido);
-        if(primerJugador().getEstadoActual() == Personaje.Estado.ELIMINADO) {
+        if(primerJugador().getEstadoActual() == Estado.ELIMINADO) {
             if(Sonidos.getInstance().getSonido(Sonidos.JUST_DIED).isPlaying())
                 return;
             jPanelInformacion.disminuirVidasRestantes();
@@ -377,16 +379,16 @@ public class JPanelJuego extends Interfaz {
                 jPanelInformacion.setVidasRestantes(2);
                 JPanelAvisos.getInstance(null).setNivel((short)1);
                 jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_GAME_OVER);
-            }else
+            } else
                 jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_STAGE);
-        }else if(primerJugador().isEntroALaPuerta()) {
+        } else if(primerJugador().isEntroALaPuerta()) {
             if(Sonidos.getInstance().getSonido(Sonidos.LEVEL_COMPLETE).isPlaying())
                 return;
             jPanelInformacion.detenerCuentaRegresiva();
             JPanelAvisos.getInstance(null).aumentarNivel();
             if(JPanelAvisos.getInstance(null).finDeJuego()) {
                 
-            }else
+            } else
                 jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_STAGE);
         }
     }

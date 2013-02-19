@@ -7,6 +7,7 @@ package Personajes;
 import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
+import Dependencias.Teclado;
 import GUI.JPanelJuego;
 import Sonidos.Sonidos;
 import Utilidades.Juego.GamePad;
@@ -39,6 +40,7 @@ public class Bomberman extends Personaje {
         this.y = y;
         identificacion = "B";
         inicializar(Imagenes.BOMBERMAN, new Point(x, y), new GamePad());
+        teclado = Teclado.getInstance();
     }
     
     public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {

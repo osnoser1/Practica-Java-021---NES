@@ -1,5 +1,6 @@
 package GUI;
 
+import Utilidades.Graficos.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,21 +14,22 @@ import javax.swing.Timer;
 public class BotonEspecial extends JPanel implements MouseMotionListener, MouseListener{
 
     private BufferedImage imagen;
-    private Personajes.Personaje personaje;
+    private Sprite personaje;
     private MouseListener listener;
     private ActionListener listener1;
     private boolean Dentro;
     Timer animacion;
-    public BotonEspecial(Personajes.Personaje personaje) {
+    
+    public BotonEspecial(Sprite personaje) {
         this.personaje = personaje;
         initComponents();
     }
+    
     public BotonEspecial(BufferedImage imagen) {
         this.imagen=imagen;
         
         initComponents();
     }
-
     
     private void initComponents() {
         this.setBackground(Color.lightGray);

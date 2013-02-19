@@ -82,6 +82,8 @@ public class JPanelContenedor extends javax.swing.JComponent {
                 actual = JPanelAvisos.getInstance(this);
                 ((JPanelAvisos)actual).iniciarJPanelGameOver();
                 break;
+            case ESCENA_BONUS:
+                break;
         }
     }
     

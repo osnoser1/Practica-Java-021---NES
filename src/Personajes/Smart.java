@@ -140,7 +140,7 @@ public class Smart {
         timer.stop();
     }
     
-    public void iniciarInteligencia(){
+    public void iniciar(){
         timer.start();
     }
     
