@@ -4,7 +4,7 @@
  */
 package Modelos;
 
-import Dependencias.ManejadorDeArchivos;
+import lenguaje.utils.ManejadorDeArchivos;
 import Dependencias.Mapa;
 import GUI.JPanelAvisos;
 import GUI.JPanelContenedor;

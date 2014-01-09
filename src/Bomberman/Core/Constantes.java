@@ -14,7 +14,7 @@ import Personajes.Ovapi;
 import Personajes.Pass;
 import Personajes.Personaje;
 import Personajes.Pontan;
-import Utilidades.Graficos.Sprite;
+import motor.core.Sprite;
 
 /**
  *

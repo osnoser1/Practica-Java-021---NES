@@ -4,6 +4,7 @@
  */
 package Dependencias;
 
+import lenguaje.utils.ManejadorDeArchivos;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 

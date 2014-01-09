@@ -1,6 +1,6 @@
 package GUI;
 
-import Utilidades.Graficos.Sprite;
+import motor.core.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;

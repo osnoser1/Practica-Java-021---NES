@@ -8,7 +8,7 @@ import motor.core.ControlAnimacion;
 import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
-import Utilidades.Graficos.Sprite;
+import motor.core.Sprite;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;

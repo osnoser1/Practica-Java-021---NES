@@ -7,7 +7,7 @@ package GUI;
 import Bomberman.Configuracion.Configuracion;
 import Controladores.CJFramePrincipal;
 import Dependencias.Imagenes;
-import Dependencias.ManejadorDeArchivos;
+import lenguaje.utils.ManejadorDeArchivos;
 import Hilos.HiloPrincipal;
 import java.awt.DisplayMode;
 

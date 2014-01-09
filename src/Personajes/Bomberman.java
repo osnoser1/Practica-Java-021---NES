@@ -8,11 +8,11 @@ import motor.core.ControlAnimacion;
 import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
-import Dependencias.Teclado;
+import motor.core.Teclado;
 import GUI.JPanelJuego;
 import Sonidos.Sonidos;
-import Utilidades.Juego.Control;
-import Utilidades.Juego.Control.Botones;
+import motor.core.GamePad;
+import motor.core.GamePad.Botones;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -40,11 +40,11 @@ public class Bomberman extends Personaje {
         this.x = x;
         this.y = y;
         identificacion = "B";
-        inicializar(Imagenes.BOMBERMAN, new Point(x, y), new Control());
+        inicializar(Imagenes.BOMBERMAN, new Point(x, y), new GamePad());
         teclado = Teclado.getInstance();
     }
     
-    public final void inicializar(BufferedImage imagen, Point posicion, Control gamePad) {
+    public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
         inicializar(new Imagen(imagen, 6, 6, posicion, (float)2.5), posicion);
         super.gamePad = gamePad;
         super.animaciones = new HashMap<Integer, ControlAnimacion>(){{

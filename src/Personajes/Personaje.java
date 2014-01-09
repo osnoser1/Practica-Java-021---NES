@@ -5,11 +5,11 @@
 package Personajes;
 
 import Dependencias.Mapa;
-import Dependencias.Teclado;
+import motor.core.Teclado;
 import GUI.JPanelJuego;
-import Utilidades.Graficos.Sprite;
-import Utilidades.Juego.Control;
-import Utilidades.Juego.Control.Botones;
+import motor.core.Sprite;
+import motor.core.GamePad;
+import motor.core.GamePad.Botones;
 import javax.swing.Timer;
 
 public abstract class Personaje extends Sprite {
@@ -19,7 +19,7 @@ public abstract class Personaje extends Sprite {
     protected Inteligencia inteligencia;
     protected Timer timer;
     protected Teclado teclado;
-    protected Control gamePad;
+    protected GamePad gamePad;
     protected boolean wallpass, dentroBomb;
     
     @Override

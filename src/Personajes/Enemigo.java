@@ -4,7 +4,7 @@ package Personajes;
 import motor.core.ControlAnimacion;
 import Dependencias.Imagen;
 import GUI.JPanelJuego;
-import Utilidades.Juego.Control;
+import motor.core.GamePad;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -15,7 +15,7 @@ public class Enemigo extends Personaje {
 
     protected int puntaje;
     
-    public final void inicializar(BufferedImage imagen, Point posicion, Control gamePad) {
+    public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
         inicializar(new Imagen(imagen, 6, 5, posicion, (float)2.5), posicion);
         super.gamePad = gamePad;
         animaciones = new HashMap<Integer, ControlAnimacion>(){{

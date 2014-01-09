@@ -6,7 +6,7 @@ package GUI;
 
 import Bomberman.Configuracion.Configuracion;
 import Dependencias.Sonido;
-import Dependencias.Teclado;
+import motor.core.Teclado;
 import Fuentes.Fuentes;
 import Sonidos.Sonidos;
 import Utilidades.Juego.Interfaz;

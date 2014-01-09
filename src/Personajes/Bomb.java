@@ -9,7 +9,7 @@ import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
 import Sonidos.Sonidos;
-import Utilidades.Juego.Control;
+import motor.core.GamePad;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -36,7 +36,7 @@ public class Bomb extends Personaje {
         inicializar(Imagenes.BOMBA, new Point(x, y), null);
     }
     
-    public final void inicializar(BufferedImage imagen, Point posicion, Control gamePad) {
+    public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
         super.inicializar(new Imagen(imagen, 1, 3, posicion, (float)2.5), posicion);
         super.gamePad = gamePad;
         super.animaciones = new HashMap<Integer, ControlAnimacion>(){{

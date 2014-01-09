@@ -6,13 +6,13 @@ package GUI;
 
 import Bomberman.Configuracion.Configuracion;
 import Dependencias.Imagenes;
-import Dependencias.ManejadorDeArchivos;
-import Dependencias.Teclado;
+import lenguaje.utils.ManejadorDeArchivos;
+import motor.core.Teclado;
 import Dependencias.Ubicacion;
 import Fuentes.Fuentes;
 import Sonidos.Sonidos;
-import Utilidades.Juego.Control;
-import Utilidades.Juego.Control.Botones;
+import motor.core.GamePad;
+import motor.core.GamePad.Botones;
 import Utilidades.Juego.Interfaz;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,7 +37,7 @@ public class JPanelPresentacion extends Interfaz {
     private int opcionSeleccionada = -1;
     private Dimension tamañoVentana;
     private Teclado teclado;
-    private Control gamePad;
+    private GamePad gamePad;
     public static final int START = 0, MAP_EDITOR = 1;
     
     private JPanelPresentacion(JPanelContenedor jPanelContenedor) {
@@ -52,7 +52,7 @@ public class JPanelPresentacion extends Interfaz {
     private void initComponents() {
         fuentes = new Fuentes();
         opciones = new ArrayList<>();
-        gamePad = new Control();
+        gamePad = new GamePad();
         tamañoVentana = Configuracion.getInstance().tamañoVentana;
         teclado = Teclado.getInstance();
         agregarOpciones();

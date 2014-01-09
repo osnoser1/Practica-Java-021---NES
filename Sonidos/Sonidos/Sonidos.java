@@ -4,7 +4,7 @@
  */
 package Sonidos;
 
-import Dependencias.ManejadorDeArchivos;
+import lenguaje.utils.ManejadorDeArchivos;
 import Dependencias.Sonido;
 import Dependencias.Ubicacion;
 import java.util.ArrayList;

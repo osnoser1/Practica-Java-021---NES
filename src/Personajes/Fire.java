@@ -8,7 +8,7 @@ import motor.core.ControlAnimacion;
 import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
-import Utilidades.Juego.Control;
+import motor.core.GamePad;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -36,7 +36,7 @@ public class Fire extends Personaje {
         crearSprites();
     }
     
-    public final void inicializar(BufferedImage imagen, Point posicion, Control gamePad) {
+    public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
         super.inicializar(new Imagen(imagen, 7, 4, posicion, (float)2.5), posicion);
         super.gamePad = gamePad;
         super.animaciones = new HashMap<Integer, ControlAnimacion>(){{
