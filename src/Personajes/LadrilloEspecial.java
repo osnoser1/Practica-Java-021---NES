@@ -7,7 +7,6 @@ package Personajes;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
 import Sonidos.Sonidos;
-import Utilidades.Juego.Interfaz;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -45,14 +44,14 @@ public class LadrilloEspecial {
         if(posicionMapa.equals(punto)) {
             if(tipo != Imagenes.LADRILLO_ESPECIAL.size() - 1 && !estadoEliminado) {
                 determinarHabilidad();
-                Sonidos.getInstance().getSonido(Sonidos.STAGE_THEME).stop();
-                Sonidos.getInstance().getSonido(Sonidos.POWER_UP_2).play();
-                Sonidos.getInstance().getSonido(Sonidos.FIND_THE_DOOR).loop();
+                Sonidos.getInstance().get(Sonidos.STAGE_THEME).stop();
+                Sonidos.getInstance().get(Sonidos.POWER_UP_2).play();
+                Sonidos.getInstance().get(Sonidos.FIND_THE_DOOR).loop();
                 eliminarPowerup();
             }
             else if(JPanelJuego.getInstance(null).getCantidadEnemigos() == 0) {
                 Sonidos.getInstance().detenerSonidos();
-                Sonidos.getInstance().getSonido(Sonidos.LEVEL_COMPLETE).play();
+                Sonidos.getInstance().get(Sonidos.LEVEL_COMPLETE).play();
                 JPanelJuego.getInstance(null).primerJugador().setEntroALaPuerta(true);
                 System.out.println("Entro en la puerta");
             }

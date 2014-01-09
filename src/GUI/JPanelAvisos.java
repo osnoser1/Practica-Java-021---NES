@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import Bomberman.Core.Configuracion;
+import Bomberman.Configuracion.Configuracion;
 import Dependencias.Sonido;
 import Dependencias.Teclado;
 import Fuentes.Fuentes;
@@ -72,7 +72,7 @@ public class JPanelAvisos extends Interfaz {
 
     public void iniciarJPanelStage() {
         drawString("STAGE  " + this.nivel);
-        sonido  = Sonidos.getInstance().getSonido(Sonidos.LEVEL_START);
+        sonido  = Sonidos.getInstance().get(Sonidos.LEVEL_START);
         sonido.play();
         new Thread() {
             @Override
@@ -85,7 +85,7 @@ public class JPanelAvisos extends Interfaz {
 
     public void iniciarJPanelGameOver() {
         drawString("GAME OVER");
-        sonido = Sonidos.getInstance().getSonido(Sonidos.GAME_OVER);
+        sonido = Sonidos.getInstance().get(Sonidos.GAME_OVER);
         sonido.play();
     }
 
@@ -125,7 +125,7 @@ public class JPanelAvisos extends Interfaz {
             case ESCENA_GAME_OVER:
                 if(teclado.teclaPresionada()) {
                     jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_MENU);
-                    Sonidos.getInstance().getSonido(Sonidos.GAME_OVER).stop();
+                    Sonidos.getInstance().get(Sonidos.GAME_OVER).stop();
                 }
                 break;
             case ESCENA_BONUS:

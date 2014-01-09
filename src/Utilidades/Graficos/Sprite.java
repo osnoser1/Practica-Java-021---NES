@@ -6,7 +6,7 @@ package Utilidades.Graficos;
 
 import Dependencias.Imagen;
 import GUI.JPanelJuego;
-import Personajes.Animation;
+import motor.core.ControlAnimacion;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 public abstract class Sprite {
     
     protected int x, y, velocidad;
-    protected HashMap<Integer, Animation> animaciones;
+    protected HashMap<Integer, ControlAnimacion> animaciones;
     protected Imagen imagen;
     private Estado estadoAnterior, estadoActual;
     protected String identificacion;
@@ -50,7 +50,7 @@ public abstract class Sprite {
         return identificacion;
     }
     
-    public HashMap<Integer, Animation> getAnimaciones() {
+    public HashMap<Integer, ControlAnimacion> getAnimaciones() {
         return animaciones;
     }
     

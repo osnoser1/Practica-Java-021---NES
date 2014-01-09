@@ -19,7 +19,6 @@ public class Ovapi extends Enemigo {
         puntaje = 2000;
         wallpass = true;
         identificacion = "o";
-        inteligencia = new Smart(this);
         inicializar(Imagenes.OVAPI, new Point(x, y), null);
     }
     

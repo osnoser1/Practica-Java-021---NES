@@ -4,14 +4,15 @@
  */
 package Personajes;
 
+import motor.core.ControlAnimacion;
 import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
 import Dependencias.Teclado;
 import GUI.JPanelJuego;
 import Sonidos.Sonidos;
-import Utilidades.Juego.GamePad;
-import Utilidades.Juego.GamePad.Botones;
+import Utilidades.Juego.Control;
+import Utilidades.Juego.Control.Botones;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -29,30 +30,30 @@ public class Bomberman extends Personaje {
         bombas = new CopyOnWriteArrayList<>();
         velocidad = SPEED_MID;
         BOMBS = 10;
-        FLAMES = 5;
-        SPEED = false;
+        FLAMES = 10;
+        SPEED = true;
         wallpass = true;
         DETONADOR = true;
         BOMBPASS = true;
-        FLAMEPASS = false;
+        FLAMEPASS = true;
         MYSTERY = true;
         this.x = x;
         this.y = y;
         identificacion = "B";
-        inicializar(Imagenes.BOMBERMAN, new Point(x, y), new GamePad());
+        inicializar(Imagenes.BOMBERMAN, new Point(x, y), new Control());
         teclado = Teclado.getInstance();
     }
     
-    public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
+    public final void inicializar(BufferedImage imagen, Point posicion, Control gamePad) {
         inicializar(new Imagen(imagen, 6, 6, posicion, (float)2.5), posicion);
         super.gamePad = gamePad;
-        super.animaciones = new HashMap<Integer, Animation>(){{
-            put(Estado.INICIO.ordinal(), new Animation("0", 4000 / 60));
-            put(Estado.ARRIBA.ordinal(), new Animation("2,1,0,1", 4000 / 60));
-            put(Estado.ABAJO.ordinal(), new Animation("2,1,0,1", 4000 / 60));
-            put(Estado.DERECHA.ordinal(), new Animation("2,1,0,1", 4000 / 60));
-            put(Estado.IZQUIERDA.ordinal(), new Animation("2,1,0,1", 4000 / 60));
-            put(Estado.MUERTE.ordinal(), new Animation("0,1,2,3,4", 300));
+        super.animaciones = new HashMap<Integer, ControlAnimacion>(){{
+            put(Estado.INICIO.ordinal(), new ControlAnimacion("0", 4000 / 60));
+            put(Estado.ARRIBA.ordinal(), new ControlAnimacion("2,1,0,1", 4000 / 60));
+            put(Estado.ABAJO.ordinal(), new ControlAnimacion("2,1,0,1", 4000 / 60));
+            put(Estado.DERECHA.ordinal(), new ControlAnimacion("2,1,0,1", 4000 / 60));
+            put(Estado.IZQUIERDA.ordinal(), new ControlAnimacion("2,1,0,1", 4000 / 60));
+            put(Estado.MUERTE.ordinal(), new ControlAnimacion("0,1,2,3,4", 300));
         }};
         setEstadoActual(Estado.IZQUIERDA);
     }
@@ -72,8 +73,8 @@ public class Bomberman extends Personaje {
     public void colisionaCon(Personaje otro) {
         if(getEstadoActual() == Estado.MUERTE)
             return;
-        Sonidos.getInstance().detenerSonidos(Sonidos.UP, Sonidos.DOWN, Sonidos.LEFT, Sonidos.RIGHT);
-        Sonidos.getInstance().getSonido(Sonidos.DEATH).play();
+        Sonidos.getInstance().detener(Sonidos.UP, Sonidos.DOWN, Sonidos.LEFT, Sonidos.RIGHT);
+        Sonidos.getInstance().get(Sonidos.DEATH).play();
         setEstadoActual(Personaje.Estado.MUERTE);
     }
     
@@ -133,7 +134,7 @@ public class Bomberman extends Personaje {
             if(bombas.size()<BOMBS){
                 if(!ChoqueCentral("X"))
                     dentroBomb = true;
-                Sonidos.getInstance().getSonido(Sonidos.BOMB_PLANT).play();
+                Sonidos.getInstance().get(Sonidos.BOMB_PLANT).play();
                 bombas.add(new Bomb(posicionMapa.x * imagen.getAnchoEscalado(), posicionMapa.y * imagen.getAltoEscalado(), this));
             }
     }
@@ -185,15 +186,15 @@ public class Bomberman extends Personaje {
         if(actualizarAnimacion(tiempoTranscurrido)) {
             Sonidos.getInstance().detenerSonidos();
             setEstadoActual(Estado.ELIMINADO);
-            Sonidos.getInstance().getSonido(Sonidos.JUST_DIED).play();
+            Sonidos.getInstance().get(Sonidos.JUST_DIED).play();
         }
     }
 
     private void verificarTeclasAccion() {
-        if(teclado.teclaPresionada(gamePad.getBoton(Botones.A))) {
+        if(teclado.teclaPresionada(gamePad.get(Botones.A))) {
             crearBomba();
         }
-        if(teclado.teclaPresionada(gamePad.getBoton(Botones.B)) && DETONADOR) {
+        if(teclado.teclaPresionada(gamePad.get(Botones.B)) && DETONADOR) {
             detonarBomba();
         }
     }
@@ -202,32 +203,32 @@ public class Bomberman extends Personaje {
         if(entroALaPuerta)
             return false;
         boolean movimiento = true;
-        if(teclado.teclaPresionada(gamePad.getBoton(Botones.ARRIBA))){
+        if(teclado.teclaPresionada(get(Botones.ARRIBA))){
             setEstadoActual(Estado.ARRIBA);
-            Sonidos.getInstance().getSonido(Sonidos.UP).play();
+            Sonidos.getInstance().get(Sonidos.UP).play();
             movimientoArriba();
-        }else if(teclado.teclaPresionada(gamePad.getBoton(Botones.ABAJO))){
-            Sonidos.getInstance().getSonido(Sonidos.UP).stop();
+        }else if(teclado.teclaPresionada(get(Botones.ABAJO))){
+            Sonidos.getInstance().get(Sonidos.UP).stop();
             setEstadoActual(Estado.ABAJO);
-            Sonidos.getInstance().getSonido(Sonidos.DOWN).play();
+            Sonidos.getInstance().get(Sonidos.DOWN).play();
             movimientoAbajo();
         }else{
-            Sonidos.getInstance().detenerSonidos(Sonidos.UP, Sonidos.DOWN);
+            Sonidos.getInstance().detener(Sonidos.UP, Sonidos.DOWN);
             movimiento = false;
         }
-        if(teclado.teclaPresionada(gamePad.getBoton(Botones.DERECHA))){
+        if(teclado.teclaPresionada(get(Botones.DERECHA))){
             setEstadoActual(Estado.DERECHA);
-            Sonidos.getInstance().getSonido(Sonidos.LEFT).play();
+            Sonidos.getInstance().get(Sonidos.LEFT).play();
             movimientoDerecha();
             movimiento = true;
-        } else if(teclado.teclaPresionada(gamePad.getBoton(Botones.IZQUIERDA))) {
-            Sonidos.getInstance().getSonido(Sonidos.LEFT).stop();
+        } else if(teclado.teclaPresionada(get(Botones.IZQUIERDA))) {
+            Sonidos.getInstance().get(Sonidos.LEFT).stop();
             setEstadoActual(Estado.IZQUIERDA);
-            Sonidos.getInstance().getSonido(Sonidos.RIGHT).play();
+            Sonidos.getInstance().get(Sonidos.RIGHT).play();
             movimientoIzquierda();
             movimiento = true;
         } else {
-            Sonidos.getInstance().detenerSonidos(Sonidos.LEFT, Sonidos.RIGHT);
+            Sonidos.getInstance().detener(Sonidos.LEFT, Sonidos.RIGHT);
         }
         return movimiento;
     }

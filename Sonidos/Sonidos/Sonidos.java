@@ -32,7 +32,7 @@ public class Sonidos {
         return musica;
     }
 
-    public Sonido getSonido(int nombreSonido) {
+    public Sonido get(int nombreSonido) {
         return nombreSonido < sonidos.size() ? sonidos.get(nombreSonido) : null;
     }
 
@@ -85,7 +85,7 @@ public class Sonidos {
         }
     }
 
-    public void detenerSonidos(int... sonido) {
+    public void detener(int... sonido) {
         for(int indice : sonido) {
             sonidos.get(indice).stop();
         }

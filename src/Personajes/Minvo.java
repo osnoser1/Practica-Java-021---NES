@@ -19,7 +19,6 @@ public class Minvo extends Enemigo {
         puntaje = 800;
         wallpass = false;
         identificacion = "M";
-        inteligencia = new Smart(this);
         inicializar(Imagenes.MINVO, new Point(x, y), null);
     }
     

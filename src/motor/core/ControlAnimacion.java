@@ -1,15 +1,15 @@
-package Personajes;
+package motor.core;
 
 import java.util.ArrayList;
 
-public class Animation  {
+public class ControlAnimacion  {
 
     private ArrayList<Integer> cuadros;
     private long tiempoTranscurrido;
     private long tiempoFotograma;
     private int paso;
 
-    public Animation(String frames, long tiempoFotograma) {
+    public ControlAnimacion(String frames, long tiempoFotograma) {
         this.tiempoFotograma = tiempoFotograma;
         cuadros = new ArrayList<>();
         String[] cuadrosTmp = frames.split(",");

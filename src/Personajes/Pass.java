@@ -19,7 +19,7 @@ public class Pass extends Enemigo {
         puntaje = 4000;
         wallpass = false;
         identificacion = "P";
-        inteligencia = new Smart(this);
+        inteligencia = new Inteligencia(this);
         inicializar(Imagenes.PASS, new Point(x, y), null);
     }
     

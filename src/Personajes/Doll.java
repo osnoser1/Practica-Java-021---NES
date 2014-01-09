@@ -18,7 +18,6 @@ public class Doll extends Enemigo {
         wallpass = false;
         puntaje = 400;
         identificacion = "D";
-        inteligencia = new Smart(this);
         inicializar(Imagenes.DOLL, new Point(x, y), null);
     }
     

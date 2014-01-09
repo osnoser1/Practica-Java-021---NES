@@ -4,15 +4,15 @@
  */
 package GUI;
 
-import Bomberman.Core.Configuracion;
+import Bomberman.Configuracion.Configuracion;
 import Dependencias.Imagenes;
 import Dependencias.ManejadorDeArchivos;
 import Dependencias.Teclado;
 import Dependencias.Ubicacion;
 import Fuentes.Fuentes;
 import Sonidos.Sonidos;
-import Utilidades.Juego.GamePad;
-import Utilidades.Juego.GamePad.Botones;
+import Utilidades.Juego.Control;
+import Utilidades.Juego.Control.Botones;
 import Utilidades.Juego.Interfaz;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,7 +37,7 @@ public class JPanelPresentacion extends Interfaz {
     private int opcionSeleccionada = -1;
     private Dimension tamañoVentana;
     private Teclado teclado;
-    private GamePad gamePad;
+    private Control gamePad;
     public static final int START = 0, MAP_EDITOR = 1;
     
     private JPanelPresentacion(JPanelContenedor jPanelContenedor) {
@@ -52,7 +52,7 @@ public class JPanelPresentacion extends Interfaz {
     private void initComponents() {
         fuentes = new Fuentes();
         opciones = new ArrayList<>();
-        gamePad = new GamePad();
+        gamePad = new Control();
         tamañoVentana = Configuracion.getInstance().tamañoVentana;
         teclado = Teclado.getInstance();
         agregarOpciones();
@@ -140,11 +140,11 @@ public class JPanelPresentacion extends Interfaz {
 
     @Override
     public void actualizar(long tiempoEnMilisegundos) {
-        if(teclado.teclaPresionada(gamePad.getBoton(Botones.SELECT)))
+        if(teclado.teclaPresionada(gamePad.get(Botones.SELECT)))
             siguienteOpcion();
-        if(teclado.teclaPresionada(gamePad.getBoton(Botones.START))) {
+        if(teclado.teclaPresionada(gamePad.get(Botones.START))) {
             setOpcionSeleccionada();
-            Sonidos.getInstance().getSonido(Sonidos.TITLE_SCREEN).stop();
+            Sonidos.getInstance().get(Sonidos.TITLE_SCREEN).stop();
             switch(opcionSeleccionada) {
                 case START:
                     jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_STAGE);

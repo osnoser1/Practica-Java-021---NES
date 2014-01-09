@@ -8,17 +8,18 @@ import Dependencias.Mapa;
 import Dependencias.Teclado;
 import GUI.JPanelJuego;
 import Utilidades.Graficos.Sprite;
-import Utilidades.Juego.GamePad;
+import Utilidades.Juego.Control;
+import Utilidades.Juego.Control.Botones;
 import javax.swing.Timer;
 
-public abstract class Personaje extends Sprite{
+public abstract class Personaje extends Sprite {
     
     protected int varx = 3, vary = 3, smart;
     protected final int SPEED_SLOWEST=1,SPEED_SLOW=2,SPEED_MID=4,SPEED_FAST=5,SMART_LOW=1,SMART_MID=2,SMART_HIGH=3,SMART_IMPOSSIBLE = 4;
-    protected Smart inteligencia;
+    protected Inteligencia inteligencia;
     protected Timer timer;
     protected Teclado teclado;
-    protected GamePad gamePad;
+    protected Control gamePad;
     protected boolean wallpass, dentroBomb;
     
     @Override
@@ -45,7 +46,7 @@ public abstract class Personaje extends Sprite{
         }
     }
 
-    public Smart getInteligencia() {
+    public Inteligencia getInteligencia() {
         return inteligencia;
     }
 
@@ -67,13 +68,15 @@ public abstract class Personaje extends Sprite{
     }
     
     public void iniciarInteligencia() {
-        if(inteligencia!=null)
-            inteligencia.iniciar();
+        inteligencia = new Inteligencia(this);
+        inteligencia.iniciar();
     }
     
     public void detenerInteligencia(){
-        if(inteligencia!=null)
-            inteligencia.detenerInteligencia();
+        if(inteligencia == null)
+            return;
+        inteligencia.detenerInteligencia();
+        inteligencia = null;
     }
 
     public void updateX(){
@@ -151,6 +154,14 @@ public abstract class Personaje extends Sprite{
                   (!ChoqueArriba("X",1)&&velocidad<0||!ChoqueAbajo("X",1)&&velocidad>0||JPanelJuego.getInstance(null).primerJugador().getBOMBPASS()||dentroBomb)&&"B".equals(identificacion)
                 )
                );
+    }
+    
+    public boolean isInteligenciaActivada() {
+        return inteligencia != null;
+    }
+    
+    public int get(Botones boton) {
+        return gamePad.get(boton);
     }
     
 }

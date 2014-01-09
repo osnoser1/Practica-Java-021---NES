@@ -19,7 +19,6 @@ public class Balloom extends Enemigo {
         puntaje = 100;
         wallpass = false;
         identificacion = "b";
-        inteligencia = new Smart(this);
         inicializar(Imagenes.BALLOOM, new Point(x, y), null);
     }
     

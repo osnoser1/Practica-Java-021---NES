@@ -19,7 +19,7 @@ public class Oneal extends Enemigo {
         puntaje = 200;
         wallpass = false;
         identificacion = "O";
-        inteligencia = new Smart(this);
+        inteligencia = new Inteligencia(this);
         inicializar(Imagenes.ONEAL, new Point(x, y), null);
     }
     

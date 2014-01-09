@@ -8,7 +8,6 @@ import Bomberman.Core.Constantes;
 import Controladores.CJEditorDeMapas;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
-import Personajes.Personaje;
 import Utilidades.Graficos.Sprite;
 import java.awt.BorderLayout;
 import java.awt.Dimension;

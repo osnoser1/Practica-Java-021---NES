@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Utilidades.Graficos;
+package motor.core;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -12,13 +12,13 @@ import java.awt.Rectangle;
  *
  * @author AlfonsoAndrés
  */
-public class Ventana {
+public class Camara {
     
     private Rectangle posicion;
     private Dimension tamañoNivel;
     private int cuarto, tercio;
 
-    public Ventana(Rectangle posicion, Dimension tamañoNivel) {
+    public Camara(Rectangle posicion, Dimension tamañoNivel) {
         this.posicion = posicion;
         this.tamañoNivel = tamañoNivel;
         cuarto = tamañoNivel.width / 4;

@@ -11,17 +11,27 @@ import java.util.HashMap;
  *
  * @author AlfonsoAndrés
  */
-public class GamePad {
+public class Control {
     
     public enum Botones {
         ARRIBA,
         ABAJO,
         IZQUIERDA,
         DERECHA,
+        AIARRIBA,
+        AIABAJO,
+        AIIZQUIERDA,
+        AIDERECHA,
+        ADARRIBA,
+        ADABAJO,
+        ADIZQUIERDA,
+        ADDERECHA,
         A,
         B,
-        R,
-        L,
+        R1,
+        R2,
+        L1,
+        L2,
         START,
         SELECT
     }
@@ -34,15 +44,17 @@ public class GamePad {
                 put(Botones.B, KeyEvent.VK_Z);
                 put(Botones.SELECT, KeyEvent.VK_SHIFT);
                 put(Botones.START, KeyEvent.VK_ENTER);
-                put(Botones.R, KeyEvent.VK_A);
-                put(Botones.L, KeyEvent.VK_S);
+                put(Botones.R1, KeyEvent.VK_A);
+                put(Botones.R2, KeyEvent.VK_D);
+                put(Botones.L1, KeyEvent.VK_S);
+                put(Botones.L2, KeyEvent.VK_F);
             }};
 
-    public int getBoton(Botones boton){
+    public int get(Botones boton){
         return this.boton.get(boton);
     }
     
-    public void setBoton(Botones boton, int keyCode){
+    public void set(Botones boton, int keyCode){
         this.boton.put(boton, keyCode);
     }
     

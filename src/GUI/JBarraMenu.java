@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Controladores.CJMenuItem;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JMenu;
@@ -20,6 +21,7 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     private ArrayList<JMenuItem> jMenuItem;
     private final int TOPE_JMENU = 5, TOPE_JMENU_ITEM = 10; 
     private static JBarraMenu instance;
+    private CJMenuItem cJMenuItem;
     
     private JBarraMenu() {
         super();
@@ -33,6 +35,7 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     private void initComponents() {
         jmenu = new ArrayList<>();
         jMenuItem = new ArrayList<>();
+        cJMenuItem = new CJMenuItem();
         initJMenu();
         initJMenuItem();
     }
@@ -96,6 +99,7 @@ public class JBarraMenu extends javax.swing.JMenuBar{
             JMenuItem jMenuItem = new JMenuItem(getTextOpciones(i));
             jMenuItem.setActionCommand(getTextOpciones(i));
             jMenuItem.setAccelerator(getAcceleratorOpciones(i));
+            jMenuItem.addActionListener(cJMenuItem);
             get.add(jMenuItem);
         }
     }

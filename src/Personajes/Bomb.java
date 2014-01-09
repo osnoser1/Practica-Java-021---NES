@@ -4,11 +4,12 @@
  */
 package Personajes;
 
+import motor.core.ControlAnimacion;
 import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
 import Sonidos.Sonidos;
-import Utilidades.Juego.GamePad;
+import Utilidades.Juego.Control;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -35,11 +36,11 @@ public class Bomb extends Personaje {
         inicializar(Imagenes.BOMBA, new Point(x, y), null);
     }
     
-    public final void inicializar(BufferedImage imagen, Point posicion, GamePad gamePad) {
+    public final void inicializar(BufferedImage imagen, Point posicion, Control gamePad) {
         super.inicializar(new Imagen(imagen, 1, 3, posicion, (float)2.5), posicion);
         super.gamePad = gamePad;
-        super.animaciones = new HashMap<Integer, Animation>(){{
-            put(Estado.INICIO.ordinal(), new Animation("0,1,2", 400));
+        super.animaciones = new HashMap<Integer, ControlAnimacion>(){{
+            put(Estado.INICIO.ordinal(), new ControlAnimacion("0,1,2", 400));
         }};
         setEstadoActual(Estado.INICIO);
     }

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package GUI;
-import Bomberman.Core.Configuracion;
+import Bomberman.Configuracion.Configuracion;
 import Sonidos.Sonidos;
 import Utilidades.Juego.Interfaz;
 import Utilidades.Juego.Interfaz.Escenas;
@@ -55,7 +55,7 @@ public class JPanelContenedor extends javax.swing.JComponent {
 
     public void agregarComponentesMenuInicial() {
         JPanelPresentacion.getInstance(this).iniciar();
-        Sonidos.getInstance().getSonido(Sonidos.TITLE_SCREEN).play();
+        Sonidos.getInstance().get(Sonidos.TITLE_SCREEN).play();
     }
     
     public void cambiarInterfaz(Escenas nueva) {
@@ -73,7 +73,8 @@ public class JPanelContenedor extends javax.swing.JComponent {
                 break;
             case ESCENA_JUEGO:
                 actual = JPanelJuego.getInstance(this);
-                Sonidos.getInstance().getSonido(Sonidos.STAGE_THEME).loop();
+                Sonidos.getInstance().get(Sonidos.STAGE_THEME).loop();
+                ((JPanelJuego)actual).activarInteligencias();
                 JPanelInformacion.getInstance().iniciarCuentaRegresiva();
                 break;
             case ESCENA_EDITOR:

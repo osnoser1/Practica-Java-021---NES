@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import Bomberman.Core.Configuracion;
+import Bomberman.Configuracion.Configuracion;
 import Controladores.CJFramePrincipal;
 import Dependencias.Imagenes;
 import Dependencias.ManejadorDeArchivos;
@@ -44,6 +44,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
         setIgnoreRepaint(true);
         Imagenes.cargarImagenes();
         add(JPanelContenedor.getInstance());
+        setJMenuBar(JBarraMenu.getInstance());
         setSize(Configuracion.getInstance().tamañoVentana);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowFocusListener(CJFramePrincipal.getInstance());

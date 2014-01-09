@@ -86,6 +86,7 @@ public class Imagen {
     {
         if (!active)
             return;
+//        System.out.println(destinationRect.x);
         g.drawImage(imagen.getSubimage(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height), 
                 destinationRect.x, destinationRect.y, 
                 destinationRect.width, destinationRect.height, color, null);

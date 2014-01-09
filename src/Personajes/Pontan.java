@@ -19,7 +19,6 @@ public class Pontan extends Enemigo {
         puntaje = 8000;
         wallpass = true;
         identificacion = "p";
-        inteligencia = new Smart(this);
         inicializar(Imagenes.PONTAN, new Point(x, y), null);
     }
     

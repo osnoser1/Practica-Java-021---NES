@@ -4,6 +4,7 @@
  */
 package Personajes;
 
+import motor.core.ControlAnimacion;
 import Dependencias.Imagen;
 import Dependencias.Imagenes;
 import GUI.JPanelJuego;
@@ -32,9 +33,9 @@ public class Ladrillo extends Sprite {
     
     public final void inicializar(BufferedImage imagen, Point posicion) {
         super.inicializar(new Imagen(imagen, 6, 6, posicion, (float)2.5), posicion);
-        super.animaciones = new HashMap<Integer, Animation>(){{
-            put(Sprite.Estado.INICIO.ordinal(), new Animation("0", 4000 / 60));
-            put(Sprite.Estado.MUERTE.ordinal(), new Animation("0,1,2,3,4,5", 4000 / 60));
+        super.animaciones = new HashMap<Integer, ControlAnimacion>(){{
+            put(Sprite.Estado.INICIO.ordinal(), new ControlAnimacion("0", 4000 / 60));
+            put(Sprite.Estado.MUERTE.ordinal(), new ControlAnimacion("0,1,2,3,4,5", 4000 / 60));
         }};
         setEstadoActual(Sprite.Estado.INICIO);
     }

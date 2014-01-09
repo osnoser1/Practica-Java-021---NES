@@ -19,7 +19,6 @@ public class Kondoria extends Enemigo {
         wallpass = true;
         puntaje = 1000;
         identificacion = "K";
-        inteligencia = new Smart(this);
         inicializar(Imagenes.KONDORIA, new Point(x, y), null);
     }
     

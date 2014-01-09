@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import Bomberman.Core.Configuracion;
+import Bomberman.Configuracion.Configuracion;
 import Bomberman.Core.Constantes;
 import Bomberman.Core.ControlJuego;
 import Dependencias.Imagenes;
@@ -17,7 +17,7 @@ import Personajes.Personaje;
 import Sonidos.Sonidos;
 import Utilidades.Graficos.Sprite;
 import Utilidades.Graficos.Sprite.Estado;
-import Utilidades.Graficos.Ventana;
+import motor.core.Camara;
 import Utilidades.Juego.Interfaz;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -42,7 +42,7 @@ public class JPanelJuego extends Interfaz {
     private CopyOnWriteArrayList<Enemigo> enemigos;
     private CopyOnWriteArrayList<Ladrillo> ladrillos;
     private Bomberman[] jugadores;
-    private Ventana ventana;
+    private Camara ventana;
     private Graphics g2;
     private ControlJuego controlJuego;
     private JPanelInformacion jPanelInformacion;
@@ -59,7 +59,7 @@ public class JPanelJuego extends Interfaz {
     private void initComponents() {
         SIZE = new Dimension(1240, 520);
         tamañoVentana = Configuracion.getInstance().tamañoVentana;
-        ventana = new Ventana(new Rectangle(640, 520), SIZE);
+        ventana = new Camara(new Rectangle(620, 520), SIZE);
         ladrillos = new CopyOnWriteArrayList<>();
         enemigos = new CopyOnWriteArrayList<>();
         jugadores = new Bomberman[4];
@@ -192,8 +192,8 @@ public class JPanelJuego extends Interfaz {
     }
     
     public void borrarJugador() {
-        Sonidos.getInstance().detenerSonidos(Sonidos.UP, Sonidos.DOWN, Sonidos.LEFT, Sonidos.RIGHT);
-        Sonidos.getInstance().getSonido(Sonidos.DEATH).play();
+        Sonidos.getInstance().detener(Sonidos.UP, Sonidos.DOWN, Sonidos.LEFT, Sonidos.RIGHT);
+        Sonidos.getInstance().get(Sonidos.DEATH).play();
         primerJugador().setEstadoActual(Personaje.Estado.MUERTE);
     }
     
@@ -287,7 +287,7 @@ public class JPanelJuego extends Interfaz {
         enemigos.remove(personaje);
         if(enemigos.isEmpty()) {
             if(!derrotados)
-                Sonidos.getInstance().getSonido(Sonidos.PAUSE).play();
+                Sonidos.getInstance().get(Sonidos.PAUSE).play();
             derrotados = true;
         } else
             derrotados = false;
@@ -371,7 +371,7 @@ public class JPanelJuego extends Interfaz {
         primerJugador().borrar(g2, buffer);
         primerJugador().actualizar(this, tiempoTranscurrido);
         if(primerJugador().getEstadoActual() == Estado.ELIMINADO) {
-            if(Sonidos.getInstance().getSonido(Sonidos.JUST_DIED).isPlaying())
+            if(Sonidos.getInstance().get(Sonidos.JUST_DIED).isPlaying())
                 return;
             jPanelInformacion.disminuirVidasRestantes();
             jPanelInformacion.detenerCuentaRegresiva();
@@ -382,7 +382,7 @@ public class JPanelJuego extends Interfaz {
             } else
                 jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_STAGE);
         } else if(primerJugador().isEntroALaPuerta()) {
-            if(Sonidos.getInstance().getSonido(Sonidos.LEVEL_COMPLETE).isPlaying())
+            if(Sonidos.getInstance().get(Sonidos.LEVEL_COMPLETE).isPlaying())
                 return;
             jPanelInformacion.detenerCuentaRegresiva();
             JPanelAvisos.getInstance(null).aumentarNivel();
