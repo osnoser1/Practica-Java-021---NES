@@ -1,8 +1,8 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
-package GUI;
+package gui;
 
 import Fuentes.Fuentes;
 import java.awt.Color;
@@ -19,7 +19,7 @@ import javax.swing.Timer;
  * @author Alfonso Andrés
  */
 public class JPanelInformacion {
-    
+
     private int puntaje;
     private static JPanelInformacion instance;
     private int tiempoRestante = 200, vidasRestantes = 2;
@@ -50,7 +50,7 @@ public class JPanelInformacion {
             }
         });
     }
-    
+
     private void drawString(Graphics g2, String string, Point point) {
         g2.setColor(new Color(188, 188, 188));
         g2.fillRect(point.x, point.y - 25, 300, 30);
@@ -102,24 +102,28 @@ public class JPanelInformacion {
     }
 
     private void drawStrings(Graphics g2) {
-        for(int i = 0; i < this.cantidadOpciones; i++) {
+        for (int i = 0; i < this.cantidadOpciones; i++) {
             drawString(g2, getString(i), getPosicion(i));
         }
     }
 
     private String getString(int i) {
-        if(i == 0)
+        if (i == 0) {
             return "TIME " + tiempoRestante();
-        if(i == 1)
+        }
+        if (i == 1) {
             return puntaje();
+        }
         return "LEFT " + vidasRestantes;
     }
 
     private Point getPosicion(int i) {
-        if(i == 0)
+        if (i == 0) {
             return new Point(20, 37);
-        if(i == 1)
+        }
+        if (i == 1) {
             return new Point(360, 37);
+        }
         return new Point(480, 37);
     }
 
@@ -142,7 +146,7 @@ public class JPanelInformacion {
     }
 
     private void disminuirContador() {
-        if(tiempoRestante == 0) {
+        if (tiempoRestante == 0) {
             timer.stop();
             return;
         }
@@ -150,18 +154,17 @@ public class JPanelInformacion {
         drawStrings(imagen.getGraphics());
     }
 
-    public void setSIZE(Dimension dim) {
-        int y = (int)Math.round(dim.height / 14.0);
+    public void setSize(Dimension dim) {
+        int y = (int) Math.round(dim.height / 14.0);
         SIZE = new Dimension(dim.width, y + y / 2);
         System.out.println(dim + " " + SIZE + " " + y);
     }
-    
+
     public int getAlto() {
         return SIZE.height;
     }
-    
+
     public void pintar(Graphics g) {
         g.drawImage(imagen, 0, 0, SIZE.width, SIZE.height, null);
     }
-    
 }

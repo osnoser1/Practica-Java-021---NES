@@ -5,7 +5,7 @@
 package Controladores;
 
 import Bomberman.Core.Constantes;
-import GUI.JEditorDeMapas;
+import gui.JEditorDeMapas;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

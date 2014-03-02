@@ -4,7 +4,8 @@
  */
 package Personajes;
 
-import GUI.JPanelJuego;
+import motor.core.Personaje;
+import gui.EscenaJuego;
 import java.awt.event.ActionEvent;
 import java.util.Random;
 import javax.swing.AbstractAction;
@@ -52,9 +53,9 @@ public class Inteligencia {
                 } else if(a==3) {
                     personaje.setEstadoActual(Personaje.Estado.ABAJO);
                     personaje.movimientoAbajo();
-                } if(personaje.getPosicionMapa().equals(JPanelJuego.getInstance(null).primerJugador().getPosicionMapa()) && !JPanelJuego.getInstance(null).primerJugador().getMYSTERY()){
+                } if(personaje.getPosicionMapa().equals(EscenaJuego.getInstance(null).primerJugador().getPosicionMapa()) && !EscenaJuego.getInstance(null).primerJugador().getMYSTERY()){
                     timer.stop();
-                    JPanelJuego.getInstance(null).borrarJugador();
+                    EscenaJuego.getInstance(null).borrarJugador();
                 }
             }            
         });
@@ -87,9 +88,9 @@ public class Inteligencia {
                     personaje.setEstadoActual(Personaje.Estado.ABAJO);
                     personaje.movimientoAbajo();
                 }
-                if(personaje.getPosicionMapa().equals(JPanelJuego.getInstance(null).primerJugador().getPosicionMapa()) && !JPanelJuego.getInstance(null).primerJugador().getMYSTERY()){
+                if(personaje.getPosicionMapa().equals(EscenaJuego.getInstance(null).primerJugador().getPosicionMapa()) && !EscenaJuego.getInstance(null).primerJugador().getMYSTERY()){
                    timer.stop();
-                    JPanelJuego.getInstance(null).borrarJugador();
+                    EscenaJuego.getInstance(null).borrarJugador();
                 }
             }            
         });
@@ -123,9 +124,9 @@ public class Inteligencia {
                     personaje.setEstadoActual(Personaje.Estado.ABAJO);
                     personaje.movimientoAbajo();
                 }
-                if(personaje.getPosicionMapa().equals(JPanelJuego.getInstance(null).primerJugador().getPosicionMapa()) && !JPanelJuego.getInstance(null).primerJugador().getMYSTERY()){
+                if(personaje.getPosicionMapa().equals(EscenaJuego.getInstance(null).primerJugador().getPosicionMapa()) && !EscenaJuego.getInstance(null).primerJugador().getMYSTERY()){
                     timer.stop();
-                    JPanelJuego.getInstance(null).borrarJugador();
+                    EscenaJuego.getInstance(null).borrarJugador();
                 }
             }            
         });

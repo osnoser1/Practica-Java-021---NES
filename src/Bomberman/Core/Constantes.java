@@ -12,7 +12,7 @@ import Personajes.Minvo;
 import Personajes.Oneal;
 import Personajes.Ovapi;
 import Personajes.Pass;
-import Personajes.Personaje;
+import motor.core.Personaje;
 import Personajes.Pontan;
 import motor.core.Sprite;
 

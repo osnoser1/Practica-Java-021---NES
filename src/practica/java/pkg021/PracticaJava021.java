@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package practica.java.pkg021;
-import GUI.JFramePrincipal;
+import gui.JFramePrincipal;
 import Sonidos.Sonidos;
 import java.util.logging.Level;
 import java.util.logging.Logger;

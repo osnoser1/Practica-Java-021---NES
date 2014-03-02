@@ -5,9 +5,9 @@
 package Personajes;
 
 import motor.core.ControlAnimacion;
-import Dependencias.Imagen;
+import motor.core.Imagen;
 import Dependencias.Imagenes;
-import GUI.JPanelJuego;
+import gui.EscenaJuego;
 import motor.core.Sprite;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -45,7 +45,7 @@ public class Ladrillo extends Sprite {
     }
 
     @Override
-    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void actualizar(EscenaJuego jPanelJuego, long tiempoTranscurrido) {
         switch(getEstadoActual()){
             case INICIO:
                 estadoInicio(jPanelJuego, tiempoTranscurrido);
@@ -59,7 +59,7 @@ public class Ladrillo extends Sprite {
     }
 
     @Override
-    public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void estadoMuerte(EscenaJuego jPanelJuego, long tiempoTranscurrido) {
         if(actualizarAnimacion(tiempoTranscurrido)) {
             setEstadoActual(Sprite.Estado.ELIMINADO);
             if(especial) {

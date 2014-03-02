@@ -1,9 +1,10 @@
 
 package Personajes;
 
+import motor.core.Personaje;
 import motor.core.ControlAnimacion;
-import Dependencias.Imagen;
-import GUI.JPanelJuego;
+import motor.core.Imagen;
+import gui.EscenaJuego;
 import motor.core.GamePad;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -53,27 +54,27 @@ public class Enemigo extends Personaje {
     }
     
     @Override
-    public void estadoArriba(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void estadoArriba(EscenaJuego jPanelJuego, long tiempoTranscurrido) {
         actualizarAnimacion(tiempoTranscurrido);
     }
 
     @Override
-    public void estadoAbajo(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void estadoAbajo(EscenaJuego jPanelJuego, long tiempoTranscurrido) {
         actualizarAnimacion(tiempoTranscurrido);
     }
 
     @Override
-    public void estadoDerecha(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void estadoDerecha(EscenaJuego jPanelJuego, long tiempoTranscurrido) {
         actualizarAnimacion(tiempoTranscurrido);
     }
 
     @Override
-    public void estadoIzquierda(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void estadoIzquierda(EscenaJuego jPanelJuego, long tiempoTranscurrido) {
         actualizarAnimacion(tiempoTranscurrido);
     }
 
     @Override
-    public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void estadoMuerte(EscenaJuego jPanelJuego, long tiempoTranscurrido) {
         if(actualizarAnimacion(tiempoTranscurrido))
             setEstadoActual(Estado.ELIMINADO);
     }

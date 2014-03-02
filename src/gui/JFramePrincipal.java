@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package gui;
 
 import Bomberman.Configuracion.Configuracion;
 import Controladores.CJFramePrincipal;
 import Dependencias.Imagenes;
 import lenguaje.utils.ManejadorDeArchivos;
-import Hilos.HiloPrincipal;
+import concurrencia.HiloPrincipal;
 import java.awt.DisplayMode;
 
 /**
@@ -43,7 +43,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
         setAutoRequestFocus(true);
         setIgnoreRepaint(true);
         Imagenes.cargarImagenes();
-        add(JPanelContenedor.getInstance());
+        add(ContenedorGrafico.getInstance());
         setJMenuBar(JBarraMenu.getInstance());
         setSize(Configuracion.getInstance().tamañoVentana);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);

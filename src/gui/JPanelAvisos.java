@@ -2,14 +2,14 @@
 * To change this template, choose Tools | Templates
 * and open the template in the editor.
  */
-package GUI;
+package gui;
 
 import Bomberman.Configuracion.Configuracion;
 import Dependencias.Sonido;
 import motor.core.Teclado;
 import Fuentes.Fuentes;
 import Sonidos.Sonidos;
-import Utilidades.Juego.Interfaz;
+import motor.core.Interfaz;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -29,12 +29,12 @@ public class JPanelAvisos extends Interfaz {
     private Sonido sonido;
     private Teclado teclado;
 
-    private JPanelAvisos(JPanelContenedor jPanelContenedor) {
+    private JPanelAvisos(ContenedorGrafico jPanelContenedor) {
         super(jPanelContenedor);
         initComponents();
     }
 
-    public static JPanelAvisos getInstance(JPanelContenedor jPanelContenedor) {
+    public static JPanelAvisos getInstance(ContenedorGrafico jPanelContenedor) {
         return instance == null ? (instance = new JPanelAvisos(jPanelContenedor)) : instance;
     }
 
@@ -77,8 +77,8 @@ public class JPanelAvisos extends Interfaz {
         new Thread() {
             @Override
             public void run() {
-                JPanelJuego.getInstance(null).generarMapa();
-                JPanelJuego.getInstance(null).pintarImagen();
+                EscenaJuego.getInstance(null).generarMapa();
+                EscenaJuego.getInstance(null).pintarImagen();
             }
         }.start();
     }

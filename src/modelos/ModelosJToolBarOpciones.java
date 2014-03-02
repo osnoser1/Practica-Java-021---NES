@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modelos;
+package modelos;
 
 import lenguaje.utils.ManejadorDeArchivos;
 import Dependencias.Mapa;
-import GUI.JPanelAvisos;
-import GUI.JPanelContenedor;
-import GUI.JPanelJuego;
+import gui.JPanelAvisos;
+import gui.ContenedorGrafico;
+import gui.EscenaJuego;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -64,7 +64,7 @@ public class ModelosJToolBarOpciones {
     }
     
     public void start() {
-//        JPanelContenedor jPanelContenedor = JPanelContenedor.getInstance();
+//        ContenedorGrafico jPanelContenedor = ContenedorGrafico.getInstance();
 //        JPanelAvisos jPanelAvisos = JPanelAvisos.getInstance();
 //        jPanelContenedor.removeAll();
 //        jPanelContenedor.add(jPanelAvisos);
@@ -74,14 +74,14 @@ public class ModelosJToolBarOpciones {
     }
 
     public void saveMapa() {
-        int opcion = this.jFileChooser.showSaveDialog(JPanelContenedor.getInstance());
+        int opcion = this.jFileChooser.showSaveDialog(ContenedorGrafico.getInstance());
         if(opcion == JFileChooser.APPROVE_OPTION){
             guardarArchivo(this.jFileChooser.getSelectedFile());
         }
     }
 
     public void loadMapa() {
-        int opcion = this.jFileChooser.showOpenDialog(JPanelContenedor.getInstance());
+        int opcion = this.jFileChooser.showOpenDialog(ContenedorGrafico.getInstance());
         if(opcion == JFileChooser.APPROVE_OPTION){
             cargarArchivo(this.jFileChooser.getSelectedFile());
         }
@@ -120,7 +120,7 @@ public class ModelosJToolBarOpciones {
     private void pintarMapa(String[][] mapa) {
         Mapa mapa1 = Mapa.getInstance();
         mapa1.setMapa(mapa);
-        JPanelJuego jPanelJuego = JPanelJuego.getInstance(null);
+        EscenaJuego jPanelJuego = EscenaJuego.getInstance(null);
         jPanelJuego.borrarEnemigos();
         for(int i = 1; i < Mapa.FILAS; i++) {
             for(int j = 1; j < Mapa.COLUMNAS; j++){

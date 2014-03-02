@@ -5,7 +5,7 @@
 package Controladores;
 
 import Bomberman.Core.Constantes;
-import GUI.BotonEspecial;
+import gui.BotonEspecial;
 import java.awt.event.ActionEvent;
 
 /**

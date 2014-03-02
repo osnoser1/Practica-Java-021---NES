@@ -4,8 +4,8 @@
  */
 package Controladores;
 
-import GUI.JPanelJuego;
-import Modelos.ModelosJToolBarOpciones;
+import gui.EscenaJuego;
+import modelos.ModelosJToolBarOpciones;
 import java.awt.event.ActionEvent;
 
 /**
@@ -31,8 +31,8 @@ public class ControladorJToolBarOpciones implements java.awt.event.ActionListene
                 break;
             case "Iniciar":
                 this.modelosjtoolbaropciones.start();
-                if(JPanelJuego.getInstance(null).getEnemigos()!=null)
-                    JPanelJuego.getInstance(null).activarInteligencias();
+                if(EscenaJuego.getInstance(null).getEnemigos()!=null)
+                    EscenaJuego.getInstance(null).activarInteligencias();
                 break;
         }
     }

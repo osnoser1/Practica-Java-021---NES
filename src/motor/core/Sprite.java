@@ -4,11 +4,13 @@
  */
 package motor.core;
 
-import Dependencias.Imagen;
-import GUI.JPanelJuego;
-import java.awt.Graphics;
+import motor.utils.Graphics;
+import motor.utils.Image;
 import java.awt.Point;
 import java.util.HashMap;
+import lenguaje.utils.Pareja;
+import motor.core.EstadosSprite.Estado;
+import motor.core.escenas.Juego;
 
 /**
  *
@@ -16,42 +18,30 @@ import java.util.HashMap;
  */
 public abstract class Sprite {
 
-    protected int x, y, velocidad;
-    protected HashMap<Integer, ControlAnimacion> animaciones;
-    protected Imagen imagen;
+    protected int velocidadX, velocidadY;
+    private HashMap<Integer, Pareja<Integer, ControlAnimacion>> animaciones;
+    private Imagen imagen;
     private Estado estadoAnterior, estadoActual;
-    protected String identificacion;
-    protected boolean activo;
+    protected String id;
     protected Point posicionMapa;
 
-    public enum Estado {
-
-        INICIO,
-        ARRIBA,
-        ABAJO,
-        DERECHA,
-        IZQUIERDA,
-        MUERTE,
-        ELIMINADO
+    public void actualizar(Juego escenaJuego, long tiempoTranscurrido) {
+//        super.actualizarEstados(estadoActual, escenaJuego, tiempoTranscurrido);
+        final Pareja<Integer, ControlAnimacion> actual = animaciones.get(estadoActual.ordinal());
+        imagen.actualizar(actual.getPrimero(), actual.getSegundo().getCuadroActual());
     }
 
-    public abstract void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido);
-
-    protected void inicializar(Imagen imagen, Point posicion) {
+    protected void inicializar(Imagen imagen, Point posicion, int velocidadX, int velocidadY, HashMap<Integer, Pareja<Integer, ControlAnimacion>> animaciones) {
         this.imagen = imagen;
-        x = posicion.x;
-        y = posicion.y;
-        imagen.setPosicion(new Point(x + imagen.getAnchoEscalado() / 2, y + imagen.getAltoEscalado() / 2));
+        this.imagen.setLocation(posicion);
+        this.velocidadX = velocidadX;
+        this.velocidadY = velocidadY;
+        this.animaciones = animaciones;
         posicionMapa = new Point(getCentro().x / imagen.getAnchoEscalado(), getCentro().y / imagen.getAltoEscalado());
-        activo = true;
     }
 
     public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public HashMap<Integer, ControlAnimacion> getAnimaciones() {
-        return animaciones;
+        return id;
     }
 
     public Estado getEstadoActual() {
@@ -68,41 +58,30 @@ public abstract class Sprite {
     }
 
     public java.awt.Rectangle getRectagulo() {
-        return new java.awt.Rectangle(x, y, imagen.getAnchoEscalado(), imagen.getAltoEscalado());
+        return imagen.getDestinationRect();
     }
 
     public void setLocation(int x, int y) {
-        this.x = x;
-        this.y = y;
-        imagen.setPosicion(new Point(x + imagen.getAnchoEscalado() / 2, y + imagen.getAltoEscalado() / 2));
+        imagen.setLocation(x, y);
         posicionMapa.x = x / imagen.getAnchoEscalado();
         posicionMapa.y = y / imagen.getAltoEscalado();
     }
 
     public int getX() {
-        return x;
+        return imagen.getPosicion().x;
     }
 
     public int getY() {
-        return y;
-    }
-
-    public short getPosicionX(int X) {
-        return (short) (X / imagen.getAnchoEscalado());
-    }
-
-    public short getPosicionY(int Y) {
-        return (short) (Y / imagen.getAltoEscalado());
+        return imagen.getPosicion().y;
     }
 
     public Point getCentro() {
-        return imagen.getPosicion();
+        return new Point(getX() + imagen.getAnchoEscalado() / 2, getY() + imagen.getAltoEscalado() / 2);
     }
 
     public void trasladar(int dx, int dy) {
-        x += dx;
-        y += dy;
         imagen.trasladar(dx, dy);
+        posicionMapa.setLocation(getCentro().x / imagen.getAnchoEscalado(), getCentro().y / imagen.getAltoEscalado());
     }
 
     /**
@@ -110,7 +89,7 @@ public abstract class Sprite {
      * @return Devuelve true si el personaje esta activo, false si no lo está.
      */
     public boolean isActivo() {
-        return activo;
+        return imagen.isActive();
     }
 
     /**
@@ -118,16 +97,25 @@ public abstract class Sprite {
      * @param activo indica si quieres activar o no el personaje
      */
     public void setActivo(boolean activo) {
-        this.activo = activo;
+        imagen.setActive(activo);
     }
 
     public Point getPosicionMapa() {
-        return posicionMapa;
+        if (estadoActual == Estado.ARRIBA) {
+            return new Point(posicionMapa.x, (getY() + imagen.getAltoEscalado()) / imagen.getAltoEscalado());
+        }
+        if (estadoActual == Estado.ABAJO) {
+            return new Point(posicionMapa.x, getY() / imagen.getAltoEscalado());
+        }
+        if (estadoActual == Estado.DERECHA) {
+            return new Point(getX() / imagen.getAnchoEscalado(), posicionMapa.y);
+        }
+        return new Point((getX() + imagen.getAnchoEscalado()) / imagen.getAnchoEscalado(), posicionMapa.y);
     }
 
     public void reiniciar() {
         setEstadoActual(Estado.INICIO);
-        activo = true;
+        imagen.setActive(true);
     }
 
     public void fijarCasilla(int x, int y) {
@@ -135,27 +123,19 @@ public abstract class Sprite {
     }
 
     protected boolean actualizarAnimacion(long tiempoTranscurrido) {
-        return animaciones.get(getEstadoActual().ordinal()).actualizar(tiempoTranscurrido);
+        return animaciones.get(getEstadoActual().ordinal()).getSegundo().actualizar(tiempoTranscurrido);
     }
 
-    public void borrar(Graphics g, java.awt.image.BufferedImage imagen) {
-        g.drawImage(imagen.getSubimage(x, y, this.imagen.getAnchoEscalado(), this.imagen.getAltoEscalado()), x, y, null);
+    public void borrar(Graphics g, Image imagen) {
+        this.imagen.borrar(g, imagen);
     }
 
     public void pintar(Graphics g) {
-        if (!activo || getEstadoActual() == Estado.ELIMINADO) {
+        if (!imagen.isActive() || getEstadoActual() == Estado.ELIMINADO) {
             return;
         }
-        imagen.actualizar(getEstadoActual().ordinal(), animaciones.get(getEstadoActual().ordinal()).getCuadroActual());
         imagen.pintar(g);
-    }
-
-    public void pintar(Graphics g, int x, int y, int ancho, int alto) {
-        if (!activo || getEstadoActual() == Estado.ELIMINADO) {
-            return;
-        }
-        imagen.actualizar(getEstadoActual().ordinal(), animaciones.get(getEstadoActual().ordinal()).getCuadroActual());
-        imagen.pintar(g, x, y, ancho, alto);
+//        System.out.println(posicionMapa);
     }
 
     /**
@@ -165,37 +145,33 @@ public abstract class Sprite {
         return imagen;
     }
 
-    /**
-     * @param imagen the imagen to set
-     */
-    public void setImagen(Imagen imagen) {
-        this.imagen = imagen;
+    public void setVelocidadY(int velocidadY) {
+        this.velocidadY = velocidadY;
     }
 
-    public int getVelocidad() {
-        return velocidad;
+    public int getVelocidadX() {
+        return velocidadX;
     }
 
-    public void setVelocidad(int velocidad) {
-        this.velocidad = velocidad;
+    public int getVelocidadY() {
+        return velocidadY;
     }
 
-    public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-    }
-
-    public void estadoArriba(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-    }
-
-    public void estadoAbajo(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-    }
-
-    public void estadoDerecha(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-    }
-
-    public void estadoIzquierda(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-    }
-
-    public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+//    public void pintar(Graphics g, int x, int y, int ancho, int alto) {
+//        if(!imagen.isActive() || getEstadoActual() == Estado.ELIMINADO)
+//            return;
+//        imagen.actualizar(getEstadoActual().ordinal(), animaciones.get(getEstadoActual().ordinal()).getCuadroActual());
+//        imagen.pintar(g, x, y, ancho, alto);
+//    }
+//    public short getPosicionX(int X) {
+//        return (short)(X / imagen.getAnchoEscalado());
+//    }
+//
+//    public short getPosicionY(int Y) {
+//        return (short)(Y / imagen.getAltoEscalado());
+//    }
+    public void setVelocidadX(int velocidadX) {
+        this.velocidadX = velocidadX;
     }
 
 }

@@ -1,0 +1,22 @@
+{
+	"BOMBS": 10,
+    "FLAMES": 10,
+    "SPEED": true,
+    "wallpass": true,
+    "DETONADOR": true,
+    "BOMBPASS": true,
+    "FLAMEPASS": true,
+    "MYSTERY": true,
+    "id": "B",
+    "imagen": {BOMBERMAN", 6, 6, 2.5},
+    velocidadX: "SPEED_MID",
+    valocidadY: "SPEED_MID",
+    animaciones: {
+    	"INICIO": {0, {"0", 6.67}},
+    	"ARRIBA": {1, {"2,1,0,1", 6.67}},
+    	"ABAJO": {2, {"2,1,0,1", 6.67}},
+    	"DERECHA": {3, {"2,1,0,1", 6.67}},
+    	"IZQUIERDA": {4, {"2,1,0,1", 6.67}},
+    	"MUERTE": {5, "0,1,2,3,4", 300}}
+    }
+}

@@ -4,7 +4,7 @@
  */
 package Bomberman.Core;
 
-import GUI.JPanelJuego;
+import gui.EscenaJuego;
 import Personajes.Bomberman;
 import Personajes.Enemigo;
 import Personajes.Ladrillo;
@@ -18,12 +18,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class ControlJuego {
 
-    private JPanelJuego jPanelJuego;
+    private EscenaJuego jPanelJuego;
     private CopyOnWriteArrayList<Enemigo> enemigos;
     private CopyOnWriteArrayList<Ladrillo> ladrillos;
     private Bomberman[] jugadores;
 
-    public ControlJuego(JPanelJuego jPanelJuego) {
+    public ControlJuego(EscenaJuego jPanelJuego) {
         this.jPanelJuego = jPanelJuego;
     }
 

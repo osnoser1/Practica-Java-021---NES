@@ -4,10 +4,11 @@
  */
 package Personajes;
 
+import motor.core.Personaje;
 import motor.core.ControlAnimacion;
-import Dependencias.Imagen;
+import motor.core.Imagen;
 import Dependencias.Imagenes;
-import GUI.JPanelJuego;
+import gui.EscenaJuego;
 import Sonidos.Sonidos;
 import motor.core.GamePad;
 import java.awt.Graphics;
@@ -52,13 +53,13 @@ public class Bomb extends Personaje {
     public void detonar(){
         setActivo(false);
         setEstadoActual(Estado.MUERTE);
-        fire = new Fire(x, y, JPanelJuego.getInstance(null).primerJugador().getFLAMES());
+        fire = new Fire(x, y, EscenaJuego.getInstance(null).primerJugador().getFLAMES());
         Sonidos.getInstance().getNewSonido(Sonidos.EXPLOSION_1).play();
     }
 
 
     @Override
-    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void actualizar(EscenaJuego jPanelJuego, long tiempoTranscurrido) {
         super.actualizar(jPanelJuego, tiempoTranscurrido);
         if(fire != null)
             fire.actualizar(jPanelJuego, tiempoTranscurrido);
@@ -72,14 +73,14 @@ public class Bomb extends Personaje {
     }
     
     @Override
-    public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void estadoInicio(EscenaJuego jPanelJuego, long tiempoTranscurrido) {
         actualizarAnimacion(tiempoTranscurrido);
         if(detonar)
             detonar();
     }
 
     @Override
-    public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void estadoMuerte(EscenaJuego jPanelJuego, long tiempoTranscurrido) {
         if(fire.getEstadoActual() == Estado.ELIMINADO) 
             setEstadoActual(Estado.ELIMINADO);
     }

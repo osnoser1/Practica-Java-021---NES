@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import motor.core.Sprite;
 import java.awt.Color;
