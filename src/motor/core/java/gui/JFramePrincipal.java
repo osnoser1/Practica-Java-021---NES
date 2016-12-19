@@ -2,38 +2,26 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package motor.core.java.gui;
 
-import Bomberman.Configuracion.Configuracion;
-import Controladores.CJFramePrincipal;
-import Dependencias.Imagenes;
-import Dependencias.ManejadorDeArchivos;
-import Hilos.HiloPrincipal;
-import java.awt.DisplayMode;
+import motor.core.java.controllers.CJFramePrincipal;
+import lenguaje.utils.ManejadorDeArchivos;
+import concurrencia.HiloPrincipal;
+import java.awt.Frame;
+import java.awt.Graphics;
 
 /**
  *
  * @author Alfonso Andrés
  */
-public class JFramePrincipal extends javax.swing.JFrame {
+public class JFramePrincipal extends Frame {
 
     HiloPrincipal hiloPrincipal;
-    
-    private static final DisplayMode MODOS_POSIBLES[] = {
-        new DisplayMode( 1900, 1080, 32, 0 ),
-        new DisplayMode( 1366, 768, 32, 0 ),
-        new DisplayMode( 1280, 768, 32, 0 ),
-        new DisplayMode( 1280, 1024, 32, 0 ),
-        new DisplayMode( 1024, 768, 32, 0 ),
-        new DisplayMode( 800, 600, 32, 0 ),
-    };
-    
+
     public JFramePrincipal() {
-        super("Bomberman - NES");
         initComponents();
         setVisible(true);
-        createBufferStrategy(2);
-        hiloPrincipal = new HiloPrincipal(this, (short)60);
+        hiloPrincipal = new HiloPrincipal(this, (short) 20000);
         hiloPrincipal.start();
     }
 
@@ -42,19 +30,30 @@ public class JFramePrincipal extends javax.swing.JFrame {
         setFocusable(true);
         setAutoRequestFocus(true);
         setIgnoreRepaint(true);
-        Imagenes.cargarImagenes();
-        add(JPanelContenedor.getInstance());
-        setJMenuBar(JBarraMenu.getInstance());
-        setSize(Configuracion.getInstance().tamañoVentana);
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowFocusListener(CJFramePrincipal.getInstance());
-        addWindowListener(CJFramePrincipal.getInstance());
-        addComponentListener(CJFramePrincipal.getInstance());
+//        add(JPanelContenedor.getInstance());
+//        setJMenuBar(JBarraMenu.getInstance());
+        setSize(656, 600);
+        CJFramePrincipal controller = CJFramePrincipal.getInstance().setJFramePrincipal(this);
+        addWindowFocusListener(controller);
+        addWindowListener(controller);
+        addComponentListener(controller);
         addKeyListener(CJFramePrincipal.Teclado.getInstance());
-        setIconImage(ManejadorDeArchivos.getInstance().loadBufferedImageJAR("/bomber_32x32.png"));
-//        AdministradorDePantalla administrador = new AdministradorDePantalla();
-//        administrador.encontrarPrimerModoCompatible(MODOS_POSIBLES);
-//        administrador.establecerPantallaCompleta(this);
+        setIconImage(ManejadorDeArchivos.getInstance().loadImageJAR("/bomber_32x32.png"));
     }
-    
+
+    @Override
+    public void paint(Graphics g) {
+    }
+
+    @Override
+    public void paintAll(Graphics g) {
+    }
+
+    @Override
+    public void paintComponents(Graphics g) {
+    }
+
+    @Override
+    public void update(Graphics g) {
+    }
 }

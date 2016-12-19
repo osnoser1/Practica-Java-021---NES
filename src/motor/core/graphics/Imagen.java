@@ -2,136 +2,81 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Dependencias;
+package motor.core.graphics;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 
 /**
  *
  * @author AlfonsoAndrés
  */
-public class Imagen {
-    
-    
-    private BufferedImage imagen;
-    private int columnas;
-    private int filas;
-    private Rectangle sourceRect; //Rectangulo del frameActual
-    private Rectangle destinationRect; //Rectangulo en donde se va a pintar
-    private Point posicion;
-    private int ancho;
-    private int alto;
+public final class Imagen {
+
+    private final Image imagen;
+    private final int filas, columnas;
+    private final Rectangle sourceRect; //Rectangulo del frameActual
+    private final int ancho, alto;
     private int estado;
-    private float anchoEscalado;
-    private float altoEscalado;
+    private int anchoEscalado, altoEscalado;
     private boolean active;
     private Color color;
-    // The scale used to display the sprite strip
-    private float escala;
+    private float escala; // The scale used to display the sprite strip
 
-
-    public Imagen(BufferedImage textura, int filas, int columnas, Point posicion, float escala, int estadoInicial) {
-        this(textura, filas, columnas, posicion, escala);
+    /**
+     *
+     * @param textura
+     * @param filas
+     * @param columnas
+     * @param escala
+     * @param estadoInicial
+     */
+    public Imagen(final Image textura, final int filas, final int columnas, final float escala, final int estadoInicial) {
+        this(textura, filas, columnas, escala);
         estado = estadoInicial;
     }
-    
-    public Imagen(BufferedImage textura, int filas, int columnas, Point posicion, float escala) {
+
+    /**
+     *
+     * @param textura
+     * @param filas
+     * @param columnas
+     * @param escala
+     */
+    public Imagen(final Image textura, int filas, int columnas, final float escala) {
         active = true;
         this.filas = filas;
         this.columnas = columnas;
-        this.posicion = posicion;
-        this.escala = escala;
         imagen = textura;
-        /* El ancho y alto de una imagen de la rejilla 
-        es el total entre el número de columnas y el
-        total entre el numero de filas respectivamente.*/
-        ancho = imagen.getWidth() / columnas;
-        alto = imagen.getHeight() / filas;
-        anchoEscalado = ancho * escala;
-        altoEscalado = alto * escala;
+        ancho = imagen.getWidth(null) / columnas;
+        alto = imagen.getHeight(null) / filas;
+        sourceRect = new Rectangle(0, 0, ancho, alto);
+        setEscala(escala);
     }
 
+    /**
+     *
+     * @param frameActual
+     */
     public void actualizar(int frameActual) {
         if (!active)
             return;
         if (frameActual < 0 || frameActual > columnas)
             System.err.println("No existe el cuadro " + frameActual + ".");
         // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
-        sourceRect = new Rectangle(frameActual * ancho, estado * alto, ancho, alto);
-        // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
-        destinationRect = new Rectangle(posicion.x - (int)(anchoEscalado) / 2, posicion.y - (int)(altoEscalado) / 2,
-        (int)(anchoEscalado), (int)(altoEscalado));
+        sourceRect.setBounds(frameActual * ancho, estado * alto, ancho, alto);
     }
-    
+
     /**
      *
      * @param estado
      * @param frameActual
      */
-    public void actualizar(int estado, int frameActual)
-    {
+    public void actualizar(int estado, int frameActual) {
         this.estado = estado;
         actualizar(frameActual);
-    }
-
-    /**
-     *
-     * @param g
-     */
-    public void pintar(Graphics g)
-    {
-        if (!active)
-            return;
-//        System.out.println(destinationRect.x);
-        g.drawImage(imagen.getSubimage(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height), 
-                destinationRect.x, destinationRect.y, 
-                destinationRect.width, destinationRect.height, color, null);
-    }
-    
-    public void pintar(Graphics g, int x, int y, int ancho, int alto)
-    {
-        if (!active)
-            return;
-        g.drawImage(imagen.getSubimage(sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height), 
-                x, y, 
-                ancho, alto, color, null);
-    }
-    
-    /**
-     * @return the posicion
-     */
-    public Point getPosicion() {
-        return posicion;
-    }
-
-    /**
-     * @param posicion the posicion to set
-     */
-    public void setPosicion(Point posicion) {
-        this.posicion = posicion;
-    }
-    
-    public void trasladar(int dx, int dy) {
-        posicion.x += dx;
-        posicion.y += dy;
-    }
-
-    /**
-     * @return the getWidth()
-     */
-    public int getAncho() {
-        return ancho;
-    }
-
-    /**
-     * @return the getHeight()
-     */
-    public int getAlto() {
-        return alto;
     }
 
     /**
@@ -149,45 +94,10 @@ public class Imagen {
     }
 
     /**
-     * @return el color
-     */
-    public Color getColor() {
-        return color;
-    }
-
-    /**
-     * @param color el color a establecer
-     */
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    /**
-     * @return la escala
-     */
-    public float getEscala() {
-        return escala;
-    }
-
-    /**
-     * @param scale la escala a establecer
-     */
-    public void setEscala(float scale) {
-        this.escala = scale;
-    }
-
-    /**
      * @return las columnas
      */
     public int getColumnas() {
         return columnas;
-    }
-
-    /**
-     * @param columnas las columnas a establecer
-     */
-    public void setColumnas(int columnas) {
-        this.columnas = columnas;
     }
 
     /**
@@ -198,55 +108,47 @@ public class Imagen {
     }
 
     /**
-     * @param filas las filas a establecer
+     * @return el ancho
      */
-    public void setFilas(int filas) {
-        this.filas = filas;
-    }
-
-    /**
-     * @return la imagen
-     */
-    public BufferedImage getImagen() {
-        return imagen;
-    }
-
-    /**
-     * @param imagen la imagen a establecer
-     */
-    public void setImagen(BufferedImage imagen) {
-        this.imagen = imagen;
-    }
-    
-    /**
-     * @return the anchoEscalado
-     */
-    public int getAnchoEscalado() {
+    public int getAncho() {
         return (int) anchoEscalado;
     }
 
     /**
-     * @return the altoEscalado
+     * @return el alto
      */
-    public int getAltoEscalado() {
+    public int getAlto() {
         return (int) altoEscalado;
     }
 
     /**
-     * @return the estado
+     *
+     * @return la grilla con el sprite completo
      */
-    public int getEstado() {
-        return estado;
+    public Image getImagen() {
+        return imagen;
     }
 
-    public BufferedImage getSubimage(int fila, int columna) {
-        return imagen.getSubimage(columna * ancho, fila * alto, ancho, alto);
+    /**
+     *
+     * @param escala
+     */
+    public void setEscala(final float escala) {
+        this.escala = escala;
+        anchoEscalado = (int) (ancho * this.escala);
+        altoEscalado = (int) (alto * this.escala);
     }
 
-    public void borrar(Graphics g, BufferedImage imagen) {
-        if(destinationRect == null)
+    /**
+     *
+     * @param g
+     * @param x
+     * @param y
+     */
+    public void pintar(final Graphics2D g, final int x, final int y) {
+        if (!active)
             return;
-        g.drawImage(imagen.getSubimage(destinationRect.x, destinationRect.y, destinationRect.width, destinationRect.height), destinationRect.x, destinationRect.y, null);
+        g.drawImage(imagen, x, y, x + anchoEscalado, y + altoEscalado, sourceRect.x, sourceRect.y, sourceRect.x + sourceRect.width, sourceRect.y + sourceRect.height, color, null);
     }
 
 }

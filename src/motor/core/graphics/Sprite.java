@@ -2,188 +2,164 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Utilidades.Graficos;
+package motor.core.graphics;
 
-import Dependencias.Imagen;
-import GUI.JPanelJuego;
+import gui.JPanelJuego;
 import motor.core.ControlAnimacion;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.HashMap;
 
 /**
  *
- * @author 
+ * @author
  */
 public abstract class Sprite {
-    
-    protected int x, y, velocidad;
+
+    protected int velocidad, x, y;
     protected HashMap<Integer, ControlAnimacion> animaciones;
-    protected Imagen imagen;
-    private Estado estadoAnterior, estadoActual;
-    protected String identificacion;
-    protected boolean activo;
-    protected Point posicionMapa;
-    
-    public enum Estado {
-        INICIO,
-        ARRIBA,
-        ABAJO,
-        DERECHA,
-        IZQUIERDA,
-        MUERTE,
-        ELIMINADO
+    protected final Imagen imagen;
+    private int estadoAnterior, estadoActual;
+    protected String id;
+    protected final Point posicionMapa, posAntMapa;
+    private final Point centro;
+
+    public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
+        if (isActivo() && estadoActual != -1)
+            imagen.actualizar(estadoActual, animaciones.get(estadoActual).getCuadroActual());
     }
-    
-    public abstract void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido);
-    
-    protected void inicializar(Imagen imagen, Point posicion) {
+
+    protected Sprite(final Imagen imagen, final int x, final int y) {
         this.imagen = imagen;
-        x = posicion.x;
-        y = posicion.y;
-        imagen.setPosicion(new Point(x + imagen.getAnchoEscalado() / 2, y + imagen.getAltoEscalado() / 2));
-        posicionMapa = new Point(getCentro().x / imagen.getAnchoEscalado(), getCentro().y / imagen.getAltoEscalado());
-        activo = true;
+        this.x = x;
+        this.y = y;
+        centro = new Point();
+        posicionMapa = new Point(getCentro().x / imagen.getAncho(), getCentro().y / imagen.getAlto());
+        posAntMapa = (Point) posicionMapa;
     }
-    
-    public String getIdentificacion() {
-        return identificacion;
+
+    public final String getId() {
+        return id;
     }
-    
-    public HashMap<Integer, ControlAnimacion> getAnimaciones() {
-        return animaciones;
-    }
-    
-    public Estado getEstadoActual() {
+
+    public final int getEstadoActual() {
         return estadoActual;
     }
 
-    public void setEstadoActual(Estado estado) {
+    public final void setEstadoActual(final int estado) {
         estadoAnterior = estadoActual;
         estadoActual = estado;
     }
-    
-    public Estado getEstadoAnterior(){
+
+    public final int getEstadoAnterior() {
         return estadoAnterior;
     }
-    
-    public java.awt.Rectangle getRectagulo() {
-        return new java.awt.Rectangle(x, y, imagen.getAnchoEscalado(), imagen.getAltoEscalado());
-    }
-    
+
     public void setLocation(int x, int y) {
         this.x = x;
         this.y = y;
-        imagen.setPosicion(new Point(x + imagen.getAnchoEscalado() / 2, y + imagen.getAltoEscalado() / 2));
-        posicionMapa.x = x / imagen.getAnchoEscalado();
-        posicionMapa.y = y / imagen.getAltoEscalado();
+        posAntMapa.setLocation(posicionMapa);
+        posicionMapa.x = x / imagen.getAncho();
+        posicionMapa.y = y / imagen.getAlto();
     }
-    
-    public int getX() {
+
+    public final int getX() {
         return x;
     }
 
-    public int getY() {
+    public final int getY() {
         return y;
     }
-    
-    public short getPosicionX(int X) {
-        return (short)(X / imagen.getAnchoEscalado());
+
+    public final int getAncho() {
+        return imagen.getAncho();
     }
 
-    public short getPosicionY(int Y) {
-        return (short)(Y / imagen.getAltoEscalado());
+    public final int getAlto() {
+        return imagen.getAlto();
     }
-    
-    public Point getCentro(){
-        return imagen.getPosicion();
+
+    protected final short getPosicionX(int X) {
+        return (short) (X / imagen.getAncho());
     }
-    
-    public void trasladar(int dx, int dy) {
+
+    protected final short getPosicionY(int Y) {
+        return (short) (Y / imagen.getAlto());
+    }
+
+    public final Point getCentro() {
+        centro.setLocation(getX() + imagen.getAncho() / 2, getY() + imagen.getAlto() / 2);
+        return centro;
+    }
+
+    public final void trasladar(final int dx, final int dy) {
         x += dx;
         y += dy;
-        imagen.trasladar(dx, dy);
+        posAntMapa.setLocation(posicionMapa);
+        posicionMapa.setLocation(getCentro().x / imagen.getAncho(), getCentro().y / imagen.getAlto());
     }
-    
-    
+
     /**
      *
      * @return Devuelve true si el personaje esta activo, false si no lo está.
      */
-    public boolean isActivo() {
-        return activo;
+    public final boolean isActivo() {
+        return imagen.isActive();
     }
-    
+
     /**
      *
      * @param activo indica si quieres activar o no el personaje
      */
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public final void setActivo(final boolean activo) {
+        imagen.setActive(activo);
     }
-    
-    public Point getPosicionMapa() {
+
+    public final Point getPosicionMapa() {
         return posicionMapa;
     }
-    
-    public void reiniciar(){
-        setEstadoActual(Estado.INICIO);
-        activo = true;
+
+    public final Point getPosAntMapa() {
+        return posAntMapa;
     }
-    
-    public void fijarCasilla(int x, int y){
-        setLocation(x * imagen.getAnchoEscalado(), y * imagen.getAltoEscalado());
+
+    public final void fijarCasilla(final int x, final int y) {
+        setLocation(x * imagen.getAncho(), y * imagen.getAlto());
     }
-    
-    protected boolean actualizarAnimacion(long tiempoTranscurrido) {
-        return animaciones.get(getEstadoActual().ordinal()).actualizar(tiempoTranscurrido);
+
+    protected final boolean actualizarAnimacion(final long tiempoTranscurrido) {
+        return animaciones.get(estadoActual).actualizar(tiempoTranscurrido);
     }
-    
-    public void borrar(Graphics g, java.awt.image.BufferedImage imagen) {
-        g.drawImage(imagen.getSubimage(x, y, this.imagen.getAnchoEscalado(), this.imagen.getAltoEscalado()), x, y, null);
-    }
-    
-    public void pintar(Graphics g) {
-        if(!activo || getEstadoActual() == Estado.ELIMINADO)
+
+    public void pintar(final Graphics2D g) {
+        if (!imagen.isActive() || estadoActual == -1)
             return;
-        imagen.actualizar(getEstadoActual().ordinal(), animaciones.get(getEstadoActual().ordinal()).getCuadroActual());
-        imagen.pintar(g);
-    }
-    
-    public void pintar(Graphics g, int x, int y, int ancho, int alto) {
-        if(!activo || getEstadoActual() == Estado.ELIMINADO)
-            return;
-        imagen.actualizar(getEstadoActual().ordinal(), animaciones.get(getEstadoActual().ordinal()).getCuadroActual());
-        imagen.pintar(g, x, y, ancho, alto);
-    }
-    
-     /**
-     * @return the imagen
-     */
-    public Imagen getImagen() {
-        return imagen;
+        imagen.pintar(g, x, y);
     }
 
     /**
-     * @param imagen the imagen to set
+     * @return the imagen
      */
-    public void setImagen(Imagen imagen) {
-        this.imagen = imagen;
+    public final Imagen getImagen() {
+        return imagen;
     }
-    
-    public int getVelocidad() {
-        return velocidad;
+
+    public void estadoInicio(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
     }
-    
-    public void setVelocidad(int velocidad) {
-        this.velocidad = velocidad;
+
+    public void estadoArriba(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
     }
-    
-    public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
-    public void estadoArriba(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
-    public void estadoAbajo(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
-    public void estadoDerecha(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
-    public void estadoIzquierda(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
-    public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) { }
-    
+
+    public void estadoAbajo(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
+    }
+
+    public void estadoDerecha(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
+    }
+
+    public void estadoIzquierda(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
+    }
+
+    public void estadoMuerte(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
+    }
+
 }
