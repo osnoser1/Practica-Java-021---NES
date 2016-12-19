@@ -2,20 +2,19 @@ package motor.core;
 
 import java.util.ArrayList;
 
-public class ControlAnimacion  {
+public final class ControlAnimacion {
 
-    private ArrayList<Integer> cuadros;
+    private final ArrayList<Integer> cuadros;
     private long tiempoTranscurrido;
-    private long tiempoFotograma;
+    private final long tiempoFotograma;
     private int paso;
 
     public ControlAnimacion(String frames, long tiempoFotograma) {
         this.tiempoFotograma = tiempoFotograma;
-        cuadros = new ArrayList<>();
-        String[] cuadrosTmp = frames.split(",");
-        for(String frame : cuadrosTmp){
+        final String[] cuadrosTmp = frames.split(",");
+        cuadros = new ArrayList<>(cuadrosTmp.length + 1);
+        for (String frame : cuadrosTmp)
             cuadros.add(Integer.parseInt(frame));
-        }
         cuadros.add(-1);
     }
 
@@ -24,14 +23,14 @@ public class ControlAnimacion  {
      * @param totalTiempo Tiempo total transcurrido en milisegundos
      * @return
      */
-    public boolean actualizar(long totalTiempo){
+    public boolean actualizar(final long totalTiempo) {
         //Actualizar el tiempo transcurrido
         tiempoTranscurrido += totalTiempo;
         // Si el tiempo transcurrido es mayor que el plazo de tiempo
         // Tenemos que cambiar los fotogramas
-        if(tiempoTranscurrido > tiempoFotograma) {
+        if (tiempoTranscurrido > tiempoFotograma) {
             tiempoTranscurrido = 0;
-            if(cuadros.get(++paso) == -1){
+            if (cuadros.get(++paso) == -1) {
                 paso = 0;
                 return true;
             }
@@ -40,10 +39,9 @@ public class ControlAnimacion  {
     }
 
     public void reiniciar() {
-        paso = 0;
-        tiempoTranscurrido = 0;
+        tiempoTranscurrido = paso = 0;
     }
-    
+
     /**
      * @return El indice del fotograma actual
      */
@@ -57,7 +55,7 @@ public class ControlAnimacion  {
     public void setPaso(int paso) {
         this.paso = paso;
     }
- 
+
     /**
      *
      * @return El indice del frame actual a pintar
@@ -65,5 +63,5 @@ public class ControlAnimacion  {
     public int getCuadroActual() {
         return cuadros.get(paso);
     }
-    
+
 }

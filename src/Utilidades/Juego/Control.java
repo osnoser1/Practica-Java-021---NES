@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class Control {
     
-    public enum Botones {
+    public static enum Botones {
         ARRIBA,
         ABAJO,
         IZQUIERDA,
@@ -35,7 +35,8 @@ public class Control {
         START,
         SELECT
     }
-    private HashMap<Botones, Integer> boton = new HashMap<Botones, Integer>(){{
+    private final HashMap<Botones, Integer> boton = new HashMap<Botones, Integer>() {
+        {
                 put(Botones.ABAJO, KeyEvent.VK_DOWN);
                 put(Botones.ARRIBA, KeyEvent.VK_UP);
                 put(Botones.DERECHA, KeyEvent.VK_RIGHT);

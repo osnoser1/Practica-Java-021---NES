@@ -14,15 +14,24 @@ import java.io.IOException;
  */
 public class Fuentes {
     
-    private Font calibri, joystixMonospacce;
+    private static Font calibri, joystixMonospacce;
+    private static Fuentes instance;
 
-    public Fuentes() {
+    static {
         try {
-            calibri = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/Fuentes/calibri.ttf"));
-            joystixMonospacce = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/Fuentes/joystix_monospace.otf"));
-        } catch(FontFormatException | IOException ex) {
-            System.out.println("Error al cargar fuente");
+            calibri = Font.createFont(Font.TRUETYPE_FONT, Class.class.getResourceAsStream("/Fuentes/calibri.ttf"));
+            joystixMonospacce = Font.createFont(Font.TRUETYPE_FONT, Class.class.getResourceAsStream("/Fuentes/joystix_monospace.otf"));
+        } catch (FontFormatException | IOException ex) {
+            System.out.println("Error al cargar fuentes");
         }
+    }
+
+    private Fuentes() {
+
+    }
+
+    public static Fuentes getInstance() {
+        return instance == null ? instance = new Fuentes() : instance;
     }
 
     public Font getCalibri(float size) {

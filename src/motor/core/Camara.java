@@ -7,6 +7,7 @@ package motor.core;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import motor.core.graphics.Sprite;
 
 /**
  *
@@ -14,18 +15,18 @@ import java.awt.Rectangle;
  */
 public class Camara {
     
-    private Rectangle posicion;
-    private Dimension tamañoNivel;
-    private int cuarto, tercio;
+    private final Rectangle posicion;
+    private final Dimension tamañoNivel;
+    private final int cuarto, tercio;
 
-    public Camara(Rectangle posicion, Dimension tamañoNivel) {
+    public Camara(final Rectangle posicion, final Dimension tamañoNivel) {
         this.posicion = posicion;
         this.tamañoNivel = tamañoNivel;
         cuarto = tamañoNivel.width / 4;
         tercio = 3 * cuarto;
     }
     
-    public void actualizar(Point puntoGuia) {
+    public void actualizar(final Point puntoGuia) {
         if(puntoGuia.x > cuarto && puntoGuia.x < tercio)
             posicion.x = puntoGuia.x - cuarto;
         if(puntoGuia.x > tercio && puntoGuia.x < cuarto)
@@ -36,7 +37,7 @@ public class Camara {
             posicion.x = tamañoNivel.width - posicion.width;
     }
     
-    public boolean contiene(int x, int y, int ancho, int alto) {
+    private boolean contiene(int x, int y, int ancho, int alto) {
         return posicion.intersects(x, y, ancho, alto);
     }
 
@@ -48,8 +49,8 @@ public class Camara {
         posicion.x = posicion.y = 0;
     }
 
-    public boolean contiene(Rectangle rectagulo) {
-        return contiene(rectagulo.x, rectagulo.y, rectagulo.width, rectagulo.height);
+    public boolean contiene(final Sprite s) {
+        return contiene(s.getX(), s.getY(), s.getAncho(), s.getAlto());
     }
     
 }

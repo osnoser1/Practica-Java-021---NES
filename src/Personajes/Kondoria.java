@@ -5,7 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import java.awt.Point;
+
 
 /**
  *
@@ -14,12 +14,13 @@ import java.awt.Point;
 public class Kondoria extends Enemigo {
     
     public Kondoria(int x, int y) {
+        super(Imagenes.KONDORIA, x, y, null);
         velocidad = SPEED_SLOWEST;
         smart = SMART_HIGH;
         wallpass = true;
         puntaje = 1000;
-        identificacion = "K";
-        inicializar(Imagenes.KONDORIA, new Point(x, y), null);
+        id = "K";
+        inicializar();
     }
     
 }

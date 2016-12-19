@@ -4,73 +4,56 @@
  */
 package Dependencias;
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.awt.Image;
+import motor.core.java.resources.ImageResource;
+import static motor.core.java.resources.ImageResource.*;
 
 /**
  *
  * @author estudiante
  */
 public class Imagenes {
-    
-    public static BufferedImage LOGO;
-    public static BufferedImage APUNTADOR;
-    public static BufferedImage FONDO;
-    public static BufferedImage PISO;
-    public static BufferedImage ACERO;
-    public static BufferedImage BOMBA;
-    public static BufferedImage FUEGO;
-    public static BufferedImage BOMBERMAN;
-    public static BufferedImage BALLOOM;
-    public static BufferedImage DOLL;
-    public static BufferedImage KONDORIA;
-    public static BufferedImage MINVO;
-    public static BufferedImage ONEAL;
-    public static BufferedImage PASS;
-    public static BufferedImage OVAPI;
-    public static BufferedImage PONTAN;
-    public static BufferedImage BLOQUE;
-    public static ArrayList<BufferedImage> LADRILLO_ESPECIAL;
-    
-    public Imagenes(){
-        initComponents();   
-    }
-    
-    public final void initComponents(){
-        LADRILLO_ESPECIAL = new ArrayList<>();
-    }
-    
-    public static void cargarImagenes(){
-        Ubicacion ubicacion = new Ubicacion();
-        ManejadorDeArchivos manejador = ManejadorDeArchivos.getInstance();
-        LOGO = manejador.loadBufferedImageJAR(ubicacion.LOGO);
-        BLOQUE = manejador.loadBufferedImageJAR(ubicacion.BLOQUE);
-        APUNTADOR = manejador.loadBufferedImageJAR(ubicacion.APUNTADOR);
-        PISO = manejador.loadBufferedImageJAR(ubicacion.PISO);
-        ACERO = manejador.loadBufferedImageJAR(ubicacion.ACERO);
-        BOMBA = manejador.loadBufferedImageJAR(ubicacion.BOMBA);
-        FUEGO = manejador.loadBufferedImageJAR(ubicacion.FUEGO);
-        BOMBERMAN = manejador.loadBufferedImageJAR(ubicacion.BOMBERMAN);
-//        FONDO = manejador.loadBufferedImageJAR(ubicacion.FONDO);
-        LADRILLO_ESPECIAL = getAmbiente("Ladrillo Especial",9);        
-        BALLOOM = manejador.loadBufferedImageJAR(ubicacion.BALLOOM);
-        DOLL = manejador.loadBufferedImageJAR(ubicacion.DOLL);
-        KONDORIA = manejador.loadBufferedImageJAR(ubicacion.KONDORIA);
-        MINVO = manejador.loadBufferedImageJAR(ubicacion.MINVO);
-        ONEAL = manejador.loadBufferedImageJAR(ubicacion.ONEAL);
-        OVAPI = manejador.loadBufferedImageJAR(ubicacion.OVAPI);
-        PASS = manejador.loadBufferedImageJAR(ubicacion.PASS);
-        PONTAN = manejador.loadBufferedImageJAR(ubicacion.PONTAN);        
+
+    public static Image LOGO;
+    public static Image APUNTADOR;
+    public static Image FONDO;
+    public static Image PISO;
+    public static Image ACERO;
+    public static Image BOMBA;
+    public static Image FUEGO;
+    public static Image BOMBERMAN;
+    public static Image BALLOOM;
+    public static Image DOLL;
+    public static Image KONDORIA;
+    public static Image MINVO;
+    public static Image ONEAL;
+    public static Image PASS;
+    public static Image OVAPI;
+    public static Image PONTAN;
+    public static Image BLOQUE;
+    public static Image LADRILLO_ESPECIAL;
+
+    static {
+        final Ubicacion ubicacion = new Ubicacion();
+        final ImageResource ir = new ImageResource();
+////        FONDO = manejador.loadVolatileImageJAR(ubicacion.FONDO);
+        LOGO = ir.load(ubicacion.LOGO, VOLATILE);
+        ACERO = ir.load(ubicacion.ACERO, VOLATILE);
+        PISO = ir.load(ubicacion.PISO, VOLATILE);
+        LADRILLO_ESPECIAL = ir.load(ubicacion.LADRILLO_ESPECIAL, VOLATILE);
+        BLOQUE = ir.load(ubicacion.BLOQUE, VOLATILE);
+        APUNTADOR = ir.load(ubicacion.APUNTADOR, VOLATILE);
+        BOMBA = ir.load(ubicacion.BOMBA, VOLATILE);
+        FUEGO = ir.load(ubicacion.FUEGO, VOLATILE);
+        BOMBERMAN = ir.load(ubicacion.BOMBERMAN, VOLATILE);
+        BALLOOM = ir.load(ubicacion.BALLOOM, VOLATILE);
+        DOLL = ir.load(ubicacion.DOLL, VOLATILE);
+        KONDORIA = ir.load(ubicacion.KONDORIA, VOLATILE);
+        MINVO = ir.load(ubicacion.MINVO, VOLATILE);
+        ONEAL = ir.load(ubicacion.ONEAL, VOLATILE);
+        OVAPI = ir.load(ubicacion.OVAPI, VOLATILE);
+        PASS = ir.load(ubicacion.PASS, VOLATILE);
+        PONTAN = ir.load(ubicacion.PONTAN, VOLATILE);
     }
 
-    public static ArrayList<BufferedImage> getAmbiente(String Nombre,int a){
-        ArrayList<BufferedImage> Ambiente = new ArrayList<>();
-        try{
-            for(int i = 1;i<= a;i++) {
-                Ambiente.add(ManejadorDeArchivos.getInstance().loadBufferedImageJAR("/Ambiente/"+Nombre+"/"+Nombre+i+".png"));
-            }
-        }catch(Exception e){}
-        return Ambiente;
-    }
-    
 }

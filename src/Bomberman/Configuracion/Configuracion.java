@@ -21,7 +21,7 @@ import java.util.Properties;
 public class Configuracion {
     
     private static Configuracion instance;
-    public Dimension tamañoVentana = new Dimension(656,620);
+    public Dimension tamañoVentana = new Dimension(656, 600);
     private final static String ARCHIVO_CONFIGURACION = "Settings.properties";
     private final static String ARCHIVO_CONFIGURACION_POR_DEFECTO = "/Juego/ConfiguacionPorDefecto.properties";
     private Properties configuacionPorDefecto;
