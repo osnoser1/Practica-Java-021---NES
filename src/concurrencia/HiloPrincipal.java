@@ -51,7 +51,8 @@ public class HiloPrincipal extends Runnable2 {
         }
 //        final Graphics g = g2DCanvas.getGraphics();
         jPanelContenedor.actualizar(tiempoTranscurrido / 1000000);
-        g = buffer.getDrawGraphics().create(in.left, in.top, c.getTamañoVentana().width, c.getTamañoVentana().height);
+        g = buffer.getDrawGraphics();
+        g.translate(in.left, in.top);
         ((Graphics2D) g).scale(c.getEscalaX(), c.getEscalaY());
 //        g2DCanvas.repaint();
         jPanelContenedor.paint(g);
