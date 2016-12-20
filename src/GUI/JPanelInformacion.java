@@ -164,6 +164,7 @@ public class JPanelInformacion {
             Graphics2D g2d = (Graphics2D) imagen.getGraphics();
             drawStrings(g2d);
             g2d.dispose();
+            cambio = false;
         }
         g2.drawImage(imagen, 0, 0, null);
     }
