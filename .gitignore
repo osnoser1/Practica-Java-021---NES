@@ -38,6 +38,9 @@ local.properties
 *.war
 *.ear
 
+# Except lib folder #
+!lib/**
+
 #################
 ## NetBeans
 #################
