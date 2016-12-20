@@ -5,7 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import java.awt.Point;
+
 
 /**
  *
@@ -14,13 +14,14 @@ import java.awt.Point;
 public class Oneal extends Enemigo {
     
     public Oneal(int x, int y) {
+        super(Imagenes.ONEAL, x, y, null);
         velocidad = SPEED_MID;
         smart = SMART_MID;
         puntaje = 200;
         wallpass = false;
-        identificacion = "O";
+        id = "O";
         inteligencia = new Inteligencia(this);
-        inicializar(Imagenes.ONEAL, new Point(x, y), null);
+        inicializar();
     }
     
 }

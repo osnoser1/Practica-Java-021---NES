@@ -5,7 +5,6 @@
 package Controladores;
 
 import Dialog.Controles1;
-import GUI.JFramePrincipal;
 import java.awt.event.ActionEvent;
 
 /**

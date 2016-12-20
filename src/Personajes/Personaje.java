@@ -5,163 +5,156 @@
 package Personajes;
 
 import Dependencias.Mapa;
-import Dependencias.Teclado;
-import GUI.JPanelJuego;
-import Utilidades.Graficos.Sprite;
+import motor.core.input.Teclado;
+import static Personajes.Personaje.Direccion.*;
+import gui.JPanelJuego;
+import motor.core.graphics.Sprite;
 import Utilidades.Juego.Control;
 import Utilidades.Juego.Control.Botones;
-import javax.swing.Timer;
+import static juego.constantes.Estado.*;
+import motor.core.graphics.Imagen;
 
 public abstract class Personaje extends Sprite {
-    
-    protected int varx = 3, vary = 3, smart;
-    protected final int SPEED_SLOWEST=1,SPEED_SLOW=2,SPEED_MID=4,SPEED_FAST=5,SMART_LOW=1,SMART_MID=2,SMART_HIGH=3,SMART_IMPOSSIBLE = 4;
-    protected Inteligencia inteligencia;
-    protected Timer timer;
-    protected Teclado teclado;
-    protected Control gamePad;
-    protected boolean wallpass, dentroBomb;
-    
-    @Override
-    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        switch(getEstadoActual()){
-            case INICIO:
-                estadoInicio(jPanelJuego, tiempoTranscurrido);
-                break;
-            case ARRIBA:
-                estadoArriba(jPanelJuego, tiempoTranscurrido);
-                break;
-            case ABAJO:
-                estadoAbajo(jPanelJuego, tiempoTranscurrido);
-                break;
-            case DERECHA:
-                estadoDerecha(jPanelJuego, tiempoTranscurrido);
-                break;
-            case IZQUIERDA:
-                estadoIzquierda(jPanelJuego, tiempoTranscurrido);
-                break;
-            case MUERTE:
-                estadoMuerte(jPanelJuego, tiempoTranscurrido);
-                break;
-        }
+
+    public static enum Direccion {
+        HORIZONTAL, VERTICAL;
     }
 
-    public Inteligencia getInteligencia() {
+    protected int varx = 3, vary = 3, smart;
+    protected static final int SPEED_SLOWEST = 1, SPEED_SLOW = 2, SPEED_MID = 4, SPEED_FAST = 5, SMART_LOW = 1, SMART_MID = 2, SMART_HIGH = 3, SMART_IMPOSSIBLE = 4;
+    protected Inteligencia inteligencia;
+    protected Teclado teclado;
+    protected Control gamePad;
+    protected boolean wallpass, dentroBomb, BOMBPASS;
+
+    protected Personaje(final Imagen imagen, final int x, final int y) {
+        super(imagen, x, y);
+    }
+
+    @Override
+    public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
+        super.actualizar(jPanelJuego, tiempoTranscurrido);
+        final int actual = getEstadoActual();
+        if (INICIO.val() == actual)
+            estadoInicio(jPanelJuego, tiempoTranscurrido);
+        else if (ARRIBA.val() == actual)
+            estadoArriba(jPanelJuego, tiempoTranscurrido);
+        else if (ABAJO.val() == actual)
+            estadoAbajo(jPanelJuego, tiempoTranscurrido);
+        else if (DERECHA.val() == actual)
+            estadoDerecha(jPanelJuego, tiempoTranscurrido);
+        else if (IZQUIERDA.val() == actual)
+            estadoIzquierda(jPanelJuego, tiempoTranscurrido);
+        else if (MUERTE.val() == actual)
+            estadoMuerte(jPanelJuego, tiempoTranscurrido);
+    }
+
+    public final Inteligencia getInteligencia() {
         return inteligencia;
     }
 
-    public void movimientoDerecha() {
+    public final void movimientoDerecha(final JPanelJuego jPanelJuego) {
         velocidad = Math.abs(velocidad);
-        updateX();
+        updateX(jPanelJuego);
     }
-    public void movimientoIzquierda() {
+
+    public final void movimientoIzquierda(final JPanelJuego jPanelJuego) {
         velocidad = -Math.abs(velocidad);
-        updateX();
+        updateX(jPanelJuego);
     }
-    public void movimientoArriba() {
+
+    public final void movimientoArriba(final JPanelJuego jPanelJuego) {
         velocidad = -Math.abs(velocidad);
-        updateY();
+        updateY(jPanelJuego);
     }
-    public void movimientoAbajo() {
+
+    public final void movimientoAbajo(final JPanelJuego jPanelJuego) {
         velocidad = Math.abs(velocidad);
-        updateY();
+        updateY(jPanelJuego);
     }
-    
+
     public void iniciarInteligencia() {
         inteligencia = new Inteligencia(this);
         inteligencia.iniciar();
     }
-    
-    public void detenerInteligencia(){
-        if(inteligencia == null)
+
+    public void detenerInteligencia() {
+        if (inteligencia == null)
             return;
         inteligencia.detenerInteligencia();
         inteligencia = null;
     }
 
-    public void updateX(){
-        if(!ChoqueCentral("X"))
+    public final void updateX(final JPanelJuego jPanelJuego) {
+        if (!choqueCentral("X"))
             dentroBomb = false;
-        if(AvanzarX()) {
-            trasladar(velocidad, 0);
-            posicionMapa.x = imagen.getPosicion().x / imagen.getAnchoEscalado();
-        }
+        int ajuste = avanzarX(jPanelJuego.getMapa());
+        if (ajuste != 0)
+            trasladar(ajuste, 0);
     }
 
-    public void setDentroBomb(boolean dentroBomb) {
-        this.dentroBomb = dentroBomb;
-    }
-    
-    public void updateY(){
-        if(!ChoqueCentral("X"))
+    public final void updateY(final JPanelJuego jPanelJuego) {
+        if (!choqueCentral("X"))
             dentroBomb = false;
-        if(AvanzarY()) {
-            trasladar(0, velocidad);
-            posicionMapa.y = imagen.getPosicion().y / imagen.getAltoEscalado();
-        }
+        int ajuste = avanzarY(jPanelJuego.getMapa());
+        if (ajuste != 0)
+            trasladar(0, ajuste);
     }
 
-    public boolean ChoqueDerecha(String a,int n){
-        return ((Mapa.getInstance().getObjetoMapa(getPosicionY(y+2*vary),getPosicionX(x+varx)+n)==a)||
-                (Mapa.getInstance().getObjetoMapa(getPosicionY(y+imagen.getAltoEscalado()-2*vary),getPosicionX(x+varx)+n)==a));
-    }
-    
-    public boolean ChoqueIzquierda(String a,int n){
-        return ((Mapa.getInstance().getObjetoMapa(getPosicionY(y+2*vary),getPosicionX(x+imagen.getAnchoEscalado()-varx)-n)==a)||
-                (Mapa.getInstance().getObjetoMapa(getPosicionY(y+imagen.getAltoEscalado()-2*vary),getPosicionX(x+imagen.getAnchoEscalado()-varx)-n)==a));
-    }
-    
-    public boolean ChoqueArriba(String a,int n){
-        return (
-                (Mapa.getInstance().getObjetoMapa(getPosicionY(y+imagen.getAltoEscalado()-vary)-n,getPosicionX(x+2*varx))==a  )||
-                (Mapa.getInstance().getObjetoMapa(getPosicionY(y+imagen.getAltoEscalado()-vary)-n,getPosicionX(x+imagen.getAnchoEscalado()-2*varx))==a  ));
-    }
-    
-    public boolean ChoqueAbajo(String a,int n){
-        return ((Mapa.getInstance().getObjetoMapa(getPosicionX(y) + n, getPosicionX(x+2*varx)) == a  )||
-                (Mapa.getInstance().getObjetoMapa(getPosicionX(y) + n, getPosicionX(x+imagen.getAnchoEscalado()-2*varx))==a  ));
+    private boolean choque(final Mapa m, final Direccion d, final int valEje, final String... ses) {
+        for (final String se : ses)
+            if (d == VERTICAL && (m.contiene(se, valEje, getPosicionX(getX() + 2 * varx)) || m.contiene(se, valEje, getPosicionX(getX() + imagen.getAncho() - 2 * varx)))
+                    || d == HORIZONTAL && (m.contiene(se, getPosicionY(getY() + 2 * vary), valEje) || m.contiene(se, getPosicionY(getY() + imagen.getAlto() - 2 * vary), valEje)))
+                return true;
+        return false;
     }
 
-    public boolean ChoqueCentral(String a){
-       return a.equals(Mapa.getInstance().getObjeto(posicionMapa));
+    protected final boolean choqueX(final Mapa m, final int x, final String... ses) {
+        return choque(m, HORIZONTAL, x, ses);
     }
-    
+
+    protected final boolean choqueY(final Mapa m, final int y, final String... ses) {
+        return choque(m, VERTICAL, y, ses);
+    }
+
+    protected final boolean choqueCentral(final String a) {
+        return Mapa.getInstance().contiene(a, posicionMapa.y, posicionMapa.x);
+    }
+
     public void setWallpass(boolean Wallpass) {
         this.wallpass = Wallpass;
     }
-    
-    public boolean getWallpass() {
-        return wallpass;
+
+    public final int avanzarX(final Mapa m) {
+        int ajuste = 0;
+        int pos = velocidad < 0 ? getPosicionX(getX() + velocidad) : getPosicionX(getX() + imagen.getAncho() + velocidad);
+        if (choqueX(m, pos, "A") || !wallpass && choqueX(m, pos, "L") || !BOMBPASS && !dentroBomb && choqueX(m, pos, "X"))
+            ajuste = velocidad < 0
+                    ? pos * imagen.getAncho() + imagen.getAncho() - (getX() + velocidad)
+                    : pos * imagen.getAncho() - (1 + imagen.getAncho() + getX() + Math.abs(velocidad));
+        return velocidad + ajuste;
     }
 
-    public boolean AvanzarX() {
-       return (
-                (!ChoqueDerecha("A",1)&&velocidad>0||!ChoqueIzquierda("A",1)&&velocidad<0)&&
-                ((!ChoqueDerecha("L",1)&&velocidad>0||!ChoqueIzquierda("L",1)&&velocidad<0)||wallpass)&&
-                (
-                  (!ChoqueDerecha("X",1)&&velocidad>0||!ChoqueIzquierda("X",1)&&velocidad<0)&&!"B".equals(identificacion)||
-                  (!ChoqueDerecha("X",1)&&velocidad>0||!ChoqueIzquierda("X",1)&&velocidad<0||JPanelJuego.getInstance(null).primerJugador().getBOMBPASS()||dentroBomb)&&"B".equals(identificacion)
-                )
-               );
+    public final int avanzarY(final Mapa m) {
+        int ajuste = 0;
+        int pos = velocidad < 0 ? getPosicionY(getY() + velocidad) : getPosicionY(getY() + imagen.getAlto() + velocidad);
+        if (choqueY(m, pos, "A") || !wallpass && choqueY(m, pos, "L") || !BOMBPASS && !dentroBomb && choqueX(m, pos, "X"))
+            ajuste = velocidad < 0
+                    ? pos * imagen.getAlto() + imagen.getAlto() - (getY() + velocidad)
+                    : pos * imagen.getAlto() - (1 + imagen.getAlto() + getY() + Math.abs(velocidad));
+        return velocidad + ajuste;
     }
 
-    public boolean AvanzarY() {
-       return (
-                (!ChoqueArriba("A",1)&&velocidad<0||!ChoqueAbajo("A",1)&&velocidad>0)&&
-                (!ChoqueArriba("L",1)&&velocidad<0||!ChoqueAbajo("L",1)&&velocidad>0||wallpass)&&
-                (
-                  (!ChoqueArriba("X",1)&&velocidad<0||!ChoqueAbajo("X",1)&&velocidad>0)&&!"B".equals(identificacion)||
-                  (!ChoqueArriba("X",1)&&velocidad<0||!ChoqueAbajo("X",1)&&velocidad>0||JPanelJuego.getInstance(null).primerJugador().getBOMBPASS()||dentroBomb)&&"B".equals(identificacion)
-                )
-               );
-    }
-    
     public boolean isInteligenciaActivada() {
         return inteligencia != null;
     }
-    
-    public int get(Botones boton) {
+
+    public final int get(final Botones boton) {
         return gamePad.get(boton);
     }
-    
+
+    public void setBOMBPASS(boolean BOMBPASS) {
+        this.BOMBPASS = BOMBPASS;
+    }
+
 }

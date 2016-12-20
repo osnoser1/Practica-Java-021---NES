@@ -2,13 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package gui;
 
-import Bomberman.Core.Constantes;
 import Controladores.CJEditorDeMapas;
 import Dependencias.Imagenes;
 import Dependencias.Mapa;
-import Utilidades.Graficos.Sprite;
+import motor.core.graphics.Sprite;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -16,23 +15,24 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import juego.constantes.Objetos;
 
 /**
  *
  * @author AlfonsoAndrés
  */
-public class JEditorDeMapas extends JPanel{
-    
+public class JEditorDeMapas extends JPanel {
+
     private static JEditorDeMapas instance;
     private PanelEditor panelEditor;
-    private Dimension[] relacionDeTamaño = { new Dimension(656, 620), new Dimension(1240, 520) };
+    private Dimension[] relacionDeTamaño = {new Dimension(656, 620), new Dimension(1240, 520)};
     private Point posicionBombeman;
-    
+
     private JEditorDeMapas() {
         super(new BorderLayout());
         initComponents();
     }
-    
+
     public static JEditorDeMapas getInstance() {
         return instance == null ? (instance = new JEditorDeMapas()) : instance;
     }
@@ -49,45 +49,45 @@ public class JEditorDeMapas extends JPanel{
         panelEditor.setFocusable(true);
         panelEditor.addMouseListener(CJEditorDeMapas.getInstance());
         panelEditor.addMouseMotionListener(CJEditorDeMapas.getInstance());
-        pintar(Constantes.Objetos.getInstance("B"), posicionBombeman);
+        pintar(Objetos.getInstance("B"), posicionBombeman);
     }
-    
+
     public void escalamiento(Dimension tamañoJFrame) {
-        panelEditor.setSize(relacionDeTamaño[0].width * tamañoJFrame.width / getWidth(), 
+        panelEditor.setSize(relacionDeTamaño[0].width * tamañoJFrame.width / getWidth(),
                 relacionDeTamaño[0].height * tamañoJFrame.height / getHeight());
         panelEditor.repaint();
     }
-    
+
     public void pintar(Sprite sprite, Point posicion) {
         //No simplificar
         int x = posicion.x * Mapa.COLUMNAS / panelEditor.getWidth() * relacionDeTamaño[1].width / Mapa.COLUMNAS;
         int y = posicion.y * Mapa.FILAS / panelEditor.getHeight() * relacionDeTamaño[1].height / Mapa.FILAS;
         Graphics g = panelEditor.getImagen().getGraphics();
-        if("B".equals(sprite.getIdentificacion())){
+        if ("B".equals(sprite.getId())) {
             g.drawImage(Imagenes.PISO, posicionBombeman.x, posicionBombeman.y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
-            Mapa.getInstance().setObjeto("V", 
-                (short)(Mapa.FILAS * posicionBombeman.y / panelEditor.getHeight()), 
-                (short)(Mapa.COLUMNAS * posicionBombeman.x / panelEditor.getWidth()));
+//            Mapa.getInstance().setObjeto("V",
+//                    (short) (Mapa.FILAS * posicionBombeman.y / panelEditor.getHeight()),
+//                    (short) (Mapa.COLUMNAS * posicionBombeman.x / panelEditor.getWidth()));
             posicionBombeman = new Point(x, y);
         }
-        if(!noEstaSobreElBomberman(x, y) && !"B".equals(sprite.getIdentificacion()))
+        if (!noEstaSobreElBomberman(x, y) && !"B".equals(sprite.getId()))
             return;
         g.drawImage(Imagenes.PISO, x, y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
 //        g.drawImage(sprite.getSpriteActual(), x, y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
-        Mapa.getInstance().setObjeto(sprite.getIdentificacion(), 
-                (short)(Mapa.FILAS * posicion.y / panelEditor.getHeight()), 
-                (short)(Mapa.COLUMNAS * posicion.x / panelEditor.getWidth()));
+//        Mapa.getInstance().setObjeto(sprite.getId(),
+//                (short) (Mapa.FILAS * posicion.y / panelEditor.getHeight()),
+//                (short) (Mapa.COLUMNAS * posicion.x / panelEditor.getWidth()));
         panelEditor.repaint();
     }
 
     private boolean noEstaSobreElBomberman(int x, int y) {
         return x != posicionBombeman.x || y != posicionBombeman.y;
     }
-    
+
     private class PanelEditor extends JPanel {
 
         private BufferedImage imagen;
-        
+
         PanelEditor() {
             setLayout(null);
             setSize(relacionDeTamaño[1]);
@@ -111,20 +111,18 @@ public class JEditorDeMapas extends JPanel{
             int x = getWidth() / Mapa.COLUMNAS;
             int y = getHeight() / Mapa.FILAS;
             Mapa mapa = Mapa.getInstance();
-            for(short i = 0; i < Mapa.FILAS; i++) {
-                for(int j = 0; j < Mapa.COLUMNAS; j++) {
-                    switch (mapa.getObjetoMapa(i, j)) {
-                        case "V":
-                            g.drawImage(Imagenes.PISO, j * x, i * y, x, y, this);
-                            break;
-                        case "A":
-                            g.drawImage(Imagenes.ACERO, j * x, i * y, x, y, this);
-                            break;
-                    }
-                }
-            }
+//            for (short i = 0; i < Mapa.FILAS; i++)
+//                for (int j = 0; j < Mapa.COLUMNAS; j++)
+//                    switch (mapa.getObjeto(i, j)) {
+//                        case "V":
+//                            g.drawImage(Imagenes.PISO, j * x, i * y, x, y, this);
+//                            break;
+//                        case "A":
+//                            g.drawImage(Imagenes.ACERO, j * x, i * y, x, y, this);
+//                            break;
+//                    }
         }
-        
+
     }
-    
+
 }

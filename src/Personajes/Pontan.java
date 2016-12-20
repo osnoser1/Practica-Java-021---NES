@@ -5,7 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import java.awt.Point;
+
 
 /**
  *
@@ -14,12 +14,13 @@ import java.awt.Point;
 public class Pontan extends Enemigo {
     
     public Pontan(int x, int y) {
+        super(Imagenes.PONTAN, x, y, null);
         velocidad = SPEED_FAST;
         smart = SMART_HIGH;
         puntaje = 8000;
         wallpass = true;
-        identificacion = "p";
-        inicializar(Imagenes.PONTAN, new Point(x, y), null);
+        id = "p";
+        inicializar();
     }
     
 }

@@ -4,7 +4,7 @@
  */
 package Dialog;
 
-import Dependencias.ManejadorDeArchivos;
+import lenguaje.utils.ManejadorDeArchivos;
 import Utilidades.Juego.Control.Botones;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class Controles1 extends javax.swing.JDialog {
     private HashMap<Integer, Botones> currentKeys;
     private HashMap<Botones, Integer> revertKeys;
     private boolean getKey = false;
-    private ControllerPollThread controllerPollThread;
+    private final ControllerPollThread controllerPollThread;
     private static final int maxControllerFieldValueLength = 9;
     
     @SuppressWarnings("CallToThreadStartDuringObjectConstruction")
@@ -108,11 +108,10 @@ public class Controles1 extends javax.swing.JDialog {
     	if (components == null) {
     		return null;
     	}
-    	for (int i = 0; i < components.length; i++) {
-    		if (identifierName.equals(components[i].getIdentifier().getName())) {
-    			return components[i];
-    		}
-    	}
+        for (Component component : components) {
+            if (identifierName.equals(component.getIdentifier().getName()))
+                return component;
+        }
     	return null;
     }
     
@@ -981,19 +980,16 @@ public class Controles1 extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Controles1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Controles1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Controles1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Controles1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
+        //</editor-fold>
+
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 Controles1 dialog = new Controles1(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {

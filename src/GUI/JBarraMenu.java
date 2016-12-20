@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package gui;
 
 import Controladores.CJMenuItem;
 import java.awt.event.KeyEvent;

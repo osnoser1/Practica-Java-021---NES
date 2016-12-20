@@ -5,7 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import java.awt.Point;
+
 
 /**
  *
@@ -14,12 +14,13 @@ import java.awt.Point;
 public class Ovapi extends Enemigo {
     
     public Ovapi(int x, int y) {
+        super(Imagenes.OVAPI, x, y, null);
         velocidad = SPEED_SLOW;
         smart = SMART_MID;
         puntaje = 2000;
         wallpass = true;
-        identificacion = "o";
-        inicializar(Imagenes.OVAPI, new Point(x, y), null);
+        id = "o";
+        inicializar();
     }
     
 }
