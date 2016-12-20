@@ -5,6 +5,8 @@
 package Bomberman.Configuracion;
 
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,15 +21,17 @@ import java.util.Properties;
  * @author AlfonsoAndrés
  */
 public class Configuracion {
-    
+
     private static Configuracion instance;
-    public Dimension tamañoVentana = new Dimension(656, 600);
+    private final Dimension tamañoVentana = new Dimension(656, 600);
+    private final Dimension internalResolution = new Dimension(640, 560);
+    private final Point2D.Double escala = new Point2D.Double(1, 1);
     private final static String ARCHIVO_CONFIGURACION = "Settings.properties";
     private final static String ARCHIVO_CONFIGURACION_POR_DEFECTO = "/Juego/ConfiguacionPorDefecto.properties";
     private Properties configuacionPorDefecto;
     private HashMap<String, List<ISettingsListener>> listenersByKey;
     private List<SettingsListenerInfo> allListeners;
-    
+
     private Configuracion() {
         listenersByKey = new HashMap<>();
         allListeners = new LinkedList<>();
@@ -50,6 +54,26 @@ public class Configuracion {
 
     public static Configuracion getInstance() {
         return instance == null ? (instance = new Configuracion()) : instance;
+    }
+
+    public void setTamañoVentana(int width, int height) {
+        tamañoVentana.setSize(width, height);
+        escala.setLocation(
+                tamañoVentana.getWidth() / internalResolution.getWidth(),
+                tamañoVentana.getHeight() / internalResolution.getHeight()
+        );
+    }
+
+    public Dimension getTamañoVentana() {
+        return tamañoVentana;
+    }
+
+    public double getEscalaX() {
+        return escala.x;
+    }
+    
+    public double getEscalaY() {
+        return escala.y;
     }
     
 }

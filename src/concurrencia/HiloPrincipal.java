@@ -4,10 +4,12 @@
  */
 package concurrencia;
 
+import Bomberman.Configuracion.Configuracion;
 import lenguaje.utils.Runnable2;
 import motor.core.java.gui.JFramePrincipal;
 import gui.JPanelContenedor;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
@@ -24,6 +26,7 @@ public class HiloPrincipal extends Runnable2 {
 //    private final GLG2DCanvas g2DCanvas;
     private Graphics g;
     private final Insets in;
+    private final Configuracion c;
 
     public HiloPrincipal(JFramePrincipal jFramePrincipal, int FPS) {
         super(FPS);
@@ -37,6 +40,7 @@ public class HiloPrincipal extends Runnable2 {
 //        g2DCanvas.getGLDrawable().getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_NONE);
 //        jFramePrincipal.add(g2DCanvas);
         in = jFramePrincipal.getInsets();
+        c = Configuracion.getInstance();
     }
 
     @Override
@@ -47,7 +51,8 @@ public class HiloPrincipal extends Runnable2 {
         }
 //        final Graphics g = g2DCanvas.getGraphics();
         jPanelContenedor.actualizar(tiempoTranscurrido / 1000000);
-        g = buffer.getDrawGraphics().create(in.left, in.top, 656 - in.left - in.right, 620 - in.top - in.bottom);
+        g = buffer.getDrawGraphics().create(in.left, in.top, c.getTamañoVentana().width, c.getTamañoVentana().height);
+        ((Graphics2D) g).scale(c.getEscalaX(), c.getEscalaY());
 //        g2DCanvas.repaint();
         jPanelContenedor.paint(g);
         g.dispose();

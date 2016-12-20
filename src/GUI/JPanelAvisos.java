@@ -47,7 +47,7 @@ public class JPanelAvisos extends Interfaz {
         c = new Color(127, 127, 127);
         f1 = Fuentes.getInstance().getJoystixMonospacce(25);
         teclado = Teclado.getInstance();
-        tamañoVentana = Configuracion.getInstance().tamañoVentana;
+        tamañoVentana = Configuracion.getInstance().getTamañoVentana();
     }
 
     public void setMAX_NIVEL(short MAX_NIVEL) {

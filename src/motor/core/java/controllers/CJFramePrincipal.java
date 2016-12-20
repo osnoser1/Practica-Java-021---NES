@@ -4,7 +4,10 @@
  */
 package motor.core.java.controllers;
 
+import Bomberman.Configuracion.Configuracion;
 import gui.JPanelContenedor;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
@@ -97,6 +100,10 @@ public class CJFramePrincipal extends java.awt.event.WindowAdapter implements Co
     @Override
     public void componentResized(ComponentEvent e) {
         System.out.println("componentResized");
+        JFramePrincipal jFramePrincipal = (JFramePrincipal) e.getComponent();
+        Configuracion c = Configuracion.getInstance();
+        Insets in = jFramePrincipal.getInsets();
+        c.setTamañoVentana(jFramePrincipal.getWidth() - in.left - in.bottom, jFramePrincipal.getHeight() - in.top - in.bottom);
 //        contenedor.setSIZE(e.getComponent().getSize());
     }
 

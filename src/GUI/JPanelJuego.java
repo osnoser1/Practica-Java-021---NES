@@ -47,11 +47,13 @@ public class JPanelJuego extends Interfaz {
     private final Camara ventana;
     private final ControlJuego controlJuego;
     private final JPanelInformacion jPanelInformacion;
+    private final double escalaInternaX;
 
     private JPanelJuego(JPanelContenedor jPanelContenedor) {
         super(jPanelContenedor);
         SIZE = new Dimension(1240, 520);
-        tamañoVentana = Configuracion.getInstance().tamañoVentana;
+        tamañoVentana = Configuracion.getInstance().getTamañoVentana();
+        escalaInternaX = ((double)640) / (SIZE.width >> 1);
         ventana = new Camara(new Rectangle(SIZE.width >> 1, SIZE.height), SIZE);
         ladrillos = new ArrayList<>();
         enemigos = new ArrayList<>();
@@ -118,7 +120,9 @@ public class JPanelJuego extends Interfaz {
         jPanelInformacion.pintar(g);
 //        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         Rectangle posicion = ventana.getPosicion();
-        Graphics2D g2d = (Graphics2D) g.create(0, jPanelInformacion.getAlto(), tamañoVentana.width, tamañoVentana.height);
+        Graphics2D g2d = g;
+        g2d.translate(0, jPanelInformacion.getAlto());
+        g2d.scale(escalaInternaX, 1);
         g2d.drawImage(buffer, 0, 0, posicion.width, posicion.height, posicion.x, posicion.y, posicion.x + posicion.width, posicion.y + posicion.height, null);
         g2d.translate(-posicion.x, posicion.y);
         pintarEscena(g2d);

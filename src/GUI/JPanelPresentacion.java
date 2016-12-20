@@ -56,7 +56,7 @@ public class JPanelPresentacion extends Interfaz {
         flecha = Imagenes.APUNTADOR;
         opciones = new ArrayList<>();
         gamePad = new Control();
-        tamañoVentana = Configuracion.getInstance().tamañoVentana;
+        tamañoVentana = Configuracion.getInstance().getTamañoVentana();
         teclado = Teclado.getInstance();
         agregarOpciones();
     }
