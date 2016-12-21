@@ -10,7 +10,7 @@ package Dependencias;
  */
 public final class Ubicacion {
     
-    public final String TITLE_SCREEN = "/Title_Screen.ogg";
+    public final String TITLE_SCREEN = "/Title_Screen.wav";
     public final String LEVEL_START = "/Level_Start.wav";
     public final String STAGE_THEME = "/Stage_Theme.wav";
     public final String FIND_THE_DOOR = "/Find_The_Door.wav";
