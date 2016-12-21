@@ -22,7 +22,7 @@ public class Sonidos {
 
     private Sonidos() {
         this.sonidos = new ArrayList<>();
-//        initComponents();
+        initComponents();
     }
 
 
