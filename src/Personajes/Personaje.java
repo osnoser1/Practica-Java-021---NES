@@ -125,6 +125,10 @@ public abstract class Personaje extends Sprite {
     protected final boolean choqueCentral(final String a) {
         return Mapa.getInstance().contiene(a, posicionMapa.y, posicionMapa.x);
     }
+    
+    protected final boolean choqueCentral(final String... objeto) {
+        return Mapa.getInstance().contiene(posicionMapa.y, posicionMapa.x, objeto);
+    }
 
     public void setWallpass(boolean Wallpass) {
         this.wallpass = Wallpass;

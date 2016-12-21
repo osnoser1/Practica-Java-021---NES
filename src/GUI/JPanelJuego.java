@@ -228,9 +228,9 @@ public class JPanelJuego extends Interfaz {
         for (int i = 0; i < enemigos.size(); i++) {
             final Enemigo enemigo = enemigos.get(i);
             enemigo.actualizar(this, tiempoTranscurrido);
-            mapa.actualizar(enemigo);
-            if (enemigo.getEstadoActual() == Estado.ELIMINADO.val()) {
+            if(enemigo.getEstadoActual() == Estado.MUERTE.val()) {
                 mapa.remover(enemigo);
+            } else if (enemigo.getEstadoActual() == Estado.ELIMINADO.val()) {
                 enemigos.remove(i--);
                 if (enemigos.isEmpty()) {
                     if (!derrotados)
@@ -238,6 +238,8 @@ public class JPanelJuego extends Interfaz {
                     derrotados = true;
                 } else
                     derrotados = false;
+            } else {
+                mapa.actualizar(enemigo);
             }
         }
         for (int i = 0; i < ladrillos.size(); i++) {
@@ -331,6 +333,10 @@ public class JPanelJuego extends Interfaz {
 
     public Mapa getMapa() {
         return mapa;
+    }
+
+    public boolean anyEnemy(int posicionX, int posicionY) {
+        return mapa.contiene(posicionX, posicionY, Objetos.getValoresEnemigos());
     }
 
 }

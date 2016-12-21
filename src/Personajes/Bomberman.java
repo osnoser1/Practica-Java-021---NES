@@ -58,6 +58,7 @@ public class Bomberman extends Personaje {
     @Override
     public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
         super.actualizar(jPanelJuego, tiempoTranscurrido);
+        comprobarMuerte(jPanelJuego);
         for (Bomb bomba : bombas) {
             bomba.actualizar(jPanelJuego, tiempoTranscurrido);
             if (bomba.getEstadoActual() == ELIMINADO.val()) {
@@ -66,15 +67,20 @@ public class Bomberman extends Personaje {
             }
         }
     }
-
-    public void colisionaCon(final Personaje otro) {
-        if (getEstadoActual() == MUERTE.val())
-            return;
+    
+    private void morir() {
         Sonidos.getInstance().detener(Sonidos.UP, Sonidos.DOWN, Sonidos.LEFT, Sonidos.RIGHT);
         Sonidos.getInstance().play(Sonidos.DEATH);
         setEstadoActual(MUERTE.val());
     }
-
+    
+    private void comprobarMuerte(JPanelJuego jPanelJuego) {
+        if(getEstadoActual() >= MUERTE.val() || getEstadoActual() == ELIMINADO.val() 
+                || !jPanelJuego.anyEnemy(posicionMapa.y, posicionMapa.x))
+            return;
+        morir();
+    }
+    
     public void setDETONATOR(boolean DETONATOR) {
         this.DETONADOR = DETONATOR;
     }
