@@ -175,7 +175,8 @@ public class JPanelJuego extends Interfaz {
 
     public void borrarJugador(final int posMapaX, final int posMapaY) {
         if (primerJugador().getPosicionMapa().x != posMapaX || primerJugador().getPosicionMapa().y != posMapaY)
-            borrarJugador();
+            return;
+        borrarJugador();
     }
 
     public void borrarJugador() {
