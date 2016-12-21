@@ -49,6 +49,11 @@ public abstract class Personaje extends Sprite {
             estadoMuerte(jPanelJuego, tiempoTranscurrido);
     }
 
+    protected void reiniciar(){
+        setEstadoActual(INICIO.val());
+        setActivo(true);
+    }
+    
     public final Inteligencia getInteligencia() {
         return inteligencia;
     }
@@ -138,7 +143,7 @@ public abstract class Personaje extends Sprite {
     public final int avanzarY(final Mapa m) {
         int ajuste = 0;
         int pos = velocidad < 0 ? getPosicionY(getY() + velocidad) : getPosicionY(getY() + imagen.getAlto() + velocidad);
-        if (choqueY(m, pos, "A") || !wallpass && choqueY(m, pos, "L") || !BOMBPASS && !dentroBomb && choqueX(m, pos, "X"))
+        if (choqueY(m, pos, "A") || !wallpass && choqueY(m, pos, "L") || !BOMBPASS && !dentroBomb && choqueY(m, pos, "X"))
             ajuste = velocidad < 0
                     ? pos * imagen.getAlto() + imagen.getAlto() - (getY() + velocidad)
                     : pos * imagen.getAlto() - (1 + imagen.getAlto() + getY() + Math.abs(velocidad));

@@ -68,7 +68,7 @@ public class Fire extends Personaje {
                     pos[indice] = p;
                     imagenes[indice++] = new Imagen(imagen.getImagen(), 7, 4, 2.5f, value == Direccion.ARRIBA || value == Direccion.ABAJO ? 6 : 5);
                 }
-                if (i < espacioDirecciones[value.ordinal()])
+                if (i < espacioDirecciones[value.ordinal()] || espacioDirecciones[value.ordinal()] == 0)
                     continue;
                 if (i == espacio) {
                     pos[indice] = p;
