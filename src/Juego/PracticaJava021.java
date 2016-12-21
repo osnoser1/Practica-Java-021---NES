@@ -25,8 +25,8 @@ public class PracticaJava021 {
 //        else
 //        System.setProperty("sun.java2d.trace", "timestamp,log,count");
         System.setProperty("sun.java2d.trace", "count");
-        System.setProperty("sun.java2d.opengl", "True");
-        System.setProperty("sun.java2d.noddraw", "true");
+//        System.setProperty("sun.java2d.opengl", "True");
+//        System.setProperty("sun.java2d.noddraw", "true");
 //        System.setProperty("sun.java2d.translaccel", "true");
 //        try {
 //            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());

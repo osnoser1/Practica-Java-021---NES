@@ -34,8 +34,6 @@ public class JPanelInformacion {
     private Color fondo;
     private Font f1, f2;
     private Point[] pos;
-    private boolean cambio;
-
 
     private JPanelInformacion() {
         super();
@@ -137,7 +135,6 @@ public class JPanelInformacion {
 
     public void detenerCuentaRegresiva() {
         timer.stop();
-        cambio = false;
     }
 
     private void disminuirContador() {
@@ -146,7 +143,6 @@ public class JPanelInformacion {
             return;
         }
         tiempoRestante--;
-        cambio = true;
     }
 
     public void setSIZE(Dimension dim) {
@@ -160,13 +156,9 @@ public class JPanelInformacion {
     }
     
     public void pintar(final Graphics2D g2) {
-        if (cambio) {
-            Graphics2D g2d = (Graphics2D) imagen.getGraphics();
-            drawStrings(g2d);
-            g2d.dispose();
-            cambio = false;
-        }
-        g2.drawImage(imagen, 0, 0, null);
+        g2.setColor(fondo);
+        g2.fillRect(0, 0, 640, 60);
+        drawStrings(g2);
     }
     
 }
