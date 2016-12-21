@@ -192,7 +192,7 @@ public class JPanelJuego extends Interfaz {
 
     public void borrarEnemigo(final int posMapaX, final int posMapaY) {
         for (final Enemigo enemigo : enemigos)
-            if (enemigo.getPosicionMapa().x != posMapaX || enemigo.getPosicionMapa().y != posMapaY) {
+            if (enemigo.getPosicionMapa().x == posMapaX && enemigo.getPosicionMapa().y == posMapaY) {
                 enemigo.muerte();
                 jPanelInformacion.aumentarPuntaje(enemigo.getPuntaje());
             }
