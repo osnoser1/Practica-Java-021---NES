@@ -21,7 +21,7 @@ public class JFramePrincipal extends Frame {
     public JFramePrincipal() {
         initComponents();
         setVisible(true);
-        hiloPrincipal = new HiloPrincipal(this, (short) 20000);
+        hiloPrincipal = new HiloPrincipal(this, (short) 60);
         hiloPrincipal.start();
     }
 

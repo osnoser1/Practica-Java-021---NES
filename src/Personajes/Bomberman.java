@@ -28,14 +28,14 @@ public class Bomberman extends Personaje {
         gamePad = new Control();
         bombas = new CopyOnWriteArrayList<>();
         velocidad = SPEED_MID;
-        BOMBS = 10;
-        FLAMES = 10;
-        SPEED = true;
-        wallpass = true;
+        BOMBS = 1;
+        FLAMES = 1;
+        SPEED = false;
+        wallpass = false;
         DETONADOR = true;
-        BOMBPASS = true;
-        FLAMEPASS = true;
-        MYSTERY = true;
+        BOMBPASS = false;
+        FLAMEPASS = false;
+        MYSTERY = false;
         id = "B";
         teclado = Teclado.getInstance();
         inicializar();
@@ -224,6 +224,7 @@ public class Bomberman extends Personaje {
     }
 
     public void reiniciar(int x, int y) {
+        super.reiniciar();
         fijarCasilla(x, y);
         bombas.clear();
         imagen.setActive(true);
