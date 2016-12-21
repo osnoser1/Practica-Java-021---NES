@@ -32,7 +32,7 @@ public class Bomb extends Personaje {
         timer = jugador.getDETONADOR() ? null : new Timer(3200, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                detonar = jugador.getEstadoActual() == Estado.MUERTE.val();
+                detonar = true;
                 timer.stop();
             }
         });
