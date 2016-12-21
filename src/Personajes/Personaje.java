@@ -49,6 +49,11 @@ public abstract class Personaje extends Sprite {
             estadoMuerte(jPanelJuego, tiempoTranscurrido);
     }
 
+    protected void reiniciar(){
+        setEstadoActual(INICIO.val());
+        setActivo(true);
+    }
+    
     public final Inteligencia getInteligencia() {
         return inteligencia;
     }

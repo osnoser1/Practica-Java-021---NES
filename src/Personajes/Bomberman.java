@@ -224,6 +224,7 @@ public class Bomberman extends Personaje {
     }
 
     public void reiniciar(int x, int y) {
+        super.reiniciar();
         fijarCasilla(x, y);
         bombas.clear();
         imagen.setActive(true);
