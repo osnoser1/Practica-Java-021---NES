@@ -5,7 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import java.awt.Point;
+
 
 /**
  *
@@ -14,13 +14,13 @@ import java.awt.Point;
 public class Balloom extends Enemigo {
     
     public Balloom(int x, int y) {
+        super(Imagenes.BALLOOM, x, y, null);
         velocidad = SPEED_SLOW;
         smart = SMART_LOW;
         puntaje = 100;
         wallpass = false;
-        identificacion = "b";
-        inteligencia = new Smart(this);
-        inicializar(Imagenes.BALLOOM, new Point(x, y), null);
+        id = "b";
+        inicializar();
     }
     
 }

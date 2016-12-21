@@ -5,7 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import java.awt.Point;
+
 /**
  *
  * @author hp
@@ -13,13 +13,13 @@ import java.awt.Point;
 public class Doll extends Enemigo {
     
     public Doll(int x, int y) {
+        super(Imagenes.DOLL, x, y, null);
         velocidad = SPEED_MID;
         smart = SMART_LOW;
         wallpass = false;
         puntaje = 400;
-        identificacion = "D";
-        inteligencia = new Smart(this);
-        inicializar(Imagenes.DOLL, new Point(x, y), null);
+        id = "D";
+        inicializar();
     }
     
 }

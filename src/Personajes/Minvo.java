@@ -5,7 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import java.awt.Point;
+
 
 /**
  *
@@ -14,13 +14,13 @@ import java.awt.Point;
 public class Minvo extends Enemigo {
 
     public Minvo(int x, int y) {
+        super(Imagenes.MINVO, x, y, null);
         velocidad = SPEED_FAST;
         smart = SMART_MID;
         puntaje = 800;
         wallpass = false;
-        identificacion = "M";
-        inteligencia = new Smart(this);
-        inicializar(Imagenes.MINVO, new Point(x, y), null);
+        id = "M";
+        inicializar();
     }
     
 }

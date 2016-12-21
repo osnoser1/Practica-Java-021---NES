@@ -2,23 +2,24 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package gui;
 
-import Bomberman.Core.Configuracion;
+import Bomberman.Configuracion.Configuracion;
+import lenguaje.utils.ImageUtilities;
 import Dependencias.Imagenes;
-import Dependencias.ManejadorDeArchivos;
-import Dependencias.Teclado;
-import Dependencias.Ubicacion;
+import motor.core.input.Teclado;
 import Fuentes.Fuentes;
-import Sonidos.Sonidos;
-import Utilidades.Juego.GamePad;
-import Utilidades.Juego.GamePad.Botones;
+import Dependencias.Sonidos;
+import Utilidades.Juego.Control;
+import Utilidades.Juego.Control.Botones;
 import Utilidades.Juego.Interfaz;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
+import java.awt.Transparency;
 import java.util.ArrayList;
 
 /**
@@ -28,45 +29,46 @@ import java.util.ArrayList;
 public class JPanelPresentacion extends Interfaz {
     
     private static JPanelPresentacion instance;
-    private BufferedImage imagen,flecha;
+    private Image imagen, flecha;
     private ArrayList<Point> opciones;
-    private ManejadorDeArchivos manejadorDeArchivos;
-    private Fuentes fuentes;
     private final int cantidadOpciones = 2;
     private int opcionApuntando = 0;
     private int opcionSeleccionada = -1;
     private Dimension tamañoVentana;
     private Teclado teclado;
-    private GamePad gamePad;
+    private Control gamePad;
     public static final int START = 0, MAP_EDITOR = 1;
+    private Font f1, f2;
     
     private JPanelPresentacion(JPanelContenedor jPanelContenedor) {
         super(jPanelContenedor);
-        initComponents();
+        init();
     }
     
     public static JPanelPresentacion getInstance(JPanelContenedor jPanelContenedor) {
         return instance == null ? (instance = new JPanelPresentacion(jPanelContenedor)) : instance;
     }
 
-    private void initComponents() {
-        fuentes = new Fuentes();
+    private void init() {
+        f1 = Fuentes.getInstance().getJoystixMonospacce(25);
+        f2 = Fuentes.getInstance().getJoystixMonospacce(24);
+        imagen = ImageUtilities.createCompatibleVolatileImage(640, 560, Transparency.OPAQUE);
+        flecha = Imagenes.APUNTADOR;
         opciones = new ArrayList<>();
-        gamePad = new GamePad();
-        tamañoVentana = Configuracion.getInstance().tamañoVentana;
+        gamePad = new Control();
+        tamañoVentana = Configuracion.getInstance().getTamañoVentana();
         teclado = Teclado.getInstance();
         agregarOpciones();
-        manejadorDeArchivos = ManejadorDeArchivos.getInstance();
-        crearFlecha();
-        iniciar();
     }
 
-    public void iniciar() {
-        imagen = new BufferedImage(640, 560, BufferedImage.TYPE_INT_RGB);
-        Graphics g = imagen.createGraphics();
-        g.drawImage(Imagenes.LOGO, 40, 20, 568, 347, null);
-        drawStrings(g);
-        pintarFlecha(g);
+    private void iniciar() {
+        Graphics2D g2d = (Graphics2D) imagen.getGraphics();
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(0, 0, 640, 560);
+        g2d.drawImage(Imagenes.LOGO, 40, 20, 568, 347, null);
+        drawStrings(g2d);
+        pintarFlecha(g2d);
+        g2d.dispose();
     }
 
     private void agregarOpciones() {
@@ -80,19 +82,19 @@ public class JPanelPresentacion extends Interfaz {
         return new Point(259,455);
     }
 
-    private void drawStrings(Graphics g) {
+    private void drawStrings(Graphics2D g2d) {
         for(int i = 0; i < cantidadOpciones; i++){
-            drawString(g, getString(i), opciones.get(i));
+            drawString(g2d, getString(i), opciones.get(i));
         }
     }
     
-    private void drawString(Graphics g, String string, Point point){
+    private void drawString(Graphics2D g, String string, Point point) {
         g.setColor(new Color(127, 127, 127));
-        g.setFont(fuentes.getJoystixMonospacce(25));
-        g.drawString(string,point.x + 1, point.y + 1);
-        g.setFont(fuentes.getJoystixMonospacce(24));
+        g.setFont(f1);
+        g.drawString(string, point.x + 1, point.y + 1);
+        g.setFont(f2);
         g.setColor(Color.WHITE);
-        g.drawString(string,point.x, point.y);
+        g.drawString(string, point.x, point.y);
     }
     
     private String getString(int i){
@@ -101,22 +103,21 @@ public class JPanelPresentacion extends Interfaz {
         return "TOP";
     }
     
-    public void siguienteOpcion(){
-        Graphics g = imagen.createGraphics();
-        g.setColor(Color.BLACK);
+    public void siguienteOpcion() {
+        System.out.println(imagen.getCapabilities(null).isAccelerated());
+        Graphics2D g2d = (Graphics2D) imagen.getGraphics();
+        g2d.setColor(Color.BLACK);
         Point point = opciones.get(opcionApuntando);
-        g.fillRect(point.x - 55, point.y - 17, 20, 20);
+        g2d.fillRect(point.x - 55, point.y - 17, 20, 20);
         opcionApuntando = opcionApuntando == cantidadOpciones - 1 ? 0 : ++opcionApuntando;
-        pintarFlecha(g);
+        pintarFlecha(g2d);
+        g2d.dispose();
+        System.out.println(imagen.getCapabilities(null).isAccelerated());
     }
 
-    private void crearFlecha() {
-        flecha = manejadorDeArchivos.loadBufferedImageJAR(new Ubicacion().APUNTADOR);
-    }
-
-    private void pintarFlecha(Graphics g) {
+    private void pintarFlecha(Graphics2D g2d) {
         Point point = opciones.get(opcionApuntando);
-        g.drawImage(flecha, point.x - 55, point.y - 17, 20, 20, null);
+        g2d.drawImage(flecha, point.x - 55, point.y - 17, 20, 20, null);
     }
 
     public int getOpcionSeleccionada() {
@@ -134,17 +135,17 @@ public class JPanelPresentacion extends Interfaz {
     }
 
     @Override
-    public void pintar(Graphics g) {
-        g.drawImage(imagen, 0, 0,tamañoVentana.width, tamañoVentana.height, null);
+    public void pintar(final Graphics2D g2d) {
+        g2d.drawImage(imagen, 0, 0, null);
     }
 
     @Override
-    public void actualizar(long tiempoEnMilisegundos) {
-        if(teclado.teclaPresionada(gamePad.getBoton(Botones.SELECT)))
+    public void actualizar(final long tiempoEnMilisegundos) {
+        if(teclado.teclaPresionada(gamePad.get(Botones.SELECT)))
             siguienteOpcion();
-        if(teclado.teclaPresionada(gamePad.getBoton(Botones.START))) {
+        else if (teclado.teclaPresionada(gamePad.get(Botones.START))) {
             setOpcionSeleccionada();
-            Sonidos.getInstance().getSonido(Sonidos.TITLE_SCREEN).stop();
+            Sonidos.getInstance().detener(Sonidos.TITLE_SCREEN);
             switch(opcionSeleccionada) {
                 case START:
                     jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_STAGE);
@@ -154,6 +155,11 @@ public class JPanelPresentacion extends Interfaz {
                     break;
             }
         }
+    }
+
+    @Override
+    public void setSIZE(Dimension d) {
+
     }
 
 }

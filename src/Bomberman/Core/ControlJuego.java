@@ -4,7 +4,7 @@
  */
 package Bomberman.Core;
 
-import GUI.JPanelJuego;
+import gui.JPanelJuego;
 import Personajes.Bomberman;
 import Personajes.Enemigo;
 import Personajes.Ladrillo;

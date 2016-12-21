@@ -4,10 +4,10 @@
  */
 package Controladores;
 
-import Bomberman.Core.Constantes;
-import GUI.JEditorDeMapas;
+import gui.JEditorDeMapas;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import juego.constantes.Objetos;
 
 /**
  *
@@ -44,7 +44,7 @@ public class CJEditorDeMapas extends MouseAdapter{
         if("V".equals(objetoSeleccionado)){
 //            jEditorDeMapas.pintar(jEditorDeMapas.getSpritePiso(), e.getPoint());
         }else{
-            jEditorDeMapas.pintar(Constantes.Objetos.getInstance(objetoSeleccionado), e.getPoint());
+            jEditorDeMapas.pintar(Objetos.getInstance(objetoSeleccionado), e.getPoint());
         }
     }
 

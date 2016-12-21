@@ -38,6 +38,9 @@ local.properties
 *.war
 *.ear
 
+# Except lib folder #
+!lib/**
+
 #################
 ## NetBeans
 #################
@@ -48,6 +51,7 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+.jacocoverage/
 
 #################
 ## Visual Studio
@@ -181,3 +185,4 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+log.txt

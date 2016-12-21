@@ -2,15 +2,19 @@
 * To change this template, choose Tools | Templates
 * and open the template in the editor.
  */
-package GUI;
+package gui;
 
+import lenguaje.utils.ImageUtilities;
 import Fuentes.Fuentes;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.Transparency;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import javax.swing.AbstractAction;
 import javax.swing.Timer;
 
@@ -23,11 +27,15 @@ public class JPanelInformacion {
     private int puntaje;
     private static JPanelInformacion instance;
     private int tiempoRestante = 200, vidasRestantes = 2;
-    private int cantidadOpciones = 3;
-    private BufferedImage imagen;
-    private Fuentes fuentes;
+    private final int cantidadOpciones = 3;
+    private Image imagen;
     private Timer timer;
     private Dimension SIZE;
+    private Color fondo;
+    private Font f1, f2;
+    private Point[] pos;
+    private boolean cambio;
+
 
     private JPanelInformacion() {
         super();
@@ -40,9 +48,15 @@ public class JPanelInformacion {
 
     private void initComponents() {
         SIZE = new Dimension(640, 60);
-        fuentes = new Fuentes();
-        imagen = new BufferedImage(640, 60, BufferedImage.TYPE_INT_RGB);
-        iniciar();
+        f1 = Fuentes.getInstance().getJoystixMonospacce(25);
+        f2 = Fuentes.getInstance().getJoystixMonospacce(24);
+        fondo = new Color(188, 188, 188);
+        pos = new Point[]{new Point(20, 37), new Point(360, 37), new Point(480, 37)};
+        imagen = ImageUtilities.createCompatibleVolatileImage(640, 60, Transparency.OPAQUE);
+        Graphics2D g2 = (Graphics2D) imagen.getGraphics();
+        g2.setColor(fondo);
+        g2.fillRect(0, 0, 640, 60);
+        g2.dispose();
         timer = new Timer(1000, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,22 +65,15 @@ public class JPanelInformacion {
         });
     }
     
-    private void drawString(Graphics g2, String string, Point point) {
-        g2.setColor(new Color(188, 188, 188));
+    private void drawString(final Graphics g2, final String string, final Point point) {
+        g2.setColor(fondo);
         g2.fillRect(point.x, point.y - 25, 300, 30);
         g2.setColor(Color.BLACK);
-        g2.setFont(fuentes.getJoystixMonospacce(25));
+        g2.setFont(f1);
         g2.drawString(string, point.x + 1, point.y + 1);
-        g2.setFont(fuentes.getJoystixMonospacce(24));
+        g2.setFont(f2);
         g2.setColor(Color.WHITE);
         g2.drawString(string, point.x, point.y);
-    }
-
-    private void iniciar() {
-        Graphics g2 = imagen.createGraphics();
-        g2.setColor(new Color(188, 188, 188));
-        g2.fillRect(0, 0, 639, 69);
-        drawStrings(g2);
     }
 
     public int getTiempoRestante() {
@@ -103,7 +110,7 @@ public class JPanelInformacion {
 
     private void drawStrings(Graphics g2) {
         for(int i = 0; i < this.cantidadOpciones; i++) {
-            drawString(g2, getString(i), getPosicion(i));
+            drawString(g2, getString(i), pos[i]);
         }
     }
 
@@ -113,14 +120,6 @@ public class JPanelInformacion {
         if(i == 1)
             return puntaje();
         return "LEFT " + vidasRestantes;
-    }
-
-    private Point getPosicion(int i) {
-        if(i == 0)
-            return new Point(20, 37);
-        if(i == 1)
-            return new Point(360, 37);
-        return new Point(480, 37);
     }
 
     private String puntaje() {
@@ -133,21 +132,21 @@ public class JPanelInformacion {
 
     public void iniciarCuentaRegresiva() {
         tiempoRestante = 200;
-        iniciar();
         timer.start();
     }
 
     public void detenerCuentaRegresiva() {
         timer.stop();
+        cambio = false;
     }
 
     private void disminuirContador() {
         if(tiempoRestante == 0) {
-            timer.stop();
+            detenerCuentaRegresiva();
             return;
         }
         tiempoRestante--;
-        drawStrings(imagen.getGraphics());
+        cambio = true;
     }
 
     public void setSIZE(Dimension dim) {
@@ -160,8 +159,14 @@ public class JPanelInformacion {
         return SIZE.height;
     }
     
-    public void pintar(Graphics g) {
-        g.drawImage(imagen, 0, 0, SIZE.width, SIZE.height, null);
+    public void pintar(final Graphics2D g2) {
+        if (cambio) {
+            Graphics2D g2d = (Graphics2D) imagen.getGraphics();
+            drawStrings(g2d);
+            g2d.dispose();
+            cambio = false;
+        }
+        g2.drawImage(imagen, 0, 0, null);
     }
     
 }

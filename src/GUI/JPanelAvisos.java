@@ -2,18 +2,21 @@
 * To change this template, choose Tools | Templates
 * and open the template in the editor.
  */
-package GUI;
+package gui;
 
-import Bomberman.Core.Configuracion;
+import Bomberman.Configuracion.Configuracion;
 import Dependencias.Sonido;
-import Dependencias.Teclado;
+import motor.core.input.Teclado;
 import Fuentes.Fuentes;
-import Sonidos.Sonidos;
+import Dependencias.Sonidos;
 import Utilidades.Juego.Interfaz;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Transparency;
+import lenguaje.utils.ImageUtilities;
 
 /**
  *
@@ -23,26 +26,28 @@ public class JPanelAvisos extends Interfaz {
     
     private static JPanelAvisos instance;
     private short nivel = 1, MAX_NIVEL = 50;
-    private BufferedImage imagen;
-    private Fuentes fuentes;
+    private Image imagen;
     private Dimension tamañoVentana;
     private Sonido sonido;
     private Teclado teclado;
+    private Font f1;
+    private Color c;
 
-    private JPanelAvisos(JPanelContenedor jPanelContenedor) {
+    private JPanelAvisos(final JPanelContenedor jPanelContenedor) {
         super(jPanelContenedor);
-        initComponents();
+        init();
     }
 
-    public static JPanelAvisos getInstance(JPanelContenedor jPanelContenedor) {
+    public static JPanelAvisos getInstance(final JPanelContenedor jPanelContenedor) {
         return instance == null ? (instance = new JPanelAvisos(jPanelContenedor)) : instance;
     }
 
-    private void initComponents() {
-        fuentes = new Fuentes();
+    private void init() {
+        imagen = ImageUtilities.createCompatibleVolatileImage(640, 560, Transparency.OPAQUE);
+        c = new Color(127, 127, 127);
+        f1 = Fuentes.getInstance().getJoystixMonospacce(25);
         teclado = Teclado.getInstance();
-        tamañoVentana = Configuracion.getInstance().tamañoVentana;
-        imagen = new BufferedImage(640, 560, BufferedImage.TYPE_INT_RGB);
+        tamañoVentana = Configuracion.getInstance().getTamañoVentana();
     }
 
     public void setMAX_NIVEL(short MAX_NIVEL) {
@@ -72,21 +77,12 @@ public class JPanelAvisos extends Interfaz {
 
     public void iniciarJPanelStage() {
         drawString("STAGE  " + this.nivel);
-        sonido  = Sonidos.getInstance().getSonido(Sonidos.LEVEL_START);
-        sonido.play();
-        new Thread() {
-            @Override
-            public void run() {
-                JPanelJuego.getInstance(null).generarMapa();
-                JPanelJuego.getInstance(null).pintarImagen();
-            }
-        }.start();
+        sonido = Sonidos.getInstance().play(Sonidos.LEVEL_START);
     }
 
     public void iniciarJPanelGameOver() {
         drawString("GAME OVER");
-        sonido = Sonidos.getInstance().getSonido(Sonidos.GAME_OVER);
-        sonido.play();
+        sonido = Sonidos.getInstance().play(Sonidos.GAME_OVER);
     }
 
     public void iniciarBonusStage() {
@@ -94,13 +90,15 @@ public class JPanelAvisos extends Interfaz {
     }
 
     private void drawString(String string) {
-        imagen = new BufferedImage(640, 560, BufferedImage.TYPE_INT_RGB);
-        Graphics g = imagen.createGraphics();
-        g.setColor(new Color(127, 127, 127));
-        g.setFont(fuentes.getJoystixMonospacce(24));
-        g.drawString(string, 199, 298);
-        g.setColor(Color.WHITE);
-        g.drawString(string, 197, 296);
+        Graphics2D g2D = (Graphics2D) imagen.getGraphics();
+        g2D.setBackground(Color.BLACK);
+        g2D.fillRect(0, 0, 640, 560);
+        g2D.setColor(c);
+        g2D.setFont(f1);
+        g2D.drawString(string, 199, 298);
+        g2D.setColor(Color.WHITE);
+        g2D.drawString(string, 197, 296);
+        g2D.dispose();
     }
 
     @Override
@@ -109,28 +107,33 @@ public class JPanelAvisos extends Interfaz {
     }
 
     @Override
-    public void pintar(Graphics g) {
-        g.drawImage(imagen, 0, 0, tamañoVentana.width, tamañoVentana.height, null);
+    public void pintar(Graphics2D g) {
+        g.drawImage(imagen, 0, 0, null);
     }
 
     @Override
     public void actualizar(long tiempoEnMilisegundos) {
-        if(sonido.isPlaying())
+        if (sonido != null && sonido.isPlaying())
             System.out.println("Sonido: " + sonido.getFramePosition() + " " + sonido.getFrameLength());
         switch(jPanelContenedor.escenaSeleccionada) {
             case ESCENA_STAGE:
-                if(!sonido.isPlaying())
+                if (sonido == null || !sonido.isPlaying())
                     jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_JUEGO);
                 break;
             case ESCENA_GAME_OVER:
                 if(teclado.teclaPresionada()) {
                     jPanelContenedor.cambiarInterfaz(Escenas.ESCENA_MENU);
-                    Sonidos.getInstance().getSonido(Sonidos.GAME_OVER).stop();
+                    Sonidos.getInstance().detener(Sonidos.GAME_OVER);
                 }
                 break;
             case ESCENA_BONUS:
                 break;
         }
+    }
+
+    @Override
+    public void setSIZE(Dimension d) {
+
     }
 
 }

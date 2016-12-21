@@ -5,7 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
-import java.awt.Point;
+
 
 /**
  *
@@ -14,13 +14,14 @@ import java.awt.Point;
 public class Pass extends Enemigo {
     
     public Pass(int x, int y) {
+        super(Imagenes.PASS, x, y, null);
         velocidad = SPEED_FAST;
         smart = SMART_HIGH;
         puntaje = 4000;
         wallpass = false;
-        identificacion = "P";
-        inteligencia = new Smart(this);
-        inicializar(Imagenes.PASS, new Point(x, y), null);
+        id = "P";
+        inteligencia = new Inteligencia(this);
+        inicializar();
     }
     
 }

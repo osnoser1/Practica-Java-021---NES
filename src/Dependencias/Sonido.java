@@ -15,7 +15,7 @@ public class Sonido {
     
     private boolean loop;
     private boolean paused;
-    private Clip clip;
+    private final Clip clip;
     private boolean reproduciendo;
 
     public Sonido(Clip clip) {

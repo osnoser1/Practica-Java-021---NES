@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package gui;
 
-import Controladores.ControladorJToolBarOpciones;
+import Controladores.CJToolBarOpciones;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
@@ -16,7 +16,7 @@ import javax.swing.JToolBar;
 public class JToolBarOpcionesEditor extends JToolBar{
     
     private static JToolBarOpcionesEditor instance;
-    private ControladorJToolBarOpciones controladorJToolBarOpciones;
+    private CJToolBarOpciones controladorJToolBarOpciones;
     private final int CANTIDAD_BOTONES = 3;
     
     public static JToolBarOpcionesEditor getInstance() {
@@ -25,7 +25,7 @@ public class JToolBarOpcionesEditor extends JToolBar{
 
     private JToolBarOpcionesEditor() {
         super();
-        this.controladorJToolBarOpciones = new ControladorJToolBarOpciones();
+        this.controladorJToolBarOpciones = new CJToolBarOpciones();
         initComponents();
     }
     

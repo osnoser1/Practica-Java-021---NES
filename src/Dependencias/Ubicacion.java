@@ -20,6 +20,7 @@ public final class Ubicacion {
     public final String FONDO = "/Ambiente/Fondo.png";
     public final String BLOQUE = "/Ambiente/Bloque/Bloque.png";
     public final String ACERO = "/Ambiente/Bloque_Solido.png";
+    public final String LADRILLO_ESPECIAL = "/Ambiente/Ladrillo Especial/Ladrillo Especial.png";
     public final String BOMBA = "/Ambiente/Bomba/Bomba.png";
     public final String FUEGO = "/Ambiente/Fire/Fuego.png";
     public final String BOMBERMAN = "/Jugadores/Bomberman/Bomberman.png";

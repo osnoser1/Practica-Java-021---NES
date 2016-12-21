@@ -4,66 +4,77 @@
  */
 package Personajes;
 
-import Dependencias.Imagen;
+import motor.core.ControlAnimacion;
+import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
-import GUI.JPanelJuego;
-import Utilidades.Graficos.Sprite;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
+import gui.JPanelJuego;
+import motor.core.graphics.Sprite;
+import java.awt.Graphics2D;
 import java.util.HashMap;
+import static juego.constantes.Estado.*;
 
 /**
  *
  * @author hp
  */
 public class Ladrillo extends Sprite {
-    
-    private int tipo;
+
+    private final int tipo;
     private boolean especial;
-    public LadrilloEspecial ladrilloespecial;
-    
-    public Ladrillo(int x, int y, int tipo) {
-        identificacion = "L";
+    private LadrilloEspecial ladrilloespecial;
+
+    public Ladrillo(final int x, final int y, final int tipo) {
+        super(new Imagen(Imagenes.BLOQUE, 6, 6, (float) 2.5), x, y);
+        id = "L";
         this.tipo = tipo;
-        if(tipo != -1)
+        if (tipo != -1)
             especial = true;
-        inicializar(Imagenes.BLOQUE, new Point(x, y));
+        inicializar();
     }
-    
-    public final void inicializar(BufferedImage imagen, Point posicion) {
-        super.inicializar(new Imagen(imagen, 6, 6, posicion, (float)2.5), posicion);
-        super.animaciones = new HashMap<Integer, Animation>(){{
-            put(Sprite.Estado.INICIO.ordinal(), new Animation("0", 4000 / 60));
-            put(Sprite.Estado.MUERTE.ordinal(), new Animation("0,1,2,3,4,5", 4000 / 60));
-        }};
-        setEstadoActual(Sprite.Estado.INICIO);
+
+    public final void inicializar() {
+        super.animaciones = new HashMap<Integer, ControlAnimacion>() {
+            {
+                put(INICIO.ordinal(), new ControlAnimacion("0", 4000 / 60));
+                put(MUERTE.ordinal(), new ControlAnimacion("0,1,2,3,4,5", 4000 / 60));
+            }
+        };
+        setEstadoActual(INICIO.val());
     }
-    
-    public LadrilloEspecial getLadrilloEspecial(){
+
+    public LadrilloEspecial getLadrilloEspecial() {
         return ladrilloespecial;
     }
 
     @Override
     public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        switch(getEstadoActual()){
-            case INICIO:
-                estadoInicio(jPanelJuego, tiempoTranscurrido);
-                break;
-            case MUERTE:
-                estadoMuerte(jPanelJuego, tiempoTranscurrido);
-                break;
-        }
-        if(ladrilloespecial != null) 
-            ladrilloespecial.actualizar();
+        super.actualizar(jPanelJuego, tiempoTranscurrido);
+        final int actual = getEstadoActual();
+        if (INICIO.val() == actual)
+            estadoInicio(jPanelJuego, tiempoTranscurrido);
+        else if (MUERTE.val() == actual)
+            estadoMuerte(jPanelJuego, tiempoTranscurrido);
+        if (ladrilloespecial != null)
+            ladrilloespecial.actualizar(jPanelJuego, tiempoTranscurrido);
+    }
+
+    @Override
+    public void pintar(final Graphics2D g) {
+        super.pintar(g);
+        if (ladrilloespecial != null)
+            ladrilloespecial.pintar(g);
     }
 
     @Override
     public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        if(actualizarAnimacion(tiempoTranscurrido)) {
-            setEstadoActual(Sprite.Estado.ELIMINADO);
-            if(especial) {
-               ladrilloespecial = new LadrilloEspecial(getCentro(), tipo);
-           }
+        if (actualizarAnimacion(tiempoTranscurrido)) {
+            setEstadoActual(ELIMINADO.val());
+            if (especial) {
+                ladrilloespecial = new LadrilloEspecial(x, y, tipo);
+                jPanelJuego.getMapa().remover(this);
+                id = "Q";
+                jPanelJuego.getMapa().agregar(this);
+            }
         }
     }
 
@@ -71,8 +82,4 @@ public class Ladrillo extends Sprite {
         return especial && !ladrilloespecial.isEstadoEliminado();
     }
 
-    public void setEspecial(boolean especial) {
-        this.especial = especial;
-    }
-    
 }

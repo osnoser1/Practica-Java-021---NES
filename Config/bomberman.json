@@ -1,0 +1,19 @@
+{
+    "animaciones": [
+        ["INICIO", "0", 66],
+        ["ARRIBA", "2,1,0,1", 66],
+        ["ABAJO", "2,1,0,1", 66],
+        ["DERECHA", "2,1,0,1", 66],
+        ["IZQUIERDA", "2,1,0,1", 66],
+        ["MUERTE", "0,1,2,3,4", 300]
+    ],
+    "estadoActual": "IZQUIERDA",
+    "BOMBS": 10,
+    "FLAMES": 10,
+    "SPEED": true,
+    "wallpass": true,
+    "DETONADOR": true,
+    "BOMBPASS": true,
+    "FLAMEPASS": true,
+    "MYSTERY": true
+}

@@ -1,11 +1,10 @@
-package GUI;
+package gui;
 
-import Utilidades.Graficos.Sprite;
+import motor.core.graphics.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -13,7 +12,7 @@ import javax.swing.Timer;
 
 public class BotonEspecial extends JPanel implements MouseMotionListener, MouseListener{
 
-    private BufferedImage imagen;
+    private Image imagen;
     private Sprite personaje;
     private MouseListener listener;
     private ActionListener listener1;
@@ -25,7 +24,7 @@ public class BotonEspecial extends JPanel implements MouseMotionListener, MouseL
         initComponents();
     }
     
-    public BotonEspecial(BufferedImage imagen) {
+    public BotonEspecial(Image imagen) {
         this.imagen=imagen;
         
         initComponents();
