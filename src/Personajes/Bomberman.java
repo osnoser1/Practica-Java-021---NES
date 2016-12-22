@@ -10,8 +10,8 @@ import Dependencias.Imagenes;
 import motor.core.input.Teclado;
 import gui.JPanelJuego;
 import Dependencias.Sonidos;
-import Utilidades.Juego.Control;
-import Utilidades.Juego.Control.Botones;
+import motor.core.input.GamePad;
+import motor.core.input.GamePad.Botones;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import static juego.constantes.Estado.*;
@@ -25,7 +25,7 @@ public class Bomberman extends Personaje {
 
     public Bomberman(final int x, final int y) {
         super(new Imagen(Imagenes.BOMBERMAN, 6, 6, (float) 2.5), x, y);
-        gamePad = new Control();
+        gamePad = new GamePad();
         bombas = new CopyOnWriteArrayList<>();
         velocidad = SPEED_MID;
         BOMBS = 1;

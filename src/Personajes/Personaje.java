@@ -9,8 +9,8 @@ import motor.core.input.Teclado;
 import static Personajes.Personaje.Direccion.*;
 import gui.JPanelJuego;
 import motor.core.graphics.Sprite;
-import Utilidades.Juego.Control;
-import Utilidades.Juego.Control.Botones;
+import motor.core.input.GamePad;
+import motor.core.input.GamePad.Botones;
 import static juego.constantes.Estado.*;
 import motor.core.graphics.Imagen;
 
@@ -24,7 +24,7 @@ public abstract class Personaje extends Sprite {
     protected static final int SPEED_SLOWEST = 1, SPEED_SLOW = 2, SPEED_MID = 4, SPEED_FAST = 5, SMART_LOW = 1, SMART_MID = 2, SMART_HIGH = 3, SMART_IMPOSSIBLE = 4;
     protected Inteligencia inteligencia;
     protected Teclado teclado;
-    protected Control gamePad;
+    protected GamePad gamePad;
     protected boolean wallpass, dentroBomb, BOMBPASS;
 
     protected Personaje(final Imagen imagen, final int x, final int y) {

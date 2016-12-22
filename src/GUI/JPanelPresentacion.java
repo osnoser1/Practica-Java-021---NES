@@ -10,8 +10,8 @@ import Dependencias.Imagenes;
 import motor.core.input.Teclado;
 import Fuentes.Fuentes;
 import Dependencias.Sonidos;
-import Utilidades.Juego.Control;
-import Utilidades.Juego.Control.Botones;
+import motor.core.input.GamePad;
+import motor.core.input.GamePad.Botones;
 import Utilidades.Juego.Interfaz;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -36,7 +36,7 @@ public class JPanelPresentacion extends Interfaz {
     private int opcionSeleccionada = -1;
     private Dimension tamañoVentana;
     private Teclado teclado;
-    private Control gamePad;
+    private GamePad gamePad;
     public static final int START = 0, MAP_EDITOR = 1;
     private Font f1, f2;
     
@@ -55,7 +55,7 @@ public class JPanelPresentacion extends Interfaz {
         imagen = ImageUtilities.createCompatibleVolatileImage(640, 560, Transparency.OPAQUE);
         flecha = Imagenes.APUNTADOR;
         opciones = new ArrayList<>();
-        gamePad = new Control();
+        gamePad = new GamePad();
         tamañoVentana = Configuracion.getInstance().getTamañoVentana();
         teclado = Teclado.getInstance();
         agregarOpciones();

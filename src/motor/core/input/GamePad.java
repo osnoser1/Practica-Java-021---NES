@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Utilidades.Juego;
+package motor.core.input;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.HashMap;
  *
  * @author AlfonsoAndrés
  */
-public class Control {
+public class GamePad {
     
     public static enum Botones {
         ARRIBA,

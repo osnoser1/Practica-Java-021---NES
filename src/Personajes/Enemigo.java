@@ -3,7 +3,7 @@ package Personajes;
 import motor.core.ControlAnimacion;
 import motor.core.graphics.Imagen;
 import gui.JPanelJuego;
-import Utilidades.Juego.Control;
+import motor.core.input.GamePad;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -14,7 +14,7 @@ public class Enemigo extends Personaje {
 
     protected int puntaje;
 
-    public Enemigo(final Image image, final int x, final int y, final Control gamePad) {
+    public Enemigo(final Image image, final int x, final int y, final GamePad gamePad) {
         super(new Imagen(image, 6, 5, (float) 2.5), x, y);
         this.gamePad = gamePad;
         inicializar();
