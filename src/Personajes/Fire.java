@@ -34,7 +34,7 @@ public class Fire extends Personaje {
         super(new Imagen(Imagenes.FUEGO, 7, 4, 2.5f), x, y);
         this.espacio = espacios;
         inicializar();
-        determinarTamaño(jPanelJuego);
+        determinarTamañoYMuertePersonajes(jPanelJuego);
         crearSprites();
     }
 
@@ -102,7 +102,7 @@ public class Fire extends Personaje {
             setEstadoActual(Estado.ELIMINADO.val());
     }
 
-    private void determinarTamaño(final JPanelJuego jPanelJuego) {
+    private void determinarTamañoYMuertePersonajes(final JPanelJuego jPanelJuego) {
         boolean[] bs = new boolean[4];
         for (int i = 1; i <= espacio; i++) {
             if (!bs[Direccion.ARRIBA.ordinal()] && detTamDir(jPanelJuego, Direccion.ARRIBA, i, posicionMapa.x, posicionMapa.y - i))
@@ -114,6 +114,7 @@ public class Fire extends Personaje {
             if (!bs[Direccion.IZQUIERDA.ordinal()] && detTamDir(jPanelJuego, Direccion.IZQUIERDA, i, posicionMapa.x - i, posicionMapa.y))
                 bs[Direccion.IZQUIERDA.ordinal()] = true;
         }
+        comprobarMuertePersonajesCentroExplosion(jPanelJuego);
     }
 
     private boolean detTamDir(final JPanelJuego jPanelJuego, final Direccion d, final int i, final int x, final int y) {
@@ -139,5 +140,14 @@ public class Fire extends Personaje {
         espacioDirecciones[d.ordinal()] = b1 ? i - 1 : i;
         return true;
     }
-
+    
+    private void comprobarMuertePersonajesCentroExplosion(JPanelJuego jPanelJuego) {
+        if(jPanelJuego.anyEnemy(posicionMapa.y, posicionMapa.x)) { 
+            jPanelJuego.borrarEnemigo(posicionMapa.x, posicionMapa.y);
+        } 
+        if(choqueCentral("B") && !jPanelJuego.primerJugador().getFLAMEPASS()) {
+            jPanelJuego.borrarJugador(posicionMapa.x, posicionMapa.y);
+        }
+    }
+    
 }
