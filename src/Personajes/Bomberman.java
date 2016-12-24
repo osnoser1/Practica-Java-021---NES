@@ -10,8 +10,9 @@ import Dependencias.Imagenes;
 import motor.core.input.Teclado;
 import gui.JPanelJuego;
 import Dependencias.Sonidos;
-import Utilidades.Juego.Control;
-import Utilidades.Juego.Control.Botones;
+import game.core.input.PlayerOneKeyboardController;
+import motor.core.input.GamePad;
+import motor.core.input.GamePad.Botones;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import static juego.constantes.Estado.*;
@@ -25,7 +26,8 @@ public class Bomberman extends Personaje {
 
     public Bomberman(final int x, final int y) {
         super(new Imagen(Imagenes.BOMBERMAN, 6, 6, (float) 2.5), x, y);
-        gamePad = new Control();
+        gamePad = new GamePad();
+        padController = PlayerOneKeyboardController.getInstance();
         bombas = new CopyOnWriteArrayList<>();
         velocidad = SPEED_MID;
         BOMBS = 1;
@@ -37,7 +39,6 @@ public class Bomberman extends Personaje {
         FLAMEPASS = false;
         MYSTERY = false;
         id = "B";
-        teclado = Teclado.getInstance();
         inicializar();
     }
 
@@ -57,6 +58,7 @@ public class Bomberman extends Personaje {
 
     @Override
     public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
+        padController.update(gamePad);
         super.actualizar(jPanelJuego, tiempoTranscurrido);
         comprobarMuerte(jPanelJuego);
         for (Bomb bomba : bombas) {
@@ -190,9 +192,9 @@ public class Bomberman extends Personaje {
     }
 
     private void verificarTeclasAccion(final JPanelJuego jPanelJuego) {
-        if (teclado.teclaPresionada(gamePad.get(Botones.A)))
+        if (gamePad.isPress(Botones.A))
             crearBomba(jPanelJuego);
-        if (teclado.teclaPresionada(gamePad.get(Botones.B)) && DETONADOR)
+        if (gamePad.isPress(Botones.B) && DETONADOR)
             detonarBomba(jPanelJuego);
     }
 
@@ -200,11 +202,11 @@ public class Bomberman extends Personaje {
         if (entroALaPuerta)
             return false;
         boolean movimiento = true;
-        if (teclado.teclaPresionada(get(Botones.ARRIBA))) {
+        if (gamePad.isPress(Botones.ARRIBA)) {
             setEstadoActual(ARRIBA.val());
             Sonidos.getInstance().play(Sonidos.UP);
             movimientoArriba(jPanelJuego);
-        } else if (teclado.teclaPresionada(get(Botones.ABAJO))) {
+        } else if (gamePad.isPress(Botones.ABAJO)) {
             Sonidos.getInstance().detener(Sonidos.UP);
             setEstadoActual(ABAJO.val());
             Sonidos.getInstance().play(Sonidos.DOWN);
@@ -213,12 +215,12 @@ public class Bomberman extends Personaje {
             Sonidos.getInstance().detener(Sonidos.UP, Sonidos.DOWN);
             movimiento = false;
         }
-        if (teclado.teclaPresionada(get(Botones.DERECHA))) {
+        if (gamePad.isPress(Botones.DERECHA)) {
             setEstadoActual(DERECHA.val());
             Sonidos.getInstance().play(Sonidos.LEFT);
             movimientoDerecha(jPanelJuego);
             movimiento = true;
-        } else if (teclado.teclaPresionada(get(Botones.IZQUIERDA))) {
+        } else if (gamePad.isPress(Botones.IZQUIERDA)) {
             Sonidos.getInstance().detener(Sonidos.LEFT);
             setEstadoActual(IZQUIERDA.val());
             Sonidos.getInstance().play(Sonidos.RIGHT);

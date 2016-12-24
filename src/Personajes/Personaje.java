@@ -5,14 +5,13 @@
 package Personajes;
 
 import Dependencias.Mapa;
-import motor.core.input.Teclado;
 import static Personajes.Personaje.Direccion.*;
 import gui.JPanelJuego;
 import motor.core.graphics.Sprite;
-import Utilidades.Juego.Control;
-import Utilidades.Juego.Control.Botones;
+import motor.core.input.GamePad;
 import static juego.constantes.Estado.*;
 import motor.core.graphics.Imagen;
+import motor.core.input.IGamePadController;
 
 public abstract class Personaje extends Sprite {
 
@@ -23,8 +22,8 @@ public abstract class Personaje extends Sprite {
     protected int varx = 3, vary = 3, smart;
     protected static final int SPEED_SLOWEST = 1, SPEED_SLOW = 2, SPEED_MID = 4, SPEED_FAST = 5, SMART_LOW = 1, SMART_MID = 2, SMART_HIGH = 3, SMART_IMPOSSIBLE = 4;
     protected Inteligencia inteligencia;
-    protected Teclado teclado;
-    protected Control gamePad;
+    protected GamePad gamePad;
+    protected IGamePadController padController;
     protected boolean wallpass, dentroBomb, BOMBPASS;
 
     protected Personaje(final Imagen imagen, final int x, final int y) {
@@ -156,10 +155,6 @@ public abstract class Personaje extends Sprite {
 
     public boolean isInteligenciaActivada() {
         return inteligencia != null;
-    }
-
-    public final int get(final Botones boton) {
-        return gamePad.get(boton);
     }
 
     public void setBOMBPASS(boolean BOMBPASS) {

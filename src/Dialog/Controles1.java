@@ -5,7 +5,7 @@
 package Dialog;
 
 import lenguaje.utils.ManejadorDeArchivos;
-import Utilidades.Juego.Control.Botones;
+import motor.core.input.GamePad.Botones;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import javax.swing.ComboBoxModel;
