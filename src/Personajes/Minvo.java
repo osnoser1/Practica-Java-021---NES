@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
+import motor.core.input.GamePad;
 
 
 /**
@@ -14,7 +15,7 @@ import Dependencias.Imagenes;
 public class Minvo extends Enemigo {
 
     public Minvo(int x, int y) {
-        super(Imagenes.MINVO, x, y, null);
+        super(Imagenes.MINVO, x, y, new GamePad());
         velocidad = SPEED_FAST;
         smart = SMART_MID;
         puntaje = 800;

@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
+import motor.core.input.GamePad;
 
 
 /**
@@ -14,7 +15,7 @@ import Dependencias.Imagenes;
 public class Kondoria extends Enemigo {
     
     public Kondoria(int x, int y) {
-        super(Imagenes.KONDORIA, x, y, null);
+        super(Imagenes.KONDORIA, x, y, new GamePad());
         velocidad = SPEED_SLOWEST;
         smart = SMART_HIGH;
         wallpass = true;

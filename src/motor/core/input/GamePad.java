@@ -4,15 +4,15 @@
  */
 package motor.core.input;
 
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
+import static motor.core.input.GamePad.Botones.*;
 
 /**
  *
  * @author AlfonsoAndrés
  */
 public class GamePad {
-    
+
     public static enum Botones {
         ARRIBA,
         ABAJO,
@@ -33,30 +33,66 @@ public class GamePad {
         L1,
         L2,
         START,
-        SELECT
+        SELECT,
+        NINGUNO
     }
-    private final HashMap<Botones, Integer> boton = new HashMap<Botones, Integer>() {
-        {
-                put(Botones.ABAJO, KeyEvent.VK_DOWN);
-                put(Botones.ARRIBA, KeyEvent.VK_UP);
-                put(Botones.DERECHA, KeyEvent.VK_RIGHT);
-                put(Botones.IZQUIERDA, KeyEvent.VK_LEFT);
-                put(Botones.A, KeyEvent.VK_X);
-                put(Botones.B, KeyEvent.VK_Z);
-                put(Botones.SELECT, KeyEvent.VK_SHIFT);
-                put(Botones.START, KeyEvent.VK_ENTER);
-                put(Botones.R1, KeyEvent.VK_A);
-                put(Botones.R2, KeyEvent.VK_D);
-                put(Botones.L1, KeyEvent.VK_S);
-                put(Botones.L2, KeyEvent.VK_F);
-            }};
 
-    public int get(Botones boton){
-        return this.boton.get(boton);
+    private final HashMap<Botones, EstadoBoton> botones = new HashMap<Botones, EstadoBoton>() {
+        {
+            for (Botones value : Botones.values()) {
+                put(value, new EstadoBoton(false, true));
+            }
+            put(NINGUNO, new EstadoBoton(true, true));
+        }
+    };
+
+    public boolean isPress(Botones boton) {
+        return this.botones.get(boton).isPresionado();
     }
-    
-    public void set(Botones boton, int keyCode){
-        this.boton.put(boton, keyCode);
+
+    public void setPress(Botones boton, boolean presionado) {
+        if (!this.botones.get(boton).isActivado()) {
+            return;
+        }
+        this.botones.get(boton).setPresionado(presionado);
     }
-    
+
+    public boolean isActivated(Botones boton) {
+        return this.botones.get(boton).isActivado();
+    }
+
+    public void setActivated(Botones boton, boolean activado) {
+        this.botones.get(boton).setActivado(activado);
+        if (!activado) {
+            this.botones.get(boton).setPresionado(false);
+        }
+    }
+
+    private class EstadoBoton {
+
+        private boolean presionado, activado;
+
+        public EstadoBoton(boolean presionado, boolean activado) {
+            this.presionado = presionado;
+            this.activado = activado;
+        }
+
+        public boolean isPresionado() {
+            return presionado;
+        }
+
+        public boolean isActivado() {
+            return activado;
+        }
+
+        public void setActivado(boolean activado) {
+            this.activado = activado;
+        }
+
+        public void setPresionado(boolean presionado) {
+            this.presionado = presionado;
+        }
+
+    }
+
 }

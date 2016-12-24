@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
+import motor.core.input.GamePad;
 
 
 /**
@@ -14,7 +15,7 @@ import Dependencias.Imagenes;
 public class Pontan extends Enemigo {
     
     public Pontan(int x, int y) {
-        super(Imagenes.PONTAN, x, y, null);
+        super(Imagenes.PONTAN, x, y, new GamePad());
         velocidad = SPEED_FAST;
         smart = SMART_HIGH;
         puntaje = 8000;
