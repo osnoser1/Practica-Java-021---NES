@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package motor.core.input;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import motor.core.input.Teclado.EstadoTecla;
 import static motor.core.input.Teclado.EstadoTecla.PRESIONADA;
 
 /**
- * 
+ *
  * @author AlfonsoAndres
  */
 public abstract class KeyboardController implements IGamePadController {
@@ -23,7 +22,7 @@ public abstract class KeyboardController implements IGamePadController {
     private final ArrayList<Pareja<Botones, Boolean>> buffer;
 
     protected KeyboardController(HashMap<Integer, Botones> mapper) {
-        if(mapper == null) {
+        if (mapper == null) {
             throw new NullPointerException("Los controles no pueden ser nulos.");
         }
         this.mapper = mapper;
@@ -32,23 +31,25 @@ public abstract class KeyboardController implements IGamePadController {
     }
 
     @Override
-    public synchronized void update(GamePad g) {
-        if(buffer.isEmpty()){
-            return;
+    public void update(GamePad g) {
+        synchronized (buffer) {
+            if (buffer.isEmpty()) {
+                return;
+            }
+            buffer.forEach((pareja) -> {
+                g.setPress(pareja.getPrimero(), pareja.getSegundo());
+            });
+            buffer.clear();
         }
-        buffer.forEach((pareja) -> {
-            g.setPress(pareja.getPrimero(), pareja.getSegundo());
-        });
-        buffer.clear();
     }
 
     private Void keyChanged(int keyCode, EstadoTecla estadoTecla) {
-        if(mapper.containsKey(keyCode)) {
-            synchronized(buffer) {
+        if (mapper.containsKey(keyCode)) {
+            synchronized (buffer) {
                 buffer.add(Pareja.de(mapper.get(keyCode), estadoTecla == PRESIONADA));
             }
         }
         return null;
     }
-    
+
 }
