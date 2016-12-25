@@ -8,7 +8,7 @@ import Bomberman.Configuracion.Configuracion;
 import Bomberman.Core.ControlJuego;
 import lenguaje.utils.ImageUtilities;
 import Dependencias.Imagenes;
-import Dependencias.Mapa;
+import motor.core.map.Mapa;
 import Personajes.Bomb;
 import Personajes.Bomberman;
 import Personajes.Enemigo;

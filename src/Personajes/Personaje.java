@@ -4,7 +4,7 @@
  */
 package Personajes;
 
-import Dependencias.Mapa;
+import motor.core.map.Mapa;
 import static Personajes.Personaje.Direccion.*;
 import gui.JPanelJuego;
 import motor.core.graphics.Sprite;

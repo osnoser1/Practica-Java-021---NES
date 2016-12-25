@@ -5,7 +5,7 @@
 package Modelos;
 
 import lenguaje.utils.ManejadorDeArchivos;
-import Dependencias.Mapa;
+import motor.core.map.Mapa;
 import gui.JPanelContenedor;
 import gui.JPanelJuego;
 import java.io.File;

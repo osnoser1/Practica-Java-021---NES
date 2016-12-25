@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Dependencias;
+package motor.core.map;
 
 import motor.core.graphics.Sprite;
 import java.awt.Point;

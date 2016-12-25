@@ -4,7 +4,7 @@
  */
 package Personajes;
 
-import Dependencias.Mapa;
+import motor.core.map.Mapa;
 import motor.core.ControlAnimacion;
 import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
