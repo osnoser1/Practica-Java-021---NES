@@ -8,11 +8,11 @@ import Dependencias.Imagenes;
 import gui.JPanelJuego;
 import Dependencias.Sonidos;
 import motor.core.graphics.Sprite;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Timer;
 import motor.core.graphics.Imagen;
+import motor.core.map.Posicion;
 
 /**
  *
@@ -34,8 +34,8 @@ public class LadrilloEspecial extends Sprite {
     public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         if (jPanelJuego.primerJugador().isEntroALaPuerta())
             return;
-        Point punto = jPanelJuego.primerJugador().getPosicionMapa();
-        if (posicionMapa.equals(punto))
+        Posicion punto = jPanelJuego.getMapa().getPosicion(jPanelJuego.primerJugador());
+        if (punto != null && punto.equals(jPanelJuego.getMapa().getPosicion(this)))
             if (tipo != getPuerta() && !estadoEliminado) {
                 determinarHabilidad(jPanelJuego);
                 Sonidos.getInstance().detener(Sonidos.STAGE_THEME);
@@ -84,13 +84,14 @@ public class LadrilloEspecial extends Sprite {
     }
 
     public void crearEnemigos(final JPanelJuego jPanelJuego) {
+        Posicion posicion = jPanelJuego.getMapa().getPosicion(this);
         timer = new Timer(500, new AbstractAction() {
             int time = 5;
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 time--;
-                jPanelJuego.getEnemigos().add(jPanelJuego.determinarEnemigo(posicionMapa.y, posicionMapa.x, jPanelJuego.determinarEnemigo(3)));
+                jPanelJuego.agregarEnemigo(posicion.fila, posicion.columna, jPanelJuego.determinarEnemigo(3));
                 if (time == 0)
                     timer.stop();
             }

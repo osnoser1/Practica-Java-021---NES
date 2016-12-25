@@ -52,8 +52,9 @@ public class Enemigo extends Personaje {
         }
     }
 
-    public void muerte() {
+    public void muerte(JPanelJuego jPanelJuego) {
         setEstadoActual(MUERTE.val());
+        jPanelJuego.getMapa().remover(this);
         detenerInteligencia();
     }
 

@@ -4,10 +4,9 @@
  */
 package motor.core.map;
 
+import Personajes.Aluminio;
 import motor.core.graphics.Sprite;
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 
 /**
  *
@@ -15,116 +14,86 @@ import java.util.Collections;
  */
 public class Mapa {
 
-    private final class Casilla {
-
-        private final ArrayList<String> al;
-
-        public Casilla() {
-            al = new ArrayList<>();
-        }
-
-        public boolean add(final String s) {
-            boolean b = al.add(s);
-            Collections.sort(al);
-            return b;
-        }
-
-        public boolean remove(final String s) {
-            return al.remove(s);
-        }
-
-        public boolean contains(final String s) {
-            return Collections.binarySearch(al, s) >= 0;
-        }
-
-        public boolean isEmpty() {
-            return al.isEmpty();
-        }
-
-        public int length() {
-            return al.size();
-        }
-
-    }
-
     public static final short COLUMNAS = 31, FILAS = 13;
     private static Mapa instance;
-    private Casilla mapa[][];
+    private final Casilla mapa[][];
+    private final HashMap<Sprite, PosicionSprite> mapper;
 
     private Mapa() {
+        mapa = new Casilla[FILAS][COLUMNAS];
+        mapper = new HashMap<>();
         init();
     }
 
     private void init() {
-        mapa = new Casilla[FILAS][COLUMNAS];
-        for (int i = 0; i < FILAS; i++)
+        for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COLUMNAS; j++) {
                 mapa[i][j] = new Casilla();
-                if (i % 2 != 1 && j % 2 != 1 || i == 0 || i == 12 || j == 0 || j == 30)
-                    mapa[i][j].add("A");
+                if (i % 2 != 1 && j % 2 != 1 || i == 0 || i == 12 || j == 0 || j == 30) {
+                    mapa[i][j].add(new Aluminio(0, 0));
+                }
             }
+        }
     }
 
     public static Mapa getInstance() {
         return instance == null ? (instance = new Mapa()) : instance;
     }
-
-    public boolean contiene(final String objeto, final int x, final int y) {
-        return mapa[x][y].contains(objeto);
+    
+    public Posicion getPosicion(Sprite s) {
+        return mapper.containsKey(s) ? mapper.get(s).getPosicionActual() : null;
+    }
+    
+    public boolean contiene(final int fila, final int columna, Sprite... s) {
+        return mapa[fila][columna].containsAny(s);
+    }
+    
+    public boolean contiene(final int fila, final int columna, final Class<?>... classes) {
+        return mapa[fila][columna].containsAny(classes);
+    }
+    
+    public boolean contiene(Sprite s, final Class<?>... classes) {
+        Posicion p = mapper.get(s).getPosicionActual();
+        return mapa[p.fila][p.columna].containsAny(classes);
     }
 
-    public boolean contiene(final int x, final int y, final String... ses) {
-        for (final String se : ses)
-            if (contiene(se, x, y))
-                return true;
-        return false;
+    public boolean estaVacio(int fila, int columna) {
+        return mapa[fila][columna].isEmpty();
     }
 
-    public boolean estaVacio(int x, int y) {
-        return mapa[x][y].isEmpty();
+    public void agregar(final Sprite sprite) {
+        PosicionSprite ps = new PosicionSprite(sprite);
+        Posicion p = ps.getPosicionActual();
+        mapa[p.fila][p.columna].add(sprite);
+        mapper.put(sprite, ps);
     }
 
-    public void agregar(final String objeto, final java.awt.Point p) {
-        agregar(objeto, p.y, p.x);
+    public Sprite[] getSprite(final int fila, final int columna, final Class<?>... c) {
+        return mapa[fila][columna].get(c);
     }
-
-    private void agregar(final String objeto, final int x, final int y) {
-        mapa[x][y].add(objeto);
-    }
-
-    public void agregar(final Sprite p) {
-        agregar(p.getId(), p.getPosicionMapa());
-    }
-
-    private boolean remover(final String objeto, final int x, final int y) {
-        return mapa[x][y].remove(objeto);
-    }
-
-    public boolean remover(final String objeto, java.awt.Point p) {
-        return remover(objeto, p.y, p.x);
-    }
-
-    public boolean remover(final Sprite p) {
-        return remover(p.getId(), p.getPosicionMapa());
+    
+    public boolean remover(final Sprite s) {
+        if(mapper.get(s) == null) {
+            return false;
+        }
+        Posicion p = mapper.get(s).getPosicionActual();
+        return mapa[p.fila][p.columna].remove(s) && mapper.remove(s) != null;
     }
 
     public void borrarMapa() {
         init();
     }
 
-    public void actualizar(final Sprite p) {
-        final Point pAct = p.getPosicionMapa(),
-                pAnt = p.getPosAntMapa();
-        if (pAct.equals(pAnt)) {
-            if (contiene(pAct.y, pAct.x, p.getId()))
-                return;
-            agregar(p.getId(), pAct);
+    public void actualizar(final Sprite s) {
+        if(mapper.get(s) == null || !mapper.get(s).actualizar()) {
+            return;
         }
-        remover(p.getId(), pAnt);
-        if (!contiene(pAct.y, pAct.x, p.getId()))
-            agregar(p.getId(), pAct);
+        final Posicion pAct = mapper.get(s).getPosicionActual(),
+                pAnt = mapper.get(s).getPosicionAnterior();
+        mapa[pAnt.fila][pAnt.columna].remove(s);
+        mapa[pAct.fila][pAct.columna].add(s);
     }
-
+    
     public void mostrar() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < FILAS; i++) {
