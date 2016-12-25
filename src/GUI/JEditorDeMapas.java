@@ -6,7 +6,7 @@ package gui;
 
 import Controladores.CJEditorDeMapas;
 import Dependencias.Imagenes;
-import Dependencias.Mapa;
+import motor.core.map.Mapa;
 import motor.core.graphics.Sprite;
 import java.awt.BorderLayout;
 import java.awt.Dimension;

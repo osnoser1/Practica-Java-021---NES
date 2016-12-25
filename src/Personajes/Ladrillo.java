@@ -12,6 +12,7 @@ import motor.core.graphics.Sprite;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 import static juego.constantes.Estado.*;
+import motor.core.map.Mapa;
 
 /**
  *
@@ -71,9 +72,11 @@ public class Ladrillo extends Sprite {
             setEstadoActual(ELIMINADO.val());
             if (especial) {
                 ladrilloespecial = new LadrilloEspecial(x, y, tipo);
-                jPanelJuego.getMapa().remover(this);
+                // Excepción por referencia circular si no se crea la instancia mapa
+                Mapa mapa = jPanelJuego.getMapa();
+                mapa.remover(this);
                 id = "Q";
-                jPanelJuego.getMapa().agregar(this);
+                mapa.agregar(ladrilloespecial);
             }
         }
     }

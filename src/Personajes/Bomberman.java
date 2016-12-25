@@ -78,7 +78,7 @@ public class Bomberman extends Personaje {
     
     private void comprobarMuerte(JPanelJuego jPanelJuego) {
         if(getEstadoActual() >= MUERTE.val() || getEstadoActual() == ELIMINADO.val() 
-                || !jPanelJuego.anyEnemy(posicionMapa.y, posicionMapa.x))
+                || !jPanelJuego.getMapa().contiene(this, Enemigo.class))
             return;
         morir();
     }
@@ -132,13 +132,14 @@ public class Bomberman extends Personaje {
     }
 
     public void crearBomba(final JPanelJuego jPanelJuego) {
-        if (choqueCentral("X")) {
+        if (choqueCentral(Bomb.class)) {
             dentroBomb = true;
             return;
         }
-        if (!choqueCentral("L") && bombas.size() < BOMBS) {
+        if (!choqueCentral(Ladrillo.class) && bombas.size() < BOMBS) {
             Sonidos.getInstance().play(Sonidos.BOMB_PLANT);
-            final Bomb b = new Bomb(posicionMapa.x * imagen.getAncho(), posicionMapa.y * imagen.getAlto(), this);
+            final Bomb b = new Bomb(getCentro().x / imagen.getAncho() * imagen.getAncho(),
+                    getCentro().y / imagen.getAlto() * imagen.getAlto(), this);
             jPanelJuego.getMapa().agregar(b);
             bombas.add(b);
             dentroBomb = true;

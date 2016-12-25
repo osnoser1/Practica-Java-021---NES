@@ -4,7 +4,7 @@
  */
 package Personajes;
 
-import Dependencias.Mapa;
+import motor.core.map.Mapa;
 import motor.core.ControlAnimacion;
 import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.HashMap;
 import juego.constantes.Estado;
+import motor.core.map.Posicion;
 
 /**
  *
@@ -33,12 +34,12 @@ public class Fire extends Personaje {
     public Fire(final int x, final int y, final int espacios, final JPanelJuego jPanelJuego) {
         super(new Imagen(Imagenes.FUEGO, 7, 4, 2.5f), x, y);
         this.espacio = espacios;
-        inicializar();
+        inicializar(jPanelJuego);
         determinarTamañoYMuertePersonajes(jPanelJuego);
         crearSprites();
     }
 
-    public final void inicializar() {
+    public final void inicializar(JPanelJuego jPanelJuego) {
         super.animaciones = new HashMap<Integer, ControlAnimacion>() {
             {
                 put(0, new ControlAnimacion("0,1,2,3", 4000 / 60));
@@ -46,6 +47,7 @@ public class Fire extends Personaje {
         };
         espacioDirecciones = new int[4];
         setEstadoActual(Estado.INICIO.val());
+        jPanelJuego.getMapa().agregar(this);
     }
 
     private Point getPosSprite(final Direccion d, int i) {
@@ -98,42 +100,46 @@ public class Fire extends Personaje {
 
     @Override
     public void estadoInicio(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-        if (actualizarAnimacion(tiempoTranscurrido))
+        if (actualizarAnimacion(tiempoTranscurrido)) {
             setEstadoActual(Estado.ELIMINADO.val());
+            jPanelJuego.getMapa().remover(this);
+        }
     }
 
     private void determinarTamañoYMuertePersonajes(final JPanelJuego jPanelJuego) {
+        Posicion posicion = jPanelJuego.getMapa().getPosicion(this);
         boolean[] bs = new boolean[4];
         for (int i = 1; i <= espacio; i++) {
-            if (!bs[Direccion.ARRIBA.ordinal()] && detTamDir(jPanelJuego, Direccion.ARRIBA, i, posicionMapa.x, posicionMapa.y - i))
+            if (!bs[Direccion.ARRIBA.ordinal()] && detTamDir(jPanelJuego, Direccion.ARRIBA, i, posicion.fila - i, posicion.columna))
                 bs[Direccion.ARRIBA.ordinal()] = true;
-            if (!bs[Direccion.ABAJO.ordinal()] && detTamDir(jPanelJuego, Direccion.ABAJO, i, posicionMapa.x, posicionMapa.y + i))
+            if (!bs[Direccion.ABAJO.ordinal()] && detTamDir(jPanelJuego, Direccion.ABAJO, i, posicion.fila + i, posicion.columna))
                 bs[Direccion.ABAJO.ordinal()] = true;
-            if (!bs[Direccion.DERECHA.ordinal()] && detTamDir(jPanelJuego, Direccion.DERECHA, i, posicionMapa.x + i, posicionMapa.y))
+            if (!bs[Direccion.DERECHA.ordinal()] && detTamDir(jPanelJuego, Direccion.DERECHA, i, posicion.fila, posicion.columna + i))
                 bs[Direccion.DERECHA.ordinal()] = true;
-            if (!bs[Direccion.IZQUIERDA.ordinal()] && detTamDir(jPanelJuego, Direccion.IZQUIERDA, i, posicionMapa.x - i, posicionMapa.y))
+            if (!bs[Direccion.IZQUIERDA.ordinal()] && detTamDir(jPanelJuego, Direccion.IZQUIERDA, i, posicion.fila, posicion.columna - i))
                 bs[Direccion.IZQUIERDA.ordinal()] = true;
         }
-        comprobarMuertePersonajesCentroExplosion(jPanelJuego);
+        comprobarMuertePersonajesCentroExplosion(jPanelJuego, posicion);
     }
 
-    private boolean detTamDir(final JPanelJuego jPanelJuego, final Direccion d, final int i, final int x, final int y) {
+    private boolean detTamDir(final JPanelJuego jPanelJuego, final Direccion d, final int i, final int fila, final int columna) {
         Mapa m = jPanelJuego.getMapa();
         boolean b1, b2;
         if (d == Direccion.ARRIBA || d == Direccion.ABAJO) {
-            b1 = choqueY(m, y, "A", "L", "X", "Q", "S");
-            b2 = !choqueY(m, y, "V");
+            b1 = choqueY(m, fila, Aluminio.class, Ladrillo.class, Bomb.class, LadrilloEspecial.class);
+            b2 = choqueY(m, fila, Bomberman.class, Enemigo.class);
         } else {
-            b1 = choqueX(m, x, "A", "L", "X", "Q", "S");
-            b2 = !choqueX(m, x, "V");
+            b1 = choqueX(m, columna, Aluminio.class, Ladrillo.class, Bomb.class, LadrilloEspecial.class);
+            b2 = choqueX(m, columna, Bomberman.class, Enemigo.class);
         }
         if (b1) {
-            jPanelJuego.borrarLadrillo(x, y);
-            jPanelJuego.borrarBombs(x, y);
-        } else if (b2) {
-            jPanelJuego.borrarEnemigo(x, y);
+            jPanelJuego.borrarLadrillo(fila, columna);
+            jPanelJuego.borrarBombs(fila, columna);
+        } 
+        if (b2) {
+            jPanelJuego.borrarEnemigo(fila, columna);
             if (!jPanelJuego.primerJugador().getFLAMEPASS())
-                jPanelJuego.borrarJugador(x, y);
+                jPanelJuego.borrarJugador(fila, columna);
         }
         if (!b1 && espacio != i)
             return false;
@@ -141,12 +147,12 @@ public class Fire extends Personaje {
         return true;
     }
     
-    private void comprobarMuertePersonajesCentroExplosion(JPanelJuego jPanelJuego) {
-        if(jPanelJuego.anyEnemy(posicionMapa.y, posicionMapa.x)) { 
-            jPanelJuego.borrarEnemigo(posicionMapa.x, posicionMapa.y);
+    private void comprobarMuertePersonajesCentroExplosion(JPanelJuego jPanelJuego, Posicion posicion) {
+        if(jPanelJuego.getMapa().contiene(posicion.fila, posicion.columna, Enemigo.class)) { 
+            jPanelJuego.borrarEnemigo(posicion.fila, posicion.columna);
         } 
-        if(choqueCentral("B") && !jPanelJuego.primerJugador().getFLAMEPASS()) {
-            jPanelJuego.borrarJugador(posicionMapa.x, posicionMapa.y);
+        if(choqueCentral(Bomberman.class) && !jPanelJuego.primerJugador().getFLAMEPASS()) {
+            jPanelJuego.borrarJugador(posicion.fila, posicion.columna);
         }
     }
     
