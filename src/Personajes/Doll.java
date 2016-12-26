@@ -15,7 +15,7 @@ public class Doll extends Enemigo {
     
     public Doll(int x, int y) {
         super(Imagenes.DOLL, x, y, new GamePad());
-        velocidad = SPEED_MID;
+        velocidad = SPEED_SLOW;
         smart = SMART_LOW;
         wallpass = false;
         puntaje = 400;

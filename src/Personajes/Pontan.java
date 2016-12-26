@@ -16,7 +16,7 @@ public class Pontan extends Enemigo {
     
     public Pontan(int x, int y) {
         super(Imagenes.PONTAN, x, y, new GamePad());
-        velocidad = SPEED_FAST;
+        velocidad = SPEED_MID;
         smart = SMART_HIGH;
         puntaje = 8000;
         wallpass = true;

@@ -16,7 +16,7 @@ public class Pass extends Enemigo {
     
     public Pass(int x, int y) {
         super(Imagenes.PASS, x, y, new GamePad());
-        velocidad = SPEED_FAST;
+        velocidad = SPEED_MID;
         smart = SMART_HIGH;
         puntaje = 4000;
         wallpass = false;

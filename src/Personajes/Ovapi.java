@@ -16,7 +16,7 @@ public class Ovapi extends Enemigo {
     
     public Ovapi(int x, int y) {
         super(Imagenes.OVAPI, x, y, new GamePad());
-        velocidad = SPEED_SLOW;
+        velocidad = SPEED_SLOWEST;
         smart = SMART_MID;
         puntaje = 2000;
         wallpass = true;

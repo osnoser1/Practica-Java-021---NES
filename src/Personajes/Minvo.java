@@ -16,7 +16,7 @@ public class Minvo extends Enemigo {
 
     public Minvo(int x, int y) {
         super(Imagenes.MINVO, x, y, new GamePad());
-        velocidad = SPEED_FAST;
+        velocidad = SPEED_MID;
         smart = SMART_MID;
         puntaje = 800;
         wallpass = false;

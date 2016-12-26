@@ -16,7 +16,7 @@ public class Oneal extends Enemigo {
     
     public Oneal(int x, int y) {
         super(Imagenes.ONEAL, x, y, new GamePad());
-        velocidad = SPEED_MID;
+        velocidad = SPEED_SLOW;
         smart = SMART_MID;
         puntaje = 200;
         wallpass = false;
