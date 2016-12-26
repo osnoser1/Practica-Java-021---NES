@@ -59,6 +59,7 @@ public class Bomberman extends Personaje {
     @Override
     public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
         padController.update(gamePad);
+        verificarTeclasAccion(jPanelJuego);
         super.actualizar(jPanelJuego, tiempoTranscurrido);
         comprobarMuerte(jPanelJuego);
         for (Bomb bomba : bombas) {
@@ -157,30 +158,22 @@ public class Bomberman extends Personaje {
 
     @Override
     public void estadoArriba(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        verificarTeclasAccion(jPanelJuego);
-        if (verificarMovimiento(jPanelJuego))
-            actualizarAnimacion(tiempoTranscurrido);
+        estadoGenerico(jPanelJuego, tiempoTranscurrido);
     }
 
     @Override
     public void estadoAbajo(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        verificarTeclasAccion(jPanelJuego);
-        if (verificarMovimiento(jPanelJuego))
-            actualizarAnimacion(tiempoTranscurrido);
+        estadoGenerico(jPanelJuego, tiempoTranscurrido);
     }
 
     @Override
     public void estadoDerecha(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        verificarTeclasAccion(jPanelJuego);
-        if (verificarMovimiento(jPanelJuego))
-            actualizarAnimacion(tiempoTranscurrido);
+        estadoGenerico(jPanelJuego, tiempoTranscurrido);
     }
 
     @Override
     public void estadoIzquierda(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        verificarTeclasAccion(jPanelJuego);
-        if (verificarMovimiento(jPanelJuego))
-            actualizarAnimacion(tiempoTranscurrido);
+        estadoGenerico(jPanelJuego, tiempoTranscurrido);
     }
 
     @Override
@@ -192,6 +185,11 @@ public class Bomberman extends Personaje {
         }
     }
 
+    private void estadoGenerico(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+        if (verificarMovimiento(jPanelJuego))
+            actualizarAnimacion(tiempoTranscurrido);
+    }
+    
     private void verificarTeclasAccion(final JPanelJuego jPanelJuego) {
         if (gamePad.isPress(Botones.A))
             crearBomba(jPanelJuego);
