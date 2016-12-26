@@ -9,6 +9,7 @@ import gui.JPanelJuego;
 import Dependencias.Sonidos;
 import motor.core.graphics.Sprite;
 import java.awt.event.ActionEvent;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.AbstractAction;
 import javax.swing.Timer;
 import motor.core.graphics.Imagen;
@@ -23,17 +24,21 @@ public class LadrilloEspecial extends Sprite {
     private Timer timer;
     private final int tipo;
     private boolean estadoEliminado;
+    private final AtomicInteger nroEnemigos;
+    private Posicion posicion;
 
     public LadrilloEspecial(final int x, final int y, int tipo) {
         super(new Imagen(Imagenes.LADRILLO_ESPECIAL, 1, 9, 2.5f), x, y);
         imagen.actualizar(tipo);
         this.tipo = tipo;
+        this.nroEnemigos = new AtomicInteger();
     }
 
     @Override
     public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
         if (jPanelJuego.primerJugador().isEntroALaPuerta())
             return;
+        agregarEnemigosPendientes(jPanelJuego);
         Posicion punto = jPanelJuego.getMapa().getPosicion(jPanelJuego.primerJugador());
         if (punto != null && punto.equals(jPanelJuego.getMapa().getPosicion(this)))
             if (tipo != getPuerta() && !estadoEliminado) {
@@ -84,21 +89,38 @@ public class LadrilloEspecial extends Sprite {
     }
 
     public void crearEnemigos(final JPanelJuego jPanelJuego) {
-        Posicion posicion = jPanelJuego.getMapa().getPosicion(this);
+        posicion = jPanelJuego.getMapa().getPosicion(this);
+        if(timer != null && timer.isRunning()) {
+            return;
+        } 
         timer = new Timer(500, new AbstractAction() {
             int time = 5;
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                time--;
-                jPanelJuego.agregarEnemigo(posicion.fila, posicion.columna, jPanelJuego.determinarEnemigo(3));
-                if (time == 0)
+                incrementarContadorEnemigos();
+                if (--time < 0) {
                     timer.stop();
+                }
             }
         });
+        timer.setInitialDelay(0);
         timer.start();
     }
-
+    
+    private void incrementarContadorEnemigos() {
+        if(nroEnemigos.get() < 5) {
+            nroEnemigos.incrementAndGet();
+        }
+    }
+ 
+    private void agregarEnemigosPendientes(JPanelJuego jPanelJuego) {
+        for (int i = 0, n = nroEnemigos.get(); i < n; i++) {
+            jPanelJuego.agregarEnemigo(posicion.fila, posicion.columna, jPanelJuego.determinarEnemigo(3));
+        }
+        nroEnemigos.set(0);
+    }   
+    
     public boolean isEstadoEliminado() {
         return estadoEliminado;
     }

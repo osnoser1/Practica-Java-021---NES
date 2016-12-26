@@ -204,7 +204,7 @@ public class JPanelJuego extends Interfaz {
             if (mapa.contiene(fila, columna, enemigo)) {
                 enemigo.muerte(this);
                 jPanelInformacion.aumentarPuntaje(enemigo.getPuntaje());
-            }
+            }   
     }
 
     public void borrarBombs(final int fila, final int columna) {
@@ -253,7 +253,9 @@ public class JPanelJuego extends Interfaz {
             ladrillo.actualizar(this, tiempoTranscurrido);
             if (ladrillo.getEstadoActual() == Estado.ELIMINADO.val()
                     && !ladrillo.isEspecial()) {
-                mapa.remover(ladrillo);
+                if(!mapa.remover(ladrillo)) {
+                    mapa.remover(ladrillo.getLadrilloEspecial());
+                }
                 ladrillos.remove(i--);
             }
         }
@@ -343,7 +345,8 @@ public class JPanelJuego extends Interfaz {
 
     public void agregarEnemigo(int fila, int columna, String enemigo) {
         Enemigo sprite = determinarEnemigo(fila, columna, enemigo);
-        enemigos.add(sprite);
+        enemigos.add(sprite);            
         mapa.agregar(sprite);
+        sprite.iniciarInteligencia();
     }
 }

@@ -136,7 +136,7 @@ public class Bomberman extends Personaje {
             dentroBomb = true;
             return;
         }
-        if (!choqueCentral(Ladrillo.class) && bombas.size() < BOMBS) {
+        if (!choqueCentral(Ladrillo.class, LadrilloEspecial.class) && bombas.size() < BOMBS) {
             Sonidos.getInstance().play(Sonidos.BOMB_PLANT);
             final Bomb b = new Bomb(getCentro().x / imagen.getAncho() * imagen.getAncho(),
                     getCentro().y / imagen.getAlto() * imagen.getAlto(), this);
