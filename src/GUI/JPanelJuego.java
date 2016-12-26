@@ -323,6 +323,7 @@ public class JPanelJuego extends Interfaz {
             jPanelInformacion.detenerCuentaRegresiva();
             if (jPanelInformacion.getVidasRestantes() < 0) {
                 jPanelInformacion.setVidasRestantes(2);
+                jPanelInformacion.setPuntaje(0);
                 JPanelAvisos.getInstance(null).setNivel((short) 1);
                 jugadores[0] = (Bomberman) Objetos.getInstance("B");
                 jPanelContenedor.cambiarInterfaz(Interfaz.Escenas.ESCENA_GAME_OVER);
