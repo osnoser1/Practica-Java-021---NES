@@ -19,14 +19,14 @@ import static motor.core.input.Teclado.EstadoTecla.PRESIONADA;
 public abstract class KeyboardController implements IGamePadController {
 
     private final HashMap<Integer, Botones> mapper;
-    private final ArrayList<Pareja<Botones, Boolean>> buffer;
+    private final HashMap<Botones, Boolean> buffer;
 
     protected KeyboardController(HashMap<Integer, Botones> mapper) {
         if (mapper == null) {
             throw new NullPointerException("Los controles no pueden ser nulos.");
         }
         this.mapper = mapper;
-        this.buffer = new ArrayList<>();
+        this.buffer = new HashMap<>();
         Teclado.getInstance().keyChangedSubscribe(this::keyChanged);
     }
 
@@ -36,17 +36,16 @@ public abstract class KeyboardController implements IGamePadController {
             if (buffer.isEmpty()) {
                 return;
             }
-            buffer.forEach((pareja) -> {
-                g.setPress(pareja.getPrimero(), pareja.getSegundo());
+            buffer.forEach((key, value) -> {
+                g.setPress(key, value);
             });
-            buffer.clear();
         }
     }
 
     private Void keyChanged(int keyCode, EstadoTecla estadoTecla) {
         if (mapper.containsKey(keyCode)) {
             synchronized (buffer) {
-                buffer.add(Pareja.de(mapper.get(keyCode), estadoTecla == PRESIONADA));
+                buffer.put(mapper.get(keyCode), estadoTecla == PRESIONADA);
             }
         }
         return null;
