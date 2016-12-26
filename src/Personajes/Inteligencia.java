@@ -5,12 +5,14 @@
 package Personajes;
 
 import gui.JPanelJuego;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import javax.swing.Timer;
 import juego.constantes.Estado;
-import static juego.constantes.Estado.*;
+import motor.core.input.GamePad;
+import motor.core.input.GamePad.Botones;
+import static motor.core.input.GamePad.Botones.*;
 
 /**
  *
@@ -18,36 +20,37 @@ import static juego.constantes.Estado.*;
  */
 public class Inteligencia {
 
+    private final ArrayList<Botones> buffer;
     private final Personaje personaje;
+    private final GamePad gamePad;
     private Timer timer;
-    private Random random;
+    private final Random random;
 
-    int a = 1, b = 1, time = 0;
+    private int a = 1, time = -1;
 
     public Inteligencia(Personaje personaje) {
         this.personaje = personaje;
+        this.gamePad = personaje.gamePad;
+        this.buffer = new ArrayList<>();
         random = new Random();
         determinarInteligencia();
     }
 
     private void determinarInteligencia() {
-        timer = personaje.smart == Personaje.SMART_LOW ? new Timer(50, e -> {
-            if (++time % 50 == 0) {
-                a = ((a = random.nextInt(2)) == 0
-                        ? IZQUIERDA : a == 1 ? DERECHA : a == 2 ? ARRIBA : ABAJO).val();
+        timer = personaje.smart == Personaje.SMART_LOW ? new Timer(100, e -> {
+            if (++time % 20 == 0) {
+                bufferProcess((a = random.nextInt(4)) == 0
+                        ? IZQUIERDA : a == 1 ? DERECHA : a == 2 ? ARRIBA : ABAJO);
             }
-            movimientoEje(a, JPanelJuego.getInstance(null));
-            if (JPanelJuego.getInstance(null).primerJugador().getEstadoActual() == MUERTE.val()) {
+            if (JPanelJuego.getInstance(null).primerJugador().getEstadoActual() == Estado.MUERTE.val()) {
                 timer.stop();
             }
-        }) : personaje.smart == Personaje.SMART_MID || personaje.smart == Personaje.SMART_HIGH ? new Timer(50, e -> {
-            if (++time % 50 == 0) {
-                    a = (random.nextInt(2) == 0 ? IZQUIERDA : DERECHA).val();
-                    b = (random.nextInt(2) == 0 ? ARRIBA : ABAJO).val();
+        }) : personaje.smart == Personaje.SMART_MID || personaje.smart == Personaje.SMART_HIGH ? new Timer(100, e -> {
+            if (++time % 20 == 0) {
+                bufferProcess(random.nextInt(2) == 0 ? IZQUIERDA : DERECHA,
+                        random.nextInt(2) == 0 ? ARRIBA : ABAJO);
             }
-            movimientoEje(a, JPanelJuego.getInstance(null));
-            movimientoEje(b, JPanelJuego.getInstance(null));
-            if (JPanelJuego.getInstance(null).primerJugador().getEstadoActual() == MUERTE.val()) {
+            if (JPanelJuego.getInstance(null).primerJugador().getEstadoActual() == Estado.MUERTE.val()) {
                 timer.stop();
             }
         }) : null;
@@ -71,13 +74,23 @@ public class Inteligencia {
         timer.start();
     }
 
-    private void movimientoEje(int direccion, JPanelJuego jPanelJuego) {
-        personaje.setEstadoActual(direccion);
-        Consumer<JPanelJuego> f = (direccion == ARRIBA.val() ? personaje::movimientoArriba
-                : direccion == ABAJO.val() ? personaje::movimientoAbajo
-                : direccion == DERECHA.val() ? personaje::movimientoDerecha
-                : personaje::movimientoIzquierda);
-        f.accept(jPanelJuego);
+    private void bufferProcess(Botones... botones) {
+        bufferClear();
+        buffer.addAll(Arrays.asList(botones));
+        bufferApply();
+    }
+
+    private void bufferClear() {
+        buffer.forEach(t -> {
+            gamePad.setPress(t, false);
+        });
+        buffer.clear();
+    }
+
+    private void bufferApply() {
+        buffer.forEach(t -> {
+            gamePad.setPress(t, true);
+        });
     }
 
 }
