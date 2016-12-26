@@ -36,9 +36,7 @@ public abstract class KeyboardController implements IGamePadController {
             if (buffer.isEmpty()) {
                 return;
             }
-            buffer.forEach((key, value) -> {
-                g.setPress(key, value);
-            });
+            buffer.forEach(g::setPress);
         }
     }
 
