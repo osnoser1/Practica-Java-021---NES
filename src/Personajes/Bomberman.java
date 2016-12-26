@@ -191,6 +191,8 @@ public class Bomberman extends Personaje {
     }
     
     private void verificarTeclasAccion(final JPanelJuego jPanelJuego) {
+        if(getEstadoActual() >= MUERTE.val() || getEstadoActual() == ELIMINADO.val())
+            return;
         if (gamePad.isPress(Botones.A))
             crearBomba(jPanelJuego);
         if (gamePad.isPress(Botones.B) && DETONADOR)
