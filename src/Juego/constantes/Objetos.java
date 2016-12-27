@@ -14,6 +14,7 @@ import Personajes.Oneal;
 import Personajes.Ovapi;
 import Personajes.Pass;
 import Personajes.Pontan;
+import java.util.stream.Stream;
 import motor.core.graphics.Sprite;
 
 /**
@@ -34,9 +35,13 @@ public enum Objetos {
     PASS("P"),
     PONTAN("p"),
     FIRE;
-
+    private static String[] enemigos;
     private String value;
 
+    static {
+        enemigos = Stream.of(getEnemigos()).map(e -> e.getValue()).toArray(String[]::new);
+    }
+    
     private Objetos(String value) {
         this.value = value;
     }
@@ -52,6 +57,10 @@ public enum Objetos {
         return new Objetos[]{BALLOM, DOLL, KONDORIA, MINVO, ONEAL, OVAPI, PASS, PONTAN};
     }
 
+    public static String[] getValoresEnemigos() {
+        return enemigos;
+    }
+    
     public static Sprite getInstance(String identificador) {
         if (identificador.equals(BOMBERMAN.value))
             return new Bomberman(0, 0);

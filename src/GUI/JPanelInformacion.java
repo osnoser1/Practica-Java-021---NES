@@ -132,6 +132,7 @@ public class JPanelInformacion {
 
     public void iniciarCuentaRegresiva() {
         tiempoRestante = 200;
+        cambio = true;
         timer.start();
     }
 

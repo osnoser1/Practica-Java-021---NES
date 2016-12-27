@@ -21,7 +21,6 @@ public abstract class Sprite {
     protected final Imagen imagen;
     private int estadoAnterior, estadoActual;
     protected String id;
-    protected final Point posicionMapa, posAntMapa;
     private final Point centro;
 
     public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
@@ -34,8 +33,6 @@ public abstract class Sprite {
         this.x = x;
         this.y = y;
         centro = new Point();
-        posicionMapa = new Point(getCentro().x / imagen.getAncho(), getCentro().y / imagen.getAlto());
-        posAntMapa = (Point) posicionMapa;
     }
 
     public final String getId() {
@@ -58,9 +55,6 @@ public abstract class Sprite {
     public void setLocation(int x, int y) {
         this.x = x;
         this.y = y;
-        posAntMapa.setLocation(posicionMapa);
-        posicionMapa.x = x / imagen.getAncho();
-        posicionMapa.y = y / imagen.getAlto();
     }
 
     public final int getX() {
@@ -95,8 +89,6 @@ public abstract class Sprite {
     public final void trasladar(final int dx, final int dy) {
         x += dx;
         y += dy;
-        posAntMapa.setLocation(posicionMapa);
-        posicionMapa.setLocation(getCentro().x / imagen.getAncho(), getCentro().y / imagen.getAlto());
     }
 
     /**
@@ -113,14 +105,6 @@ public abstract class Sprite {
      */
     public final void setActivo(final boolean activo) {
         imagen.setActive(activo);
-    }
-
-    public final Point getPosicionMapa() {
-        return posicionMapa;
-    }
-
-    public final Point getPosAntMapa() {
-        return posAntMapa;
     }
 
     public final void fijarCasilla(final int x, final int y) {

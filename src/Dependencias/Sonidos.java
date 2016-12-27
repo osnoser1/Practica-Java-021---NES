@@ -84,7 +84,7 @@ public class Sonidos {
 
     public void loop(int sonido) {
         if (sonido < sonidos.size())
-            sonidos.get(sonido).play();
+            sonidos.get(sonido).loop();
     }
 
     public boolean isPlaying(int sonido) {

@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
+import motor.core.input.GamePad;
 
 /**
  *
@@ -13,8 +14,8 @@ import Dependencias.Imagenes;
 public class Doll extends Enemigo {
     
     public Doll(int x, int y) {
-        super(Imagenes.DOLL, x, y, null);
-        velocidad = SPEED_MID;
+        super(Imagenes.DOLL, x, y, new GamePad());
+        velocidad = SPEED_SLOW;
         smart = SMART_LOW;
         wallpass = false;
         puntaje = 400;

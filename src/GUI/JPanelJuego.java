@@ -8,12 +8,14 @@ import Bomberman.Configuracion.Configuracion;
 import Bomberman.Core.ControlJuego;
 import lenguaje.utils.ImageUtilities;
 import Dependencias.Imagenes;
-import Dependencias.Mapa;
+import motor.core.map.Mapa;
 import Personajes.Bomb;
 import Personajes.Bomberman;
 import Personajes.Enemigo;
 import Personajes.Ladrillo;
 import Dependencias.Sonidos;
+import Personajes.Aluminio;
+import Personajes.LadrilloEspecial;
 import motor.core.graphics.Sprite;
 import motor.core.Camara;
 import Utilidades.Juego.Interfaz;
@@ -25,6 +27,7 @@ import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.stream.Stream;
 import juego.constantes.Estado;
 import juego.constantes.Objetos;
 
@@ -104,11 +107,11 @@ public class JPanelJuego extends Interfaz {
         g2d.fillRect(x, y, SIZE.width - x * 2, SIZE.height - y * 2);
         for (short i = 0; i < Mapa.FILAS; i++)
             for (short j = 0; j < Mapa.COLUMNAS; j++)
-                if (mapa.contiene("A", i, j))
+                if (mapa.contiene(i, j, Aluminio.class))
                     g2d.drawImage(Imagenes.ACERO, j * x, i * y, x, y, null);
     }
 
-    public Enemigo determinarEnemigo(final int i, final int j, final String a) {
+    private Enemigo determinarEnemigo(final int i, final int j, final String a) {
         final Sprite personaje = Objetos.getInstance(a);
         if (personaje != null)
             personaje.setLocation(j * x, i * y);
@@ -159,22 +162,27 @@ public class JPanelJuego extends Interfaz {
         }
     }
 
-    public void borrarLadrillo(final int posMapaX, final int posMapaY) {
-        for (final Ladrillo ladrillo : ladrillos) {
-            if (ladrillo.getPosicionMapa().x != posMapaX || ladrillo.getPosicionMapa().y != posMapaY)
-                continue;
-            ladrillo.setEstadoActual(Estado.MUERTE.val());
-            if (ladrillo.getLadrilloEspecial() == null)
+    public void borrarLadrillo(final int fila, final int columna) {
+        Sprite[] sprite = mapa.getSprite(fila, columna, Ladrillo.class, LadrilloEspecial.class);
+        Stream.of(sprite).forEach((l) -> {
+            if(l instanceof Ladrillo && l.getEstadoActual() != Estado.ELIMINADO.val()) {
+                l.setEstadoActual(Estado.MUERTE.val());
                 return;
-            ladrillo.getLadrilloEspecial().crearEnemigos(this);
-            if (!ladrillo.getLadrilloEspecial().esPuerta())
-                ladrillo.getLadrilloEspecial().eliminarPowerup();
-            return;
-        }
+            }
+            if(!(l instanceof LadrilloEspecial)) {
+                return;
+            }
+            LadrilloEspecial le = (LadrilloEspecial) l;
+            le.crearEnemigos(this);
+            if (!le.esPuerta()) {
+                le.eliminarPowerup();
+                mapa.remover(le);
+            }
+        });
     }
 
-    public void borrarJugador(final int posMapaX, final int posMapaY) {
-        if (primerJugador().getPosicionMapa().x != posMapaX || primerJugador().getPosicionMapa().y != posMapaY)
+    public void borrarJugador(final int fila, final int columna) {
+        if (!mapa.contiene(fila, columna, primerJugador()))
             return;
         borrarJugador();
     }
@@ -191,18 +199,18 @@ public class JPanelJuego extends Interfaz {
         enemigos.clear();
     }
 
-    public void borrarEnemigo(final int posMapaX, final int posMapaY) {
+    public void borrarEnemigo(final int fila, final int columna) {
         for (final Enemigo enemigo : enemigos)
-            if (enemigo.getPosicionMapa().x == posMapaX && enemigo.getPosicionMapa().y == posMapaY) {
-                enemigo.muerte();
+            if (mapa.contiene(fila, columna, enemigo)) {
+                enemigo.muerte(this);
                 jPanelInformacion.aumentarPuntaje(enemigo.getPuntaje());
-            }
+            }   
     }
 
-    public void borrarBombs(final int posMapaX, final int posMapaY) {
+    public void borrarBombs(final int fila, final int columna) {
         for (final Bomb bomba : primerJugador().getBombs())
             if (bomba.getEstadoActual() != Estado.MUERTE.val()
-                    && bomba.getPosicionMapa().x == posMapaX && bomba.getPosicionMapa().y == posMapaY) {
+                    && mapa.contiene(fila, columna, bomba)) {
                 bomba.detonar(this);
                 return;
             }
@@ -228,9 +236,7 @@ public class JPanelJuego extends Interfaz {
         for (int i = 0; i < enemigos.size(); i++) {
             final Enemigo enemigo = enemigos.get(i);
             enemigo.actualizar(this, tiempoTranscurrido);
-            mapa.actualizar(enemigo);
             if (enemigo.getEstadoActual() == Estado.ELIMINADO.val()) {
-                mapa.remover(enemigo);
                 enemigos.remove(i--);
                 if (enemigos.isEmpty()) {
                     if (!derrotados)
@@ -238,6 +244,8 @@ public class JPanelJuego extends Interfaz {
                     derrotados = true;
                 } else
                     derrotados = false;
+            } else if(enemigo.getEstadoActual() != Estado.MUERTE.val()){
+                mapa.actualizar(enemigo);
             }
         }
         for (int i = 0; i < ladrillos.size(); i++) {
@@ -245,7 +253,9 @@ public class JPanelJuego extends Interfaz {
             ladrillo.actualizar(this, tiempoTranscurrido);
             if (ladrillo.getEstadoActual() == Estado.ELIMINADO.val()
                     && !ladrillo.isEspecial()) {
-                mapa.remover(ladrillo);
+                if(!mapa.remover(ladrillo)) {
+                    mapa.remover(ladrillo.getLadrilloEspecial());
+                }
                 ladrillos.remove(i--);
             }
         }
@@ -255,7 +265,7 @@ public class JPanelJuego extends Interfaz {
     private void generarMapa() {
         final Random r = new Random();
         int c, f, d;
-        mapa.actualizar(primerJugador());
+        mapa.agregar(primerJugador());
         for (int i = 0; i < 55; i++)
             do {
                 c = r.nextInt(30);
@@ -313,7 +323,9 @@ public class JPanelJuego extends Interfaz {
             jPanelInformacion.detenerCuentaRegresiva();
             if (jPanelInformacion.getVidasRestantes() < 0) {
                 jPanelInformacion.setVidasRestantes(2);
+                jPanelInformacion.setPuntaje(0);
                 JPanelAvisos.getInstance(null).setNivel((short) 1);
+                jugadores[0] = (Bomberman) Objetos.getInstance("B");
                 jPanelContenedor.cambiarInterfaz(Interfaz.Escenas.ESCENA_GAME_OVER);
             } else
                 jPanelContenedor.cambiarInterfaz(Interfaz.Escenas.ESCENA_STAGE);
@@ -333,4 +345,10 @@ public class JPanelJuego extends Interfaz {
         return mapa;
     }
 
+    public void agregarEnemigo(int fila, int columna, String enemigo) {
+        Enemigo sprite = determinarEnemigo(fila, columna, enemigo);
+        enemigos.add(sprite);            
+        mapa.agregar(sprite);
+        sprite.iniciarInteligencia();
+    }
 }
