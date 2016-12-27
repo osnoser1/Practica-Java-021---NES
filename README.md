@@ -15,18 +15,11 @@ En versiones de Java 8 superiores a la Update 60, puede dar problemas con la tub
 
 ## Controles por teclado.
 
-Pad arriba: Flecha arriba.
-
-Pad abajo: Flecha abajo.
-
-Pad derecha: Flecha derecha.
-
-Pad izquierda: Flecha izquierda.
-
-A: X.
-
-B: Z.
-
-Select: Shift.
-
-Start: Enter.
+* **Pad arriba**: Flecha arriba.
+* **Pad abajo**: Flecha abajo.
+* **Pad derecha**: Flecha derecha.
+* **Pad izquierda**: Flecha izquierda.
+* **A**: X.
+* **B**: Z.
+* **Select**: Shift.
+* **Start**: Enter.
