@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
+import motor.core.input.GamePad;
 
 
 /**
@@ -14,8 +15,8 @@ import Dependencias.Imagenes;
 public class Pass extends Enemigo {
     
     public Pass(int x, int y) {
-        super(Imagenes.PASS, x, y, null);
-        velocidad = SPEED_FAST;
+        super(Imagenes.PASS, x, y, new GamePad());
+        velocidad = SPEED_MID;
         smart = SMART_HIGH;
         puntaje = 4000;
         wallpass = false;

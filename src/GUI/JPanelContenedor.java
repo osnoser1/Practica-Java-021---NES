@@ -86,7 +86,7 @@ public class JPanelContenedor  extends JComponent  {
             case ESCENA_JUEGO:
                 actual = JPanelJuego.getInstance(this);
                 Sonidos.getInstance().loop(Sonidos.STAGE_THEME);
-//                ((JPanelJuego)actual).activarInteligencias();
+                ((JPanelJuego)actual).activarInteligencias();
                 JPanelInformacion.getInstance().iniciarCuentaRegresiva();
                 break;
             case ESCENA_EDITOR:

@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
+import motor.core.input.GamePad;
 
 
 /**
@@ -14,8 +15,8 @@ import Dependencias.Imagenes;
 public class Ovapi extends Enemigo {
     
     public Ovapi(int x, int y) {
-        super(Imagenes.OVAPI, x, y, null);
-        velocidad = SPEED_SLOW;
+        super(Imagenes.OVAPI, x, y, new GamePad());
+        velocidad = SPEED_SLOWEST;
         smart = SMART_MID;
         puntaje = 2000;
         wallpass = true;

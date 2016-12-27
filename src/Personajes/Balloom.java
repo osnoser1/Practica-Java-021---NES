@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
+import motor.core.input.GamePad;
 
 
 /**
@@ -14,8 +15,8 @@ import Dependencias.Imagenes;
 public class Balloom extends Enemigo {
     
     public Balloom(int x, int y) {
-        super(Imagenes.BALLOOM, x, y, null);
-        velocidad = SPEED_SLOW;
+        super(Imagenes.BALLOOM, x, y, new GamePad());
+        velocidad = SPEED_SLOWEST;
         smart = SMART_LOW;
         puntaje = 100;
         wallpass = false;

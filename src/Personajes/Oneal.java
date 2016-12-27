@@ -5,6 +5,7 @@
 package Personajes;
 
 import Dependencias.Imagenes;
+import motor.core.input.GamePad;
 
 
 /**
@@ -14,8 +15,8 @@ import Dependencias.Imagenes;
 public class Oneal extends Enemigo {
     
     public Oneal(int x, int y) {
-        super(Imagenes.ONEAL, x, y, null);
-        velocidad = SPEED_MID;
+        super(Imagenes.ONEAL, x, y, new GamePad());
+        velocidad = SPEED_SLOW;
         smart = SMART_MID;
         puntaje = 200;
         wallpass = false;
