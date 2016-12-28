@@ -4,12 +4,12 @@
  */
 package Personajes;
 
+import game.players.states.MuerteState;
 import gui.JPanelJuego;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import javax.swing.Timer;
-import juego.constantes.Estado;
 import motor.core.input.GamePad;
 import motor.core.input.GamePad.Botones;
 import static motor.core.input.GamePad.Botones.*;
@@ -42,7 +42,7 @@ public class Inteligencia {
                 bufferProcess((a = random.nextInt(4)) == 0
                         ? IZQUIERDA : a == 1 ? DERECHA : a == 2 ? ARRIBA : ABAJO);
             }
-            if (JPanelJuego.getInstance(null).primerJugador().getEstadoActual() == Estado.MUERTE.val()) {
+            if (JPanelJuego.getInstance(null).primerJugador().getEstadoActual() == MuerteState.class) {
                 timer.stop();
             }
         }) : personaje.smart == Personaje.SMART_MID || personaje.smart == Personaje.SMART_HIGH ? new Timer(100, e -> {
@@ -50,7 +50,7 @@ public class Inteligencia {
                 bufferProcess(random.nextInt(2) == 0 ? IZQUIERDA : DERECHA,
                         random.nextInt(2) == 0 ? ARRIBA : ABAJO);
             }
-            if (JPanelJuego.getInstance(null).primerJugador().getEstadoActual() == Estado.MUERTE.val()) {
+            if (JPanelJuego.getInstance(null).primerJugador().getEstadoActual() == MuerteState.class) {
                 timer.stop();
             }
         }) : null;

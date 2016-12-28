@@ -5,10 +5,11 @@
 package motor.core.graphics;
 
 import gui.JPanelJuego;
-import motor.core.ControlAnimacion;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.HashMap;
+import java.util.function.Supplier;
+import motor.core.graphics.spritedefaultstates.NullState;
 
 /**
  *
@@ -17,15 +18,18 @@ import java.util.HashMap;
 public abstract class Sprite {
 
     protected int velocidad, x, y;
-    protected HashMap<Integer, ControlAnimacion> animaciones;
+    protected HashMap<Class<? extends SpriteState>, AnimationWrapper> animaciones;
     protected final Imagen imagen;
-    private int estadoAnterior, estadoActual;
+    protected SpriteState estadoActual;
     protected String id;
     private final Point centro;
 
     public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-        if (isActivo() && estadoActual != -1)
-            imagen.actualizar(estadoActual, animaciones.get(estadoActual).getCuadroActual());
+        if (!isActivo() || estadoActual instanceof NullState) {
+            return;
+        }
+        AnimationWrapper wrapper = animaciones.get(estadoActual.getClass());
+        imagen.actualizar(wrapper.fila, wrapper.animacion.getCuadroActual());
     }
 
     protected Sprite(final Imagen imagen, final int x, final int y) {
@@ -39,19 +43,14 @@ public abstract class Sprite {
         return id;
     }
 
-    public final int getEstadoActual() {
-        return estadoActual;
-    }
+    public final Class<? extends SpriteState> getEstadoActual() {
+        return estadoActual.getClass();
+    }    
 
-    public final void setEstadoActual(final int estado) {
-        estadoAnterior = estadoActual;
-        estadoActual = estado;
+    public final void setEstadoActual(final Supplier<SpriteState> supplier) {
+        estadoActual = supplier.get();
     }
-
-    public final int getEstadoAnterior() {
-        return estadoAnterior;
-    }
-
+    
     public void setLocation(int x, int y) {
         this.x = x;
         this.y = y;
@@ -111,12 +110,12 @@ public abstract class Sprite {
         setLocation(x * imagen.getAncho(), y * imagen.getAlto());
     }
 
-    protected final boolean actualizarAnimacion(final long tiempoTranscurrido) {
-        return animaciones.get(estadoActual).actualizar(tiempoTranscurrido);
+    public final boolean actualizarAnimacion(final long tiempoTranscurrido) {
+        return animaciones.get(estadoActual.getClass()).animacion.actualizar(tiempoTranscurrido);
     }
 
     public void pintar(final Graphics2D g) {
-        if (!imagen.isActive() || estadoActual == -1)
+        if (!imagen.isActive() || estadoActual == null)
             return;
         imagen.pintar(g, x, y);
     }
@@ -127,23 +126,5 @@ public abstract class Sprite {
     public final Imagen getImagen() {
         return imagen;
     }
-
-    public void estadoInicio(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-    }
-
-    public void estadoArriba(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-    }
-
-    public void estadoAbajo(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-    }
-
-    public void estadoDerecha(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-    }
-
-    public void estadoIzquierda(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-    }
-
-    public void estadoMuerte(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-    }
-
+    
 }

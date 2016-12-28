@@ -7,10 +7,11 @@ package Personajes;
 import motor.core.map.Mapa;
 import static Personajes.Personaje.Direccion.*;
 import gui.JPanelJuego;
+import java.util.function.Supplier;
 import motor.core.graphics.Sprite;
 import motor.core.input.GamePad;
-import static juego.constantes.Estado.*;
 import motor.core.graphics.Imagen;
+import motor.core.graphics.SpriteState;
 import motor.core.input.IGamePadController;
 
 public abstract class Personaje extends Sprite {
@@ -33,24 +34,11 @@ public abstract class Personaje extends Sprite {
     @Override
     public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
         super.actualizar(jPanelJuego, tiempoTranscurrido);
-        final int actual = getEstadoActual();
-        if (INICIO.val() == actual)
-            estadoInicio(jPanelJuego, tiempoTranscurrido);
-        else if (ARRIBA.val() == actual)
-            estadoArriba(jPanelJuego, tiempoTranscurrido);
-        else if (ABAJO.val() == actual)
-            estadoAbajo(jPanelJuego, tiempoTranscurrido);
-        else if (DERECHA.val() == actual)
-            estadoDerecha(jPanelJuego, tiempoTranscurrido);
-        else if (IZQUIERDA.val() == actual)
-            estadoIzquierda(jPanelJuego, tiempoTranscurrido);
-        else if (MUERTE.val() == actual)
-            estadoMuerte(jPanelJuego, tiempoTranscurrido);
-    }
-
-    protected void reiniciar(){
-        setEstadoActual(INICIO.val());
-        setActivo(true);
+        Supplier<SpriteState> supplier = estadoActual.handleInput(this, gamePad);
+        if(supplier != null) {
+            setEstadoActual(supplier);
+        }
+        estadoActual.update(this, jPanelJuego, tiempoTranscurrido);
     }
     
     public final Inteligencia getInteligencia() {

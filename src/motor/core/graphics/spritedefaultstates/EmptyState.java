@@ -1,0 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package motor.core.graphics.spritedefaultstates;
+
+import java.util.function.Supplier;
+import motor.core.graphics.Sprite;
+import motor.core.graphics.SpriteState;
+import motor.core.input.GamePad;
+
+/**
+ * 
+ * @author AlfonsoAndres
+ */
+public class EmptyState implements SpriteState {
+
+    @Override
+    public Supplier<SpriteState> handleInput(Sprite sprite, GamePad gamePad) {
+        return null;
+    }
+
+    @Override
+    public void update(Sprite sprite, Utilidades.Juego.Interfaz escena, long tiempoTranscurrido) {
+    }
+
+}

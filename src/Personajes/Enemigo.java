@@ -1,5 +1,6 @@
 package Personajes;
 
+import game.players.bomberman.states.*;
 import motor.core.ControlAnimacion;
 import motor.core.graphics.Imagen;
 import gui.JPanelJuego;
@@ -9,6 +10,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.HashMap;
 import static juego.constantes.Estado.*;
+import motor.core.graphics.AnimationWrapper;
+import motor.core.graphics.SpriteState;
 
 public class Enemigo extends Personaje {
 
@@ -21,17 +24,17 @@ public class Enemigo extends Personaje {
     }
 
     public final void inicializar() {
-        animaciones = new HashMap<Integer, ControlAnimacion>() {
+        animaciones = new HashMap<Class<? extends SpriteState>, AnimationWrapper>() {
             {
-                put(INICIO.val(), new ControlAnimacion("0", 4000 / 60));
-                put(ARRIBA.val(), new ControlAnimacion("0,1,2", 4000 / 60));
-                put(ABAJO.val(), new ControlAnimacion("0,1,2", 4000 / 60));
-                put(DERECHA.val(), new ControlAnimacion("0,1,2", 4000 / 60));
-                put(IZQUIERDA.val(), new ControlAnimacion("0,1,2", 4000 / 60));
-                put(MUERTE.val(), new ControlAnimacion("0,1,2,3,4", 500));
+                put(InicioState.class, new AnimationWrapper(0, "0", 4000 / 60));
+                put(ArribaState.class, new AnimationWrapper(1, "0,1,2", 4000 / 60));
+                put(AbajoState.class, new AnimationWrapper(2, "0,1,2", 4000 / 60));
+                put(DerechaState.class, new AnimationWrapper(3, "0,1,2", 4000 / 60));
+                put(IzquierdaState.class, new AnimationWrapper(4, "0,1,2", 4000 / 60));
+                put(MuerteState.class, new AnimationWrapper(5, "0,1,2,3,4", 500));
             }
         };
-        setEstadoActual(IZQUIERDA.val());
+        setEstadoActual(IzquierdaState::new);
         inteligencia = new Inteligencia(this);
     }
 
@@ -46,72 +49,16 @@ public class Enemigo extends Personaje {
     @Override
     public void pintar(final Graphics2D g) {
         super.pintar(g);
-        if (getEstadoActual() == MUERTE.val()) {
+        if (estadoActual instanceof MuerteState) {
             g.setColor(Color.white);
             g.drawString("" + puntaje, getX() + imagen.getAncho() / 5, getCentro().y);
         }
     }
 
     public void muerte(JPanelJuego jPanelJuego) {
-        setEstadoActual(MUERTE.val());
+        setEstadoActual(MuerteState::new);
         jPanelJuego.getMapa().remover(this);
         detenerInteligencia();
-    }
-
-    @Override
-    public void estadoArriba(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        estadoGenerico(jPanelJuego, tiempoTranscurrido);
-    }
-
-    @Override
-    public void estadoAbajo(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        estadoGenerico(jPanelJuego, tiempoTranscurrido);
-    }
-
-    @Override
-    public void estadoDerecha(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        estadoGenerico(jPanelJuego, tiempoTranscurrido);
-    }
-
-    @Override
-    public void estadoIzquierda(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        estadoGenerico(jPanelJuego, tiempoTranscurrido);
-    }
-
-    @Override
-    public void estadoMuerte(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        if (actualizarAnimacion(tiempoTranscurrido)) {
-            setEstadoActual(ELIMINADO.val());
-        }
-    }
-
-    public void estadoGenerico(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        if (verificarMovimiento(jPanelJuego)) {
-            actualizarAnimacion(tiempoTranscurrido);
-        }
-    }
-
-    private boolean verificarMovimiento(final JPanelJuego jPanelJuego) {
-        boolean movimiento = true;
-        if (gamePad.isPress(GamePad.Botones.ARRIBA)) {
-            setEstadoActual(ARRIBA.val());
-            movimientoArriba(jPanelJuego);
-        } else if (gamePad.isPress(GamePad.Botones.ABAJO)) {
-            setEstadoActual(ABAJO.val());
-            movimientoAbajo(jPanelJuego);
-        } else {
-            movimiento = false;
-        }
-        if (gamePad.isPress(GamePad.Botones.DERECHA)) {
-            setEstadoActual(DERECHA.val());
-            movimientoDerecha(jPanelJuego);
-            movimiento = true;
-        } else if (gamePad.isPress(GamePad.Botones.IZQUIERDA)) {
-            setEstadoActual(IZQUIERDA.val());
-            movimientoIzquierda(jPanelJuego);
-            movimiento = true;
-        }
-        return movimiento;
     }
 
 }

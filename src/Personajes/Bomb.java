@@ -5,54 +5,53 @@
 package Personajes;
 
 import Dependencias.Sonido;
-import motor.core.ControlAnimacion;
 import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
 import gui.JPanelJuego;
 import Dependencias.Sonidos;
+import Utilidades.Juego.Interfaz;
+import game.players.bomb.states.InicioState;
+import game.players.bomb.states.MuerteState;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
 import java.util.HashMap;
-import javax.swing.AbstractAction;
 import javax.swing.Timer;
-import juego.constantes.Estado;
+import motor.core.graphics.AnimationWrapper;
+import motor.core.graphics.SpriteState;
+import motor.core.graphics.spritedefaultstates.NullState;
 
 public class Bomb extends Personaje {
 
     private boolean detonar;
     private Fire fire;
-    private final Timer timer;
-    private final Personaje p;
+    private Timer timer;
+    private final Bomberman bomberman;
 
     public Bomb(final int x, final int y, final Bomberman jugador) {
         super(new Imagen(Imagenes.BOMBA, 1, 3, (float) 2.5), x, y);
-        p = jugador;
+        bomberman = jugador;
         id = "X";
         inicializar();
-        timer = jugador.getDETONADOR() ? null : new Timer(3200, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                detonar = true;
-                timer.stop();
-            }
+        timer = jugador.getDETONADOR() ? null : new Timer(3200, e -> {
+            detonar = true;
+            timer.stop();
         });
         if (timer != null)
             timer.start();
     }
 
     public final void inicializar() {
-        super.animaciones = new HashMap<Integer, ControlAnimacion>() {
+        super.animaciones = new HashMap<Class<? extends SpriteState>, AnimationWrapper>() {
             {
-                put(Estado.INICIO.ordinal(), new ControlAnimacion("0,1,2", 400));
+                put(InicioState.class, new AnimationWrapper(0, "0,1,2", 400));
             }
         };
-        setEstadoActual(Estado.INICIO.val());
+        setEstadoActual(InicioState::new);
     }
 
-    public void detonar(final JPanelJuego jPanelJuego) {
+    public void detonar(final Interfaz interfaz) {
         setActivo(false);
-        setEstadoActual(Estado.MUERTE.val());
-        fire = new Fire(x, y, jPanelJuego.primerJugador().getFLAMES(), jPanelJuego);
+        setEstadoActual(MuerteState::new);
+        fire = new Fire(x, y, bomberman.getFLAMES(), (JPanelJuego) interfaz);
         Sonido s = Sonidos.getInstance().getNewSonido(Sonidos.EXPLOSION_1);
         if (s != null)
             s.play();
@@ -71,18 +70,13 @@ public class Bomb extends Personaje {
         if (fire != null)
             fire.pintar(g);
     }
-
-    @Override
-    public void estadoInicio(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        actualizarAnimacion(tiempoTranscurrido);
-        if (detonar)
-            detonar(jPanelJuego);
+    
+    public boolean isExplosionEnded() {
+        return fire.getEstadoActual() == NullState.class;
     }
-
-    @Override
-    public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        if (fire.getEstadoActual() == Estado.ELIMINADO.val())
-            setEstadoActual(Estado.ELIMINADO.val());
+    
+    public boolean isTimeOver() {
+        return detonar;
     }
-
+    
 }
