@@ -6,6 +6,7 @@
 package game.players.ladrillo.states;
 
 import Personajes.Ladrillo;
+import Utilidades.Juego.Interfaz;
 import java.util.function.Supplier;
 import motor.core.graphics.Sprite;
 import motor.core.graphics.SpriteState;
@@ -29,6 +30,10 @@ public class MuerteState extends game.players.states.MuerteState {
             sprite.setEstadoActual(NullState::new);
             ((Ladrillo) sprite).activateLadrilloEspecial();
         }
+    }
+
+    @Override
+    public void onExit(Sprite sprite, Interfaz escena) {
     }
 
 }

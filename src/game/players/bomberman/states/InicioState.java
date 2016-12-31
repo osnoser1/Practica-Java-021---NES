@@ -6,6 +6,7 @@
 
 package game.players.bomberman.states;
 
+import Utilidades.Juego.Interfaz;
 import java.util.function.Supplier;
 import motor.core.graphics.Sprite;
 import motor.core.graphics.SpriteState;
@@ -25,6 +26,10 @@ public class InicioState extends game.players.states.InicioState {
     @Override
     public void update(Sprite sprite, Utilidades.Juego.Interfaz escena, long tiempoTranscurrido) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onExit(Sprite sprite, Interfaz escena) {
     }
 
 }

@@ -29,4 +29,8 @@ public class MuerteState extends game.players.states.MuerteState {
     public void update(Sprite sprite, Interfaz escena, long tiempoTranscurrido) {
     }
 
+    @Override
+    public void onExit(Sprite sprite, Interfaz escena) {
+    }
+
 }

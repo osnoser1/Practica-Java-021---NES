@@ -5,6 +5,8 @@
  */
 package game.players.bomberman.states;
 
+import Dependencias.Sonidos;
+import Personajes.Bomberman;
 import Personajes.Personaje;
 import Utilidades.Juego.Interfaz;
 import gui.JPanelJuego;
@@ -33,6 +35,16 @@ public class ArribaState implements SpriteState {
         if (arriba) {
             sprite.actualizarAnimacion(tiempoTranscurrido);
             ((Personaje) sprite).movimientoArriba((JPanelJuego) escena);
+        }
+        if(sprite instanceof Bomberman) {
+            Sonidos.getInstance().play(Sonidos.UP, arriba);
+        }
+    }
+
+    @Override
+    public void onExit(Sprite sprite, Interfaz escena) {
+        if(sprite instanceof Bomberman) {
+            Sonidos.getInstance().detener(Sonidos.UP);
         }
     }
 

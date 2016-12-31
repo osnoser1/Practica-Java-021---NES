@@ -5,7 +5,10 @@
  */
 package game.players.bomberman.states;
 
+import Dependencias.Sonidos;
+import Personajes.Bomberman;
 import Personajes.Personaje;
+import Utilidades.Juego.Interfaz;
 import gui.JPanelJuego;
 import java.util.function.Supplier;
 import motor.core.graphics.Sprite;
@@ -41,6 +44,19 @@ public class DerechaState implements SpriteState {
             p.movimientoArriba((JPanelJuego) escena);
         } else if(abajo) {
             p.movimientoAbajo((JPanelJuego) escena);
+        }
+        if(!(sprite instanceof Bomberman)) {
+            return;
+        }
+        Sonidos.getInstance().play(Sonidos.UP, arriba);
+        Sonidos.getInstance().play(Sonidos.DOWN, !arriba && abajo);
+        Sonidos.getInstance().play(Sonidos.LEFT, derecha);
+    }
+
+    @Override
+    public void onExit(Sprite sprite, Interfaz escena) {
+        if(sprite instanceof Bomberman) {
+            Sonidos.getInstance().detener(Sonidos.LEFT);
         }
     }
 

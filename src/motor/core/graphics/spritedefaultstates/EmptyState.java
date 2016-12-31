@@ -6,6 +6,7 @@
 
 package motor.core.graphics.spritedefaultstates;
 
+import Utilidades.Juego.Interfaz;
 import java.util.function.Supplier;
 import motor.core.graphics.Sprite;
 import motor.core.graphics.SpriteState;
@@ -24,6 +25,10 @@ public class EmptyState implements SpriteState {
 
     @Override
     public void update(Sprite sprite, Utilidades.Juego.Interfaz escena, long tiempoTranscurrido) {
+    }
+
+    @Override
+    public void onExit(Sprite sprite, Interfaz escena) {
     }
 
 }

@@ -36,6 +36,7 @@ public abstract class Sprite {
         }
         Supplier<SpriteState> supplier = estadoActual.handleInput(this, gamePad);
         if(supplier != null) {
+            estadoActual.onExit(this, interfaz);
             setEstadoActual(supplier);
         }
         estadoActual.update(this, interfaz, tiempoTranscurrido);

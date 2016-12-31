@@ -36,4 +36,8 @@ public class InicioState extends game.players.states.InicioState {
         }
     }
 
+    @Override
+    public void onExit(Sprite sprite, Interfaz escena) {
+    }
+
 }
