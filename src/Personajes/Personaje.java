@@ -109,7 +109,7 @@ public abstract class Personaje extends Sprite {
         this.wallpass = Wallpass;
     }
 
-    public final int avanzarX(final Mapa m) {
+    private int avanzarX(final Mapa m) {
         int ajuste = 0;
         int pos = velocidad < 0 ? getPosicionX(getX() + velocidad) : getPosicionX(getX() + imagen.getAncho() + velocidad);
         if (choqueX(m, pos, Aluminio.class) || !wallpass && choqueX(m, pos, Ladrillo.class) || !BOMBPASS && !dentroBomb && choqueX(m, pos, Bomb.class))
@@ -119,7 +119,7 @@ public abstract class Personaje extends Sprite {
         return velocidad + ajuste;
     }
 
-    public final int avanzarY(final Mapa m) {
+    private int avanzarY(final Mapa m) {
         int ajuste = 0;
         int pos = velocidad < 0 ? getPosicionY(getY() + velocidad) : getPosicionY(getY() + imagen.getAlto() + velocidad);
         if (choqueY(m, pos, Aluminio.class) || !wallpass && choqueY(m, pos, Ladrillo.class) || !BOMBPASS && !dentroBomb && choqueY(m, pos, Bomb.class))

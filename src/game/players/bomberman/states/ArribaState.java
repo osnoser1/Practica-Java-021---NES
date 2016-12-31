@@ -16,25 +16,23 @@ import static motor.core.input.GamePad.Botones.*;
 
 public class ArribaState implements SpriteState {
 
-    private boolean isPress;
+    private boolean arriba;
 
     @Override
     public Supplier<SpriteState> handleInput(Sprite sprite, GamePad gamePad) {
-        isPress = gamePad.isPress(ARRIBA);
-        return gamePad.isPress(ABAJO)
-                ? AbajoState::new : gamePad.isPress(DERECHA)
+        arriba = gamePad.isPress(ARRIBA);
+        return gamePad.isPress(DERECHA)
                 ? DerechaState::new : gamePad.isPress(IZQUIERDA)
-                ? IzquierdaState::new : null;
+                ? IzquierdaState::new : arriba
+                ? null : gamePad.isPress(ABAJO)
+                ? AbajoState::new : null;
     }
 
     @Override
     public void update(Sprite sprite, Interfaz escena, long tiempoTranscurrido) {
-        if (isPress) {
-//            Sonidos.getInstance().play(Sonidos.UP);
+        if (arriba) {
             sprite.actualizarAnimacion(tiempoTranscurrido);
             ((Personaje) sprite).movimientoArriba((JPanelJuego) escena);
-        } else  {
-//            Sonidos.getInstance().detener(Sonidos.UP);
         }
     }
 
