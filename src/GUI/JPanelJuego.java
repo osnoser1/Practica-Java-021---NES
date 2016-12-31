@@ -166,7 +166,7 @@ public class JPanelJuego extends Interfaz {
     public void borrarLadrillo(final int fila, final int columna) {
         Sprite[] sprite = mapa.getSprite(fila, columna, Ladrillo.class, LadrilloEspecial.class);
         Stream.of(sprite).forEach((l) -> {
-            if(l instanceof Ladrillo && l.getEstadoActual() != NullState.class) {
+            if(l instanceof Ladrillo && !(l.getEstadoActual() instanceof NullState)) {
                 ((Ladrillo) l).explotar();
                 return;
             }
@@ -204,7 +204,7 @@ public class JPanelJuego extends Interfaz {
 
     public void borrarBombs(final int fila, final int columna) {
         for (final Bomb bomba : primerJugador().getBombs())
-            if (bomba.getEstadoActual() != MuerteState.class
+            if (!(bomba.getEstadoActual() instanceof MuerteState)
                     && mapa.contiene(fila, columna, bomba)) {
                 bomba.detonar(this);
                 return;
@@ -231,7 +231,7 @@ public class JPanelJuego extends Interfaz {
         for (int i = 0; i < enemigos.size(); i++) {
             final Enemigo enemigo = enemigos.get(i);
             enemigo.actualizar(this, tiempoTranscurrido);
-            if (enemigo.getEstadoActual() == NullState.class) {
+            if (enemigo.getEstadoActual() instanceof NullState) {
                 enemigos.remove(i--);
                 if (enemigos.isEmpty()) {
                     if (!derrotados)
@@ -239,14 +239,14 @@ public class JPanelJuego extends Interfaz {
                     derrotados = true;
                 } else
                     derrotados = false;
-            } else if(enemigo.getEstadoActual() != MuerteState.class){
+            } else if(!(enemigo.getEstadoActual() instanceof MuerteState)) {
                 mapa.actualizar(enemigo);
             }
         }
         for (int i = 0; i < ladrillos.size(); i++) {
             final Ladrillo ladrillo = ladrillos.get(i);
             ladrillo.actualizar(this, tiempoTranscurrido);
-            if (ladrillo.getEstadoActual() == NullState.class
+            if (ladrillo.getEstadoActual() instanceof NullState
                     && !ladrillo.isEspecial()) {
                 if(!mapa.remover(ladrillo)) {
                     mapa.remover(ladrillo.getLadrilloEspecial());
@@ -308,9 +308,10 @@ public class JPanelJuego extends Interfaz {
 
     private void actualizarJugador(final long tiempoTranscurrido) {
         final Bomberman b = primerJugador();
-        b.actualizar(this, tiempoTranscurrido);
+        // Comportamiento anómalo sin el casting.
+        b.actualizar((Interfaz) this, tiempoTranscurrido);
         mapa.actualizar(b);
-        if (b.getEstadoActual() == NullState.class) {
+        if (b.getEstadoActual() instanceof NullState) {
             mapa.remover(b);
             if (Sonidos.getInstance().isPlaying(Sonidos.JUST_DIED))
                 return;

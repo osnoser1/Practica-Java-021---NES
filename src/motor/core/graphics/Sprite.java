@@ -4,12 +4,13 @@
  */
 package motor.core.graphics;
 
-import gui.JPanelJuego;
+import Utilidades.Juego.Interfaz;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.function.Supplier;
 import motor.core.graphics.spritedefaultstates.NullState;
+import motor.core.input.GamePad;
 
 /**
  *
@@ -21,15 +22,23 @@ public abstract class Sprite {
     protected HashMap<Class<? extends SpriteState>, AnimationWrapper> animaciones;
     protected final Imagen imagen;
     protected SpriteState estadoActual;
+    protected GamePad gamePad;
     protected String id;
     private final Point centro;
 
-    public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-        if (!isActivo() || estadoActual instanceof NullState) {
+    public void actualizar(final Interfaz interfaz, final long tiempoTranscurrido) {
+        if (estadoActual instanceof NullState) {
             return;
         }
-        AnimationWrapper wrapper = animaciones.get(estadoActual.getClass());
-        imagen.actualizar(wrapper.fila, wrapper.animacion.getCuadroActual());
+        if(isActivo()) {
+            AnimationWrapper wrapper = animaciones.get(estadoActual.getClass());
+            imagen.actualizar(wrapper.fila, wrapper.animacion.getCuadroActual());
+        }
+        Supplier<SpriteState> supplier = estadoActual.handleInput(this, gamePad);
+        if(supplier != null) {
+            setEstadoActual(supplier);
+        }
+        estadoActual.update(this, interfaz, tiempoTranscurrido);
     }
 
     protected Sprite(final Imagen imagen, final int x, final int y) {
@@ -43,8 +52,8 @@ public abstract class Sprite {
         return id;
     }
 
-    public final Class<? extends SpriteState> getEstadoActual() {
-        return estadoActual.getClass();
+    public final SpriteState getEstadoActual() {
+        return estadoActual;
     }    
 
     public final void setEstadoActual(final Supplier<SpriteState> supplier) {
@@ -115,7 +124,7 @@ public abstract class Sprite {
     }
 
     public void pintar(final Graphics2D g) {
-        if (!imagen.isActive() || estadoActual == null)
+        if (!imagen.isActive() || estadoActual instanceof NullState)
             return;
         imagen.pintar(g, x, y);
     }
@@ -127,4 +136,8 @@ public abstract class Sprite {
         return imagen;
     }
     
+    public final GamePad getGamePad() {
+        return gamePad;
+    }
+
 }

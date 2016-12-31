@@ -49,6 +49,9 @@ public class Bomb extends Personaje {
     }
 
     public void detonar(final Interfaz interfaz) {
+        if(!isActivo()) {
+            return;
+        }
         setActivo(false);
         setEstadoActual(MuerteState::new);
         fire = new Fire(x, y, bomberman.getFLAMES(), (JPanelJuego) interfaz);
@@ -58,10 +61,10 @@ public class Bomb extends Personaje {
     }
 
     @Override
-    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        super.actualizar(jPanelJuego, tiempoTranscurrido);
+    public void actualizar(Interfaz interfaz, long tiempoTranscurrido) {
+        super.actualizar(interfaz, tiempoTranscurrido);
         if (fire != null)
-            fire.actualizar(jPanelJuego, tiempoTranscurrido);
+            fire.actualizar(interfaz, tiempoTranscurrido);
     }
 
     @Override
@@ -72,11 +75,15 @@ public class Bomb extends Personaje {
     }
     
     public boolean isExplosionEnded() {
-        return fire.getEstadoActual() == NullState.class;
+        return fire != null && fire.getEstadoActual() instanceof NullState;
     }
     
     public boolean isTimeOver() {
         return detonar;
+    }
+
+    boolean hasDetonated() {
+        return !isActivo();
     }
     
 }

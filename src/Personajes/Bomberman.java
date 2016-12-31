@@ -8,6 +8,7 @@ import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
 import gui.JPanelJuego;
 import Dependencias.Sonidos;
+import Utilidades.Juego.Interfaz;
 import game.core.input.PlayerOneKeyboardController;
 import game.players.bomberman.states.*;
 import motor.core.input.GamePad;
@@ -31,7 +32,6 @@ public class Bomberman extends Personaje {
         padController = PlayerOneKeyboardController.getInstance();
         bombas = new CopyOnWriteArrayList<>();
         velocidad = SPEED_MID;
-        BOMBS = 1;
         FLAMES = 1;
         SPEED = false;
         wallpass = false;
@@ -58,7 +58,8 @@ public class Bomberman extends Personaje {
     }
 
     @Override
-    public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
+    public void actualizar(final Interfaz interfaz, final long tiempoTranscurrido) {
+        JPanelJuego jPanelJuego = (JPanelJuego) interfaz;
         padController.update(gamePad);
         verificarTeclasAccion(jPanelJuego);
         super.actualizar(jPanelJuego, tiempoTranscurrido);
@@ -66,7 +67,7 @@ public class Bomberman extends Personaje {
         bombas.stream().map((bomba) -> {
             bomba.actualizar(jPanelJuego, tiempoTranscurrido);
             return bomba;
-        }).filter((bomba) -> (bomba.getEstadoActual() == NullState.class)).map((bomba) -> {
+        }).filter((bomba) -> (bomba.getEstadoActual() instanceof NullState)).map((bomba) -> {
             jPanelJuego.getMapa().remover(bomba);
             return bomba;
         }).forEachOrdered((bomba) -> {
@@ -171,12 +172,10 @@ public class Bomberman extends Personaje {
         entroALaPuerta = false;
     }
 
-    private void detonarBomba(final JPanelJuego jPanelJuego) {
-        for (final Bomb bomba : bombas)
-            if (bomba.getEstadoActual() != MuerteState.class) {
-                bomba.detonar(jPanelJuego);
-                return;
-            }
+    private void detonarBomba(final Interfaz interfaz) {
+        bombas.stream().filter((bomba) -> (!bomba.hasDetonated())).forEachOrdered((bomba) -> {
+            bomba.detonar(interfaz);
+        });
     }
 
     public void setEntroALaPuerta(boolean b) {

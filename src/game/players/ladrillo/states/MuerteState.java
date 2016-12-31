@@ -27,9 +27,7 @@ public class MuerteState extends game.players.states.MuerteState {
     public void update(Sprite sprite, Utilidades.Juego.Interfaz escena, long tiempoTranscurrido) {
         if (sprite.actualizarAnimacion(tiempoTranscurrido)) {
             sprite.setEstadoActual(NullState::new);
-            if (((Ladrillo) sprite).isEspecial()) {
-                ((Ladrillo) sprite).activateLadrilloEspecial();
-            }
+            ((Ladrillo) sprite).activateLadrilloEspecial();
         }
     }
 

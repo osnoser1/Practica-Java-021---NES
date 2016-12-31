@@ -7,6 +7,7 @@ package Personajes;
 import motor.core.map.Mapa;
 import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
+import Utilidades.Juego.Interfaz;
 import game.players.fire.states.InicioState;
 import gui.JPanelJuego;
 import java.awt.Graphics2D;
@@ -83,8 +84,8 @@ public class Fire extends Personaje {
     }
 
     @Override
-    public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-        super.actualizar(jPanelJuego, tiempoTranscurrido);
+    public void actualizar(final Interfaz interfaz, final long tiempoTranscurrido) {
+        super.actualizar(interfaz, tiempoTranscurrido);
         if (estadoActual instanceof NullState)
             return;
         final int i = animaciones.get(InicioState.class).animacion.getCuadroActual();

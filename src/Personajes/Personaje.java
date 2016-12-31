@@ -6,12 +6,10 @@ package Personajes;
 
 import motor.core.map.Mapa;
 import static Personajes.Personaje.Direccion.*;
+import Utilidades.Juego.Interfaz;
 import gui.JPanelJuego;
-import java.util.function.Supplier;
 import motor.core.graphics.Sprite;
-import motor.core.input.GamePad;
 import motor.core.graphics.Imagen;
-import motor.core.graphics.SpriteState;
 import motor.core.input.IGamePadController;
 
 public abstract class Personaje extends Sprite {
@@ -23,7 +21,6 @@ public abstract class Personaje extends Sprite {
     protected int varx = 3, vary = 3, smart;
     protected static final int SPEED_SLOWEST = 1, SPEED_SLOW = 2, SPEED_MID = 4, SPEED_FAST = 5, SMART_LOW = 1, SMART_MID = 2, SMART_HIGH = 3, SMART_IMPOSSIBLE = 4;
     protected Inteligencia inteligencia;
-    protected GamePad gamePad;
     protected IGamePadController padController;
     protected boolean wallpass, dentroBomb, BOMBPASS;
 
@@ -32,13 +29,8 @@ public abstract class Personaje extends Sprite {
     }
 
     @Override
-    public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-        super.actualizar(jPanelJuego, tiempoTranscurrido);
-        Supplier<SpriteState> supplier = estadoActual.handleInput(this, gamePad);
-        if(supplier != null) {
-            setEstadoActual(supplier);
-        }
-        estadoActual.update(this, jPanelJuego, tiempoTranscurrido);
+    public void actualizar(final Interfaz escena, final long tiempoTranscurrido) {
+        super.actualizar(escena, tiempoTranscurrido);
     }
     
     public final Inteligencia getInteligencia() {
@@ -77,7 +69,7 @@ public abstract class Personaje extends Sprite {
         inteligencia = null;
     }
 
-    public final void updateX(final JPanelJuego jPanelJuego) {
+    private void updateX(final JPanelJuego jPanelJuego) {
         if (!choqueCentral(Bomb.class))
             dentroBomb = false;
         int ajuste = avanzarX(jPanelJuego.getMapa());
@@ -85,7 +77,7 @@ public abstract class Personaje extends Sprite {
             trasladar(ajuste, 0);
     }
 
-    public final void updateY(final JPanelJuego jPanelJuego) {
+    private void updateY(final JPanelJuego jPanelJuego) {
         if (!choqueCentral(Bomb.class))
             dentroBomb = false;
         int ajuste = avanzarY(jPanelJuego.getMapa());

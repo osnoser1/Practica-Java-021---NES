@@ -6,6 +6,7 @@ package Personajes;
 
 import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
+import Utilidades.Juego.Interfaz;
 import game.players.ladrillo.states.MuerteState;
 import gui.JPanelJuego;
 import motor.core.graphics.Sprite;
@@ -50,10 +51,10 @@ public class Ladrillo extends Sprite {
     }
 
     @Override
-    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        super.actualizar(jPanelJuego, tiempoTranscurrido);
+    public void actualizar(Interfaz interfaz, long tiempoTranscurrido) {
+        super.actualizar(interfaz, tiempoTranscurrido);
         if (ladrilloespecial != null)
-            ladrilloespecial.actualizar(jPanelJuego, tiempoTranscurrido);
+            ladrilloespecial.actualizar(interfaz, tiempoTranscurrido);
     }
 
     @Override
@@ -68,6 +69,9 @@ public class Ladrillo extends Sprite {
     }
 
     public void activateLadrilloEspecial() {
+        if(!especial) {
+            return;
+        }
         Mapa mapa = Mapa.getInstance();
         ladrilloespecial = new LadrilloEspecial(x, y, tipo);
         mapa.remover(this);
