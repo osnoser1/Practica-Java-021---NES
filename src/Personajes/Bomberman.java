@@ -32,6 +32,7 @@ public class Bomberman extends Personaje {
         padController = PlayerOneKeyboardController.getInstance();
         bombas = new CopyOnWriteArrayList<>();
         velocidad = SPEED_MID;
+        BOMBS = 1;
         FLAMES = 1;
         SPEED = false;
         wallpass = false;
