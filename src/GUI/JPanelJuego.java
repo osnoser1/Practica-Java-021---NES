@@ -19,17 +19,18 @@ import Personajes.LadrilloEspecial;
 import motor.core.graphics.Sprite;
 import motor.core.Camara;
 import Utilidades.Juego.Interfaz;
+import game.players.states.MuerteState;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Stream;
 import juego.constantes.Estado;
 import juego.constantes.Objetos;
+import motor.core.graphics.spritedefaultstates.NullState;
 
 /**
  *
@@ -165,8 +166,8 @@ public class JPanelJuego extends Interfaz {
     public void borrarLadrillo(final int fila, final int columna) {
         Sprite[] sprite = mapa.getSprite(fila, columna, Ladrillo.class, LadrilloEspecial.class);
         Stream.of(sprite).forEach((l) -> {
-            if(l instanceof Ladrillo && l.getEstadoActual() != Estado.ELIMINADO.val()) {
-                l.setEstadoActual(Estado.MUERTE.val());
+            if(l instanceof Ladrillo && !(l.getEstadoActual() instanceof NullState)) {
+                ((Ladrillo) l).explotar();
                 return;
             }
             if(!(l instanceof LadrilloEspecial)) {
@@ -184,13 +185,7 @@ public class JPanelJuego extends Interfaz {
     public void borrarJugador(final int fila, final int columna) {
         if (!mapa.contiene(fila, columna, primerJugador()))
             return;
-        borrarJugador();
-    }
-
-    public void borrarJugador() {
-        Sonidos.getInstance().detener(Sonidos.UP, Sonidos.DOWN, Sonidos.LEFT, Sonidos.RIGHT);
-        Sonidos.getInstance().play(Sonidos.DEATH);
-        primerJugador().setEstadoActual(Estado.MUERTE.val());
+        primerJugador().morir();
     }
 
     public void borrarEnemigos() {
@@ -209,7 +204,7 @@ public class JPanelJuego extends Interfaz {
 
     public void borrarBombs(final int fila, final int columna) {
         for (final Bomb bomba : primerJugador().getBombs())
-            if (bomba.getEstadoActual() != Estado.MUERTE.val()
+            if (!(bomba.getEstadoActual() instanceof MuerteState)
                     && mapa.contiene(fila, columna, bomba)) {
                 bomba.detonar(this);
                 return;
@@ -236,7 +231,7 @@ public class JPanelJuego extends Interfaz {
         for (int i = 0; i < enemigos.size(); i++) {
             final Enemigo enemigo = enemigos.get(i);
             enemigo.actualizar(this, tiempoTranscurrido);
-            if (enemigo.getEstadoActual() == Estado.ELIMINADO.val()) {
+            if (enemigo.getEstadoActual() instanceof NullState) {
                 enemigos.remove(i--);
                 if (enemigos.isEmpty()) {
                     if (!derrotados)
@@ -244,14 +239,14 @@ public class JPanelJuego extends Interfaz {
                     derrotados = true;
                 } else
                     derrotados = false;
-            } else if(enemigo.getEstadoActual() != Estado.MUERTE.val()){
+            } else if(!(enemigo.getEstadoActual() instanceof MuerteState)) {
                 mapa.actualizar(enemigo);
             }
         }
         for (int i = 0; i < ladrillos.size(); i++) {
             final Ladrillo ladrillo = ladrillos.get(i);
             ladrillo.actualizar(this, tiempoTranscurrido);
-            if (ladrillo.getEstadoActual() == Estado.ELIMINADO.val()
+            if (ladrillo.getEstadoActual() instanceof NullState
                     && !ladrillo.isEspecial()) {
                 if(!mapa.remover(ladrillo)) {
                     mapa.remover(ladrillo.getLadrilloEspecial());
@@ -313,9 +308,12 @@ public class JPanelJuego extends Interfaz {
 
     private void actualizarJugador(final long tiempoTranscurrido) {
         final Bomberman b = primerJugador();
-        b.actualizar(this, tiempoTranscurrido);
+        // Comportamiento anómalo sin el casting.
+        if(!b.isEntroALaPuerta()) {
+            b.actualizar((Interfaz) this, tiempoTranscurrido);
+        }
         mapa.actualizar(b);
-        if (b.getEstadoActual() == Estado.ELIMINADO.val()) {
+        if (b.getEstadoActual() instanceof NullState) {
             mapa.remover(b);
             if (Sonidos.getInstance().isPlaying(Sonidos.JUST_DIED))
                 return;

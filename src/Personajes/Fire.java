@@ -5,14 +5,17 @@
 package Personajes;
 
 import motor.core.map.Mapa;
-import motor.core.ControlAnimacion;
 import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
+import Utilidades.Juego.Interfaz;
+import game.players.fire.states.InicioState;
 import gui.JPanelJuego;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.HashMap;
-import juego.constantes.Estado;
+import motor.core.graphics.AnimationWrapper;
+import motor.core.graphics.SpriteState;
+import motor.core.graphics.spritedefaultstates.NullState;
 import motor.core.map.Posicion;
 
 /**
@@ -40,13 +43,13 @@ public class Fire extends Personaje {
     }
 
     public final void inicializar(JPanelJuego jPanelJuego) {
-        super.animaciones = new HashMap<Integer, ControlAnimacion>() {
+        super.animaciones = new HashMap<Class<? extends SpriteState>, AnimationWrapper>() {
             {
-                put(0, new ControlAnimacion("0,1,2,3", 4000 / 60));
+                put(InicioState.class, new AnimationWrapper(0, "0,1,2,3", 4000 / 60));
             }
         };
         espacioDirecciones = new int[4];
-        setEstadoActual(Estado.INICIO.val());
+        setEstadoActual(InicioState::new);
         jPanelJuego.getMapa().agregar(this);
     }
 
@@ -81,29 +84,21 @@ public class Fire extends Personaje {
     }
 
     @Override
-    public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-        if (getEstadoActual() == Estado.ELIMINADO.val())
+    public void actualizar(final Interfaz interfaz, final long tiempoTranscurrido) {
+        super.actualizar(interfaz, tiempoTranscurrido);
+        if (estadoActual instanceof NullState)
             return;
-        estadoInicio(jPanelJuego, tiempoTranscurrido);
-        final int i = animaciones.get(0).getCuadroActual();
+        final int i = animaciones.get(InicioState.class).animacion.getCuadroActual();
         for (final Imagen sprite : imagenes)
             sprite.actualizar(i);
     }
 
     @Override
     public void pintar(final Graphics2D g) {
-        if (getEstadoActual() == Estado.ELIMINADO.val() || !isActivo())
+        if (estadoActual instanceof NullState || !isActivo())
             return;
         for (int i = 0; i < imagenes.length; i++)
             imagenes[i].pintar(g, pos[i].x, pos[i].y);
-    }
-
-    @Override
-    public void estadoInicio(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-        if (actualizarAnimacion(tiempoTranscurrido)) {
-            setEstadoActual(Estado.ELIMINADO.val());
-            jPanelJuego.getMapa().remover(this);
-        }
     }
 
     private void determinarTamañoYMuertePersonajes(final JPanelJuego jPanelJuego) {

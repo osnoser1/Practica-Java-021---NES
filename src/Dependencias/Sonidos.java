@@ -82,11 +82,25 @@ public class Sonidos {
         return s;
     }
 
+    public void play(int sonido, boolean play) {
+        if(play) {
+            play(sonido);
+        } else {
+            detener(sonido);
+        }
+    }
+    
     public void loop(int sonido) {
         if (sonido < sonidos.size())
             sonidos.get(sonido).loop();
     }
 
+    
+    public void change(int current, int newSound) {
+        detener(current);
+        play(newSound);
+    }
+    
     public boolean isPlaying(int sonido) {
         return sonido < sonidos.size() ? sonidos.get(sonido).isPlaying() : false;
     }

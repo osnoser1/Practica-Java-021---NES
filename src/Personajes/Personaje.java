@@ -6,10 +6,9 @@ package Personajes;
 
 import motor.core.map.Mapa;
 import static Personajes.Personaje.Direccion.*;
+import Utilidades.Juego.Interfaz;
 import gui.JPanelJuego;
 import motor.core.graphics.Sprite;
-import motor.core.input.GamePad;
-import static juego.constantes.Estado.*;
 import motor.core.graphics.Imagen;
 import motor.core.input.IGamePadController;
 
@@ -22,7 +21,6 @@ public abstract class Personaje extends Sprite {
     protected int varx = 3, vary = 3, smart;
     protected static final int SPEED_SLOWEST = 1, SPEED_SLOW = 2, SPEED_MID = 4, SPEED_FAST = 5, SMART_LOW = 1, SMART_MID = 2, SMART_HIGH = 3, SMART_IMPOSSIBLE = 4;
     protected Inteligencia inteligencia;
-    protected GamePad gamePad;
     protected IGamePadController padController;
     protected boolean wallpass, dentroBomb, BOMBPASS;
 
@@ -31,26 +29,8 @@ public abstract class Personaje extends Sprite {
     }
 
     @Override
-    public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
-        super.actualizar(jPanelJuego, tiempoTranscurrido);
-        final int actual = getEstadoActual();
-        if (INICIO.val() == actual)
-            estadoInicio(jPanelJuego, tiempoTranscurrido);
-        else if (ARRIBA.val() == actual)
-            estadoArriba(jPanelJuego, tiempoTranscurrido);
-        else if (ABAJO.val() == actual)
-            estadoAbajo(jPanelJuego, tiempoTranscurrido);
-        else if (DERECHA.val() == actual)
-            estadoDerecha(jPanelJuego, tiempoTranscurrido);
-        else if (IZQUIERDA.val() == actual)
-            estadoIzquierda(jPanelJuego, tiempoTranscurrido);
-        else if (MUERTE.val() == actual)
-            estadoMuerte(jPanelJuego, tiempoTranscurrido);
-    }
-
-    protected void reiniciar(){
-        setEstadoActual(INICIO.val());
-        setActivo(true);
+    public void actualizar(final Interfaz escena, final long tiempoTranscurrido) {
+        super.actualizar(escena, tiempoTranscurrido);
     }
     
     public final Inteligencia getInteligencia() {
@@ -89,7 +69,7 @@ public abstract class Personaje extends Sprite {
         inteligencia = null;
     }
 
-    public final void updateX(final JPanelJuego jPanelJuego) {
+    private void updateX(final JPanelJuego jPanelJuego) {
         if (!choqueCentral(Bomb.class))
             dentroBomb = false;
         int ajuste = avanzarX(jPanelJuego.getMapa());
@@ -97,7 +77,7 @@ public abstract class Personaje extends Sprite {
             trasladar(ajuste, 0);
     }
 
-    public final void updateY(final JPanelJuego jPanelJuego) {
+    private void updateY(final JPanelJuego jPanelJuego) {
         if (!choqueCentral(Bomb.class))
             dentroBomb = false;
         int ajuste = avanzarY(jPanelJuego.getMapa());
@@ -129,7 +109,7 @@ public abstract class Personaje extends Sprite {
         this.wallpass = Wallpass;
     }
 
-    public final int avanzarX(final Mapa m) {
+    private int avanzarX(final Mapa m) {
         int ajuste = 0;
         int pos = velocidad < 0 ? getPosicionX(getX() + velocidad) : getPosicionX(getX() + imagen.getAncho() + velocidad);
         if (choqueX(m, pos, Aluminio.class) || !wallpass && choqueX(m, pos, Ladrillo.class) || !BOMBPASS && !dentroBomb && choqueX(m, pos, Bomb.class))
@@ -139,7 +119,7 @@ public abstract class Personaje extends Sprite {
         return velocidad + ajuste;
     }
 
-    public final int avanzarY(final Mapa m) {
+    private int avanzarY(final Mapa m) {
         int ajuste = 0;
         int pos = velocidad < 0 ? getPosicionY(getY() + velocidad) : getPosicionY(getY() + imagen.getAlto() + velocidad);
         if (choqueY(m, pos, Aluminio.class) || !wallpass && choqueY(m, pos, Ladrillo.class) || !BOMBPASS && !dentroBomb && choqueY(m, pos, Bomb.class))

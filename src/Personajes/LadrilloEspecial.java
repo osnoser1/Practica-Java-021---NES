@@ -7,6 +7,7 @@ package Personajes;
 import Dependencias.Imagenes;
 import gui.JPanelJuego;
 import Dependencias.Sonidos;
+import Utilidades.Juego.Interfaz;
 import motor.core.graphics.Sprite;
 import java.awt.event.ActionEvent;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -35,7 +36,8 @@ public class LadrilloEspecial extends Sprite {
     }
 
     @Override
-    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
+    public void actualizar(Interfaz interfaz, long tiempoTranscurrido) {
+        JPanelJuego jPanelJuego = (JPanelJuego) interfaz;
         if (jPanelJuego.primerJugador().isEntroALaPuerta())
             return;
         agregarEnemigosPendientes(jPanelJuego);

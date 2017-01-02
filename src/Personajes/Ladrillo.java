@@ -4,14 +4,17 @@
  */
 package Personajes;
 
-import motor.core.ControlAnimacion;
 import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
+import Utilidades.Juego.Interfaz;
+import game.players.ladrillo.states.MuerteState;
 import gui.JPanelJuego;
 import motor.core.graphics.Sprite;
 import java.awt.Graphics2D;
 import java.util.HashMap;
-import static juego.constantes.Estado.*;
+import motor.core.graphics.AnimationWrapper;
+import motor.core.graphics.SpriteState;
+import motor.core.graphics.spritedefaultstates.EmptyState;
 import motor.core.map.Mapa;
 
 /**
@@ -34,13 +37,13 @@ public class Ladrillo extends Sprite {
     }
 
     public final void inicializar() {
-        super.animaciones = new HashMap<Integer, ControlAnimacion>() {
+        super.animaciones = new HashMap<Class<? extends SpriteState>, AnimationWrapper>() {
             {
-                put(INICIO.ordinal(), new ControlAnimacion("0", 4000 / 60));
-                put(MUERTE.ordinal(), new ControlAnimacion("0,1,2,3,4,5", 4000 / 60));
+                put(EmptyState.class, new AnimationWrapper(0, "0", 4000 / 60));
+                put(MuerteState.class, new AnimationWrapper(5, "0,1,2,3,4,5", 4000 / 60));
             }
         };
-        setEstadoActual(INICIO.val());
+        setEstadoActual(EmptyState::new);
     }
 
     public LadrilloEspecial getLadrilloEspecial() {
@@ -48,15 +51,10 @@ public class Ladrillo extends Sprite {
     }
 
     @Override
-    public void actualizar(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        super.actualizar(jPanelJuego, tiempoTranscurrido);
-        final int actual = getEstadoActual();
-        if (INICIO.val() == actual)
-            estadoInicio(jPanelJuego, tiempoTranscurrido);
-        else if (MUERTE.val() == actual)
-            estadoMuerte(jPanelJuego, tiempoTranscurrido);
+    public void actualizar(Interfaz interfaz, long tiempoTranscurrido) {
+        super.actualizar(interfaz, tiempoTranscurrido);
         if (ladrilloespecial != null)
-            ladrilloespecial.actualizar(jPanelJuego, tiempoTranscurrido);
+            ladrilloespecial.actualizar(interfaz, tiempoTranscurrido);
     }
 
     @Override
@@ -66,23 +64,23 @@ public class Ladrillo extends Sprite {
             ladrilloespecial.pintar(g);
     }
 
-    @Override
-    public void estadoMuerte(JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        if (actualizarAnimacion(tiempoTranscurrido)) {
-            setEstadoActual(ELIMINADO.val());
-            if (especial) {
-                ladrilloespecial = new LadrilloEspecial(x, y, tipo);
-                // Excepción por referencia circular si no se crea la instancia mapa
-                Mapa mapa = jPanelJuego.getMapa();
-                mapa.remover(this);
-                id = "Q";
-                mapa.agregar(ladrilloespecial);
-            }
-        }
-    }
-
     public boolean isEspecial() {
         return especial && !ladrilloespecial.isEstadoEliminado();
+    }
+
+    public void activateLadrilloEspecial() {
+        if(!especial) {
+            return;
+        }
+        Mapa mapa = Mapa.getInstance();
+        ladrilloespecial = new LadrilloEspecial(x, y, tipo);
+        mapa.remover(this);
+        id = "Q";
+        mapa.agregar(ladrilloespecial);
+    }
+
+    public void explotar() {
+        setEstadoActual(MuerteState::new);
     }
 
 }

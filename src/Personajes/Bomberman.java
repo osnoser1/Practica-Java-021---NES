@@ -4,18 +4,20 @@
  */
 package Personajes;
 
-import motor.core.ControlAnimacion;
 import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
-import motor.core.input.Teclado;
 import gui.JPanelJuego;
 import Dependencias.Sonidos;
+import Utilidades.Juego.Interfaz;
 import game.core.input.PlayerOneKeyboardController;
+import game.players.bomberman.states.*;
 import motor.core.input.GamePad;
 import motor.core.input.GamePad.Botones;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import static juego.constantes.Estado.*;
+import motor.core.graphics.AnimationWrapper;
+import motor.core.graphics.SpriteState;
+import motor.core.graphics.spritedefaultstates.NullState;
 
 public class Bomberman extends Personaje {
 
@@ -43,42 +45,45 @@ public class Bomberman extends Personaje {
     }
 
     public final void inicializar() {
-        super.animaciones = new HashMap<Integer, ControlAnimacion>() {
+        super.animaciones = new HashMap<Class<? extends SpriteState>, AnimationWrapper>() {
             {
-                put(INICIO.val(), new ControlAnimacion("0", 4000 / 60));
-                put(ARRIBA.val(), new ControlAnimacion("2,1,0,1", 4000 / 60));
-                put(ABAJO.val(), new ControlAnimacion("2,1,0,1", 4000 / 60));
-                put(DERECHA.val(), new ControlAnimacion("2,1,0,1", 4000 / 60));
-                put(IZQUIERDA.val(), new ControlAnimacion("2,1,0,1", 4000 / 60));
-                put(MUERTE.val(), new ControlAnimacion("0,1,2,3,4", 300));
+                put(InicioState.class, new AnimationWrapper(0, "0", 4000 / 60));
+                put(ArribaState.class, new AnimationWrapper(1, "2,1,0,1", 4000 / 60));
+                put(AbajoState.class, new AnimationWrapper(2, "2,1,0,1", 4000 / 60));
+                put(DerechaState.class, new AnimationWrapper(3, "2,1,0,1", 4000 / 60));
+                put(IzquierdaState.class, new AnimationWrapper(4, "2,1,0,1", 4000 / 60));
+                put(MuerteState.class, new AnimationWrapper(5, "0,1,2,3,4", 300));
             }
         };
-        setEstadoActual(IZQUIERDA.val());
+        setEstadoActual(IzquierdaState::new);
     }
 
     @Override
-    public void actualizar(final JPanelJuego jPanelJuego, final long tiempoTranscurrido) {
+    public void actualizar(final Interfaz interfaz, final long tiempoTranscurrido) {
+        JPanelJuego jPanelJuego = (JPanelJuego) interfaz;
         padController.update(gamePad);
         verificarTeclasAccion(jPanelJuego);
         super.actualizar(jPanelJuego, tiempoTranscurrido);
         comprobarMuerte(jPanelJuego);
-        for (Bomb bomba : bombas) {
+        bombas.stream().map((bomba) -> {
             bomba.actualizar(jPanelJuego, tiempoTranscurrido);
-            if (bomba.getEstadoActual() == ELIMINADO.val()) {
-                jPanelJuego.getMapa().remover(bomba);
-                bombas.remove(bomba);
-            }
-        }
+            return bomba;
+        }).filter((bomba) -> (bomba.getEstadoActual() instanceof NullState)).map((bomba) -> {
+            jPanelJuego.getMapa().remover(bomba);
+            return bomba;
+        }).forEachOrdered((bomba) -> {
+            bombas.remove(bomba);
+        });
     }
     
-    private void morir() {
+    public void morir() {
         Sonidos.getInstance().detener(Sonidos.UP, Sonidos.DOWN, Sonidos.LEFT, Sonidos.RIGHT);
         Sonidos.getInstance().play(Sonidos.DEATH);
-        setEstadoActual(MUERTE.val());
+        setEstadoActual(MuerteState::new);
     }
     
     private void comprobarMuerte(JPanelJuego jPanelJuego) {
-        if(getEstadoActual() >= MUERTE.val() || getEstadoActual() == ELIMINADO.val() 
+        if(estadoActual instanceof MuerteState || estadoActual instanceof NullState 
                 || !jPanelJuego.getMapa().contiene(this, Enemigo.class))
             return;
         morir();
@@ -150,48 +155,9 @@ public class Bomberman extends Personaje {
     public CopyOnWriteArrayList<Bomb> getBombs() {
         return bombas;
     }
-
-    @Override
-    public void estadoInicio(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        setEstadoActual(IZQUIERDA.val());
-    }
-
-    @Override
-    public void estadoArriba(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        estadoGenerico(jPanelJuego, tiempoTranscurrido);
-    }
-
-    @Override
-    public void estadoAbajo(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        estadoGenerico(jPanelJuego, tiempoTranscurrido);
-    }
-
-    @Override
-    public void estadoDerecha(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        estadoGenerico(jPanelJuego, tiempoTranscurrido);
-    }
-
-    @Override
-    public void estadoIzquierda(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        estadoGenerico(jPanelJuego, tiempoTranscurrido);
-    }
-
-    @Override
-    public void estadoMuerte(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        if (actualizarAnimacion(tiempoTranscurrido)) {
-            Sonidos.getInstance().detener();
-            setEstadoActual(ELIMINADO.val());
-            Sonidos.getInstance().play(Sonidos.JUST_DIED);
-        }
-    }
-
-    private void estadoGenerico(final JPanelJuego jPanelJuego, long tiempoTranscurrido) {
-        if (verificarMovimiento(jPanelJuego))
-            actualizarAnimacion(tiempoTranscurrido);
-    }
     
     private void verificarTeclasAccion(final JPanelJuego jPanelJuego) {
-        if(getEstadoActual() >= MUERTE.val() || getEstadoActual() == ELIMINADO.val())
+        if(estadoActual instanceof MuerteState || estadoActual instanceof NullState)
             return;
         if (gamePad.isPress(Botones.A))
             crearBomba(jPanelJuego);
@@ -199,53 +165,18 @@ public class Bomberman extends Personaje {
             detonarBomba(jPanelJuego);
     }
 
-    private boolean verificarMovimiento(final JPanelJuego jPanelJuego) {
-        if (entroALaPuerta)
-            return false;
-        boolean movimiento = true;
-        if (gamePad.isPress(Botones.ARRIBA)) {
-            setEstadoActual(ARRIBA.val());
-            Sonidos.getInstance().play(Sonidos.UP);
-            movimientoArriba(jPanelJuego);
-        } else if (gamePad.isPress(Botones.ABAJO)) {
-            Sonidos.getInstance().detener(Sonidos.UP);
-            setEstadoActual(ABAJO.val());
-            Sonidos.getInstance().play(Sonidos.DOWN);
-            movimientoAbajo(jPanelJuego);
-        } else {
-            Sonidos.getInstance().detener(Sonidos.UP, Sonidos.DOWN);
-            movimiento = false;
-        }
-        if (gamePad.isPress(Botones.DERECHA)) {
-            setEstadoActual(DERECHA.val());
-            Sonidos.getInstance().play(Sonidos.LEFT);
-            movimientoDerecha(jPanelJuego);
-            movimiento = true;
-        } else if (gamePad.isPress(Botones.IZQUIERDA)) {
-            Sonidos.getInstance().detener(Sonidos.LEFT);
-            setEstadoActual(IZQUIERDA.val());
-            Sonidos.getInstance().play(Sonidos.RIGHT);
-            movimientoIzquierda(jPanelJuego);
-            movimiento = true;
-        } else
-            Sonidos.getInstance().detener(Sonidos.LEFT, Sonidos.RIGHT);
-        return movimiento;
-    }
-
     public void reiniciar(int x, int y) {
-        super.reiniciar();
+        setEstadoActual(InicioState::new);
         fijarCasilla(x, y);
         bombas.clear();
         imagen.setActive(true);
         entroALaPuerta = false;
     }
 
-    private void detonarBomba(final JPanelJuego jPanelJuego) {
-        for (final Bomb bomba : bombas)
-            if (bomba.getEstadoActual() != MUERTE.val()) {
-                bomba.detonar(jPanelJuego);
-                return;
-            }
+    private void detonarBomba(final Interfaz interfaz) {
+        bombas.stream().filter((bomba) -> (!bomba.hasDetonated())).forEachOrdered((bomba) -> {
+            bomba.detonar(interfaz);
+        });
     }
 
     public void setEntroALaPuerta(boolean b) {
