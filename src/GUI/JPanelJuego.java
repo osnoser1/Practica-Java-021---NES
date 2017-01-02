@@ -309,7 +309,9 @@ public class JPanelJuego extends Interfaz {
     private void actualizarJugador(final long tiempoTranscurrido) {
         final Bomberman b = primerJugador();
         // Comportamiento anómalo sin el casting.
-        b.actualizar((Interfaz) this, tiempoTranscurrido);
+        if(!b.isEntroALaPuerta()) {
+            b.actualizar((Interfaz) this, tiempoTranscurrido);
+        }
         mapa.actualizar(b);
         if (b.getEstadoActual() instanceof NullState) {
             mapa.remover(b);
