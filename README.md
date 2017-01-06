@@ -68,3 +68,7 @@ A través del rastreador de incidencias puede reportar ya sea errores encontrado
 Inicialmente este proyecto fue desarrollado en la universidad en el año 2012 y posteriormente fui realizando modificaciones para mejorarlo con el paso del tiempo.
 
 Le doy las gracias a [Félix Coa](https://github.com/felixcoa13) ya que sin él en aquel entonces no se hubiese desarrollado este juego.
+
+## Licencia
+
+Licenciado bajo la Licencia [MIT](LICENSE).
