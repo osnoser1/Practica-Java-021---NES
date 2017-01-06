@@ -2,7 +2,7 @@
 
 Bomberman en Java.
 
-Creando motor con fines de aprendizaje.
+Inicialmente este proyecto fue desarrollado en la universidad en el año 2012 y posteriormente fui realizando modificaciones para mejorarlo con el paso del tiempo con fines de aprendizaje y entretenimiento.
 
 ## Información
 
@@ -63,9 +63,7 @@ Una vez obtenido o descargado el .jar puede ejecutar la aplicación de dos forma
 
 A través del rastreador de incidencias puede reportar ya sea errores encontrados encontrados en una versión específica del juego o alguna nueva característica que desee solicitar.
 
-## Créditos e información personal
-
-Inicialmente este proyecto fue desarrollado en la universidad en el año 2012 y posteriormente fui realizando modificaciones para mejorarlo con el paso del tiempo.
+## Créditos
 
 Le doy las gracias a [Félix Coa](https://github.com/felixcoa13) ya que sin él en aquel entonces no se hubiese desarrollado este juego.
 
