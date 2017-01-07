@@ -118,8 +118,12 @@ public class Sonidos {
     public void detener(int... sonido) {
         if (sonidos.isEmpty())
             return;
-        for(int indice : sonido)
-            sonidos.get(indice).stop();
+        for(int indice : sonido) {
+            Sonido s = sonidos.get(indice);
+            if(s.isPlaying()) {
+                s.stop();
+            }
+        }
     }
 
     public void reanudar() {

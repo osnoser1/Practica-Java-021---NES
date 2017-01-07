@@ -25,14 +25,15 @@ public abstract class Sprite {
     protected GamePad gamePad;
     protected String id;
     private final Point centro;
+    private AnimationWrapper currentAnimationWrapper;
 
     public void actualizar(final Interfaz interfaz, final long tiempoTranscurrido) {
         if (estadoActual instanceof NullState) {
             return;
         }
-        if(isActivo()) {
-            AnimationWrapper wrapper = animaciones.get(estadoActual.getClass());
-            imagen.actualizar(wrapper.fila, wrapper.animacion.getCuadroActual());
+        if(imagen.isActive()) {
+            imagen.actualizar(currentAnimationWrapper.fila,
+                    currentAnimationWrapper.animacion.getCuadroActual());
         }
         Supplier<SpriteState> supplier = estadoActual.handleInput(this, gamePad);
         if(supplier != null) {
@@ -59,6 +60,7 @@ public abstract class Sprite {
 
     public final void setEstadoActual(final Supplier<SpriteState> supplier) {
         estadoActual = supplier.get();
+        currentAnimationWrapper = animaciones.get(estadoActual.getClass());
     }
     
     public void setLocation(int x, int y) {
@@ -121,7 +123,7 @@ public abstract class Sprite {
     }
 
     public final boolean actualizarAnimacion(final long tiempoTranscurrido) {
-        return animaciones.get(estadoActual.getClass()).animacion.actualizar(tiempoTranscurrido);
+        return currentAnimationWrapper.animacion.actualizar(tiempoTranscurrido);
     }
 
     public void pintar(final Graphics2D g) {

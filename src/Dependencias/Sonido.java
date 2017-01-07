@@ -38,6 +38,11 @@ public class Sonido {
         return (reproduciendo = true);
     }
 
+    /**
+     * Nota: Consultar si está reproduciendo antes de detener, ya que
+     * es un método costoso a nivel de procesamiento.
+     * @return Valor indicando si se detuvo el sonido.
+     */
     public boolean stop() {
         if(clip == null || !clip.isOpen())
             return false;

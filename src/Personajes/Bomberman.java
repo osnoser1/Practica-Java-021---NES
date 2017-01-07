@@ -65,15 +65,13 @@ public class Bomberman extends Personaje {
         verificarTeclasAccion(jPanelJuego);
         super.actualizar(jPanelJuego, tiempoTranscurrido);
         comprobarMuerte(jPanelJuego);
-        bombas.stream().map((bomba) -> {
+        for (Bomb bomba : bombas) {
             bomba.actualizar(jPanelJuego, tiempoTranscurrido);
-            return bomba;
-        }).filter((bomba) -> (bomba.getEstadoActual() instanceof NullState)).map((bomba) -> {
-            jPanelJuego.getMapa().remover(bomba);
-            return bomba;
-        }).forEachOrdered((bomba) -> {
-            bombas.remove(bomba);
-        });
+            if (bomba.getEstadoActual() instanceof NullState) {
+                jPanelJuego.getMapa().remover(bomba);
+                bombas.remove(bomba);
+            }
+        }
     }
     
     public void morir() {

@@ -38,11 +38,14 @@ class Casilla {
     }
 
     public boolean containsAny(final Class<?>... classes) {
-        return al.stream().anyMatch(t -> {
-            return Stream.of(classes).anyMatch(c -> {
-                return c.isInstance(t);
-            });
-        });
+        for (Sprite sprite : al) {
+            for (Class<?> c : classes) {
+                if(c.isInstance(sprite)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     boolean containsAny(final Sprite... sprites) {
