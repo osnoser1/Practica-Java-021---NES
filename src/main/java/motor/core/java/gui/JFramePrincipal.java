@@ -38,7 +38,7 @@ public class JFramePrincipal extends Frame {
         addWindowListener(controller);
         addComponentListener(controller);
         addKeyListener(CJFramePrincipal.Teclado.getInstance());
-        setIconImage(ManejadorDeArchivos.getInstance().loadImageJAR("/bomber_32x32.png"));
+        setIconImage(ManejadorDeArchivos.getInstance().loadImageJAR("Imagenes/bomber_32x32.png"));
     }
 
     @Override
