@@ -7,6 +7,7 @@ package Fuentes;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  *
@@ -19,8 +20,8 @@ public class Fuentes {
 
     static {
         try {
-            calibri = Font.createFont(Font.TRUETYPE_FONT, Class.class.getResourceAsStream("/Fuentes/calibri.ttf"));
-            joystixMonospacce = Font.createFont(Font.TRUETYPE_FONT, Class.class.getResourceAsStream("/Fuentes/joystix_monospace.otf"));
+            calibri = Font.createFont(Font.TRUETYPE_FONT, Fuentes.class.getClassLoader().getResourceAsStream("Fuentes/calibri.ttf"));
+            joystixMonospacce = Font.createFont(Font.TRUETYPE_FONT, Fuentes.class.getClassLoader().getResourceAsStream("Fuentes/joystix_monospace.otf"));
         } catch (FontFormatException | IOException ex) {
             System.out.println("Error al cargar fuentes");
         }

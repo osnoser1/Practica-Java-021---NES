@@ -137,7 +137,7 @@ public class ManejadorDeArchivos {
     }
 
     public ImageIcon loadImageIconJAR(String pathName) {
-        return new ImageIcon(getClass().getResource(pathName));
+        return new ImageIcon(getClass().getClassLoader().getResource(pathName));
     }
     
     public Image loadImageJAR(String pathName) {
@@ -152,7 +152,7 @@ public class ManejadorDeArchivos {
         Clip clip = null;
         try {
             clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(getClass().getResource(pathName)));
+            clip.open(AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource(pathName)));
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) { 
             System.err.println(ex.getMessage());
         }
@@ -196,7 +196,7 @@ public class ManejadorDeArchivos {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            return db.parse(getClass().getResource(pathName).toString());
+            return db.parse(getClass().getClassLoader().getResource(pathName).toString());
         } catch (ParserConfigurationException | SAXException | IOException e) {
             System.err.println(e.getMessage());
         }
