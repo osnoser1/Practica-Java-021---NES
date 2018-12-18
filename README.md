@@ -2,38 +2,32 @@
 
 Bomberman en Java.
 
-Inicialmente este proyecto fue desarrollado en la universidad en el año 2012 y posteriormente fui realizando modificaciones para mejorarlo con el paso del tiempo con fines de aprendizaje y entretenimiento.
+Desarrollado inicialmente en la universidad en el año 2012 y se ha ido mejorando con el paso del tiempo con fines de aprendizaje y entretenimiento.
 
-## Información
+## Prerrequisitos
 
-Actualmente siendo desarrollado en NetBeans 8.2.
+Los siguientes elementos deben estar instalados en su sistema:
 
-Utilizado Java 8 Update 45 de 64 bits.
-
-En versiones de Java 8 superiores a la Update 60, puede dar problemas con la tubería de OGL utilizada en algunas tarjetas gráficas.
-
-Más información del problema anterior: [Aquí](https://bugs.openjdk.java.net/browse/JDK-8080677)
-
-## Construcción
-
-Para construir la aplicación actualmente se requiere:
-
-* NetBeans 8 **\***.
 * Java SDK 8.
+* Git.
 
-Nota: **\*** No limitativo, ya que facilmente se puede construir a través de cualquier otro IDE.
+## Requisitos
 
-Posteriormente incluiré un script para que el proceso de construcción sea agnóstico de un IDE.
+**Paso 1**. Clonar proyecto.
+```bash
+git clone https://github.com/osnoser1/Practica-Java-021---NES.git
+```
+
+**Paso 2**. Ubicarse en carpeta raiz del proyecto.
+
+```bash
+cd Practica-Java-021---NES
+```
 
 ## Ejecución
 
-Una vez obtenido o descargado el .jar puede ejecutar la aplicación de dos formas:
-
-1. Doble clic si tiene la extensión .jar asociada a java.
-2. A través del siguiente comando en una consola:
-```bash
-   java -jar "Practica_Java_021_-_NES.jar
-```
+Ejecutar `./mvnw clean compile exec:java` para correr la aplicación. Este comando descarga automáticamente las
+dependencias, compila y ejecuta la aplicación.
 
 ## Controles por teclado.
 
