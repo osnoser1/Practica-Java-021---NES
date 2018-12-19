@@ -33,14 +33,14 @@ public class JToolBarBotonesEditor extends JToolBar {
     }
 
     private void initBotonesEspeciales() {
-        Objetos[] objetos = Objetos.values();
-        for (int i = 0; i < this.cantidadBotones; i++) {
+        var objetos = Objetos.values();
+        for (var i = 0; i < this.cantidadBotones; i++) {
             if (i > 1) {
                 botones.add(new BotonEspecial(Objetos.getInstance(objetos[i].getValue())));
             } else {
                 botones.add(new BotonEspecial(getImage(i)));
             }
-            BotonEspecial boton = botones.get(i);
+            var boton = botones.get(i);
             boton.addActionListener(new CPanelEspecial(boton));
             boton.setName(objetos[i].name());
             this.add(botones.get(i));

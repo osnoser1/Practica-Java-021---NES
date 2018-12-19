@@ -16,7 +16,6 @@ import net.java.games.input.Component;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Event;
-import net.java.games.input.EventQueue;
 
 /**
  *
@@ -47,15 +46,15 @@ public class Controles1 extends javax.swing.JDialog {
     
     private class ControllerPollThread extends Thread {
         
-    	volatile protected boolean exit = false;
+    	final protected boolean exit = false;
         
         @Override
         public void run() {
             while (!exit) {
-                Controller controller = getControlSeleccionado();
+                var controller = getControlSeleccionado();
                 if (controller != null && controller.poll()) {
-                    EventQueue eventQueue = controller.getEventQueue();
-                    Event event = new Event();
+                    var eventQueue = controller.getEventQueue();
+                    var event = new Event();
                     while (eventQueue.getNextEvent(event)) {
                             onControllerEvent(event);
                     }
@@ -73,9 +72,9 @@ public class Controles1 extends javax.swing.JDialog {
 
     public ComboBoxModel hacerComboBoxModelControl() {
         MutableComboBoxModel comboBox = new DefaultComboBoxModel();
-        ControllerEnvironment ce = ControllerEnvironment.getDefaultEnvironment();
-        Controller[] controllers = ce.getControllers();
-        for (Controller c : controllers) {
+        var ce = ControllerEnvironment.getDefaultEnvironment();
+        var controllers = ce.getControllers();
+        for (var c : controllers) {
         	comboBox.addElement(c);
         }
         return comboBox;
@@ -83,9 +82,9 @@ public class Controles1 extends javax.swing.JDialog {
     
     private Controller getControlSeleccionado() {
         if (controllerBox != null) {
-            int controllerIndex = controllerBox.getSelectedIndex();
-            ControllerEnvironment ce = ControllerEnvironment.getDefaultEnvironment();
-            Controller[] controllers = ce.getControllers();
+            var controllerIndex = controllerBox.getSelectedIndex();
+            var ce = ControllerEnvironment.getDefaultEnvironment();
+            var controllers = ce.getControllers();
             if (controllers != null && controllerIndex >= 0 && controllerIndex < controllers.length) {
                 return controllers[controllerIndex];
             }
@@ -100,15 +99,15 @@ public class Controles1 extends javax.swing.JDialog {
     }
     
     private Component getControllerComponent(String identifierName) {
-    	Controller controller = getControlSeleccionado();
+        var controller = getControlSeleccionado();
     	if (controller == null) {
     		return null;
     	}
-    	Component[] components = controller.getComponents();
+        var components = controller.getComponents();
     	if (components == null) {
     		return null;
     	}
-        for (Component component : components) {
+        for (var component : components) {
             if (identifierName.equals(component.getIdentifier().getName()))
                 return component;
         }
@@ -116,12 +115,12 @@ public class Controles1 extends javax.swing.JDialog {
     }
     
     private String getControllerFieldText(String identifierName) {
-    	Component component = getControllerComponent(identifierName);
+        var component = getControllerComponent(identifierName);
     	if (component == null) {
     		return identifierName;
     	}
 
-    	String name = component.getName();
+        var name = component.getName();
     	if (name == null) {
     		// Use the Identifier name if the component has no name
     		name = identifierName;
@@ -137,10 +136,10 @@ public class Controles1 extends javax.swing.JDialog {
         if (!getKey) {
             return;
         }
-        Component component = event.getComponent();
-        float value = event.getValue();
-        Component.Identifier identifier = component.getIdentifier();
-        String identifierName = identifier.getName();
+        var component = event.getComponent();
+        var value = event.getValue();
+        var identifier = component.getIdentifier();
+        var identifierName = identifier.getName();
         if (identifier instanceof Component.Identifier.Button && value == 1.f) {
             setControllerMapping(targetKey, identifierName, sender);
         } else if(identifier instanceof Component.Identifier.Key) {
@@ -319,7 +318,7 @@ public class Controles1 extends javax.swing.JDialog {
 
         controllerBox.setModel(hacerComboBoxModelControl());
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        var jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -383,7 +382,7 @@ public class Controles1 extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        var jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -477,7 +476,7 @@ public class Controles1 extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        var jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -571,7 +570,7 @@ public class Controles1 extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        var jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -672,7 +671,7 @@ public class Controles1 extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        var jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -793,11 +792,7 @@ public class Controles1 extends javax.swing.JDialog {
         jPanel10.add(jButton24);
 
         jButton31.setText("Por defecto");
-        jButton31.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton31ActionPerformed(evt);
-            }
-        });
+        jButton31.addActionListener(this::jButton31ActionPerformed);
         jPanel10.add(jButton31);
 
         jButton32.setText("Guardar...");
@@ -805,7 +800,7 @@ public class Controles1 extends javax.swing.JDialog {
 
         jLabel30.setText("R2:");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        var jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -939,7 +934,7 @@ public class Controles1 extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton31ActionPerformed
 
     private void jtfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtfMouseClicked
-        JTextField source = (JTextField) evt.getSource();
+        var source = (JTextField) evt.getSource();
         if(source == pdArriba) setKey(source, Botones.ARRIBA);
         else if(source == pdAbajo) setKey(source, Botones.ABAJO);
         else if(source == pdIzquierda) setKey(source, Botones.IZQUIERDA);
@@ -967,14 +962,14 @@ public class Controles1 extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (var info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
@@ -988,18 +983,15 @@ public class Controles1 extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                Controles1 dialog = new Controles1(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            var dialog = new Controles1(new javax.swing.JFrame(), true);
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

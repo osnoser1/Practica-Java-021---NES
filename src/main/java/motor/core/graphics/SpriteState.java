@@ -16,7 +16,7 @@ import motor.core.input.GamePad;
  */
 public interface SpriteState {
 
-    public abstract Supplier<SpriteState> handleInput(Sprite sprite, GamePad gamePad);
-    public abstract void update(Sprite sprite, Interfaz escena, long tiempoTranscurrido);
-    public abstract void onExit(Sprite sprite, Interfaz escena);
+    Supplier<SpriteState> handleInput(Sprite sprite, GamePad gamePad);
+    void update(Sprite sprite, Interfaz escena, long tiempoTranscurrido);
+    void onExit(Sprite sprite, Interfaz escena);
 }

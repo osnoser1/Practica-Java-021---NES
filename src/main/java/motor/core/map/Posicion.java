@@ -19,14 +19,13 @@ public class Posicion implements Cloneable {
     }
 
     @Override
-    @SuppressWarnings("CloneDoesntCallSuperClone")
     protected Object clone() {
         return new Posicion(fila, columna); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
+        var hash = 3;
         hash = 67 * hash + this.fila;
         hash = 67 * hash + this.columna;
         return hash;
@@ -40,7 +39,7 @@ public class Posicion implements Cloneable {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final Posicion other = (Posicion) obj;
+        final var other = (Posicion) obj;
         return this.fila == other.fila && this.columna == other.columna;
     }
 

@@ -5,12 +5,7 @@
 package Bomberman.Configuracion;
 
 import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,8 +24,8 @@ public class Configuracion {
     private final static String ARCHIVO_CONFIGURACION = "Settings.properties";
     private final static String ARCHIVO_CONFIGURACION_POR_DEFECTO = "/Juego/ConfiguacionPorDefecto.properties";
     private Properties configuacionPorDefecto;
-    private HashMap<String, List<ISettingsListener>> listenersByKey;
-    private List<SettingsListenerInfo> allListeners;
+    private final HashMap<String, List<ISettingsListener>> listenersByKey;
+    private final List<SettingsListenerInfo> allListeners;
 
     private Configuracion() {
         listenersByKey = new HashMap<>();

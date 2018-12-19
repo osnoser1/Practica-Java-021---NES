@@ -9,14 +9,12 @@ import Bomberman.Core.ControlJuego;
 import lenguaje.utils.ImageUtilities;
 import Dependencias.Imagenes;
 import motor.core.map.Mapa;
-import Personajes.Bomb;
 import Personajes.Bomberman;
 import Personajes.Enemigo;
 import Personajes.Ladrillo;
 import Dependencias.Sonidos;
 import Personajes.Aluminio;
 import Personajes.LadrilloEspecial;
-import motor.core.graphics.Sprite;
 import motor.core.Camara;
 import Utilidades.Juego.Interfaz;
 import game.players.states.MuerteState;
@@ -28,7 +26,7 @@ import java.awt.Transparency;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Stream;
-import juego.constantes.Estado;
+
 import juego.constantes.Objetos;
 import motor.core.graphics.spritedefaultstates.NullState;
 
@@ -39,7 +37,8 @@ import motor.core.graphics.spritedefaultstates.NullState;
 public class JPanelJuego extends Interfaz {
 
     private static JPanelJuego instance;
-    private int x, y;
+    private final int x;
+    private final int y;
     private boolean derrotados, powerup, puerta;
     private final Mapa mapa;
     private final Image buffer;
@@ -66,7 +65,7 @@ public class JPanelJuego extends Interfaz {
         buffer = ImageUtilities.createCompatibleVolatileImage(SIZE.width, SIZE.height, Transparency.OPAQUE);
         x = buffer.getWidth(null) / Mapa.COLUMNAS;
         y = buffer.getHeight(null) / Mapa.FILAS;
-        Graphics2D g2d = (Graphics2D) buffer.getGraphics();
+        var g2d = (Graphics2D) buffer.getGraphics();
         pintarMapa(g2d);
         g2d.dispose();
         jugadores[0] = new Bomberman(40, 40);
@@ -97,8 +96,8 @@ public class JPanelJuego extends Interfaz {
     @Override
     public void setSIZE(final Dimension dim) {
         jPanelInformacion.setSIZE(dim);
-        int x1 = (int) Math.round(dim.width / 16.0);
-        int y1 = (int) Math.round(dim.height / 14.0);
+        var x1 = (int) Math.round(dim.width / 16.0);
+        var y1 = (int) Math.round(dim.height / 14.0);
         SIZE = new Dimension(dim.width * 2 - x1, dim.height - y1);
         System.out.println(dim + " " + SIZE + " " + y1 + " " + x1);
     }
@@ -113,7 +112,7 @@ public class JPanelJuego extends Interfaz {
     }
 
     private Enemigo determinarEnemigo(final int i, final int j, final String a) {
-        final Sprite personaje = Objetos.getInstance(a);
+        final var personaje = Objetos.getInstance(a);
         if (personaje != null)
             personaje.setLocation(j * x, i * y);
         return (Enemigo) personaje;
@@ -123,14 +122,13 @@ public class JPanelJuego extends Interfaz {
     public void pintar(final Graphics2D g) {
         jPanelInformacion.pintar(g);
 //        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        Rectangle posicion = ventana.getPosicion();
-        Graphics2D g2d = g;
-        g2d.translate(0, jPanelInformacion.getAlto());
-        g2d.scale(escalaInternaX, 1);
-        g2d.drawImage(buffer, 0, 0, posicion.width, posicion.height, posicion.x, posicion.y, posicion.x + posicion.width, posicion.y + posicion.height, null);
-        g2d.translate(-posicion.x, posicion.y);
-        pintarEscena(g2d);
-        g2d.dispose();
+        var posicion = ventana.getPosicion();
+        g.translate(0, jPanelInformacion.getAlto());
+        g.scale(escalaInternaX, 1);
+        g.drawImage(buffer, 0, 0, posicion.width, posicion.height, posicion.x, posicion.y, posicion.x + posicion.width, posicion.y + posicion.height, null);
+        g.translate(-posicion.x, posicion.y);
+        pintarEscena(g);
+        g.dispose();
 //      reportAcelMemory();
     }
 
@@ -142,21 +140,21 @@ public class JPanelJuego extends Interfaz {
     }
 
     private void dibujarPersonajes(final Graphics2D g) {
-        for (final Enemigo enemigo : enemigos)
+        for (final var enemigo : enemigos)
             if (ventana.contiene(enemigo))
                 enemigo.pintar(g);
         primerJugador().pintar(g);
     }
 
     private void dibujarBombas(Graphics2D g) {
-        for (final Bomb bomba : primerJugador().getBombs())
+        for (final var bomba : primerJugador().getBombs())
             if (ventana.contiene(bomba)) {
                 bomba.pintar(g);
             }
     }
 
     private void dibujarLadrillos(Graphics2D g) {
-        for (final Ladrillo ladrillo : ladrillos) {
+        for (final var ladrillo : ladrillos) {
             if (!ventana.contiene(ladrillo))
                 continue;
             ladrillo.pintar(g);
@@ -164,7 +162,7 @@ public class JPanelJuego extends Interfaz {
     }
 
     public void borrarLadrillo(final int fila, final int columna) {
-        Sprite[] sprite = mapa.getSprite(fila, columna, Ladrillo.class, LadrilloEspecial.class);
+        var sprite = mapa.getSprite(fila, columna, Ladrillo.class, LadrilloEspecial.class);
         Stream.of(sprite).forEach((l) -> {
             if(l instanceof Ladrillo && !(l.getEstadoActual() instanceof NullState)) {
                 ((Ladrillo) l).explotar();
@@ -173,7 +171,7 @@ public class JPanelJuego extends Interfaz {
             if(!(l instanceof LadrilloEspecial)) {
                 return;
             }
-            LadrilloEspecial le = (LadrilloEspecial) l;
+            var le = (LadrilloEspecial) l;
             le.crearEnemigos(this);
             if (!le.esPuerta()) {
                 le.eliminarPowerup();
@@ -189,13 +187,13 @@ public class JPanelJuego extends Interfaz {
     }
 
     public void borrarEnemigos() {
-        for (Enemigo enemigo : enemigos)
+        for (var enemigo : enemigos)
             enemigo.detenerInteligencia();
         enemigos.clear();
     }
 
     public void borrarEnemigo(final int fila, final int columna) {
-        for (final Enemigo enemigo : enemigos)
+        for (final var enemigo : enemigos)
             if (mapa.contiene(fila, columna, enemigo)) {
                 enemigo.muerte(this);
                 jPanelInformacion.aumentarPuntaje(enemigo.getPuntaje());
@@ -203,7 +201,7 @@ public class JPanelJuego extends Interfaz {
     }
 
     public void borrarBombs(final int fila, final int columna) {
-        for (final Bomb bomba : primerJugador().getBombs())
+        for (final var bomba : primerJugador().getBombs())
             if (!(bomba.getEstadoActual() instanceof MuerteState)
                     && mapa.contiene(fila, columna, bomba)) {
                 bomba.detonar(this);
@@ -216,7 +214,7 @@ public class JPanelJuego extends Interfaz {
     }
 
     public void activarInteligencias() {
-        for (final Enemigo enemigo : enemigos)
+        for (final var enemigo : enemigos)
             enemigo.getInteligencia().iniciar();
     }
 
@@ -228,8 +226,8 @@ public class JPanelJuego extends Interfaz {
     public void actualizar(final long tiempoTranscurrido) {
         ventana.actualizar(primerJugador().getCentro());
         actualizarJugador(tiempoTranscurrido);
-        for (int i = 0; i < enemigos.size(); i++) {
-            final Enemigo enemigo = enemigos.get(i);
+        for (var i = 0; i < enemigos.size(); i++) {
+            final var enemigo = enemigos.get(i);
             enemigo.actualizar(this, tiempoTranscurrido);
             if (enemigo.getEstadoActual() instanceof NullState) {
                 enemigos.remove(i--);
@@ -243,8 +241,8 @@ public class JPanelJuego extends Interfaz {
                 mapa.actualizar(enemigo);
             }
         }
-        for (int i = 0; i < ladrillos.size(); i++) {
-            final Ladrillo ladrillo = ladrillos.get(i);
+        for (var i = 0; i < ladrillos.size(); i++) {
+            final var ladrillo = ladrillos.get(i);
             ladrillo.actualizar(this, tiempoTranscurrido);
             if (ladrillo.getEstadoActual() instanceof NullState
                     && !ladrillo.isEspecial()) {
@@ -258,10 +256,10 @@ public class JPanelJuego extends Interfaz {
     }
 
     private void generarMapa() {
-        final Random r = new Random();
+        final var r = new Random();
         int c, f, d;
         mapa.agregar(primerJugador());
-        for (int i = 0; i < 55; i++)
+        for (var i = 0; i < 55; i++)
             do {
                 c = r.nextInt(30);
                 f = r.nextInt(12);
@@ -272,7 +270,7 @@ public class JPanelJuego extends Interfaz {
                     break;
                 }
             } while (true);
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
             do {
                 c = r.nextInt(30);
                 f = r.nextInt(12);
@@ -286,7 +284,7 @@ public class JPanelJuego extends Interfaz {
     }
 
     private void agregarCasilla(final Random r, final String objeto, final int i, final int j) {
-        int c = -1;
+        var c = -1;
         if (!puerta) {
             puerta = true;
             c = 8;
@@ -294,7 +292,7 @@ public class JPanelJuego extends Interfaz {
             powerup = true;
             c = r.nextInt(6);
         }
-        final Sprite s = objeto.equals("L") ? new Ladrillo(j * x, i * y, c) : determinarEnemigo(i, j, objeto);
+        final var s = objeto.equals("L") ? new Ladrillo(j * x, i * y, c) : determinarEnemigo(i, j, objeto);
         mapa.agregar(s);
         if (objeto.equals("L"))
             ladrillos.add((Ladrillo) s);
@@ -307,10 +305,10 @@ public class JPanelJuego extends Interfaz {
     }
 
     private void actualizarJugador(final long tiempoTranscurrido) {
-        final Bomberman b = primerJugador();
+        final var b = primerJugador();
         // Comportamiento anómalo sin el casting.
         if(!b.isEntroALaPuerta()) {
-            b.actualizar((Interfaz) this, tiempoTranscurrido);
+            b.actualizar(this, tiempoTranscurrido);
         }
         mapa.actualizar(b);
         if (b.getEstadoActual() instanceof NullState) {
@@ -344,7 +342,7 @@ public class JPanelJuego extends Interfaz {
     }
 
     public void agregarEnemigo(int fila, int columna, String enemigo) {
-        Enemigo sprite = determinarEnemigo(fila, columna, enemigo);
+        var sprite = determinarEnemigo(fila, columna, enemigo);
         enemigos.add(sprite);            
         mapa.agregar(sprite);
         sprite.iniciarInteligencia();

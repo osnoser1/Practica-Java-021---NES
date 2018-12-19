@@ -17,7 +17,7 @@ public class GestorPantalla {
     private JFrame jFrame;
 
     public GestorPantalla() {
-        GraphicsEnvironment environment
+        var environment
                 = GraphicsEnvironment.getLocalGraphicsEnvironment();
         device = environment.getDefaultScreenDevice();
     }
@@ -27,9 +27,9 @@ public class GestorPantalla {
     }
 
     public DisplayMode findFirstCompatibleMode(DisplayMode[] modes) {
-        DisplayMode[] goodModes = device.getDisplayModes();
-        for (DisplayMode mode : modes)
-            for (DisplayMode goodMode : goodModes)
+        var goodModes = device.getDisplayModes();
+        for (var mode : modes)
+            for (var goodMode : goodModes)
                 if (displayModesMatch(mode, goodMode))
                     return mode;
         return null;
@@ -65,7 +65,7 @@ public class GestorPantalla {
                 && device.isDisplayChangeSupported()) {
             try {
                 device.setDisplayMode(displayMode);
-            } catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ignored) {
             }
             // fix para o Mac OS
             jFrame.setSize(displayMode.getWidth(),
@@ -75,12 +75,7 @@ public class GestorPantalla {
         // evita deadlock no Java 1.4
         try {
             EventQueue.invokeAndWait(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            jFrame.createBufferStrategy(2);
-                        }
-                    }
+                    () -> jFrame.createBufferStrategy(2)
             );
         } catch (InterruptedException | InvocationTargetException ex) {
             // ignora
@@ -97,7 +92,7 @@ public class GestorPantalla {
             if (device.isDisplayChangeSupported())
                 try {
                     device.setDisplayMode(displayMode);
-                } catch (IllegalArgumentException ex) {
+                } catch (IllegalArgumentException ignored) {
                 }
             jFrame.setSize(displayMode.getWidth(),
                     displayMode.getHeight());
@@ -105,12 +100,7 @@ public class GestorPantalla {
         jFrame.setVisible(true);
         try {
             EventQueue.invokeAndWait(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            jFrame.createBufferStrategy(2);
-                        }
-                    }
+                    () -> jFrame.createBufferStrategy(2)
             );
         } catch (InterruptedException | InvocationTargetException ex) {
             // ignora
@@ -118,26 +108,26 @@ public class GestorPantalla {
     }
 
     public Graphics2D getGraphics() {
-        final Window window = device.getFullScreenWindow();
-        final BufferStrategy strategy = window != null ? window.getBufferStrategy() : jFrame.getBufferStrategy();
+        final var window = device.getFullScreenWindow();
+        final var strategy = window != null ? window.getBufferStrategy() : jFrame.getBufferStrategy();
         return (Graphics2D) strategy.getDrawGraphics();
     }
 
     public void update() {
-        final Window window = device.getFullScreenWindow();
-        final BufferStrategy strategy = window != null ? window.getBufferStrategy() : jFrame.getBufferStrategy();
+        final var window = device.getFullScreenWindow();
+        final var strategy = window != null ? window.getBufferStrategy() : jFrame.getBufferStrategy();
         if (!strategy.contentsLost())
             strategy.show();
         Toolkit.getDefaultToolkit().sync();
     }
 
     public Window getScreenWindow() {
-        final Window window = device.getFullScreenWindow();
+        final var window = device.getFullScreenWindow();
         return window != null ? window : jFrame;
     }
 
     public int getWidth() {
-        final Window window = device.getFullScreenWindow();
+        final var window = device.getFullScreenWindow();
         if (window != null)
             return window.getWidth();
         else
@@ -145,7 +135,7 @@ public class GestorPantalla {
     }
 
     public int getHeight() {
-        final Window window = device.getFullScreenWindow();
+        final var window = device.getFullScreenWindow();
         if (window != null)
             return window.getHeight();
         else
@@ -153,23 +143,23 @@ public class GestorPantalla {
     }
 
     public void restoreScreen() {
-        final Window window = device.getFullScreenWindow();
+        final var window = device.getFullScreenWindow();
         if (window != null)
             window.dispose();
         device.setFullScreenWindow(null);
     }
 
     public BufferedImage createCompatibleImage(int w, int h, int transparency) {
-        final Window window = device.getFullScreenWindow();
+        final var window = device.getFullScreenWindow();
         if (window != null) {
-            GraphicsConfiguration gc = window.getGraphicsConfiguration();
+            var gc = window.getGraphicsConfiguration();
             return gc.createCompatibleImage(w, h, transparency);
         }
         return null;
     }
 
     public void mostrarFps(int fps) {
-        final Window window = device.getFullScreenWindow();
+        final var window = device.getFullScreenWindow();
         if (window == null)
             jFrame.setTitle("(FPS: " + fps + ")");
     }

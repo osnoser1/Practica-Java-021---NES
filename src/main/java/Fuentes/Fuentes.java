@@ -7,7 +7,6 @@ package Fuentes;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  *
@@ -15,7 +14,8 @@ import java.io.InputStream;
  */
 public class Fuentes {
     
-    private static Font calibri, joystixMonospacce;
+    private static Font calibri;
+    private static Font joystixMonospacce;
     private static Fuentes instance;
 
     static {

@@ -15,10 +15,8 @@ public class CJMenuItem implements java.awt.event.ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-            case "Controles...":
-                new Controles1(null, true).setVisible(true);
-                break;
+        if ("Controles...".equals(e.getActionCommand())) {
+            new Controles1(null, true).setVisible(true);
         }
         System.out.println("Prueba de accion: JMenuItem");
     }

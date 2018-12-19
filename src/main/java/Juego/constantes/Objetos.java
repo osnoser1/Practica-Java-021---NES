@@ -35,18 +35,18 @@ public enum Objetos {
     PASS("P"),
     PONTAN("p"),
     FIRE;
-    private static String[] enemigos;
+    private static final String[] enemigos;
     private String value;
 
     static {
-        enemigos = Stream.of(getEnemigos()).map(e -> e.getValue()).toArray(String[]::new);
+        enemigos = Stream.of(getEnemigos()).map(Objetos::getValue).toArray(String[]::new);
     }
     
-    private Objetos(String value) {
+    Objetos(String value) {
         this.value = value;
     }
 
-    private Objetos() {
+    Objetos() {
     }
 
     public String getValue() {

@@ -11,9 +11,9 @@ public final class ControlAnimacion {
 
     public ControlAnimacion(String frames, long tiempoFotograma) {
         this.tiempoFotograma = tiempoFotograma;
-        final String[] cuadrosTmp = frames.split(",");
+        final var cuadrosTmp = frames.split(",");
         cuadros = new ArrayList<>(cuadrosTmp.length + 1);
-        for (String frame : cuadrosTmp)
+        for (var frame : cuadrosTmp)
             cuadros.add(Integer.parseInt(frame));
         cuadros.add(-1);
     }

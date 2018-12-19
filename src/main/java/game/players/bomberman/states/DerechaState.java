@@ -36,7 +36,7 @@ public class DerechaState implements SpriteState {
         if (arriba || abajo || derecha) {
             sprite.actualizarAnimacion(tiempoTranscurrido);
         }
-        Personaje p = ((Personaje) sprite);
+        var p = ((Personaje) sprite);
         if (derecha) {
             p.movimientoDerecha((JPanelJuego) escena);
         }

@@ -6,7 +6,6 @@
 
 package motor.core.map;
 
-import java.awt.Point;
 import motor.core.graphics.Sprite;
 
 /**
@@ -20,15 +19,15 @@ class PosicionSprite {
     private Posicion posicionAnterior;
 
     public PosicionSprite(Sprite sprite) {
-        Point centro = sprite.getCentro();
+        var centro = sprite.getCentro();
         this.sprite = sprite;
         this.posicionActual = new Posicion(centro.y / sprite.getAlto(), centro.x / sprite.getAncho());
         this.posicionAnterior = (Posicion) posicionActual.clone();
     }
     
     public boolean actualizar() {
-        Point centro = sprite.getCentro();
-        Posicion nuevaPosicionActual = new Posicion(centro.y / sprite.getAlto(), centro.x / sprite.getAncho());
+        var centro = sprite.getCentro();
+        var nuevaPosicionActual = new Posicion(centro.y / sprite.getAlto(), centro.x / sprite.getAncho());
         if(posicionActual.equals(nuevaPosicionActual)) {
             return false;
         }

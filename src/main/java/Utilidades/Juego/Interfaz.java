@@ -22,7 +22,7 @@ public abstract class Interfaz {
     private static final DecimalFormat df;
 
     static {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        var ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         gd = ge.getDefaultScreenDevice();
         df = new DecimalFormat("0.0");
         accelMemory = gd.getAvailableAcceleratedMemory();
@@ -52,8 +52,8 @@ public abstract class Interfaz {
 
     protected final void reportAcelMemory() {
         // report any change in the amount of accelerated memory
-        int mem = gd.getAvailableAcceleratedMemory();   // in bytes
-        int memChange = mem - accelMemory;
+        var mem = gd.getAvailableAcceleratedMemory();   // in bytes
+        var memChange = mem - accelMemory;
 
         if (memChange != 0)
             System.out.println(counter + ". Acc. Mem: "

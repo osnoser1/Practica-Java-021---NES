@@ -85,10 +85,10 @@ public class Sonido {
             return;
         if(vol < 0 || vol > 100)
             vol = 100;
-        double val = vol / 100.0;
+        var val = vol / 100.0;
         try {
-            FloatControl volControl = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
-            float dB = (float)(Math.log(val == 0.0 ? 0.0001 : val) / Math.log(10.0) * 20.0);
+            var volControl = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+            var dB = (float)(Math.log(val == 0.0 ? 0.0001 : val) / Math.log(10.0) * 20.0);
             volControl.setValue(dB);
         } catch(Exception ex) {
             System.out.println("No se puede ajustar el volumen");
@@ -96,7 +96,7 @@ public class Sonido {
     }
 
     public Sonido clonar() {
-        Sonido sonido = new Sonido(clip);
+        var sonido = new Sonido(clip);
         sonido.stop();
         return sonido;
     }

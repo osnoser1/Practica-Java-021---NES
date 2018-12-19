@@ -18,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class ControlJuego {
 
-    private JPanelJuego jPanelJuego;
+    private final JPanelJuego jPanelJuego;
     private CopyOnWriteArrayList<Enemigo> enemigos;
     private CopyOnWriteArrayList<Ladrillo> ladrillos;
     private Bomberman[] jugadores;

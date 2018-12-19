@@ -8,7 +8,7 @@ Desarrollado inicialmente en la universidad en el año 2012 y se ha ido mejorand
 
 Los siguientes elementos deben estar instalados en su sistema:
 
-* Java SDK 8.
+* Java SDK 11.
 * Git.
 
 ## Requisitos

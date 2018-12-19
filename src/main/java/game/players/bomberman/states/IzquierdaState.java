@@ -41,7 +41,7 @@ public class IzquierdaState implements SpriteState {
         if(izquierda || arriba || abajo) {
             sprite.actualizarAnimacion(tiempoTranscurrido);
         }
-        Personaje p = (Personaje) sprite;
+        var p = (Personaje) sprite;
         if (izquierda) {
             p.movimientoIzquierda((JPanelJuego) escena);
         } 

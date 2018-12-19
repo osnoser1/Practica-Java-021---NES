@@ -4,7 +4,6 @@
  */
 package Personajes;
 
-import Dependencias.Sonido;
 import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
 import gui.JPanelJuego;
@@ -16,7 +15,6 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 import javax.swing.Timer;
 import motor.core.graphics.AnimationWrapper;
-import motor.core.graphics.SpriteState;
 import motor.core.graphics.spritedefaultstates.NullState;
 
 public class Bomb extends Personaje {
@@ -40,7 +38,7 @@ public class Bomb extends Personaje {
     }
 
     public final void inicializar() {
-        super.animaciones = new HashMap<Class<? extends SpriteState>, AnimationWrapper>() {
+        super.animaciones = new HashMap<>() {
             {
                 put(InicioState.class, new AnimationWrapper(0, "0,1,2", 400));
             }
@@ -55,7 +53,7 @@ public class Bomb extends Personaje {
         setActivo(false);
         setEstadoActual(MuerteState::new);
         fire = new Fire(x, y, bomberman.getFLAMES(), (JPanelJuego) interfaz);
-        Sonido s = Sonidos.getInstance().getNewSonido(Sonidos.EXPLOSION_1);
+        var s = Sonidos.getInstance().getNewSonido(Sonidos.EXPLOSION_1);
         if (s != null)
             s.play();
     }

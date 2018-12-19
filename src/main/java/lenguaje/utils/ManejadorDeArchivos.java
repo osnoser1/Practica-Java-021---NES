@@ -17,7 +17,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
@@ -39,9 +38,8 @@ public class ManejadorDeArchivos {
     
     public boolean guardarArchivo(File file, String string) {
         try {
-            try (PrintWriter printWriter1 = new PrintWriter(file)) {
+            try (var printWriter1 = new PrintWriter(file)) {
                 printWriter1.print(string);
-                printWriter1.close();
             }
             return true;
         } catch(Exception ex) {
@@ -53,8 +51,8 @@ public class ManejadorDeArchivos {
     public String cargarArchivo(File file) {
         //Ejm: "C:/Windows/texto.txt"
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            StringBuilder entrada = new StringBuilder();
+            var br = new BufferedReader(new FileReader(file));
+            var entrada = new StringBuilder();
             String linea;
             while((linea = br.readLine()) != null) {
                 entrada.append(linea);
@@ -90,7 +88,7 @@ public class ManejadorDeArchivos {
     }
     
     public Image loadImage(File file) {
-        return (Image)loadBufferedImage(file);
+        return loadBufferedImage(file);
     }
     
     public Image loadImage(String pathName) {
@@ -116,7 +114,7 @@ public class ManejadorDeArchivos {
     }
     
     public boolean saveImage(BufferedImage imagen, File file) {
-        return saveImage(imagen, file.getPath().substring(file.getPath().length() - 3, file.getPath().length()), file);
+        return saveImage(imagen, file.getPath().substring(file.getPath().length() - 3), file);
         
     }
     
@@ -182,9 +180,9 @@ public class ManejadorDeArchivos {
     }
 
     public Document cargarArchivoXML(String pathName) {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        var dbf = DocumentBuilderFactory.newInstance();
         try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
+            var db = dbf.newDocumentBuilder();
             return db.parse(new File(pathName));
         } catch (ParserConfigurationException | SAXException | IOException e) {
             System.err.println(e.getMessage());
@@ -193,9 +191,9 @@ public class ManejadorDeArchivos {
     }
     
     public Document cargarArchivoXMLJar(String pathName) {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        var dbf = DocumentBuilderFactory.newInstance();
         try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
+            var db = dbf.newDocumentBuilder();
             return db.parse(getClass().getClassLoader().getResource(pathName).toString());
         } catch (ParserConfigurationException | SAXException | IOException e) {
             System.err.println(e.getMessage());

@@ -3,18 +3,13 @@
  * and open the template in the editor.
  */
 package gui;
-import Bomberman.Configuracion.Configuracion;
 import Dependencias.Sonidos;
 import Utilidades.Juego.Interfaz;
 import Utilidades.Juego.Interfaz.Escenas;
-import java.awt.Canvas;
-import java.awt.Component;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import javax.swing.JComponent;
 /**
  *
@@ -55,7 +50,7 @@ public class JPanelContenedor  extends JComponent  {
 
 //    @Override
     public void paint(final Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+        var g2d = (Graphics2D) g;
 //        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         actual.pintar(g2d);
     }

@@ -90,7 +90,7 @@ public class JPanelAvisos extends Interfaz {
     }
 
     private void drawString(String string) {
-        Graphics2D g2D = (Graphics2D) imagen.getGraphics();
+        var g2D = (Graphics2D) imagen.getGraphics();
         g2D.setBackground(Color.BLACK);
         g2D.fillRect(0, 0, 640, 560);
         g2D.setColor(c);

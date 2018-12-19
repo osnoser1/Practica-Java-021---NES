@@ -12,7 +12,14 @@ import java.awt.event.KeyEvent;
  */
 public class Controles{
     
-    private static int arriba=KeyEvent.VK_UP,abajo=KeyEvent.VK_DOWN,izquierda=KeyEvent.VK_LEFT,derecha=KeyEvent.VK_RIGHT,a=KeyEvent.VK_X,b=KeyEvent.VK_Z,select=KeyEvent.VK_SHIFT,start=KeyEvent.VK_ENTER;
+    private static final int arriba=KeyEvent.VK_UP;
+    private static final int abajo=KeyEvent.VK_DOWN;
+    private static final int izquierda=KeyEvent.VK_LEFT;
+    private static final int derecha=KeyEvent.VK_RIGHT;
+    private static final int a=KeyEvent.VK_X;
+    private static final int b=KeyEvent.VK_Z;
+    private static final int select=KeyEvent.VK_SHIFT;
+    private static final int start=KeyEvent.VK_ENTER;
 
     public static int getA() {
         return a;

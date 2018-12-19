@@ -32,7 +32,7 @@ public class JPanelInformacion {
     private Timer timer;
     private Dimension SIZE;
     private Color fondo;
-    private Font f1, f2;
+    private Font font;
     private Point[] pos;
     private boolean cambio;
 
@@ -48,12 +48,11 @@ public class JPanelInformacion {
 
     private void initComponents() {
         SIZE = new Dimension(640, 60);
-        f1 = Fuentes.getInstance().getJoystixMonospacce(25);
-        f2 = Fuentes.getInstance().getJoystixMonospacce(24);
+        font = Fuentes.getInstance().getJoystixMonospacce(24);
         fondo = new Color(188, 188, 188);
         pos = new Point[]{new Point(20, 37), new Point(360, 37), new Point(480, 37)};
         imagen = ImageUtilities.createCompatibleVolatileImage(640, 60, Transparency.OPAQUE);
-        Graphics2D g2 = (Graphics2D) imagen.getGraphics();
+        var g2 = (Graphics2D) imagen.getGraphics();
         g2.setColor(fondo);
         g2.fillRect(0, 0, 640, 60);
         g2.dispose();
@@ -69,9 +68,9 @@ public class JPanelInformacion {
         g2.setColor(fondo);
         g2.fillRect(point.x, point.y - 25, 300, 30);
         g2.setColor(Color.BLACK);
-        g2.setFont(f1);
-        g2.drawString(string, point.x + 1, point.y + 1);
-        g2.setFont(f2);
+        g2.setFont(font);
+        g2.drawString(string, point.x + 2, point.y + 2);
+        g2.setFont(font);
         g2.setColor(Color.WHITE);
         g2.drawString(string, point.x, point.y);
     }
@@ -109,7 +108,7 @@ public class JPanelInformacion {
     }
 
     private void drawStrings(Graphics g2) {
-        for(int i = 0; i < this.cantidadOpciones; i++) {
+        for(var i = 0; i < this.cantidadOpciones; i++) {
             drawString(g2, getString(i), pos[i]);
         }
     }
@@ -151,7 +150,7 @@ public class JPanelInformacion {
     }
 
     public void setSIZE(Dimension dim) {
-        int y = (int)Math.round(dim.height / 14.0);
+        var y = (int)Math.round(dim.height / 14.0);
         SIZE = new Dimension(dim.width, y + y / 2);
         System.out.println(dim + " " + SIZE + " " + y);
     }
@@ -162,7 +161,7 @@ public class JPanelInformacion {
     
     public void pintar(final Graphics2D g2) {
         if (cambio) {
-            Graphics2D g2d = (Graphics2D) imagen.getGraphics();
+            var g2d = (Graphics2D) imagen.getGraphics();
             drawStrings(g2d);
             g2d.dispose();
             cambio = false;

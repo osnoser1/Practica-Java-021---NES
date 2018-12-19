@@ -1,7 +1,6 @@
 package Personajes;
 
 import game.players.bomberman.states.*;
-import motor.core.ControlAnimacion;
 import motor.core.graphics.Imagen;
 import gui.JPanelJuego;
 import motor.core.input.GamePad;
@@ -9,9 +8,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.HashMap;
-import static juego.constantes.Estado.*;
+
 import motor.core.graphics.AnimationWrapper;
-import motor.core.graphics.SpriteState;
 
 public class Enemigo extends Personaje {
 
@@ -24,7 +22,7 @@ public class Enemigo extends Personaje {
     }
 
     public final void inicializar() {
-        animaciones = new HashMap<Class<? extends SpriteState>, AnimationWrapper>() {
+        animaciones = new HashMap<>() {
             {
                 put(InicioState.class, new AnimationWrapper(0, "0", 4000 / 60));
                 put(ArribaState.class, new AnimationWrapper(1, "0,1,2", 4000 / 60));

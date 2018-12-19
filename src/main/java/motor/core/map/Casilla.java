@@ -26,11 +26,7 @@ class Casilla {
     }
     
     Sprite[] get(final Class<?>... classes) {
-        return al.stream().filter((t) -> {
-            return Stream.of(classes).anyMatch(c -> {
-                return c.isInstance(t);
-            });
-        }).toArray(Sprite[]::new);
+        return al.stream().filter((t) -> Stream.of(classes).anyMatch(c -> c.isInstance(t))).toArray(Sprite[]::new);
     }
     
     public boolean remove(final Sprite s) {
@@ -38,8 +34,8 @@ class Casilla {
     }
 
     public boolean containsAny(final Class<?>... classes) {
-        for (Sprite sprite : al) {
-            for (Class<?> c : classes) {
+        for (var sprite : al) {
+            for (var c : classes) {
                 if(c.isInstance(sprite)) {
                     return true;
                 }
@@ -49,9 +45,7 @@ class Casilla {
     }
     
     boolean containsAny(final Sprite... sprites) {
-        return Stream.of(sprites).anyMatch(t -> {
-            return al.contains(t);
-        });
+        return Stream.of(sprites).anyMatch(al::contains);
     }
     
     public boolean isEmpty() {

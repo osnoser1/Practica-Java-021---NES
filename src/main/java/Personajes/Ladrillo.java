@@ -8,12 +8,10 @@ import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
 import Utilidades.Juego.Interfaz;
 import game.players.ladrillo.states.MuerteState;
-import gui.JPanelJuego;
 import motor.core.graphics.Sprite;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 import motor.core.graphics.AnimationWrapper;
-import motor.core.graphics.SpriteState;
 import motor.core.graphics.spritedefaultstates.EmptyState;
 import motor.core.map.Mapa;
 
@@ -37,7 +35,7 @@ public class Ladrillo extends Sprite {
     }
 
     public final void inicializar() {
-        super.animaciones = new HashMap<Class<? extends SpriteState>, AnimationWrapper>() {
+        super.animaciones = new HashMap<>() {
             {
                 put(EmptyState.class, new AnimationWrapper(0, "0", 4000 / 60));
                 put(MuerteState.class, new AnimationWrapper(5, "0,1,2,3,4,5", 4000 / 60));
@@ -72,7 +70,7 @@ public class Ladrillo extends Sprite {
         if(!especial) {
             return;
         }
-        Mapa mapa = Mapa.getInstance();
+        var mapa = Mapa.getInstance();
         ladrilloespecial = new LadrilloEspecial(x, y, tipo);
         mapa.remover(this);
         id = "Q";

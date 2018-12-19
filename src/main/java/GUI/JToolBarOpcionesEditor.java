@@ -16,7 +16,7 @@ import javax.swing.JToolBar;
 public class JToolBarOpcionesEditor extends JToolBar{
     
     private static JToolBarOpcionesEditor instance;
-    private CJToolBarOpciones controladorJToolBarOpciones;
+    private final CJToolBarOpciones controladorJToolBarOpciones;
     private final int CANTIDAD_BOTONES = 3;
     
     public static JToolBarOpcionesEditor getInstance() {
@@ -37,8 +37,8 @@ public class JToolBarOpcionesEditor extends JToolBar{
     }
 
     private void initJButton() {
-        for(int i = 0; i < this.CANTIDAD_BOTONES; i++){
-            JButton jButton = new JButton(getTitle(i));
+        for(var i = 0; i < this.CANTIDAD_BOTONES; i++){
+            var jButton = new JButton(getTitle(i));
             jButton.setActionCommand(getTitle(i));
             jButton.addActionListener(controladorJToolBarOpciones);
             this.add(jButton);
@@ -46,7 +46,7 @@ public class JToolBarOpcionesEditor extends JToolBar{
     }
 
     private String getTitle(int i) {
-        int opcion = 0;
+        var opcion = 0;
         if(opcion++ == i) return "Cargar mapa";
         if(opcion++ == i) return "Guardar mapa";
         return "Iniciar";

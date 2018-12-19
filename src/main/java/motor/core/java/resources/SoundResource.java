@@ -29,10 +29,10 @@ public class SoundResource implements Resource<Clip> {
             return ManejadorDeArchivos.getInstance().cargarClipJAR(s);
         Clip clip = null;
         try {
-            AudioInputStream in = AudioSystem.getAudioInputStream(getClass().getResource(s));
+            var in = AudioSystem.getAudioInputStream(getClass().getResource(s));
             AudioInputStream din;
-            AudioFormat baseFormat = in.getFormat();
-            AudioFormat decodedFormat = new AudioFormat(
+            var baseFormat = in.getFormat();
+            var decodedFormat = new AudioFormat(
                     baseFormat.getSampleRate(),
                     16,
                     baseFormat.getChannels(),

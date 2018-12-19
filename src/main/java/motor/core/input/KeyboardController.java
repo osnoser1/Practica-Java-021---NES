@@ -5,9 +5,8 @@
  */
 package motor.core.input;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import lenguaje.utils.Pareja;
+
 import motor.core.input.GamePad.Botones;
 import motor.core.input.Teclado.EstadoTecla;
 import static motor.core.input.Teclado.EstadoTecla.PRESIONADA;

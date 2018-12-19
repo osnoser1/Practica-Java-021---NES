@@ -25,7 +25,7 @@ public class JEditorDeMapas extends JPanel {
 
     private static JEditorDeMapas instance;
     private PanelEditor panelEditor;
-    private Dimension[] relacionDeTamaño = {new Dimension(656, 620), new Dimension(1240, 520)};
+    private final Dimension[] relacionDeTamaño = {new Dimension(656, 620), new Dimension(1240, 520)};
     private Point posicionBombeman;
 
     private JEditorDeMapas() {
@@ -40,7 +40,7 @@ public class JEditorDeMapas extends JPanel {
     private void initComponents() {
         panelEditor = new PanelEditor();
         posicionBombeman = new Point(40, 40);
-        JScrollPane aux = new JScrollPane(panelEditor);
+        var aux = new JScrollPane(panelEditor);
         add(aux);
         add(JToolBarBotonesEditor.getInstance(), BorderLayout.EAST);
         add(JToolBarOpcionesEditor.getInstance(), BorderLayout.SOUTH);
@@ -60,9 +60,9 @@ public class JEditorDeMapas extends JPanel {
 
     public void pintar(Sprite sprite, Point posicion) {
         //No simplificar
-        int x = posicion.x * Mapa.COLUMNAS / panelEditor.getWidth() * relacionDeTamaño[1].width / Mapa.COLUMNAS;
-        int y = posicion.y * Mapa.FILAS / panelEditor.getHeight() * relacionDeTamaño[1].height / Mapa.FILAS;
-        Graphics g = panelEditor.getImagen().getGraphics();
+        var x = posicion.x * Mapa.COLUMNAS / panelEditor.getWidth() * relacionDeTamaño[1].width / Mapa.COLUMNAS;
+        var y = posicion.y * Mapa.FILAS / panelEditor.getHeight() * relacionDeTamaño[1].height / Mapa.FILAS;
+        var g = panelEditor.getImagen().getGraphics();
         if ("B".equals(sprite.getId())) {
             g.drawImage(Imagenes.PISO, posicionBombeman.x, posicionBombeman.y, relacionDeTamaño[1].width / Mapa.COLUMNAS, relacionDeTamaño[1].height / Mapa.FILAS, null);
 //            Mapa.getInstance().setObjeto("V",
@@ -107,10 +107,10 @@ public class JEditorDeMapas extends JPanel {
 
         private void initImagen() {
             imagen = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-            Graphics g = imagen.getGraphics();
-            int x = getWidth() / Mapa.COLUMNAS;
-            int y = getHeight() / Mapa.FILAS;
-            Mapa mapa = Mapa.getInstance();
+            var g = imagen.getGraphics();
+            var x = getWidth() / Mapa.COLUMNAS;
+            var y = getHeight() / Mapa.FILAS;
+            var mapa = Mapa.getInstance();
 //            for (short i = 0; i < Mapa.FILAS; i++)
 //                for (int j = 0; j < Mapa.COLUMNAS; j++)
 //                    switch (mapa.getObjeto(i, j)) {

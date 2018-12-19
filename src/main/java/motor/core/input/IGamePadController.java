@@ -11,6 +11,6 @@ package motor.core.input;
  */
 public interface IGamePadController {
     
-    public void update(GamePad g);
+    void update(GamePad g);
     
 }

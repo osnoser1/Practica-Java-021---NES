@@ -19,7 +19,7 @@ public class ImageResource implements Resource<Image> {
 
     @Override
     public Image load(String s, int type) {
-        final ManejadorDeArchivos mda = ManejadorDeArchivos.getInstance();
+        final var mda = ManejadorDeArchivos.getInstance();
         return type == VOLATILE ? mda.loadVolatileImageJAR(s) : mda.loadBufferedImageJAR(s);
     }
 

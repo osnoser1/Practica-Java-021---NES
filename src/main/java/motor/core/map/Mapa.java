@@ -16,7 +16,7 @@ public class Mapa {
 
     public static final short COLUMNAS = 31, FILAS = 13;
     private static Mapa instance;
-    private final Casilla mapa[][];
+    private final Casilla[][] mapa;
     private final HashMap<Sprite, PosicionSprite> mapper;
 
     private Mapa() {
@@ -26,8 +26,8 @@ public class Mapa {
     }
 
     private void init() {
-        for (int i = 0; i < FILAS; i++) {
-            for (int j = 0; j < COLUMNAS; j++) {
+        for (var i = 0; i < FILAS; i++) {
+            for (var j = 0; j < COLUMNAS; j++) {
                 mapa[i][j] = new Casilla();
                 if (i % 2 != 1 && j % 2 != 1 || i == 0 || i == 12 || j == 0 || j == 30) {
                     mapa[i][j].add(new Aluminio(0, 0));
@@ -53,7 +53,7 @@ public class Mapa {
     }
     
     public boolean contiene(Sprite s, final Class<?>... classes) {
-        Posicion p = mapper.get(s).getPosicionActual();
+        var p = mapper.get(s).getPosicionActual();
         return mapa[p.fila][p.columna].containsAny(classes);
     }
 
@@ -62,8 +62,8 @@ public class Mapa {
     }
 
     public void agregar(final Sprite sprite) {
-        PosicionSprite ps = new PosicionSprite(sprite);
-        Posicion p = ps.getPosicionActual();
+        var ps = new PosicionSprite(sprite);
+        var p = ps.getPosicionActual();
         mapa[p.fila][p.columna].add(sprite);
         mapper.put(sprite, ps);
     }
@@ -76,7 +76,7 @@ public class Mapa {
         if(mapper.get(s) == null) {
             return false;
         }
-        Posicion p = mapper.get(s).getPosicionActual();
+        var p = mapper.get(s).getPosicionActual();
         return mapa[p.fila][p.columna].remove(s) && mapper.remove(s) != null;
     }
 
@@ -95,9 +95,9 @@ public class Mapa {
     }
     
     public void mostrar() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < FILAS; i++) {
-            for (int j = 0; j < COLUMNAS; j++) {
+        var sb = new StringBuilder();
+        for (var i = 0; i < FILAS; i++) {
+            for (var j = 0; j < COLUMNAS; j++) {
                 sb.append(mapa[i][j].length());
             }
             sb.append("\r\n");

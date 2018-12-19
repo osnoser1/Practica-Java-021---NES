@@ -6,7 +6,7 @@ package motor.core.input;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Consumer;
+
 import static motor.core.input.Teclado.EstadoTecla.*;
 
 /**
@@ -18,7 +18,7 @@ public final class Teclado {
     @java.lang.FunctionalInterface
     public interface Consumer<One, Two, Three> {
 
-        public Three apply(One one, Two two);
+        Three apply(One one, Two two);
     }
 
     public enum EstadoTecla {
@@ -41,16 +41,12 @@ public final class Teclado {
 
     public void presionarTecla(int keyCode) {
         teclas.put(keyCode, PRESIONADA);
-        keyChanged.forEach(f -> {
-            f.apply(keyCode, PRESIONADA);
-        });
+        keyChanged.forEach(f -> f.apply(keyCode, PRESIONADA));
     }
 
     public void liberarTecla(int keyCode) {
         teclas.put(keyCode, LIBERADA);
-        keyChanged.forEach(f -> {
-            f.apply(keyCode, LIBERADA);
-        });
+        keyChanged.forEach(f -> f.apply(keyCode, LIBERADA));
     }
 
     public boolean teclaPresionada(int keyCode) {

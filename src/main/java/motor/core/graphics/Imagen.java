@@ -111,14 +111,14 @@ public final class Imagen {
      * @return el ancho
      */
     public int getAncho() {
-        return (int) anchoEscalado;
+        return anchoEscalado;
     }
 
     /**
      * @return el alto
      */
     public int getAlto() {
-        return (int) altoEscalado;
+        return altoEscalado;
     }
 
     /**

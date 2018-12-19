@@ -81,16 +81,12 @@ public class Inteligencia {
     }
 
     private void bufferClear() {
-        buffer.forEach(t -> {
-            gamePad.setPress(t, false);
-        });
+        buffer.forEach(t -> gamePad.setPress(t, false));
         buffer.clear();
     }
 
     private void bufferApply() {
-        buffer.forEach(t -> {
-            gamePad.setPress(t, true);
-        });
+        buffer.forEach(t -> gamePad.setPress(t, true));
     }
 
 }

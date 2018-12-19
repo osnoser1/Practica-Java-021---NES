@@ -30,5 +30,5 @@ public interface ISettingsListener {
 	 * @param option    the option name
 	 * @param value     the new option value
 	 */
-	public void settingsValueChanged(String option, String value);
+    void settingsValueChanged(String option, String value);
 }

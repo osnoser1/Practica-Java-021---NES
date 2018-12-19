@@ -14,28 +14,28 @@ import static motor.core.java.resources.ImageResource.*;
  */
 public class Imagenes {
 
-    public static Image LOGO;
-    public static Image APUNTADOR;
+    public static final Image LOGO;
+    public static final Image APUNTADOR;
     public static Image FONDO;
-    public static Image PISO;
-    public static Image ACERO;
-    public static Image BOMBA;
-    public static Image FUEGO;
-    public static Image BOMBERMAN;
-    public static Image BALLOOM;
-    public static Image DOLL;
-    public static Image KONDORIA;
-    public static Image MINVO;
-    public static Image ONEAL;
-    public static Image PASS;
-    public static Image OVAPI;
-    public static Image PONTAN;
-    public static Image BLOQUE;
-    public static Image LADRILLO_ESPECIAL;
+    public static final Image PISO;
+    public static final Image ACERO;
+    public static final Image BOMBA;
+    public static final Image FUEGO;
+    public static final Image BOMBERMAN;
+    public static final Image BALLOOM;
+    public static final Image DOLL;
+    public static final Image KONDORIA;
+    public static final Image MINVO;
+    public static final Image ONEAL;
+    public static final Image PASS;
+    public static final Image OVAPI;
+    public static final Image PONTAN;
+    public static final Image BLOQUE;
+    public static final Image LADRILLO_ESPECIAL;
 
     static {
-        final Ubicacion ubicacion = new Ubicacion();
-        final ImageResource ir = new ImageResource();
+        final var ubicacion = new Ubicacion();
+        final var ir = new ImageResource();
 ////        FONDO = manejador.loadVolatileImageJAR(ubicacion.FONDO);
         LOGO = ir.load(ubicacion.LOGO, VOLATILE);
         ACERO = ir.load(ubicacion.ACERO, VOLATILE);

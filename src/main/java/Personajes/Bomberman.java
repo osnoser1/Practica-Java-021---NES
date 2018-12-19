@@ -16,7 +16,6 @@ import motor.core.input.GamePad.Botones;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import motor.core.graphics.AnimationWrapper;
-import motor.core.graphics.SpriteState;
 import motor.core.graphics.spritedefaultstates.NullState;
 
 public class Bomberman extends Personaje {
@@ -45,7 +44,7 @@ public class Bomberman extends Personaje {
     }
 
     public final void inicializar() {
-        super.animaciones = new HashMap<Class<? extends SpriteState>, AnimationWrapper>() {
+        super.animaciones = new HashMap<>() {
             {
                 put(InicioState.class, new AnimationWrapper(0, "0", 4000 / 60));
                 put(ArribaState.class, new AnimationWrapper(1, "2,1,0,1", 4000 / 60));
@@ -60,12 +59,12 @@ public class Bomberman extends Personaje {
 
     @Override
     public void actualizar(final Interfaz interfaz, final long tiempoTranscurrido) {
-        JPanelJuego jPanelJuego = (JPanelJuego) interfaz;
+        var jPanelJuego = (JPanelJuego) interfaz;
         padController.update(gamePad);
         verificarTeclasAccion(jPanelJuego);
         super.actualizar(jPanelJuego, tiempoTranscurrido);
         comprobarMuerte(jPanelJuego);
-        for (Bomb bomba : bombas) {
+        for (var bomba : bombas) {
             bomba.actualizar(jPanelJuego, tiempoTranscurrido);
             if (bomba.getEstadoActual() instanceof NullState) {
                 jPanelJuego.getMapa().remover(bomba);
@@ -142,7 +141,7 @@ public class Bomberman extends Personaje {
         }
         if (!choqueCentral(Ladrillo.class, LadrilloEspecial.class) && bombas.size() < BOMBS) {
             Sonidos.getInstance().play(Sonidos.BOMB_PLANT);
-            final Bomb b = new Bomb(getCentro().x / imagen.getAncho() * imagen.getAncho(),
+            final var b = new Bomb(getCentro().x / imagen.getAncho() * imagen.getAncho(),
                     getCentro().y / imagen.getAlto() * imagen.getAlto(), this);
             jPanelJuego.getMapa().agregar(b);
             bombas.add(b);
@@ -172,9 +171,7 @@ public class Bomberman extends Personaje {
     }
 
     private void detonarBomba(final Interfaz interfaz) {
-        bombas.stream().filter((bomba) -> (!bomba.hasDetonated())).forEachOrdered((bomba) -> {
-            bomba.detonar(interfaz);
-        });
+        bombas.stream().filter((bomba) -> (!bomba.hasDetonated())).forEachOrdered((bomba) -> bomba.detonar(interfaz));
     }
 
     public void setEntroALaPuerta(boolean b) {

@@ -41,8 +41,8 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     }
 
     private void initJMenu() {
-        Controladores.ControladorJMenu controlador=new Controladores.ControladorJMenu();
-        for(int i=0;i<this.TOPE_JMENU;i++){
+        var controlador=new Controladores.ControladorJMenu();
+        for(var i = 0; i<this.TOPE_JMENU; i++){
             jmenu.add(new javax.swing.JMenu(getTitleJMenu(i)));
             jmenu.get(i).addActionListener(controlador);
             add(jmenu.get(i));
@@ -65,9 +65,9 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     }
 
     private void initJMenuItemArchivo() {
-        JMenu get = jmenu.get(0);
+        var get = jmenu.get(0);
         for(int size=5,i=0;i<size;i++){
-            JMenuItem jMenuItem = new JMenuItem(getTextArchivo(i));
+            var jMenuItem = new JMenuItem(getTextArchivo(i));
             jMenuItem.setActionCommand(getTextArchivo(i));
             jMenuItem.setAccelerator(getAcceleratorArchivo(i));
             get.add(jMenuItem);
@@ -75,7 +75,7 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     }
 
     private String getTextArchivo(int i){
-        int opcion=0;
+        var opcion=0;
         if(i==opcion++) return "Juego en red";
         else if(i==opcion++) return "Desconectar";
         else if(i==opcion++) return "Conversar";
@@ -84,9 +84,9 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     }
     
     private void initJMenuItemEdicion() {
-        JMenu get = jmenu.get(1);
+        var get = jmenu.get(1);
         for(int size=5,i=0;i<size;i++){
-            JMenuItem jMenuItem = new JMenuItem(getTextEdicion(i));
+            var jMenuItem = new JMenuItem(getTextEdicion(i));
             jMenuItem.setActionCommand(getTextEdicion(i));
             jMenuItem.setAccelerator(getAcceleratorEdicion(i));
             get.add(jMenuItem);
@@ -94,9 +94,9 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     }
 
     private void initJMenuItemOpciones() {
-        JMenu get = jmenu.get(2);
+        var get = jmenu.get(2);
         for(int size=8,i=0;i<size;i++){
-            JMenuItem jMenuItem = new JMenuItem(getTextOpciones(i));
+            var jMenuItem = new JMenuItem(getTextOpciones(i));
             jMenuItem.setActionCommand(getTextOpciones(i));
             jMenuItem.setAccelerator(getAcceleratorOpciones(i));
             jMenuItem.addActionListener(cJMenuItem);
@@ -105,9 +105,9 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     }
 
     private void initJMenuItemHerramientas() {
-        JMenu get = jmenu.get(3);
+        var get = jmenu.get(3);
         for(int size=3,i=0;i<size;i++){
-            JMenuItem jMenuItem = new JMenuItem(getTextHerramientas(i));
+            var jMenuItem = new JMenuItem(getTextHerramientas(i));
             jMenuItem.setActionCommand(getTextHerramientas(i));
             jMenuItem.setAccelerator(getAcceleratorHerramientas(i));
             get.add(jMenuItem);
@@ -115,9 +115,9 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     }
 
     private void initJMenuItemAyuda() {
-        JMenu get = jmenu.get(4);
+        var get = jmenu.get(4);
         for(int size=1,i=0;i<size;i++){
-            JMenuItem jMenuItem = new JMenuItem(getTextAyuda(i));
+            var jMenuItem = new JMenuItem(getTextAyuda(i));
             jMenuItem.setActionCommand(getTextAyuda(i));
             jMenuItem.setAccelerator(getAcceleratorAyuda(i));
             get.add(jMenuItem);
@@ -131,11 +131,11 @@ public class JBarraMenu extends javax.swing.JMenuBar{
         else if(opcion++==i) keyCode=KeyEvent.VK_A;
         else if(opcion++==i) keyCode=KeyEvent.VK_I;
         else keyCode=KeyEvent.VK_X;
-        return KeyStroke.getKeyStroke(keyCode,KeyEvent.CTRL_MASK);
+        return KeyStroke.getKeyStroke(keyCode,KeyEvent.CTRL_DOWN_MASK);
     }
 
     private String getTextEdicion(int i) {
-        int opcion=0;
+        var opcion=0;
         if(i==opcion++) return "Reiniciar";
         else if(i==opcion++) return "Pausa";
         else if(i==opcion++) return "Cargar estado";
@@ -153,11 +153,11 @@ public class JBarraMenu extends javax.swing.JMenuBar{
         if(i<opcion)
             return KeyStroke.getKeyStroke(keyCode,0);
         else
-            return KeyStroke.getKeyStroke(keyCode,KeyEvent.CTRL_MASK);
+            return KeyStroke.getKeyStroke(keyCode,KeyEvent.CTRL_DOWN_MASK);
     }
 
     private String getTextOpciones(int i) {
-        int opcion=0;
+        var opcion=0;
         if(i==opcion++) return "Juego...";
         if(i==opcion++) return "Graficos...";
         if(i==opcion++) return "Sonidos...";
@@ -169,13 +169,13 @@ public class JBarraMenu extends javax.swing.JMenuBar{
     }
 
     private KeyStroke getAcceleratorOpciones(int i) {
-        if(6==i) return KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,KeyEvent.CTRL_MASK);
+        if(6==i) return KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,KeyEvent.CTRL_DOWN_MASK);
         else if(7==i) return KeyStroke.getKeyStroke(KeyEvent.VK_F11,0);
         return null;
     }
 
     private String getTextHerramientas(int i) {
-        int opcion=0;
+        var opcion=0;
         if(i==opcion++) return "Codigos de trampa...";
         else if(i==opcion++) return "Activar trampas";
         return "Desactivar trampas";
@@ -187,7 +187,7 @@ public class JBarraMenu extends javax.swing.JMenuBar{
         else if(opcion++==i) keyCode=KeyEvent.VK_INSERT;
         else keyCode=KeyEvent.VK_DELETE;
         if(i==0)
-            return KeyStroke.getKeyStroke(keyCode,KeyEvent.CTRL_MASK);
+            return KeyStroke.getKeyStroke(keyCode,KeyEvent.CTRL_DOWN_MASK);
         else
             return KeyStroke.getKeyStroke(keyCode,0);
     }

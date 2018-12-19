@@ -29,7 +29,7 @@ public class ObjectPool<E> {
     }
 
     public E create() {
-        final E e = !free.empty() ? free.pop() : count < size ? of.create() : null;
+        final var e = !free.empty() ? free.pop() : count < size ? of.create() : null;
         if (e == null)
             throw new IndexOutOfBoundsException("Object pool lleno");
         pool.add(e);

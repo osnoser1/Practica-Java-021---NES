@@ -4,15 +4,6 @@
  */
 package lenguaje.utils;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.JFrame;
-import javax.swing.Timer;
-
 /**
  *
  * @author Alfonso
@@ -43,7 +34,7 @@ public abstract class Runnable2 implements Runnable {
     public synchronized void run() {
         preInit();
         estaActivo = true;
-        long tiempoAnterior = System.nanoTime();
+        var tiempoAnterior = System.nanoTime();
         while (estaActivo) {
             if (Thread.currentThread().isInterrupted()) {
                 System.out.println("interrupted");
@@ -53,9 +44,9 @@ public abstract class Runnable2 implements Runnable {
             if (pausa)
                 try {
                     this.wait();
-                } catch (final InterruptedException e) {
+                } catch (final InterruptedException ignored) {
                 }
-            long now = System.nanoTime();
+            var now = System.nanoTime();
             tiempoTranscurrido = now - tiempoAnterior;
             if (now - tiempoFPS > 1000000000) {
                 fpsActual = contFPS;
@@ -70,7 +61,7 @@ public abstract class Runnable2 implements Runnable {
                 Thread.yield();
                 try {
                     Thread.sleep((nanosegundos - tiempoTranscurrido) / 1000000);
-                } catch (final Exception e) {
+                } catch (final Exception ignored) {
                 }
             }
         }

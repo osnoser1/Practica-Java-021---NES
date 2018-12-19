@@ -16,7 +16,7 @@ import java.awt.Graphics;
  */
 public class JFramePrincipal extends Frame {
 
-    HiloPrincipal hiloPrincipal;
+    final HiloPrincipal hiloPrincipal;
 
     public JFramePrincipal() {
         initComponents();
@@ -33,7 +33,7 @@ public class JFramePrincipal extends Frame {
 //        add(JPanelContenedor.getInstance());
 //        setJMenuBar(JBarraMenu.getInstance());
         setSize(656, 600);
-        CJFramePrincipal controller = CJFramePrincipal.getInstance().setJFramePrincipal(this);
+        var controller = CJFramePrincipal.getInstance().setJFramePrincipal(this);
         addWindowFocusListener(controller);
         addWindowListener(controller);
         addComponentListener(controller);

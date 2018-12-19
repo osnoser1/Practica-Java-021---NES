@@ -35,7 +35,7 @@ public abstract class Sprite {
             imagen.actualizar(currentAnimationWrapper.fila,
                     currentAnimationWrapper.animacion.getCuadroActual());
         }
-        Supplier<SpriteState> supplier = estadoActual.handleInput(this, gamePad);
+        var supplier = estadoActual.handleInput(this, gamePad);
         if(supplier != null) {
             estadoActual.onExit(this, interfaz);
             setEstadoActual(supplier);

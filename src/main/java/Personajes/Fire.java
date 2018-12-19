@@ -4,7 +4,6 @@
  */
 package Personajes;
 
-import motor.core.map.Mapa;
 import motor.core.graphics.Imagen;
 import Dependencias.Imagenes;
 import Utilidades.Juego.Interfaz;
@@ -14,7 +13,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.HashMap;
 import motor.core.graphics.AnimationWrapper;
-import motor.core.graphics.SpriteState;
 import motor.core.graphics.spritedefaultstates.NullState;
 import motor.core.map.Posicion;
 
@@ -24,9 +22,9 @@ import motor.core.map.Posicion;
  */
 public class Fire extends Personaje {
 
-    private static enum Direccion {
+    private enum Direccion {
 
-        ARRIBA, ABAJO, DERECHA, IZQUIERDA;
+        ARRIBA, ABAJO, DERECHA, IZQUIERDA
     }
 
     private int[] espacioDirecciones;
@@ -43,7 +41,7 @@ public class Fire extends Personaje {
     }
 
     public final void inicializar(JPanelJuego jPanelJuego) {
-        super.animaciones = new HashMap<Class<? extends SpriteState>, AnimationWrapper>() {
+        super.animaciones = new HashMap<>() {
             {
                 put(InicioState.class, new AnimationWrapper(0, "0,1,2,3", 4000 / 60));
             }
@@ -58,17 +56,17 @@ public class Fire extends Personaje {
     }
 
     private void crearSprites() {
-        boolean[] bs = new boolean[4];
+        var bs = new boolean[4];
         short indice = 0;
         imagenes = new Imagen[1 + espacioDirecciones[0] + espacioDirecciones[1] + espacioDirecciones[2] + espacioDirecciones[3]];
         pos = new Point[1 + espacioDirecciones[0] + espacioDirecciones[1] + espacioDirecciones[2] + espacioDirecciones[3]];
         pos[indice] = new Point(x, y);
         imagenes[indice++] = new Imagen(imagen.getImagen(), 7, 4, (float) 2.5, 0);
-        for (int i = 1; i <= espacio; i++)
-            for (Direccion value : Direccion.values()) {
+        for (var i = 1; i <= espacio; i++)
+            for (var value : Direccion.values()) {
                 if (bs[value.ordinal()])
                     continue;
-                final Point p = getPosSprite(value, i);
+                final var p = getPosSprite(value, i);
                 if (i <= espacioDirecciones[value.ordinal()] && i != espacio) {
                     pos[indice] = p;
                     imagenes[indice++] = new Imagen(imagen.getImagen(), 7, 4, 2.5f, value == Direccion.ARRIBA || value == Direccion.ABAJO ? 6 : 5);
@@ -88,8 +86,8 @@ public class Fire extends Personaje {
         super.actualizar(interfaz, tiempoTranscurrido);
         if (estadoActual instanceof NullState)
             return;
-        final int i = animaciones.get(InicioState.class).animacion.getCuadroActual();
-        for (final Imagen sprite : imagenes)
+        final var i = animaciones.get(InicioState.class).animacion.getCuadroActual();
+        for (final var sprite : imagenes)
             sprite.actualizar(i);
     }
 
@@ -97,14 +95,14 @@ public class Fire extends Personaje {
     public void pintar(final Graphics2D g) {
         if (estadoActual instanceof NullState || !isActivo())
             return;
-        for (int i = 0; i < imagenes.length; i++)
+        for (var i = 0; i < imagenes.length; i++)
             imagenes[i].pintar(g, pos[i].x, pos[i].y);
     }
 
     private void determinarTamañoYMuertePersonajes(final JPanelJuego jPanelJuego) {
-        Posicion posicion = jPanelJuego.getMapa().getPosicion(this);
-        boolean[] bs = new boolean[4];
-        for (int i = 1; i <= espacio; i++) {
+        var posicion = jPanelJuego.getMapa().getPosicion(this);
+        var bs = new boolean[4];
+        for (var i = 1; i <= espacio; i++) {
             if (!bs[Direccion.ARRIBA.ordinal()] && detTamDir(jPanelJuego, Direccion.ARRIBA, i, posicion.fila - i, posicion.columna))
                 bs[Direccion.ARRIBA.ordinal()] = true;
             if (!bs[Direccion.ABAJO.ordinal()] && detTamDir(jPanelJuego, Direccion.ABAJO, i, posicion.fila + i, posicion.columna))
@@ -118,7 +116,7 @@ public class Fire extends Personaje {
     }
 
     private boolean detTamDir(final JPanelJuego jPanelJuego, final Direccion d, final int i, final int fila, final int columna) {
-        Mapa m = jPanelJuego.getMapa();
+        var m = jPanelJuego.getMapa();
         boolean b1, b2;
         if (d == Direccion.ARRIBA || d == Direccion.ABAJO) {
             b1 = choqueY(m, fila, Aluminio.class, Ladrillo.class, Bomb.class, LadrilloEspecial.class);

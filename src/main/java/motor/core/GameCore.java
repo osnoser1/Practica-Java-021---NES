@@ -7,8 +7,8 @@ import motor.core.java.graphics.GestorPantalla;
 public abstract class GameCore {
     
     protected static final int FONT_SIZE = 24;
-    
-    private static final DisplayMode POSSIBLE_MODES[] = {
+
+    private static final DisplayMode[] POSSIBLE_MODES = {
         new DisplayMode(620, 600, 32, 0),
         new DisplayMode(1366, 768, 32, 0)
     };
@@ -33,24 +33,21 @@ public abstract class GameCore {
     }
     
     public void lazilyExit() {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                // primeiro aguarda que a m�quina virtual finaliza por si pr�pria
-                try {
-                    Thread.sleep( 2000 );
-                } catch ( InterruptedException ex ) { }
-                // o sistema ainda est� rodando, ent�o for�a a finaliza��o
-                System.exit( 0 );
-            }
-        };
+        var thread = new Thread(() -> {
+            // primeiro aguarda que a m�quina virtual finaliza por si pr�pria
+            try {
+                Thread.sleep( 2000 );
+            } catch ( InterruptedException ignored) { }
+            // o sistema ainda est� rodando, ent�o for�a a finaliza��o
+            System.exit( 0 );
+        });
         thread.setDaemon( true );
         thread.start();
     }
     
     public void init() {
         screen = new GestorPantalla();
-        final DisplayMode displayMode
+        final var displayMode
                 =                screen.findFirstCompatibleMode( POSSIBLE_MODES );
 //        screen.setFullScreen(displayMode);
 //        screen.setWideScreen(displayMode);
@@ -64,15 +61,15 @@ public abstract class GameCore {
     }    
     
     public void gameLoop() {
-        long tiempoAnterior = System.nanoTime();
+        var tiempoAnterior = System.nanoTime();
         while (estaCorriendo) {
-            long now = System.nanoTime();
-            long tiempoTranscurrido = now - tiempoAnterior;
+            var now = System.nanoTime();
+            var tiempoTranscurrido = now - tiempoAnterior;
             showFps(now);
             if (tiempoTranscurrido > tiempoBucle) {
                 tiempoAnterior = now;
                 update(tiempoTranscurrido / 1000000);
-                Graphics2D g = screen.getGraphics();
+                var g = screen.getGraphics();
                 draw(g);
                 g.dispose();
                 screen.update();
@@ -96,7 +93,7 @@ public abstract class GameCore {
         Thread.yield();
         try {
             Thread.sleep((tiempoBucle - tiempoTranscurrido) / 1000000);
-        } catch (final Exception e) {
+        } catch (final Exception ignored) {
         }
     }
 

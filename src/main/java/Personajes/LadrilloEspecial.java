@@ -37,11 +37,11 @@ public class LadrilloEspecial extends Sprite {
 
     @Override
     public void actualizar(Interfaz interfaz, long tiempoTranscurrido) {
-        JPanelJuego jPanelJuego = (JPanelJuego) interfaz;
+        var jPanelJuego = (JPanelJuego) interfaz;
         if (jPanelJuego.primerJugador().isEntroALaPuerta())
             return;
         agregarEnemigosPendientes(jPanelJuego);
-        Posicion punto = jPanelJuego.getMapa().getPosicion(jPanelJuego.primerJugador());
+        var punto = jPanelJuego.getMapa().getPosicion(jPanelJuego.primerJugador());
         if (punto != null && punto.equals(jPanelJuego.getMapa().getPosicion(this)))
             if (tipo != getPuerta() && !estadoEliminado) {
                 determinarHabilidad(jPanelJuego);

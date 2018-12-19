@@ -41,7 +41,7 @@ public class JPanelPresentacion extends Interfaz {
     private GamePad gamePad;
     private IGamePadController padController;
     public static final int START = 0, MAP_EDITOR = 1;
-    private Font f1, f2;
+    private Font font;
     
     private JPanelPresentacion(JPanelContenedor jPanelContenedor) {
         super(jPanelContenedor);
@@ -54,8 +54,7 @@ public class JPanelPresentacion extends Interfaz {
 
     private void init() {
         padController = PlayerOneKeyboardController.getInstance();
-        f1 = Fuentes.getInstance().getJoystixMonospacce(25);
-        f2 = Fuentes.getInstance().getJoystixMonospacce(24);
+        font = Fuentes.getInstance().getJoystixMonospacce(24);
         imagen = ImageUtilities.createCompatibleVolatileImage(640, 560, Transparency.OPAQUE);
         flecha = Imagenes.APUNTADOR;
         opciones = new ArrayList<>();
@@ -66,7 +65,7 @@ public class JPanelPresentacion extends Interfaz {
     }
 
     private void iniciar() {
-        Graphics2D g2d = (Graphics2D) imagen.getGraphics();
+        var g2d = (Graphics2D) imagen.getGraphics();
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, 640, 560);
         g2d.drawImage(Imagenes.LOGO, 40, 20, 568, 347, null);
@@ -76,7 +75,7 @@ public class JPanelPresentacion extends Interfaz {
     }
 
     private void agregarOpciones() {
-        for(int i = 0; i < cantidadOpciones; i++){
+        for(var i = 0; i < cantidadOpciones; i++){
             opciones.add(getPoint(i));
         }
     }
@@ -87,16 +86,16 @@ public class JPanelPresentacion extends Interfaz {
     }
 
     private void drawStrings(Graphics2D g2d) {
-        for(int i = 0; i < cantidadOpciones; i++){
+        for(var i = 0; i < cantidadOpciones; i++){
             drawString(g2d, getString(i), opciones.get(i));
         }
     }
     
     private void drawString(Graphics2D g, String string, Point point) {
         g.setColor(new Color(127, 127, 127));
-        g.setFont(f1);
-        g.drawString(string, point.x + 1, point.y + 1);
-        g.setFont(f2);
+        g.setFont(font);
+        g.drawString(string, point.x + 2, point.y + 2);
+        g.setFont(font);
         g.setColor(Color.WHITE);
         g.drawString(string, point.x, point.y);
     }
@@ -109,9 +108,9 @@ public class JPanelPresentacion extends Interfaz {
     
     public void siguienteOpcion() {
         System.out.println(imagen.getCapabilities(null).isAccelerated());
-        Graphics2D g2d = (Graphics2D) imagen.getGraphics();
+        var g2d = (Graphics2D) imagen.getGraphics();
         g2d.setColor(Color.BLACK);
-        Point point = opciones.get(opcionApuntando);
+        var point = opciones.get(opcionApuntando);
         g2d.fillRect(point.x - 55, point.y - 17, 20, 20);
         opcionApuntando = opcionApuntando == cantidadOpciones - 1 ? 0 : ++opcionApuntando;
         pintarFlecha(g2d);
@@ -120,7 +119,7 @@ public class JPanelPresentacion extends Interfaz {
     }
 
     private void pintarFlecha(Graphics2D g2d) {
-        Point point = opciones.get(opcionApuntando);
+        var point = opciones.get(opcionApuntando);
         g2d.drawImage(flecha, point.x - 55, point.y - 17, 20, 20, null);
     }
 

@@ -4,7 +4,6 @@
  */
 package Controladores;
 
-import gui.JPanelJuego;
 import Modelos.ModelosJToolBarOpciones;
 import java.awt.event.ActionEvent;
 
@@ -14,7 +13,7 @@ import java.awt.event.ActionEvent;
  */
 public class CJToolBarOpciones implements java.awt.event.ActionListener{
 
-    private ModelosJToolBarOpciones modelosjtoolbaropciones;
+    private final ModelosJToolBarOpciones modelosjtoolbaropciones;
 
     public CJToolBarOpciones() {
         this.modelosjtoolbaropciones = new ModelosJToolBarOpciones();

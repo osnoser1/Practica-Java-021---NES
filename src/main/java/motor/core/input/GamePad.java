@@ -13,7 +13,7 @@ import static motor.core.input.GamePad.Botones.*;
  */
 public class GamePad {
 
-    public static enum Botones {
+    public enum Botones {
         ARRIBA,
         ABAJO,
         IZQUIERDA,
@@ -37,9 +37,9 @@ public class GamePad {
         NINGUNO
     }
 
-    private final HashMap<Botones, EstadoBoton> botones = new HashMap<Botones, EstadoBoton>() {
+    private final HashMap<Botones, EstadoBoton> botones = new HashMap<>() {
         {
-            for (Botones value : Botones.values()) {
+            for (var value : Botones.values()) {
                 put(value, new EstadoBoton(false, true));
             }
             put(NINGUNO, new EstadoBoton(true, true));

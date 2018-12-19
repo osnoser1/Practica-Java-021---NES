@@ -12,6 +12,6 @@ package motor.utils;
  */
 public interface ObjectFactory<E> {
 
-    public E create();
+    E create();
 
 }

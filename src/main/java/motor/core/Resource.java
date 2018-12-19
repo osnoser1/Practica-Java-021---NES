@@ -12,6 +12,6 @@ package motor.core;
  */
 public interface Resource<E> {
 
-    public abstract E load(final String s, final int type);
+    E load(final String s, final int type);
 
 }

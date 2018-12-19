@@ -4,10 +4,7 @@
  */
 package juego;
 import motor.core.java.gui.JFramePrincipal;
-import java.awt.Toolkit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  *
  * @author Alfonso Andrés
@@ -33,11 +30,6 @@ public class PracticaJava021 {
 //        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 //            Logger.getLogger(PracticaJava021.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new JFramePrincipal();
-            }
-        });
+        java.awt.EventQueue.invokeLater(JFramePrincipal::new);
     }
 }

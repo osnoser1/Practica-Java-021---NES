@@ -14,11 +14,13 @@ import motor.core.input.IGamePadController;
 
 public abstract class Personaje extends Sprite {
 
-    public static enum Direccion {
-        HORIZONTAL, VERTICAL;
+    public enum Direccion {
+        HORIZONTAL, VERTICAL
     }
 
-    protected int varx = 3, vary = 3, smart;
+    protected final int varx = 3;
+    protected final int vary = 3;
+    protected int smart;
     protected static final int SPEED_SLOWEST = 1, SPEED_SLOW = 2, SPEED_MID = 4, SPEED_FAST = 5, SMART_LOW = 1, SMART_MID = 2, SMART_HIGH = 3, SMART_IMPOSSIBLE = 4;
     protected Inteligencia inteligencia;
     protected IGamePadController padController;
@@ -72,7 +74,7 @@ public abstract class Personaje extends Sprite {
     private void updateX(final JPanelJuego jPanelJuego) {
         if (!choqueCentral(Bomb.class))
             dentroBomb = false;
-        int ajuste = avanzarX(jPanelJuego.getMapa());
+        var ajuste = avanzarX(jPanelJuego.getMapa());
         if (ajuste != 0)
             trasladar(ajuste, 0);
     }
@@ -80,13 +82,13 @@ public abstract class Personaje extends Sprite {
     private void updateY(final JPanelJuego jPanelJuego) {
         if (!choqueCentral(Bomb.class))
             dentroBomb = false;
-        int ajuste = avanzarY(jPanelJuego.getMapa());
+        var ajuste = avanzarY(jPanelJuego.getMapa());
         if (ajuste != 0)
             trasladar(0, ajuste);
     }
 
     private boolean choque(final Mapa m, final Direccion d, final int valEje, final Class<?>... classes) {
-        for (final Class<?> se : classes)
+        for (final var se : classes)
             if (d == VERTICAL && (m.contiene(valEje, getPosicionX(getX() + 2 * varx), se) || m.contiene(valEje, getPosicionX(getX() + imagen.getAncho() - 2 * varx), se))
                     || d == HORIZONTAL && (m.contiene(getPosicionY(getY() + 2 * vary), valEje, se) || m.contiene(getPosicionY(getY() + imagen.getAlto() - 2 * vary), valEje, se)))
                 return true;
@@ -110,7 +112,7 @@ public abstract class Personaje extends Sprite {
     }
 
     private int avanzarX(final Mapa m) {
-        int ajuste = 0;
+        var ajuste = 0;
         int pos = velocidad < 0 ? getPosicionX(getX() + velocidad) : getPosicionX(getX() + imagen.getAncho() + velocidad);
         if (choqueX(m, pos, Aluminio.class) || !wallpass && choqueX(m, pos, Ladrillo.class) || !BOMBPASS && !dentroBomb && choqueX(m, pos, Bomb.class))
             ajuste = velocidad < 0
@@ -120,7 +122,7 @@ public abstract class Personaje extends Sprite {
     }
 
     private int avanzarY(final Mapa m) {
-        int ajuste = 0;
+        var ajuste = 0;
         int pos = velocidad < 0 ? getPosicionY(getY() + velocidad) : getPosicionY(getY() + imagen.getAlto() + velocidad);
         if (choqueY(m, pos, Aluminio.class) || !wallpass && choqueY(m, pos, Ladrillo.class) || !BOMBPASS && !dentroBomb && choqueY(m, pos, Bomb.class))
             ajuste = velocidad < 0

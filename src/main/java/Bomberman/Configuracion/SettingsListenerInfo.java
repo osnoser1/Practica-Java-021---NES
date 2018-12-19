@@ -27,9 +27,9 @@ package Bomberman.Configuracion;
  *
  */
 public class SettingsListenerInfo {
-	private String name;
-	private String key;
-	private ISettingsListener listener;
+	private final String name;
+	private final String key;
+	private final ISettingsListener listener;
 
 	public SettingsListenerInfo(String name, String key, ISettingsListener listener) {
 		this.name = name;
@@ -65,9 +65,7 @@ public class SettingsListenerInfo {
 		}
 
 		if (key != null) {
-			if (!this.key.equals(key)) {
-				return false;
-			}
+			return this.key.equals(key);
 		}
 
 		return true;

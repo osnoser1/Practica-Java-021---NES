@@ -20,11 +20,11 @@ public enum Estado {
     ELIMINADO(-1);
     private final int value;
 
-    private Estado() {
+    Estado() {
         value = ordinal();
     }
 
-    private Estado(int value) {
+    Estado(int value) {
         this.value = value;
     }
 
