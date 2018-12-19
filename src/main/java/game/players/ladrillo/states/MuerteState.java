@@ -5,8 +5,8 @@
  */
 package game.players.ladrillo.states;
 
-import Personajes.Ladrillo;
-import Utilidades.Juego.Interfaz;
+import personajes.Ladrillo;
+import utilidades.juego.Interfaz;
 import java.util.function.Supplier;
 import motor.core.graphics.Sprite;
 import motor.core.graphics.SpriteState;
@@ -25,7 +25,7 @@ public class MuerteState extends game.players.states.MuerteState {
     }
 
     @Override
-    public void update(Sprite sprite, Utilidades.Juego.Interfaz escena, long tiempoTranscurrido) {
+    public void update(Sprite sprite, utilidades.juego.Interfaz escena, long tiempoTranscurrido) {
         if (sprite.actualizarAnimacion(tiempoTranscurrido)) {
             sprite.setEstadoActual(NullState::new);
             ((Ladrillo) sprite).activateLadrilloEspecial();

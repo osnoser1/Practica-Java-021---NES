@@ -5,10 +5,10 @@
  */
 package game.players.bomberman.states;
 
-import Dependencias.Sonidos;
-import Personajes.Bomberman;
-import Personajes.Personaje;
-import Utilidades.Juego.Interfaz;
+import dependencias.Sonidos;
+import personajes.Bomberman;
+import personajes.Personaje;
+import utilidades.juego.Interfaz;
 import gui.JPanelJuego;
 import java.util.function.Supplier;
 import motor.core.graphics.Sprite;

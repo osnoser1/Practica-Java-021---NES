@@ -4,7 +4,7 @@
  */
 package motor.core.graphics;
 
-import Utilidades.Juego.Interfaz;
+import utilidades.juego.Interfaz;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.HashMap;

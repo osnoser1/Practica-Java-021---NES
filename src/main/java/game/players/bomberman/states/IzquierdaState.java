@@ -6,10 +6,10 @@
 
 package game.players.bomberman.states;
 
-import Dependencias.Sonidos;
-import Personajes.Bomberman;
-import Personajes.Personaje;
-import Utilidades.Juego.Interfaz;
+import dependencias.Sonidos;
+import personajes.Bomberman;
+import personajes.Personaje;
+import utilidades.juego.Interfaz;
 import gui.JPanelJuego;
 import java.util.function.Supplier;
 import motor.core.graphics.Sprite;
@@ -37,7 +37,7 @@ public class IzquierdaState implements SpriteState {
     }
 
     @Override
-    public void update(Sprite sprite, Utilidades.Juego.Interfaz escena, long tiempoTranscurrido) {
+    public void update(Sprite sprite, utilidades.juego.Interfaz escena, long tiempoTranscurrido) {
         if(izquierda || arriba || abajo) {
             sprite.actualizarAnimacion(tiempoTranscurrido);
         }

@@ -1,6 +1,6 @@
 package game.players.fire.states;
 
-import Utilidades.Juego.Interfaz;
+import utilidades.juego.Interfaz;
 import gui.JPanelJuego;
 import java.util.function.Supplier;
 import motor.core.graphics.Sprite;

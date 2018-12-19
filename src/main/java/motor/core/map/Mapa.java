@@ -4,7 +4,7 @@
  */
 package motor.core.map;
 
-import Personajes.Aluminio;
+import personajes.Aluminio;
 import motor.core.graphics.Sprite;
 import java.util.HashMap;
 

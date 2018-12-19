@@ -6,7 +6,7 @@
 
 package motor.core.graphics;
 
-import Utilidades.Juego.Interfaz;
+import utilidades.juego.Interfaz;
 import java.util.function.Supplier;
 import motor.core.input.GamePad;
 

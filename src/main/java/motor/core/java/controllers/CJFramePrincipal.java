@@ -4,7 +4,7 @@
  */
 package motor.core.java.controllers;
 
-import Bomberman.Configuracion.Configuracion;
+import bomberman.configuracion.Configuracion;
 import gui.JPanelContenedor;
 
 import java.awt.event.ComponentEvent;

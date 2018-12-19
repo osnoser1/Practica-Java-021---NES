@@ -6,8 +6,8 @@
 
 package game.players.bomb.states;
 
-import Personajes.Bomb;
-import Utilidades.Juego.Interfaz;
+import personajes.Bomb;
+import utilidades.juego.Interfaz;
 import java.util.function.Supplier;
 import motor.core.graphics.Sprite;
 import motor.core.graphics.SpriteState;

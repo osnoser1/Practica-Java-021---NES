@@ -4,7 +4,7 @@
  */
 package concurrencia;
 
-import Bomberman.Configuracion.Configuracion;
+import bomberman.configuracion.Configuracion;
 import lenguaje.utils.Runnable2;
 import motor.core.java.gui.JFramePrincipal;
 import gui.JPanelContenedor;
