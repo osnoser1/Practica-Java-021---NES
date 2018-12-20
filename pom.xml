@@ -54,11 +54,6 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>net.java.jinput</groupId>
-            <artifactId>coreapi</artifactId>
-            <version>2.0.9</version>
-        </dependency>
     </dependencies>
 
 </project>

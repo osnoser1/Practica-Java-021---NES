@@ -11,7 +11,6 @@ import language.utils.ImageUtilities;
 import dependencies.Images;
 import engine.core.map.Map;
 import characters.*;
-import characters.Enemy;
 import engine.core.Camera;
 import utils.game.Screen;
 import game.players.states.DeathState;
