@@ -4,7 +4,7 @@
  */
 package personajes;
 
-import dependencias.Imagenes;
+import dependencias.Images;
 import motor.core.input.GamePad;
 
 
@@ -12,16 +12,16 @@ import motor.core.input.GamePad;
  *
  * @author hp
  */
-public class Balloom extends Enemigo {
+public class Balloom extends Enemy {
     
     public Balloom(int x, int y) {
-        super(Imagenes.BALLOOM, x, y, new GamePad());
-        velocidad = SPEED_SLOWEST;
+        super(Images.BALLOOM, x, y, new GamePad());
+        speed = SPEED_SLOWEST;
         smart = SMART_LOW;
-        puntaje = 100;
+        score = 100;
         wallpass = false;
         id = "b";
-        inicializar();
+        initialize();
     }
     
 }

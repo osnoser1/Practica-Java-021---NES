@@ -8,53 +8,53 @@ package lenguaje.utils;
  *
  * @author Alfonso
  */
-public class Triple<P, S, T> extends Pareja<P, S> {
+public class Triple<P, S, T> extends Pair<P, S> {
     
     private static final long serialVersionUID = 1L;
     
-    private T tercero;
+    private T third;
 
-    public static <P, S, T> Triple<P, S, T> de(P primero, S segundo, T tercero) {
-        return new Triple<>(primero, segundo, tercero);
+    public static <P, S, T> Triple<P, S, T> de(P first, S second, T third) {
+        return new Triple<>(first, second, third);
     }
     
-    public Triple(P primero, S segundo, T tercero) {
-        super(primero, segundo);
-        this.tercero = tercero;
+    public Triple(P first, S second, T third) {
+        super(first, second);
+        this.third = third;
     }
 
-    public T getTercero() {
-        return tercero;
+    public T getThird() {
+        return third;
     }
 
-    public void setTercero(T tercero) {
-        this.tercero = tercero;
+    public void setThird(T third) {
+        this.third = third;
     }
     
     @Override
     public String toString() {
         String fstStr;
-        if (getPrimero() == null) {
+        if (getFirst() == null) {
                 fstStr = "null";
         } else {
-                fstStr = getPrimero().toString();
+                fstStr = getFirst().toString();
         }
 
         String sndStr;
-        if (getSegundo() == null) {
+        if (getSecond() == null) {
                 sndStr = "null";
         } else {
-                sndStr = getSegundo().toString();
+                sndStr = getSecond().toString();
         }
 
         String thirdStr;
-        if (tercero == null) {
+        if (third == null) {
                 thirdStr = "null";
         } else {
-                thirdStr = tercero.toString();
+                thirdStr = third.toString();
         }
 
-        return "Triple: primero=" + fstStr + "; segundo=" + sndStr + "; tercero="
+        return "Triple: first=" + fstStr + "; second=" + sndStr + "; third="
                         + thirdStr;
     }
     

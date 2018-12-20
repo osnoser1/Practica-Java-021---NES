@@ -4,148 +4,149 @@
  */
 package personajes;
 
-import motor.core.graphics.Imagen;
-import dependencias.Imagenes;
-import utilidades.juego.Interfaz;
-import game.players.fire.states.InicioState;
-import gui.JPanelJuego;
+import dependencias.Images;
+import gui.GameScreen;
+import motor.core.graphics.Image;
+import utilidades.juego.Screen;
+import game.players.fire.states.InitialState;
+
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.HashMap;
 import motor.core.graphics.AnimationWrapper;
 import motor.core.graphics.spritedefaultstates.NullState;
-import motor.core.map.Posicion;
+import motor.core.map.Position;
 
 /**
  *
  * @author hp
  */
-public class Fire extends Personaje {
+public class Fire extends Character {
 
-    private enum Direccion {
+    private enum Direction {
 
-        ARRIBA, ABAJO, DERECHA, IZQUIERDA
+        UP, DOWN, RIGHT, LEFT
     }
 
-    private int[] espacioDirecciones;
+    private int[] lengthDirections;
     private Point[] pos;
-    private final int espacio;
-    private Imagen[] imagenes;
+    private final int length;
+    private Image[] images;
 
-    public Fire(final int x, final int y, final int espacios, final JPanelJuego jPanelJuego) {
-        super(new Imagen(Imagenes.FUEGO, 7, 4, 2.5f), x, y);
-        this.espacio = espacios;
-        inicializar(jPanelJuego);
-        determinarTamañoYMuertePersonajes(jPanelJuego);
-        crearSprites();
+    public Fire(final int x, final int y, final int length, final GameScreen gameScreen) {
+        super(new Image(Images.FIRE, 7, 4, 2.5f), x, y);
+        this.length = length;
+        initialize(gameScreen);
+        determineSizeAndPlayerDeath(gameScreen);
+        createSprites();
     }
 
-    public final void inicializar(JPanelJuego jPanelJuego) {
-        super.animaciones = new HashMap<>() {
+    public final void initialize(GameScreen gameScreen) {
+        super.animations = new HashMap<>() {
             {
-                put(InicioState.class, new AnimationWrapper(0, "0,1,2,3", 4000 / 60));
+                put(InitialState.class, new AnimationWrapper(0, "0,1,2,3", 4000 / 60));
             }
         };
-        espacioDirecciones = new int[4];
-        setEstadoActual(InicioState::new);
-        jPanelJuego.getMapa().agregar(this);
+        lengthDirections = new int[4];
+        setCurrentState(InitialState::new);
+        gameScreen.getMap().add(this);
     }
 
-    private Point getPosSprite(final Direccion d, int i) {
-        return d == Direccion.ARRIBA ? new Point(x, y - i * imagen.getAlto()) : d == Direccion.ABAJO ? new Point(x, y + i * imagen.getAlto()) : d == Direccion.DERECHA ? new Point(x + i * imagen.getAncho(), y) : new Point(x - i * imagen.getAncho(), y);
+    private Point getPosSprite(final Direction d, int i) {
+        return d == Direction.UP ? new Point(x, y - i * image.getHeight()) : d == Direction.DOWN ? new Point(x, y + i * image.getHeight()) : d == Direction.RIGHT ? new Point(x + i * image.getWidth(), y) : new Point(x - i * image.getWidth(), y);
     }
 
-    private void crearSprites() {
+    private void createSprites() {
         var bs = new boolean[4];
-        short indice = 0;
-        imagenes = new Imagen[1 + espacioDirecciones[0] + espacioDirecciones[1] + espacioDirecciones[2] + espacioDirecciones[3]];
-        pos = new Point[1 + espacioDirecciones[0] + espacioDirecciones[1] + espacioDirecciones[2] + espacioDirecciones[3]];
-        pos[indice] = new Point(x, y);
-        imagenes[indice++] = new Imagen(imagen.getImagen(), 7, 4, (float) 2.5, 0);
-        for (var i = 1; i <= espacio; i++)
-            for (var value : Direccion.values()) {
+        short index = 0;
+        images = new Image[1 + lengthDirections[0] + lengthDirections[1] + lengthDirections[2] + lengthDirections[3]];
+        pos = new Point[1 + lengthDirections[0] + lengthDirections[1] + lengthDirections[2] + lengthDirections[3]];
+        pos[index] = new Point(x, y);
+        images[index++] = new Image(image.getImage(), 7, 4, (float) 2.5, 0);
+        for (var i = 1; i <= length; i++)
+            for (var value : Direction.values()) {
                 if (bs[value.ordinal()])
                     continue;
                 final var p = getPosSprite(value, i);
-                if (i <= espacioDirecciones[value.ordinal()] && i != espacio) {
-                    pos[indice] = p;
-                    imagenes[indice++] = new Imagen(imagen.getImagen(), 7, 4, 2.5f, value == Direccion.ARRIBA || value == Direccion.ABAJO ? 6 : 5);
+                if (i <= lengthDirections[value.ordinal()] && i != length) {
+                    pos[index] = p;
+                    images[index++] = new Image(image.getImage(), 7, 4, 2.5f, value == Direction.UP || value == Direction.DOWN ? 6 : 5);
                 }
-                if (i < espacioDirecciones[value.ordinal()] || espacioDirecciones[value.ordinal()] == 0)
+                if (i < lengthDirections[value.ordinal()] || lengthDirections[value.ordinal()] == 0)
                     continue;
-                if (i == espacio) {
-                    pos[indice] = p;
-                    imagenes[indice++] = new Imagen(imagen.getImagen(), 7, 4, 2.5f, value.ordinal() + 1);
+                if (i == length) {
+                    pos[index] = p;
+                    images[index++] = new Image(image.getImage(), 7, 4, 2.5f, value.ordinal() + 1);
                 }
                 bs[value.ordinal()] = true;
             }
     }
 
     @Override
-    public void actualizar(final Interfaz interfaz, final long tiempoTranscurrido) {
-        super.actualizar(interfaz, tiempoTranscurrido);
-        if (estadoActual instanceof NullState)
+    public void update(final Screen screen, final long elapsedTime) {
+        super.update(screen, elapsedTime);
+        if (currentState instanceof NullState)
             return;
-        final var i = animaciones.get(InicioState.class).animacion.getCuadroActual();
-        for (final var sprite : imagenes)
-            sprite.actualizar(i);
+        final var i = animations.get(InitialState.class).animation.getCurrentFrame();
+        for (final var sprite : images)
+            sprite.update(i);
     }
 
     @Override
-    public void pintar(final Graphics2D g) {
-        if (estadoActual instanceof NullState || !isActivo())
+    public void draw(final Graphics2D g) {
+        if (currentState instanceof NullState || !isActive())
             return;
-        for (var i = 0; i < imagenes.length; i++)
-            imagenes[i].pintar(g, pos[i].x, pos[i].y);
+        for (var i = 0; i < images.length; i++)
+            images[i].draw(g, pos[i].x, pos[i].y);
     }
 
-    private void determinarTamañoYMuertePersonajes(final JPanelJuego jPanelJuego) {
-        var posicion = jPanelJuego.getMapa().getPosicion(this);
+    private void determineSizeAndPlayerDeath(final GameScreen gameScreen) {
+        var position = gameScreen.getMap().getPosition(this);
         var bs = new boolean[4];
-        for (var i = 1; i <= espacio; i++) {
-            if (!bs[Direccion.ARRIBA.ordinal()] && detTamDir(jPanelJuego, Direccion.ARRIBA, i, posicion.fila - i, posicion.columna))
-                bs[Direccion.ARRIBA.ordinal()] = true;
-            if (!bs[Direccion.ABAJO.ordinal()] && detTamDir(jPanelJuego, Direccion.ABAJO, i, posicion.fila + i, posicion.columna))
-                bs[Direccion.ABAJO.ordinal()] = true;
-            if (!bs[Direccion.DERECHA.ordinal()] && detTamDir(jPanelJuego, Direccion.DERECHA, i, posicion.fila, posicion.columna + i))
-                bs[Direccion.DERECHA.ordinal()] = true;
-            if (!bs[Direccion.IZQUIERDA.ordinal()] && detTamDir(jPanelJuego, Direccion.IZQUIERDA, i, posicion.fila, posicion.columna - i))
-                bs[Direccion.IZQUIERDA.ordinal()] = true;
+        for (var i = 1; i <= length; i++) {
+            if (!bs[Direction.UP.ordinal()] && detTamDir(gameScreen, Direction.UP, i, position.row - i, position.column))
+                bs[Direction.UP.ordinal()] = true;
+            if (!bs[Direction.DOWN.ordinal()] && detTamDir(gameScreen, Direction.DOWN, i, position.row + i, position.column))
+                bs[Direction.DOWN.ordinal()] = true;
+            if (!bs[Direction.RIGHT.ordinal()] && detTamDir(gameScreen, Direction.RIGHT, i, position.row, position.column + i))
+                bs[Direction.RIGHT.ordinal()] = true;
+            if (!bs[Direction.LEFT.ordinal()] && detTamDir(gameScreen, Direction.LEFT, i, position.row, position.column - i))
+                bs[Direction.LEFT.ordinal()] = true;
         }
-        comprobarMuertePersonajesCentroExplosion(jPanelJuego, posicion);
+        checkPlayerDeathCenterExplosion(gameScreen, position);
     }
 
-    private boolean detTamDir(final JPanelJuego jPanelJuego, final Direccion d, final int i, final int fila, final int columna) {
-        var m = jPanelJuego.getMapa();
+    private boolean detTamDir(final GameScreen gameScreen, final Direction d, final int i, final int row, final int column) {
+        var m = gameScreen.getMap();
         boolean b1, b2;
-        if (d == Direccion.ARRIBA || d == Direccion.ABAJO) {
-            b1 = choqueY(m, fila, Aluminio.class, Ladrillo.class, Bomb.class, LadrilloEspecial.class);
-            b2 = choqueY(m, fila, Bomberman.class, Enemigo.class);
+        if (d == Direction.UP || d == Direction.DOWN) {
+            b1 = collisionY(m, row, SteelBlock.class, Brick.class, Bomb.class, SpecialBrick.class);
+            b2 = collisionY(m, row, Bomberman.class, Enemy.class);
         } else {
-            b1 = choqueX(m, columna, Aluminio.class, Ladrillo.class, Bomb.class, LadrilloEspecial.class);
-            b2 = choqueX(m, columna, Bomberman.class, Enemigo.class);
+            b1 = collisionX(m, column, SteelBlock.class, Brick.class, Bomb.class, SpecialBrick.class);
+            b2 = collisionX(m, column, Bomberman.class, Enemy.class);
         }
         if (b1) {
-            jPanelJuego.borrarLadrillo(fila, columna);
-            jPanelJuego.borrarBombs(fila, columna);
+            gameScreen.eraseBrick(row, column);
+            gameScreen.eraseBomb(row, column);
         } 
         if (b2) {
-            jPanelJuego.borrarEnemigo(fila, columna);
-            if (!jPanelJuego.primerJugador().getFLAMEPASS())
-                jPanelJuego.borrarJugador(fila, columna);
+            gameScreen.eraseEnemy(row, column);
+            if (!gameScreen.firstPlayer().getFLAMEPASS())
+                gameScreen.erasePlayer(row, column);
         }
-        if (!b1 && espacio != i)
+        if (!b1 && length != i)
             return false;
-        espacioDirecciones[d.ordinal()] = b1 ? i - 1 : i;
+        lengthDirections[d.ordinal()] = b1 ? i - 1 : i;
         return true;
     }
     
-    private void comprobarMuertePersonajesCentroExplosion(JPanelJuego jPanelJuego, Posicion posicion) {
-        if(jPanelJuego.getMapa().contiene(posicion.fila, posicion.columna, Enemigo.class)) { 
-            jPanelJuego.borrarEnemigo(posicion.fila, posicion.columna);
+    private void checkPlayerDeathCenterExplosion(GameScreen gameScreen, Position position) {
+        if(gameScreen.getMap().contains(position.row, position.column, Enemy.class)) {
+            gameScreen.eraseEnemy(position.row, position.column);
         } 
-        if(choqueCentral(Bomberman.class) && !jPanelJuego.primerJugador().getFLAMEPASS()) {
-            jPanelJuego.borrarJugador(posicion.fila, posicion.columna);
+        if(centralCollision(Bomberman.class) && !gameScreen.firstPlayer().getFLAMEPASS()) {
+            gameScreen.erasePlayer(position.row, position.column);
         }
     }
     

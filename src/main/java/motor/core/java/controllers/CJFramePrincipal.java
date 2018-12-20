@@ -4,58 +4,59 @@
  */
 package motor.core.java.controllers;
 
-import bomberman.configuracion.Configuracion;
-import gui.JPanelContenedor;
+import bomberman.configuracion.Configuration;
+import gui.JPanelContainer;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+
 import motor.core.java.gui.JFramePrincipal;
 
 /**
- *
  * @author Alfonso Andrés
  */
-public class CJFramePrincipal extends java.awt.event.WindowAdapter implements ComponentListener{
+public class CJFramePrincipal extends java.awt.event.WindowAdapter implements ComponentListener {
 
-    public static final class Teclado extends java.awt.event.KeyAdapter{
+    public static final class Keyboard extends java.awt.event.KeyAdapter {
 
-        private static Teclado instance;
-        
-        private Teclado() { }
-        
-        public static Teclado getInstance(){
-            return instance == null ? (instance = new Teclado()) : instance;
+        private static Keyboard instance;
+
+        private Keyboard() {
         }
-        
+
+        public static Keyboard getInstance() {
+            return instance == null ? (instance = new Keyboard()) : instance;
+        }
+
         @Override
         public void keyPressed(KeyEvent e) {
-            motor.core.input.Teclado.getInstance().presionarTecla(e.getKeyCode());
+            motor.core.input.Keyboard.getInstance().keyPress(e.getKeyCode());
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            motor.core.input.Teclado.getInstance().liberarTecla(e.getKeyCode());
+            motor.core.input.Keyboard.getInstance().keyRelease(e.getKeyCode());
         }
-        
-    } 
-        
-    private JPanelContenedor contenedor;
+
+    }
+
+    private JPanelContainer container;
     private static CJFramePrincipal instance;
-    
-    private CJFramePrincipal() { }
-    
+
+    private CJFramePrincipal() {
+    }
+
     public static CJFramePrincipal getInstance() {
         return instance == null ? (instance = new CJFramePrincipal()) : instance;
     }
 
     public CJFramePrincipal setJFramePrincipal(JFramePrincipal aThis) {
-      this.contenedor = JPanelContenedor.getInstance();
-      return this;
+        this.container = JPanelContainer.getInstance();
+        return this;
     }
-    
-    
+
     @Override
     public void windowGainedFocus(WindowEvent e) {
         System.out.println("windowGainedFocus");
@@ -82,7 +83,7 @@ public class CJFramePrincipal extends java.awt.event.WindowAdapter implements Co
     @Override
     public void windowDeiconified(WindowEvent e) {
         super.windowDeiconified(e);
-        System.out.println("windowDeconified");
+        System.out.println("windowDeiconified");
     }
 
     @Override
@@ -100,26 +101,26 @@ public class CJFramePrincipal extends java.awt.event.WindowAdapter implements Co
     public void componentResized(ComponentEvent e) {
         System.out.println("componentResized");
         var jFramePrincipal = (JFramePrincipal) e.getComponent();
-        var c = Configuracion.getInstance();
+        var c = Configuration.getInstance();
         var in = jFramePrincipal.getInsets();
-        c.setTamañoVentana(jFramePrincipal.getWidth() - in.left - in.bottom, jFramePrincipal.getHeight() - in.top - in.bottom);
-//        contenedor.setSIZE(e.getComponent().getSize());
+        c.setWindowSize(jFramePrincipal.getWidth() - in.left - in.bottom, jFramePrincipal.getHeight() - in.top - in.bottom);
+//        container.setSIZE(e.getComponent().getSize());
     }
 
     @Override
     public void componentMoved(ComponentEvent e) {
-        
+
     }
 
     @Override
     public void componentShown(ComponentEvent e) {
         System.out.println("componentShown");
-        
+
     }
 
     @Override
     public void componentHidden(ComponentEvent e) {
         System.out.println("componentHidden");
     }
-    
+
 }

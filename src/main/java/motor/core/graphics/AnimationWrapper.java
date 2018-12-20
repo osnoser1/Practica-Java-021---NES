@@ -6,7 +6,7 @@
 
 package motor.core.graphics;
 
-import motor.core.ControlAnimacion;
+import motor.core.AnimationControl;
 
 /**
  * 
@@ -14,12 +14,12 @@ import motor.core.ControlAnimacion;
  */
 public class AnimationWrapper {
 
-    public final int fila;
-    public final ControlAnimacion animacion;
+    public final int row;
+    public final AnimationControl animation;
 
-    public AnimationWrapper(int fila, String frames, long tiempoFotograma) {
-        this.fila = fila;
-        this.animacion = new ControlAnimacion(frames, tiempoFotograma);
+    public AnimationWrapper(int row, String frames, long frameTime) {
+        this.row = row;
+        this.animation = new AnimationControl(frames, frameTime);
     }
     
 }

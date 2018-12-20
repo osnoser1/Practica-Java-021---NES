@@ -4,7 +4,7 @@
  */
 package personajes;
 
-import dependencias.Imagenes;
+import dependencias.Images;
 import motor.core.input.GamePad;
 
 
@@ -12,16 +12,16 @@ import motor.core.input.GamePad;
  *
  * @author hp
  */
-public class Minvo extends Enemigo {
+public class Minvo extends Enemy {
 
     public Minvo(int x, int y) {
-        super(Imagenes.MINVO, x, y, new GamePad());
-        velocidad = SPEED_MID;
+        super(Images.MINVO, x, y, new GamePad());
+        speed = SPEED_MID;
         smart = SMART_MID;
-        puntaje = 800;
+        score = 800;
         wallpass = false;
         id = "M";
-        inicializar();
+        initialize();
     }
     
 }

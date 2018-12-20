@@ -4,65 +4,66 @@
  */
 package motor.core.graphics;
 
-import utilidades.juego.Interfaz;
+import utilidades.juego.Screen;
+
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.function.Supplier;
+
 import motor.core.graphics.spritedefaultstates.NullState;
 import motor.core.input.GamePad;
 
 /**
- *
  * @author
  */
 public abstract class Sprite {
 
-    protected int velocidad, x, y;
-    protected HashMap<Class<? extends SpriteState>, AnimationWrapper> animaciones;
-    protected final Imagen imagen;
-    protected SpriteState estadoActual;
+    protected int speed, x, y;
+    protected HashMap<Class<? extends SpriteState>, AnimationWrapper> animations;
+    protected final Image image;
+    protected SpriteState currentState;
     protected GamePad gamePad;
     protected String id;
-    private final Point centro;
+    private final Point center;
     private AnimationWrapper currentAnimationWrapper;
 
-    public void actualizar(final Interfaz interfaz, final long tiempoTranscurrido) {
-        if (estadoActual instanceof NullState) {
+    public void update(final Screen screen, final long elapsedTime) {
+        if (currentState instanceof NullState) {
             return;
         }
-        if(imagen.isActive()) {
-            imagen.actualizar(currentAnimationWrapper.fila,
-                    currentAnimationWrapper.animacion.getCuadroActual());
+        if (image.isActive()) {
+            image.update(currentAnimationWrapper.row,
+                    currentAnimationWrapper.animation.getCurrentFrame());
         }
-        var supplier = estadoActual.handleInput(this, gamePad);
-        if(supplier != null) {
-            estadoActual.onExit(this, interfaz);
-            setEstadoActual(supplier);
+        var supplier = currentState.handleInput(this, gamePad);
+        if (supplier != null) {
+            currentState.onExit(this, screen);
+            setCurrentState(supplier);
         }
-        estadoActual.update(this, interfaz, tiempoTranscurrido);
+        currentState.update(this, screen, elapsedTime);
     }
 
-    protected Sprite(final Imagen imagen, final int x, final int y) {
-        this.imagen = imagen;
+    protected Sprite(final Image image, final int x, final int y) {
+        this.image = image;
         this.x = x;
         this.y = y;
-        centro = new Point();
+        center = new Point();
     }
 
     public final String getId() {
         return id;
     }
 
-    public final SpriteState getEstadoActual() {
-        return estadoActual;
-    }    
-
-    public final void setEstadoActual(final Supplier<SpriteState> supplier) {
-        estadoActual = supplier.get();
-        currentAnimationWrapper = animaciones.get(estadoActual.getClass());
+    public final SpriteState getCurrentState() {
+        return currentState;
     }
-    
+
+    public final void setCurrentState(final Supplier<SpriteState> supplier) {
+        currentState = supplier.get();
+        currentAnimationWrapper = animations.get(currentState.getClass());
+    }
+
     public void setLocation(int x, int y) {
         this.x = x;
         this.y = y;
@@ -76,69 +77,67 @@ public abstract class Sprite {
         return y;
     }
 
-    public final int getAncho() {
-        return imagen.getAncho();
+    public final int getWidth() {
+        return image.getWidth();
     }
 
-    public final int getAlto() {
-        return imagen.getAlto();
+    public final int getHeight() {
+        return image.getHeight();
     }
 
-    protected final short getPosicionX(int X) {
-        return (short) (X / imagen.getAncho());
+    protected final short getAxisHorizontal(int X) {
+        return (short) (X / image.getWidth());
     }
 
-    protected final short getPosicionY(int Y) {
-        return (short) (Y / imagen.getAlto());
+    protected final short getAxisVertical(int Y) {
+        return (short) (Y / image.getHeight());
     }
 
-    public final Point getCentro() {
-        centro.setLocation(getX() + imagen.getAncho() / 2, getY() + imagen.getAlto() / 2);
-        return centro;
+    public final Point getCenter() {
+        center.setLocation(getX() + image.getWidth() / 2, getY() + image.getHeight() / 2);
+        return center;
     }
 
-    public final void trasladar(final int dx, final int dy) {
+    public final void translate(final int dx, final int dy) {
         x += dx;
         y += dy;
     }
 
     /**
-     *
-     * @return Devuelve true si el personaje esta activo, false si no lo está.
+     * @return Returns true if the character is active, false if it is not.
      */
-    public final boolean isActivo() {
-        return imagen.isActive();
+    public final boolean isActive() {
+        return image.isActive();
     }
 
     /**
-     *
-     * @param activo indica si quieres activar o no el personaje
+     * @param active indicates whether or not you want to activate the character.
      */
-    public final void setActivo(final boolean activo) {
-        imagen.setActive(activo);
+    public final void setActive(final boolean active) {
+        image.setActive(active);
     }
 
-    public final void fijarCasilla(final int x, final int y) {
-        setLocation(x * imagen.getAncho(), y * imagen.getAlto());
+    public final void setAxisPosition(final int x, final int y) {
+        setLocation(x * image.getWidth(), y * image.getHeight());
     }
 
-    public final boolean actualizarAnimacion(final long tiempoTranscurrido) {
-        return currentAnimationWrapper.animacion.actualizar(tiempoTranscurrido);
+    public final boolean updateAnimation(final long elapsedTime) {
+        return currentAnimationWrapper.animation.update(elapsedTime);
     }
 
-    public void pintar(final Graphics2D g) {
-        if (!imagen.isActive() || estadoActual instanceof NullState)
+    public void draw(final Graphics2D g) {
+        if (!image.isActive() || currentState instanceof NullState)
             return;
-        imagen.pintar(g, x, y);
+        image.draw(g, x, y);
     }
 
     /**
-     * @return the imagen
+     * @return the image
      */
-    public final Imagen getImagen() {
-        return imagen;
+    public final Image getImage() {
+        return image;
     }
-    
+
     public final GamePad getGamePad() {
         return gamePad;
     }

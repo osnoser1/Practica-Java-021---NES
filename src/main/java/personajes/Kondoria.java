@@ -4,7 +4,7 @@
  */
 package personajes;
 
-import dependencias.Imagenes;
+import dependencias.Images;
 import motor.core.input.GamePad;
 
 
@@ -12,16 +12,16 @@ import motor.core.input.GamePad;
  *
  * @author hp
  */
-public class Kondoria extends Enemigo {
+public class Kondoria extends Enemy {
     
     public Kondoria(int x, int y) {
-        super(Imagenes.KONDORIA, x, y, new GamePad());
-        velocidad = SPEED_SLOWEST;
+        super(Images.KONDORIA, x, y, new GamePad());
+        speed = SPEED_SLOWEST;
         smart = SMART_HIGH;
         wallpass = true;
-        puntaje = 1000;
+        score = 1000;
         id = "K";
-        inicializar();
+        initialize();
     }
     
 }

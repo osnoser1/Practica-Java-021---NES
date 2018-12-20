@@ -4,7 +4,7 @@
  */
 package personajes;
 
-import dependencias.Imagenes;
+import dependencias.Images;
 import motor.core.input.GamePad;
 
 
@@ -12,16 +12,16 @@ import motor.core.input.GamePad;
  *
  * @author hp
  */
-public class Pontan extends Enemigo {
+public class Pontan extends Enemy {
     
     public Pontan(int x, int y) {
-        super(Imagenes.PONTAN, x, y, new GamePad());
-        velocidad = SPEED_MID;
+        super(Images.PONTAN, x, y, new GamePad());
+        speed = SPEED_MID;
         smart = SMART_HIGH;
-        puntaje = 8000;
+        score = 8000;
         wallpass = true;
         id = "p";
-        inicializar();
+        initialize();
     }
     
 }

@@ -4,7 +4,7 @@
  */
 package personajes;
 
-import dependencias.Imagenes;
+import dependencias.Images;
 import motor.core.input.GamePad;
 
 
@@ -12,17 +12,17 @@ import motor.core.input.GamePad;
  *
  * @author hp
  */
-public class Pass extends Enemigo {
+public class Pass extends Enemy {
     
     public Pass(int x, int y) {
-        super(Imagenes.PASS, x, y, new GamePad());
-        velocidad = SPEED_MID;
+        super(Images.PASS, x, y, new GamePad());
+        speed = SPEED_MID;
         smart = SMART_HIGH;
-        puntaje = 4000;
+        score = 4000;
         wallpass = false;
         id = "P";
-        inteligencia = new Inteligencia(this);
-        inicializar();
+        intelligence = new Intelligence(this);
+        initialize();
     }
     
 }

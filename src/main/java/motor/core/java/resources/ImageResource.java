@@ -6,7 +6,7 @@
 package motor.core.java.resources;
 
 import java.awt.Image;
-import lenguaje.utils.ManejadorDeArchivos;
+import lenguaje.utils.FileManager;
 import motor.core.Resource;
 
 /**
@@ -19,7 +19,7 @@ public class ImageResource implements Resource<Image> {
 
     @Override
     public Image load(String s, int type) {
-        final var mda = ManejadorDeArchivos.getInstance();
+        final var mda = FileManager.getInstance();
         return type == VOLATILE ? mda.loadVolatileImageJAR(s) : mda.loadBufferedImageJAR(s);
     }
 

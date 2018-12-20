@@ -6,7 +6,7 @@
 package juego;
 
 import motor.core.java.controllers.CJFramePrincipal;
-import gui.JPanelContenedor;
+import gui.JPanelContainer;
 import java.awt.Graphics2D;
 import motor.core.GameCore;
 
@@ -28,18 +28,18 @@ public class Game extends GameCore {
         new Game().run();
     }
 
-    private JPanelContenedor jpc;
+    private JPanelContainer jpc;
 
     @Override
     public void init() {
         super.init();
-        screen.getScreenWindow().addKeyListener(CJFramePrincipal.Teclado.getInstance());
-        jpc = JPanelContenedor.getInstance();
+        screen.getScreenWindow().addKeyListener(CJFramePrincipal.Keyboard.getInstance());
+        jpc = JPanelContainer.getInstance();
     }
 
     @Override
-    public void update(long tiempoTranscurrido) {
-        jpc.actualizar(tiempoTranscurrido);
+    public void update(long elapsedTime) {
+        jpc.update(elapsedTime);
     }
 
     @Override

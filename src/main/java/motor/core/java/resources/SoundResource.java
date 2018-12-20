@@ -12,7 +12,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import lenguaje.utils.ManejadorDeArchivos;
+import lenguaje.utils.FileManager;
 import motor.core.Resource;
 
 /**
@@ -26,7 +26,7 @@ public class SoundResource implements Resource<Clip> {
     @Override
     public Clip load(String s, int type) {
         if (type == WAV)
-            return ManejadorDeArchivos.getInstance().cargarClipJAR(s);
+            return FileManager.getInstance().loadClipJar(s);
         Clip clip = null;
         try {
             var in = AudioSystem.getAudioInputStream(getClass().getResource(s));
@@ -41,7 +41,7 @@ public class SoundResource implements Resource<Clip> {
             // Get AudioInputStream that will be decoded by underlying VorbisSPI
             din = AudioSystem.getAudioInputStream(decodedFormat, in);
             // Play now !
-//            rawplay(decodedFormat, din);
+//            rawPlay(decodedFormat, din);
 //            in.close();
 
             clip = AudioSystem.getClip();

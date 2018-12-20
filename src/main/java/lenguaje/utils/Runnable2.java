@@ -12,20 +12,20 @@ package lenguaje.utils;
  */
 public abstract class Runnable2 implements Runnable {
 
-    protected Thread hilo;
+    protected Thread thread;
     protected int FPS, contFPS;
-    protected long nanosegundos, tiempoTranscurrido, tiempoFPS;
-    protected boolean estaActivo = false;
-    protected boolean pausa = false;
-    protected int fpsActual;
+    protected long nanoSeconds, elapsedTime, fpsTime;
+    protected boolean isActive = false;
+    protected boolean pause = false;
+    protected int currentFps;
 
 
     public Runnable2(int FPS) {
         this.FPS = FPS;
-        nanosegundos = 1000000000 / FPS;
+        nanoSeconds = 1000000000 / FPS;
     }
 
-    public abstract void runProceso();
+    public abstract void runProcess();
 
     protected void preInit() {
     }
@@ -33,34 +33,34 @@ public abstract class Runnable2 implements Runnable {
     @Override
     public synchronized void run() {
         preInit();
-        estaActivo = true;
-        var tiempoAnterior = System.nanoTime();
-        while (estaActivo) {
+        isActive = true;
+        var previousTime = System.nanoTime();
+        while (isActive) {
             if (Thread.currentThread().isInterrupted()) {
                 System.out.println("interrupted");
-                estaActivo = false;
+                isActive = false;
                 break;
             }
-            if (pausa)
+            if (pause)
                 try {
                     this.wait();
                 } catch (final InterruptedException ignored) {
                 }
             var now = System.nanoTime();
-            tiempoTranscurrido = now - tiempoAnterior;
-            if (now - tiempoFPS > 1000000000) {
-                fpsActual = contFPS;
-                tiempoFPS = now;
+            elapsedTime = now - previousTime;
+            if (now - fpsTime > 1000000000) {
+                currentFps = contFPS;
+                fpsTime = now;
                 contFPS = 0;
             }
-            if (tiempoTranscurrido > nanosegundos) {
-                tiempoAnterior = now;
-                runProceso();
+            if (elapsedTime > nanoSeconds) {
+                previousTime = now;
+                runProcess();
                 ++contFPS;
             } else {
                 Thread.yield();
                 try {
-                    Thread.sleep((nanosegundos - tiempoTranscurrido) / 1000000);
+                    Thread.sleep((nanoSeconds - elapsedTime) / 1000000);
                 } catch (final Exception ignored) {
                 }
             }
@@ -68,44 +68,44 @@ public abstract class Runnable2 implements Runnable {
     }
 
     public void start() throws IllegalThreadStateException {
-        if (estaActivo) {
+        if (isActive) {
             return;
         }
-        hilo = new Thread(this);
-        hilo.setDaemon(true);
-        hilo.start();
+        thread = new Thread(this);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public void stop() {
-        estaActivo = false;
+        isActive = false;
     }
 
     public void setFPS(short FPS) {
         this.FPS = FPS;
-        nanosegundos = 1000 / FPS;
+        nanoSeconds = 1000 / FPS;
     }
 
     public int getFPS() {
         return FPS;
     }
 
-    public void pausar() {
-        if (!estaActivo) {
+    public void pause() {
+        if (!isActive) {
             throw new IllegalArgumentException();
         }
-        pausa = true;
+        pause = true;
     }
 
-    public synchronized void reanudar() {
-        if (!estaActivo) {
+    public synchronized void resume() {
+        if (!isActive) {
             throw new IllegalArgumentException();
         }
-        pausa = false;
+        pause = false;
         notify();
     }
 
-    public boolean estaActivo() {
-        return estaActivo;
+    public boolean isActive() {
+        return isActive;
     }
 
 }

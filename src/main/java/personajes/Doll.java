@@ -4,23 +4,23 @@
  */
 package personajes;
 
-import dependencias.Imagenes;
+import dependencias.Images;
 import motor.core.input.GamePad;
 
 /**
  *
  * @author hp
  */
-public class Doll extends Enemigo {
+public class Doll extends Enemy {
     
     public Doll(int x, int y) {
-        super(Imagenes.DOLL, x, y, new GamePad());
-        velocidad = SPEED_SLOW;
+        super(Images.DOLL, x, y, new GamePad());
+        speed = SPEED_SLOW;
         smart = SMART_LOW;
         wallpass = false;
-        puntaje = 400;
+        score = 400;
         id = "D";
-        inicializar();
+        initialize();
     }
     
 }

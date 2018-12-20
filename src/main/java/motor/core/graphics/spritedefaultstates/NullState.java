@@ -5,7 +5,7 @@
  */
 package motor.core.graphics.spritedefaultstates;
 
-import utilidades.juego.Interfaz;
+import utilidades.juego.Screen;
 import java.util.function.Supplier;
 import motor.core.graphics.Sprite;
 import motor.core.graphics.SpriteState;
@@ -23,11 +23,11 @@ public class NullState implements SpriteState {
     }
 
     @Override
-    public void update(Sprite sprite, utilidades.juego.Interfaz escena, long tiempoTranscurrido) {
+    public void update(Sprite sprite, Screen escena, long tiempoTranscurrido) {
     }
 
     @Override
-    public void onExit(Sprite sprite, Interfaz escena) {
+    public void onExit(Sprite sprite, Screen escena) {
     }
 
 }

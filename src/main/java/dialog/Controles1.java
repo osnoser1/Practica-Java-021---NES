@@ -4,8 +4,8 @@
  */
 package dialog;
 
-import lenguaje.utils.ManejadorDeArchivos;
-import motor.core.input.GamePad.Botones;
+import lenguaje.utils.FileManager;
+import motor.core.input.GamePad.Buttons;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import javax.swing.ComboBoxModel;
@@ -26,10 +26,10 @@ public class Controles1 extends javax.swing.JDialog {
     /**
      * Creates new form Controles1
      */
-    private Botones targetKey;
+    private Buttons targetKey;
     private JTextField sender;
-    private HashMap<Integer, Botones> currentKeys;
-    private HashMap<Botones, Integer> revertKeys;
+    private HashMap<Integer, Buttons> currentKeys;
+    private HashMap<Buttons, Integer> revertKeys;
     private boolean getKey = false;
     private final ControllerPollThread controllerPollThread;
     private static final int maxControllerFieldValueLength = 9;
@@ -92,7 +92,7 @@ public class Controles1 extends javax.swing.JDialog {
         return null;
     }
     
-    private void setControllerMapping(Botones targetKey, String identifierName, JTextField field) {
+    private void setControllerMapping(Buttons targetKey, String identifierName, JTextField field) {
 //    	currentController.put(targetKey, identifierName);
         field.setText(getControllerFieldText(identifierName));
         getKey = false;
@@ -145,35 +145,35 @@ public class Controles1 extends javax.swing.JDialog {
         } else if(identifier instanceof Component.Identifier.Key) {
             switch(targetKey){
                 case A:
-                    setControllerMapping(Botones.A, identifierName, cruz);
+                    setControllerMapping(Buttons.A, identifierName, cruz);
                     break;
                 case B:
-                    setControllerMapping(Botones.B, identifierName, cuadrado);
+                    setControllerMapping(Buttons.B, identifierName, cuadrado);
                     break;
                 case L1:
-                    setControllerMapping(Botones.L1, identifierName, l1);
+                    setControllerMapping(Buttons.L1, identifierName, l1);
                     break;
                 case L2:
-                    setControllerMapping(Botones.L2, identifierName, l2);
+                    setControllerMapping(Buttons.L2, identifierName, l2);
                     break;
                 case R1:
-                    setControllerMapping(Botones.R1, identifierName, r1);
+                    setControllerMapping(Buttons.R1, identifierName, r1);
                     break;
                 case R2:
-                    setControllerMapping(Botones.R2, identifierName, r2);
+                    setControllerMapping(Buttons.R2, identifierName, r2);
                     break;
             }
             System.out.println(identifierName);
         } else if (identifier == Component.Identifier.Axis.POV) {
             switch (targetKey) {
-                case ABAJO:
-                case ARRIBA:
-                case IZQUIERDA:
-                case DERECHA:
-                    setControllerMapping(Botones.ABAJO, identifierName, pdAbajo);
-                    setControllerMapping(Botones.ARRIBA, identifierName, pdArriba);
-                    setControllerMapping(Botones.IZQUIERDA, identifierName, pdIzquierda);
-                    setControllerMapping(Botones.DERECHA, identifierName, pdDerecha);
+                case DOWN:
+                case UP:
+                case LEFT:
+                case RIGHT:
+                    setControllerMapping(Buttons.DOWN, identifierName, pdAbajo);
+                    setControllerMapping(Buttons.UP, identifierName, pdArriba);
+                    setControllerMapping(Buttons.LEFT, identifierName, pdIzquierda);
+                    setControllerMapping(Buttons.RIGHT, identifierName, pdDerecha);
                     break;
                 default:
 //                    jpcsp.Controller.log.warn(String.format("Unknown Controller POV Event on %s(%s): %f for %s", component.getName(), identifier.getName(), value, targetKey.toString()));
@@ -181,25 +181,25 @@ public class Controles1 extends javax.swing.JDialog {
             }
         } else if (identifier instanceof Component.Identifier.Axis) {
             switch (targetKey) {
-                case ABAJO:
-                case ARRIBA:
-                    setControllerMapping(Botones.ABAJO, identifierName, pdAbajo);
-                    setControllerMapping(Botones.ARRIBA, identifierName, pdArriba);
+                case DOWN:
+                case UP:
+                    setControllerMapping(Buttons.DOWN, identifierName, pdAbajo);
+                    setControllerMapping(Buttons.UP, identifierName, pdArriba);
                     break;
-                case IZQUIERDA:
-                case DERECHA:
-                    setControllerMapping(Botones.IZQUIERDA, identifierName, pdIzquierda);
-                    setControllerMapping(Botones.DERECHA, identifierName, pdDerecha);
+                case LEFT:
+                case RIGHT:
+                    setControllerMapping(Buttons.LEFT, identifierName, pdIzquierda);
+                    setControllerMapping(Buttons.RIGHT, identifierName, pdDerecha);
                     break;
-                case AIABAJO:
-                case AIARRIBA:
-                    setControllerMapping(Botones.AIABAJO, identifierName, siAbajo);
-                    setControllerMapping(Botones.AIARRIBA, identifierName, siArriba);
+                case AI_DOWN:
+                case AI_UP:
+                    setControllerMapping(Buttons.AI_DOWN, identifierName, siAbajo);
+                    setControllerMapping(Buttons.AI_UP, identifierName, siArriba);
                     break;
-                case AIIZQUIERDA:
-                case AIDERECHA:
-                    setControllerMapping(Botones.AIIZQUIERDA, identifierName, siIzquierda);
-                    setControllerMapping(Botones.AIDERECHA, identifierName, siDerecha);
+                case AI_LEFT:
+                case AI_RIGHT:
+                    setControllerMapping(Buttons.AI_LEFT, identifierName, siIzquierda);
+                    setControllerMapping(Buttons.AI_RIGHT, identifierName, siDerecha);
                     break;
                 default:
                     setControllerMapping(targetKey, identifierName, sender);
@@ -214,7 +214,7 @@ public class Controles1 extends javax.swing.JDialog {
         }
     }
     
-    private void setKey(JTextField sender, Botones targetKey) {
+    private void setKey(JTextField sender, Buttons targetKey) {
         if (getKey) {
             this.sender.setText(KeyEvent.getKeyText(revertKeys.get(this.targetKey)));
         }
@@ -265,7 +265,7 @@ public class Controles1 extends javax.swing.JDialog {
         triangulo = new javax.swing.JTextField();
         cruz = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel(ManejadorDeArchivos.getInstance().loadIconJAR("/control.jpg"));
+        jLabel13 = new javax.swing.JLabel(FileManager.getInstance().loadIconJAR("/control.jpg"));
         jPanel9 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -935,28 +935,28 @@ public class Controles1 extends javax.swing.JDialog {
 
     private void jtfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtfMouseClicked
         var source = (JTextField) evt.getSource();
-        if(source == pdArriba) setKey(source, Botones.ARRIBA);
-        else if(source == pdAbajo) setKey(source, Botones.ABAJO);
-        else if(source == pdIzquierda) setKey(source, Botones.IZQUIERDA);
-        else if(source == pdDerecha) setKey(source, Botones.DERECHA);
-        else if(source == start) setKey(source, Botones.START);
-        else if(source == r1) setKey(source, Botones.R1);
-        else if(source == r2) setKey(source, Botones.R2);
-        else if(source == l1) setKey(source, Botones.L1);
-        else if(source == l2) setKey(source, Botones.L2);
-        else if(source == siAbajo) setKey(source, Botones.AIABAJO);
-        else if(source == siArriba) setKey(source, Botones.AIARRIBA);
-        else if(source == siIzquierda) setKey(source, Botones.AIIZQUIERDA);
-        else if(source == siDerecha) setKey(source, Botones.AIDERECHA);
-        else if(source == sdAbajo) setKey(source, Botones.ADABAJO);
-        else if(source == sdArriba) setKey(source, Botones.ADARRIBA);
-        else if(source == sdDerecha) setKey(source, Botones.ADDERECHA);
-        else if(source == sdIzquierda) setKey(source, Botones.ADIZQUIERDA);
-        else if(source == cuadrado) setKey(source, Botones.B);
-        else if(source == cruz) setKey(source, Botones.A);
-        else if(source == triangulo) setKey(source, Botones.ADDERECHA);
-        else if(source == circulo) setKey(source, Botones.ADDERECHA);
-        else if(source == select) setKey(source, Botones.SELECT);
+        if(source == pdArriba) setKey(source, Buttons.UP);
+        else if(source == pdAbajo) setKey(source, Buttons.DOWN);
+        else if(source == pdIzquierda) setKey(source, Buttons.LEFT);
+        else if(source == pdDerecha) setKey(source, Buttons.RIGHT);
+        else if(source == start) setKey(source, Buttons.START);
+        else if(source == r1) setKey(source, Buttons.R1);
+        else if(source == r2) setKey(source, Buttons.R2);
+        else if(source == l1) setKey(source, Buttons.L1);
+        else if(source == l2) setKey(source, Buttons.L2);
+        else if(source == siAbajo) setKey(source, Buttons.AI_DOWN);
+        else if(source == siArriba) setKey(source, Buttons.AI_UP);
+        else if(source == siIzquierda) setKey(source, Buttons.AI_LEFT);
+        else if(source == siDerecha) setKey(source, Buttons.AI_RIGHT);
+        else if(source == sdAbajo) setKey(source, Buttons.AD_DOWN);
+        else if(source == sdArriba) setKey(source, Buttons.AD_UP);
+        else if(source == sdDerecha) setKey(source, Buttons.AD_RIGHT);
+        else if(source == sdIzquierda) setKey(source, Buttons.AD_LEFT);
+        else if(source == cuadrado) setKey(source, Buttons.B);
+        else if(source == cruz) setKey(source, Buttons.A);
+        else if(source == triangulo) setKey(source, Buttons.AD_RIGHT);
+        else if(source == circulo) setKey(source, Buttons.AD_RIGHT);
+        else if(source == select) setKey(source, Buttons.SELECT);
     }//GEN-LAST:event_jtfMouseClicked
 
     /**

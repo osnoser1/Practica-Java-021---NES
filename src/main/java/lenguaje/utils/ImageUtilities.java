@@ -11,28 +11,28 @@ import java.awt.image.VolatileImage;
 
 public class ImageUtilities {
 
-    static public BufferedImage invertirImagen(BufferedImage imagen) {
-        if (imagen == null)
+    static public BufferedImage invertImage(BufferedImage image) {
+        if (image == null)
             return null;
         Color colorPixel;
-        for (int i = 0, rgb; i < imagen.getWidth(); i++)
-            for (var j = 0; j < imagen.getHeight(); j++) {
-                colorPixel = new Color(imagen.getRGB(i, j));
+        for (int i = 0, rgb; i < image.getWidth(); i++)
+            for (var j = 0; j < image.getHeight(); j++) {
+                colorPixel = new Color(image.getRGB(i, j));
                 rgb = new Color(255 - colorPixel.getRed(), 255 - colorPixel.getGreen(), 255 - colorPixel.getBlue()).getRGB();
-                imagen.setRGB(i, j, rgb);
+                image.setRGB(i, j, rgb);
             }
-        return imagen;
+        return image;
     }
 
-    static public Image invertirImagen(Image imagen) {
-        return invertirImagen(convertImage(imagen));
+    static public Image invertImage(Image image) {
+        return invertImage(convertImage(image));
     }
 
-    static public BufferedImage convertImage(Image imagen) {
-        if (imagen == null)
+    static public BufferedImage convertImage(Image image) {
+        if (image == null)
             return null;
-        var img = new BufferedImage(imagen.getWidth(null), imagen.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-        img.createGraphics().drawImage(imagen, 0, 0, null);
+        var img = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        img.createGraphics().drawImage(image, 0, 0, null);
         return img;
     }
 
@@ -93,20 +93,20 @@ public class ImageUtilities {
         return newImage;
     }
 
-    static public BufferedImage cambiarColor(BufferedImage img, Color crSeleccionado, Color crCambiar, float tolerancia) {
+    static public BufferedImage changeColor(BufferedImage img, Color selectedColor, Color newColor, float tolerance) {
         if (img == null)
             return null;
         Color colorPixel;
         for (var i = 0; i < img.getWidth(); i++)
             for (var j = 0; i < img.getHeight(); j++) {
                 colorPixel = new Color(img.getRGB(i, j));
-                if (tolerancia > Math.sqrt(Math.pow(crSeleccionado.getRed() - colorPixel.getRed(), 2) + Math.pow(crSeleccionado.getGreen() - colorPixel.getGreen(), 2) + Math.pow(crSeleccionado.getBlue() - colorPixel.getBlue(), 2)))
-                    img.setRGB(i, j, crCambiar.getRGB());
+                if (tolerance > Math.sqrt(Math.pow(selectedColor.getRed() - colorPixel.getRed(), 2) + Math.pow(selectedColor.getGreen() - colorPixel.getGreen(), 2) + Math.pow(selectedColor.getBlue() - colorPixel.getBlue(), 2)))
+                    img.setRGB(i, j, newColor.getRGB());
             }
         return img;
     }
 
-    static public Color invertirColor(Color color) {
+    static public Color invertColor(Color color) {
         return new Color(255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue());
     }
 

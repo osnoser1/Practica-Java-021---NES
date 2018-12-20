@@ -6,7 +6,7 @@
 
 package motor.core.graphics;
 
-import utilidades.juego.Interfaz;
+import utilidades.juego.Screen;
 import java.util.function.Supplier;
 import motor.core.input.GamePad;
 
@@ -17,6 +17,6 @@ import motor.core.input.GamePad;
 public interface SpriteState {
 
     Supplier<SpriteState> handleInput(Sprite sprite, GamePad gamePad);
-    void update(Sprite sprite, Interfaz escena, long tiempoTranscurrido);
-    void onExit(Sprite sprite, Interfaz escena);
+    void update(Sprite sprite, Screen screen, long elapsedTime);
+    void onExit(Sprite sprite, Screen screen);
 }

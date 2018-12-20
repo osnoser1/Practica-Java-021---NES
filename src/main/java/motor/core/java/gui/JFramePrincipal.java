@@ -5,8 +5,8 @@
 package motor.core.java.gui;
 
 import motor.core.java.controllers.CJFramePrincipal;
-import lenguaje.utils.ManejadorDeArchivos;
-import concurrencia.HiloPrincipal;
+import lenguaje.utils.FileManager;
+import concurrencia.PrincipalThread;
 import java.awt.Frame;
 import java.awt.Graphics;
 
@@ -16,13 +16,13 @@ import java.awt.Graphics;
  */
 public class JFramePrincipal extends Frame {
 
-    final HiloPrincipal hiloPrincipal;
+    final PrincipalThread principalThread;
 
     public JFramePrincipal() {
         initComponents();
         setVisible(true);
-        hiloPrincipal = new HiloPrincipal(this, (short) 60);
-        hiloPrincipal.start();
+        principalThread = new PrincipalThread(this, (short) 60);
+        principalThread.start();
     }
 
     private void initComponents() {
@@ -30,15 +30,15 @@ public class JFramePrincipal extends Frame {
         setFocusable(true);
         setAutoRequestFocus(true);
         setIgnoreRepaint(true);
-//        add(JPanelContenedor.getInstance());
-//        setJMenuBar(JBarraMenu.getInstance());
+//        add(JPanelContainer.getInstance());
+//        setJMenuBar(JMenuBar.getInstance());
         setSize(656, 600);
         var controller = CJFramePrincipal.getInstance().setJFramePrincipal(this);
         addWindowFocusListener(controller);
         addWindowListener(controller);
         addComponentListener(controller);
-        addKeyListener(CJFramePrincipal.Teclado.getInstance());
-        setIconImage(ManejadorDeArchivos.getInstance().loadImageJAR("Imagenes/bomber_32x32.png"));
+        addKeyListener(CJFramePrincipal.Keyboard.getInstance());
+        setIconImage(FileManager.getInstance().loadImageJAR("images/bomber_32x32.png"));
     }
 
     @Override

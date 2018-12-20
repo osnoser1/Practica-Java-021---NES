@@ -4,98 +4,98 @@
  */
 package personajes;
 
-import motor.core.graphics.Imagen;
-import dependencias.Imagenes;
-import gui.JPanelJuego;
-import dependencias.Sonidos;
-import utilidades.juego.Interfaz;
+import dependencias.Sounds;
+import gui.GameScreen;
+import motor.core.graphics.Image;
+import dependencias.Images;
+import utilidades.juego.Screen;
 import game.core.input.PlayerOneKeyboardController;
 import game.players.bomberman.states.*;
 import motor.core.input.GamePad;
-import motor.core.input.GamePad.Botones;
+import motor.core.input.GamePad.Buttons;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import motor.core.graphics.AnimationWrapper;
 import motor.core.graphics.spritedefaultstates.NullState;
 
-public class Bomberman extends Personaje {
+public class Bomberman extends Character {
 
-    private boolean SPEED, DETONADOR, FLAMEPASS, MYSTERY;
+    private boolean SPEED, DETONATOR, FLAMEPASS, MYSTERY;
     private int FLAMES, BOMBS;
-    private static CopyOnWriteArrayList<Bomb> bombas;
-    private boolean entroALaPuerta;
+    private static CopyOnWriteArrayList<Bomb> bombs;
+    private boolean enteredTheDoor;
 
     public Bomberman(final int x, final int y) {
-        super(new Imagen(Imagenes.BOMBERMAN, 6, 6, (float) 2.5), x, y);
+        super(new Image(Images.BOMBERMAN, 6, 6, (float) 2.5), x, y);
         gamePad = new GamePad();
         padController = PlayerOneKeyboardController.getInstance();
-        bombas = new CopyOnWriteArrayList<>();
-        velocidad = SPEED_MID;
+        bombs = new CopyOnWriteArrayList<>();
+        speed = SPEED_MID;
         BOMBS = 1;
         FLAMES = 1;
         SPEED = false;
         wallpass = false;
-        DETONADOR = true;
+        DETONATOR = true;
         BOMBPASS = false;
         FLAMEPASS = false;
         MYSTERY = false;
         id = "B";
-        inicializar();
+        initialize();
     }
 
-    public final void inicializar() {
-        super.animaciones = new HashMap<>() {
+    public final void initialize() {
+        super.animations = new HashMap<>() {
             {
-                put(InicioState.class, new AnimationWrapper(0, "0", 4000 / 60));
-                put(ArribaState.class, new AnimationWrapper(1, "2,1,0,1", 4000 / 60));
-                put(AbajoState.class, new AnimationWrapper(2, "2,1,0,1", 4000 / 60));
-                put(DerechaState.class, new AnimationWrapper(3, "2,1,0,1", 4000 / 60));
-                put(IzquierdaState.class, new AnimationWrapper(4, "2,1,0,1", 4000 / 60));
-                put(MuerteState.class, new AnimationWrapper(5, "0,1,2,3,4", 300));
+                put(InitialState.class, new AnimationWrapper(0, "0", 4000 / 60));
+                put(UpState.class, new AnimationWrapper(1, "2,1,0,1", 4000 / 60));
+                put(DownState.class, new AnimationWrapper(2, "2,1,0,1", 4000 / 60));
+                put(RightState.class, new AnimationWrapper(3, "2,1,0,1", 4000 / 60));
+                put(LeftState.class, new AnimationWrapper(4, "2,1,0,1", 4000 / 60));
+                put(DeathState.class, new AnimationWrapper(5, "0,1,2,3,4", 300));
             }
         };
-        setEstadoActual(IzquierdaState::new);
+        setCurrentState(LeftState::new);
     }
 
     @Override
-    public void actualizar(final Interfaz interfaz, final long tiempoTranscurrido) {
-        var jPanelJuego = (JPanelJuego) interfaz;
+    public void update(final Screen screen, final long elapsedTime) {
+        var gameScreen = (GameScreen) screen;
         padController.update(gamePad);
-        verificarTeclasAccion(jPanelJuego);
-        super.actualizar(jPanelJuego, tiempoTranscurrido);
-        comprobarMuerte(jPanelJuego);
-        for (var bomba : bombas) {
-            bomba.actualizar(jPanelJuego, tiempoTranscurrido);
-            if (bomba.getEstadoActual() instanceof NullState) {
-                jPanelJuego.getMapa().remover(bomba);
-                bombas.remove(bomba);
+        checkActionKeys(gameScreen);
+        super.update(gameScreen, elapsedTime);
+        checkDeath(gameScreen);
+        for (var bomb : bombs) {
+            bomb.update(gameScreen, elapsedTime);
+            if (bomb.getCurrentState() instanceof NullState) {
+                gameScreen.getMap().delete(bomb);
+                bombs.remove(bomb);
             }
         }
     }
     
-    public void morir() {
-        Sonidos.getInstance().detener(Sonidos.UP, Sonidos.DOWN, Sonidos.LEFT, Sonidos.RIGHT);
-        Sonidos.getInstance().play(Sonidos.DEATH);
-        setEstadoActual(MuerteState::new);
+    public void die() {
+        Sounds.getInstance().stop(Sounds.UP, Sounds.DOWN, Sounds.LEFT, Sounds.RIGHT);
+        Sounds.getInstance().play(Sounds.DEATH);
+        setCurrentState(DeathState::new);
     }
     
-    private void comprobarMuerte(JPanelJuego jPanelJuego) {
-        if(estadoActual instanceof MuerteState || estadoActual instanceof NullState 
-                || !jPanelJuego.getMapa().contiene(this, Enemigo.class))
+    private void checkDeath(GameScreen gameScreen) {
+        if(currentState instanceof DeathState || currentState instanceof NullState
+                || !gameScreen.getMap().contains(this, Enemy.class))
             return;
-        morir();
+        die();
     }
     
     public void setDETONATOR(boolean DETONATOR) {
-        this.DETONADOR = DETONATOR;
+        this.DETONATOR = DETONATOR;
     }
 
     public void setSPEED(boolean SPEED) {
         this.SPEED = SPEED;
         if (SPEED)
-            velocidad = SPEED_FAST;
+            speed = SPEED_FAST;
         else
-            velocidad = SPEED_MID;
+            speed = SPEED_MID;
     }
 
     public void setMYSTERY(boolean MYSTERY) {
@@ -106,12 +106,12 @@ public class Bomberman extends Personaje {
         this.FLAMEPASS = FLAMEPASS;
     }
 
-    public void incrementarBombas(final int incremento) {
-        BOMBS += incremento;
+    public void increaseBombs(final int count) {
+        BOMBS += count;
     }
 
-    public void incrementarFlamas(final int incremento) {
-        FLAMES += incremento;
+    public void increaseFlames(final int count) {
+        FLAMES += count;
     }
 
     public int getBOMBS() {
@@ -126,60 +126,60 @@ public class Bomberman extends Personaje {
         return FLAMES;
     }
 
-    public boolean getDETONADOR() {
-        return DETONADOR;
+    public boolean getDETONATOR() {
+        return DETONATOR;
     }
 
     public boolean getFLAMEPASS() {
         return FLAMEPASS;
     }
 
-    public void crearBomba(final JPanelJuego jPanelJuego) {
-        if (choqueCentral(Bomb.class)) {
-            dentroBomb = true;
+    public void addBomb(final GameScreen gameScreen) {
+        if (centralCollision(Bomb.class)) {
+            insideBomb = true;
             return;
         }
-        if (!choqueCentral(Ladrillo.class, LadrilloEspecial.class) && bombas.size() < BOMBS) {
-            Sonidos.getInstance().play(Sonidos.BOMB_PLANT);
-            final var b = new Bomb(getCentro().x / imagen.getAncho() * imagen.getAncho(),
-                    getCentro().y / imagen.getAlto() * imagen.getAlto(), this);
-            jPanelJuego.getMapa().agregar(b);
-            bombas.add(b);
-            dentroBomb = true;
+        if (!centralCollision(Brick.class, SpecialBrick.class) && bombs.size() < BOMBS) {
+            Sounds.getInstance().play(Sounds.BOMB_PLANT);
+            final var b = new Bomb(getCenter().x / image.getWidth() * image.getWidth(),
+                    getCenter().y / image.getHeight() * image.getHeight(), this);
+            gameScreen.getMap().add(b);
+            bombs.add(b);
+            insideBomb = true;
         }
     }
 
     public CopyOnWriteArrayList<Bomb> getBombs() {
-        return bombas;
+        return bombs;
     }
     
-    private void verificarTeclasAccion(final JPanelJuego jPanelJuego) {
-        if(estadoActual instanceof MuerteState || estadoActual instanceof NullState)
+    private void checkActionKeys(final GameScreen gameScreen) {
+        if(currentState instanceof DeathState || currentState instanceof NullState)
             return;
-        if (gamePad.isPress(Botones.A))
-            crearBomba(jPanelJuego);
-        if (gamePad.isPress(Botones.B) && DETONADOR)
-            detonarBomba(jPanelJuego);
+        if (gamePad.isPress(Buttons.A))
+            addBomb(gameScreen);
+        if (gamePad.isPress(Buttons.B) && DETONATOR)
+            detonatorBomb(gameScreen);
     }
 
-    public void reiniciar(int x, int y) {
-        setEstadoActual(InicioState::new);
-        fijarCasilla(x, y);
-        bombas.clear();
-        imagen.setActive(true);
-        entroALaPuerta = false;
+    public void restart(int x, int y) {
+        setCurrentState(InitialState::new);
+        setAxisPosition(x, y);
+        bombs.clear();
+        image.setActive(true);
+        enteredTheDoor = false;
     }
 
-    private void detonarBomba(final Interfaz interfaz) {
-        bombas.stream().filter((bomba) -> (!bomba.hasDetonated())).forEachOrdered((bomba) -> bomba.detonar(interfaz));
+    private void detonatorBomb(final Screen screen) {
+        bombs.stream().filter((bomb) -> (!bomb.hasDetonated())).forEachOrdered((bomb) -> bomb.detonate(screen));
     }
 
-    public void setEntroALaPuerta(boolean b) {
-        entroALaPuerta = true;
+    public void setEnteredTheDoor(boolean b) {
+        enteredTheDoor = true;
     }
 
-    public boolean isEntroALaPuerta() {
-        return entroALaPuerta;
+    public boolean isEnteredTheDoor() {
+        return enteredTheDoor;
     }
 
 }

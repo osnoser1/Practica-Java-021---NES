@@ -4,7 +4,7 @@
  */
 package personajes;
 
-import dependencias.Imagenes;
+import dependencias.Images;
 import motor.core.input.GamePad;
 
 
@@ -12,17 +12,17 @@ import motor.core.input.GamePad;
  *
  * @author hp
  */
-public class Oneal extends Enemigo {
+public class Oneal extends Enemy {
     
     public Oneal(int x, int y) {
-        super(Imagenes.ONEAL, x, y, new GamePad());
-        velocidad = SPEED_SLOW;
+        super(Images.ONEAL, x, y, new GamePad());
+        speed = SPEED_SLOW;
         smart = SMART_MID;
-        puntaje = 200;
+        score = 200;
         wallpass = false;
         id = "O";
-        inteligencia = new Inteligencia(this);
-        inicializar();
+        intelligence = new Intelligence(this);
+        initialize();
     }
     
 }

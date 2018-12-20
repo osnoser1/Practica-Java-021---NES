@@ -9,7 +9,7 @@ package game.core.input;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-import static motor.core.input.GamePad.Botones.*;
+import static motor.core.input.GamePad.Buttons.*;
 import motor.core.input.IGamePadController;
 import motor.core.input.KeyboardController;
 
@@ -23,10 +23,10 @@ public class PlayerOneKeyboardController extends KeyboardController {
     
     private PlayerOneKeyboardController() {
         super(new HashMap<>() {{
-            put(KeyEvent.VK_DOWN, ABAJO);
-            put(KeyEvent.VK_UP, ARRIBA);
-            put(KeyEvent.VK_RIGHT, DERECHA);
-            put(KeyEvent.VK_LEFT, IZQUIERDA);
+            put(KeyEvent.VK_DOWN, DOWN);
+            put(KeyEvent.VK_UP, UP);
+            put(KeyEvent.VK_RIGHT, RIGHT);
+            put(KeyEvent.VK_LEFT, LEFT);
             put(KeyEvent.VK_X, A);
             put(KeyEvent.VK_Z, B);
             put(KeyEvent.VK_SHIFT, SELECT);
