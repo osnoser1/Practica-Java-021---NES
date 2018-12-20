@@ -4,8 +4,8 @@
  */
 package gui;
 
-import controladores.CJMenuItem;
-import controladores.JMenuController;
+import controllers.CJMenuItem;
+import controllers.JMenuController;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;

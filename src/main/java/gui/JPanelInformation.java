@@ -4,8 +4,8 @@
  */
 package gui;
 
-import fuentes.Fonts;
-import lenguaje.utils.ImageUtilities;
+import fonts.Fonts;
+import language.utils.ImageUtilities;
 
 import java.awt.Color;
 import java.awt.Dimension;

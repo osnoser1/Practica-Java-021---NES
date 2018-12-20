@@ -4,7 +4,7 @@
  */
 package gui;
 
-import controladores.CJToolBarOptions;
+import controllers.CJToolBarOptions;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JToolBar;

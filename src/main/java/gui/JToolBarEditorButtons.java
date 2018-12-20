@@ -1,13 +1,13 @@
 package gui;
 
-import controladores.CSpecialPanel;
-import dependencias.Images;
+import controllers.CSpecialPanel;
+import dependencies.Images;
 import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.JToolBar;
 
-import juego.constantes.Objects;
+import game.constants.Objects;
 
 public class JToolBarEditorButtons extends JToolBar {
 

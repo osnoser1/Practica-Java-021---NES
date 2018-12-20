@@ -4,9 +4,9 @@
  */
 package gui;
 
-import dependencias.Sounds;
-import utilidades.juego.Screen;
-import utilidades.juego.Screen.Scene;
+import dependencies.Sounds;
+import utils.game.Screen;
+import utils.game.Screen.Scene;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

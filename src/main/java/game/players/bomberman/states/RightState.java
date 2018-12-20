@@ -5,16 +5,16 @@
  */
 package game.players.bomberman.states;
 
-import dependencias.Sounds;
-import personajes.Bomberman;
-import personajes.Character;
-import utilidades.juego.Screen;
+import dependencies.Sounds;
+import characters.Bomberman;
+import characters.Character;
+import utils.game.Screen;
 import gui.GameScreen;
 import java.util.function.Supplier;
-import motor.core.graphics.Sprite;
-import motor.core.graphics.SpriteState;
-import motor.core.input.GamePad;
-import static motor.core.input.GamePad.Buttons.*;
+import engine.core.graphics.Sprite;
+import engine.core.graphics.SpriteState;
+import engine.core.input.GamePad;
+import static engine.core.input.GamePad.Buttons.*;
 
 public class RightState implements SpriteState {
 

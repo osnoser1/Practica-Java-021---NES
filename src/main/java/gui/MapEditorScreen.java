@@ -4,10 +4,10 @@
  */
 package gui;
 
-import controladores.CMapEditorScreen;
-import dependencias.Images;
-import motor.core.map.Map;
-import motor.core.graphics.Sprite;
+import controllers.CMapEditorScreen;
+import dependencies.Images;
+import engine.core.map.Map;
+import engine.core.graphics.Sprite;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,7 +15,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import juego.constantes.Objects;
+import game.constants.Objects;
 
 /**
  *

@@ -5,14 +5,14 @@
  */
 package game.players.bomberman.states;
 
-import dependencias.Sounds;
-import personajes.Bomberman;
-import utilidades.juego.Screen;
+import dependencies.Sounds;
+import characters.Bomberman;
+import utils.game.Screen;
 import java.util.function.Supplier;
-import motor.core.graphics.Sprite;
-import motor.core.graphics.SpriteState;
-import motor.core.graphics.spritedefaultstates.NullState;
-import motor.core.input.GamePad;
+import engine.core.graphics.Sprite;
+import engine.core.graphics.SpriteState;
+import engine.core.graphics.spritedefaultstates.NullState;
+import engine.core.input.GamePad;
 
 /**
  *

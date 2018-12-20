@@ -5,13 +5,13 @@
  */
 package game.players.ladrillo.states;
 
-import personajes.Brick;
-import utilidades.juego.Screen;
+import characters.Brick;
+import utils.game.Screen;
 import java.util.function.Supplier;
-import motor.core.graphics.Sprite;
-import motor.core.graphics.SpriteState;
-import motor.core.graphics.spritedefaultstates.NullState;
-import motor.core.input.GamePad;
+import engine.core.graphics.Sprite;
+import engine.core.graphics.SpriteState;
+import engine.core.graphics.spritedefaultstates.NullState;
+import engine.core.input.GamePad;
 
 /**
  *

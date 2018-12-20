@@ -9,9 +9,9 @@ package game.core.input;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-import static motor.core.input.GamePad.Buttons.*;
-import motor.core.input.IGamePadController;
-import motor.core.input.KeyboardController;
+import static engine.core.input.GamePad.Buttons.*;
+import engine.core.input.IGamePadController;
+import engine.core.input.KeyboardController;
 
 /**
  * 

@@ -5,7 +5,7 @@
  */
 package game.players.states;
 
-import motor.core.graphics.SpriteState;
+import engine.core.graphics.SpriteState;
 
 /**
  *

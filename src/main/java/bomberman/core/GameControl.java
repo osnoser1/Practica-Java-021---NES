@@ -5,9 +5,9 @@
 package bomberman.core;
 
 import gui.GameScreen;
-import personajes.Bomberman;
-import personajes.Enemy;
-import personajes.Brick;
+import characters.Bomberman;
+import characters.Enemy;
+import characters.Brick;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;

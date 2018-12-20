@@ -4,16 +4,16 @@
  */
 package gui;
 
-import bomberman.configuracion.Configuration;
+import bomberman.configuration.Configuration;
 import bomberman.core.GameControl;
-import dependencias.Sounds;
-import lenguaje.utils.ImageUtilities;
-import dependencias.Images;
-import motor.core.map.Map;
-import personajes.*;
-import personajes.Enemy;
-import motor.core.Camera;
-import utilidades.juego.Screen;
+import dependencies.Sounds;
+import language.utils.ImageUtilities;
+import dependencies.Images;
+import engine.core.map.Map;
+import characters.*;
+import characters.Enemy;
+import engine.core.Camera;
+import utils.game.Screen;
 import game.players.states.DeathState;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import juego.constantes.Objects;
-import motor.core.graphics.spritedefaultstates.NullState;
+import game.constants.Objects;
+import engine.core.graphics.spritedefaultstates.NullState;
 
 /**
  *

@@ -1,12 +1,13 @@
 package game.players.fire.states;
 
-import utilidades.juego.Screen;
+import utils.game.Screen;
+import engine.core.graphics.Sprite;
+import engine.core.graphics.SpriteState;
+import engine.core.graphics.spritedefaultstates.NullState;
+import engine.core.input.GamePad;
 import gui.GameScreen;
+
 import java.util.function.Supplier;
-import motor.core.graphics.Sprite;
-import motor.core.graphics.SpriteState;
-import motor.core.graphics.spritedefaultstates.NullState;
-import motor.core.input.GamePad;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

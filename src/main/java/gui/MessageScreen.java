@@ -4,19 +4,19 @@
  */
 package gui;
 
-import bomberman.configuracion.Configuration;
-import dependencias.Sound;
-import dependencias.Sounds;
-import motor.core.input.Keyboard;
-import fuentes.Fonts;
-import utilidades.juego.Screen;
+import bomberman.configuration.Configuration;
+import dependencies.Sound;
+import dependencies.Sounds;
+import engine.core.input.Keyboard;
+import fonts.Fonts;
+import utils.game.Screen;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Transparency;
-import lenguaje.utils.ImageUtilities;
+import language.utils.ImageUtilities;
 
 /**
  *

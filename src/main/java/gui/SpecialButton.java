@@ -1,6 +1,6 @@
 package gui;
 
-import motor.core.graphics.Sprite;
+import engine.core.graphics.Sprite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;

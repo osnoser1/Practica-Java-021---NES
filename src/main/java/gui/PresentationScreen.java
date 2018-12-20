@@ -4,15 +4,15 @@
  */
 package gui;
 
-import bomberman.configuracion.Configuration;
-import dependencias.Images;
-import dependencias.Sounds;
-import lenguaje.utils.ImageUtilities;
-import motor.core.input.Keyboard;
-import fuentes.Fonts;
-import motor.core.input.GamePad;
-import motor.core.input.GamePad.Buttons;
-import utilidades.juego.Screen;
+import bomberman.configuration.Configuration;
+import dependencies.Images;
+import dependencies.Sounds;
+import language.utils.ImageUtilities;
+import engine.core.input.Keyboard;
+import fonts.Fonts;
+import engine.core.input.GamePad;
+import engine.core.input.GamePad.Buttons;
+import utils.game.Screen;
 import game.core.input.PlayerOneKeyboardController;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,7 +22,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Transparency;
 import java.util.ArrayList;
-import motor.core.input.IGamePadController;
+import engine.core.input.IGamePadController;
 
 /**
  *
