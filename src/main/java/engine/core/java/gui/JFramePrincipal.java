@@ -31,7 +31,6 @@ public class JFramePrincipal extends Frame {
         setAutoRequestFocus(true);
         setIgnoreRepaint(true);
 //        add(JPanelContainer.getInstance());
-//        setJMenuBar(JMenuBar.getInstance());
         setSize(656, 600);
         var controller = CJFramePrincipal.getInstance().setJFramePrincipal(this);
         addWindowFocusListener(controller);
