@@ -14,7 +14,7 @@ import java.awt.Rectangle;
 public final class Image {
 
     private final java.awt.Image image;
-    private final int files, columns;
+    private final int rows, columns;
     private final Rectangle sourceRect; // currentFrame Rectangle
     private final int width, height;
     private int state;
@@ -25,29 +25,29 @@ public final class Image {
 
     /**
      * @param image
-     * @param files
+     * @param rows
      * @param columns
      * @param scale
      * @param initialState
      */
-    public Image(final java.awt.Image image, final int files, final int columns, final float scale, final int initialState) {
-        this(image, files, columns, scale);
+    public Image(final java.awt.Image image, final int rows, final int columns, final float scale, final int initialState) {
+        this(image, rows, columns, scale);
         state = initialState;
     }
 
     /**
      * @param image
-     * @param files
+     * @param rows
      * @param columns
      * @param scale
      */
-    public Image(final java.awt.Image image, int files, int columns, final float scale) {
+    public Image(final java.awt.Image image, int rows, int columns, final float scale) {
         active = true;
-        this.files = files;
+        this.rows = rows;
         this.columns = columns;
         this.image = image;
         width = this.image.getWidth(null) / columns;
-        height = this.image.getHeight(null) / files;
+        height = this.image.getHeight(null) / rows;
         sourceRect = new Rectangle(0, 0, width, height);
         setScale(scale);
     }
@@ -95,10 +95,10 @@ public final class Image {
     }
 
     /**
-     * @return las files
+     * @return las rows
      */
-    public int getFiles() {
-        return files;
+    public int getRows() {
+        return rows;
     }
 
     /**
