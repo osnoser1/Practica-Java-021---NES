@@ -7,6 +7,7 @@ package gui;
 import bomberman.configuration.Configuration;
 import bomberman.core.GameControl;
 import characters.*;
+import characters.Character;
 import dependencies.Images;
 import dependencies.Sounds;
 import engine.core.Camera;
@@ -181,6 +182,7 @@ public class GameScreen extends Screen implements PropertyChangeListener {
         if (!map.contains(row, column, firstPlayer()))
             return;
         firstPlayer().die();
+        enemies.stream().forEach(Character::stopIntelligence);
     }
 
     public void eraseEnemies() {
