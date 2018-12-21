@@ -13,23 +13,30 @@ import game.core.input.PlayerOneKeyboardController;
 import game.players.bomberman.states.*;
 import engine.core.input.GamePad;
 import engine.core.input.GamePad.Buttons;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import engine.core.graphics.AnimationWrapper;
 import engine.core.graphics.spritedefaultstates.NullState;
 
 public class Bomberman extends Character {
 
+    public enum Events {
+        ADD_BOMB,
+    }
+
     private boolean SPEED, DETONATOR, FLAMEPASS, MYSTERY;
     private int FLAMES, BOMBS;
-    private static CopyOnWriteArrayList<Bomb> bombs;
     private boolean enteredTheDoor;
+    private int numberPumpsCreated;
+
+    private final PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
     public Bomberman(final int x, final int y) {
         super(new Image(Images.BOMBERMAN, 6, 6, (float) 2.5), x, y);
         gamePad = new GamePad();
         padController = PlayerOneKeyboardController.getInstance();
-        bombs = new CopyOnWriteArrayList<>();
         speed = SPEED_MID;
         BOMBS = 1;
         FLAMES = 1;
@@ -41,6 +48,14 @@ public class Bomberman extends Character {
         MYSTERY = false;
         id = "B";
         initialize();
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changes.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changes.removePropertyChangeListener(listener);
     }
 
     public final void initialize() {
@@ -64,13 +79,6 @@ public class Bomberman extends Character {
         checkActionKeys(gameScreen);
         super.update(gameScreen, elapsedTime);
         checkDeath(gameScreen);
-        for (var bomb : bombs) {
-            bomb.update(gameScreen, elapsedTime);
-            if (bomb.getCurrentState() instanceof NullState) {
-                gameScreen.getMap().delete(bomb);
-                bombs.remove(bomb);
-            }
-        }
     }
     
     public void die() {
@@ -139,18 +147,13 @@ public class Bomberman extends Character {
             insideBomb = true;
             return;
         }
-        if (!centralCollision(Brick.class, SpecialBrick.class) && bombs.size() < BOMBS) {
-            Sounds.getInstance().play(Sounds.BOMB_PLANT);
-            final var b = new Bomb(getCenter().x / image.getWidth() * image.getWidth(),
+        if (!centralCollision(Brick.class, SpecialBrick.class) && numberPumpsCreated < BOMBS) {
+            final var bomb = new Bomb(getCenter().x / image.getWidth() * image.getWidth(),
                     getCenter().y / image.getHeight() * image.getHeight(), this);
-            gameScreen.getMap().add(b);
-            bombs.add(b);
             insideBomb = true;
+            numberPumpsCreated +=1;
+            changes.firePropertyChange(Events.ADD_BOMB.name(), null, bomb);
         }
-    }
-
-    public CopyOnWriteArrayList<Bomb> getBombs() {
-        return bombs;
     }
     
     private void checkActionKeys(final GameScreen gameScreen) {
@@ -165,13 +168,13 @@ public class Bomberman extends Character {
     public void restart(int x, int y) {
         setCurrentState(InitialState::new);
         setAxisPosition(x, y);
-        bombs.clear();
+        numberPumpsCreated = 0;
         image.setActive(true);
         enteredTheDoor = false;
     }
 
-    private void detonatorBomb(final Screen screen) {
-        bombs.stream().filter((bomb) -> (!bomb.hasDetonated())).forEachOrdered((bomb) -> bomb.detonate(screen));
+    private void detonatorBomb(final GameScreen screen) {
+        screen.eraseBomb(this);
     }
 
     public void setEnteredTheDoor(boolean b) {
@@ -180,6 +183,12 @@ public class Bomberman extends Character {
 
     public boolean isEnteredTheDoor() {
         return enteredTheDoor;
+    }
+
+    public void decreaseNumberPumpsCreated() {
+        if (numberPumpsCreated > 0) {
+            numberPumpsCreated -= 1;
+        }
     }
 
 }

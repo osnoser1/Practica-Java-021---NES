@@ -7,6 +7,7 @@ package gui;
 import bomberman.configuration.Configuration;
 import bomberman.core.GameControl;
 import dependencies.Sounds;
+import engine.core.graphics.Sprite;
 import language.utils.ImageUtilities;
 import dependencies.Images;
 import engine.core.map.Map;
@@ -19,6 +20,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Transparency;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -30,7 +33,7 @@ import engine.core.graphics.spritedefaultstates.NullState;
  *
  * @author Alfonso Andrés
  */
-public class GameScreen extends Screen {
+public class GameScreen extends Screen implements PropertyChangeListener {
 
     private static GameScreen instance;
     private final int x;
@@ -40,6 +43,7 @@ public class GameScreen extends Screen {
     private final Image buffer;
     private Dimension SIZE;
     private final Dimension windowSize;
+    private final ArrayList<Bomb> bombs;
     private final ArrayList<Enemy> enemies;
     private final ArrayList<Brick> bricks;
     private final Bomberman[] players;
@@ -54,6 +58,7 @@ public class GameScreen extends Screen {
         windowSize = Configuration.getInstance().getWindowSize();
         internalScaleX = ((double)640) / (SIZE.width >> 1);
         window = new Camera(new Rectangle(SIZE.width >> 1, SIZE.height), SIZE);
+        bombs = new ArrayList<>();
         bricks = new ArrayList<>();
         enemies = new ArrayList<>();
         players = new Bomberman[1];
@@ -81,6 +86,8 @@ public class GameScreen extends Screen {
         map.reset();
         window.restart();
         firstPlayer().restart(1, 1);
+        firstPlayer().addPropertyChangeListener(this);
+        bombs.clear();
         powerUp = door = false;
         generateMap();
     }
@@ -142,7 +149,7 @@ public class GameScreen extends Screen {
     }
 
     private void drawBombs(Graphics2D g) {
-        for (final var bomb : firstPlayer().getBombs())
+        for (final var bomb : bombs)
             if (window.contains(bomb)) {
                 bomb.draw(g);
             }
@@ -196,12 +203,16 @@ public class GameScreen extends Screen {
     }
 
     public void eraseBomb(final int row, final int column) {
-        for (final var bomb : firstPlayer().getBombs())
+        for (final var bomb : bombs)
             if (!(bomb.getCurrentState() instanceof DeathState)
                     && map.contains(row, column, bomb)) {
                 bomb.detonate(this);
                 return;
             }
+    }
+
+    public void eraseBomb(final Bomberman bomberman) {
+        bombs.stream().filter(bomb -> (!bomb.hasDetonated() && bomb.belongs(bomberman))).forEachOrdered((bomb) -> bomb.detonate(this));
     }
 
     public int getEnemiesLength() {
@@ -221,6 +232,7 @@ public class GameScreen extends Screen {
     public void update(final long elapsedTime) {
         window.update(firstPlayer().getCenter());
         updatePlayer(elapsedTime);
+        updateBombs(elapsedTime);
         for (var i = 0; i < enemies.size(); i++) {
             final var enemy = enemies.get(i);
             enemy.update(this, elapsedTime);
@@ -309,6 +321,7 @@ public class GameScreen extends Screen {
             map.delete(b);
             if (Sounds.getInstance().isPlaying(Sounds.JUST_DIED))
                 return;
+            firstPlayer().removePropertyChangeListener(this);
             jPanelInformation.decreaseRemainingLives();
             jPanelInformation.stopCountdown();
             if (jPanelInformation.getRemainingLives() < 0) {
@@ -331,6 +344,17 @@ public class GameScreen extends Screen {
         }
     }
 
+    private void updateBombs(final long elapsedTime) {
+        for (var i = 0; i < bombs.size(); i++) {
+            var bomb = bombs.get(i);
+            bomb.update(this, elapsedTime);
+            if (bomb.getCurrentState() instanceof NullState) {
+                this.map.delete(bomb);
+                bombs.remove(i--);
+            }
+        }
+    }
+
     public Map getMap() {
         return map;
     }
@@ -340,5 +364,16 @@ public class GameScreen extends Screen {
         enemies.add(sprite);
         map.add(sprite);
         sprite.startIntelligence();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        var name = evt.getPropertyName();
+        var value = evt.getNewValue();
+        if (name.equals(Bomberman.Events.ADD_BOMB.name())) {
+            Sounds.getInstance().play(Sounds.BOMB_PLANT);
+            this.map.add((Sprite) value);
+            this.bombs.add((Bomb) value);
+        }
     }
 }

@@ -52,6 +52,7 @@ public class Bomb extends Character {
         }
         setActive(false);
         setCurrentState(DeathState::new);
+        bomberman.decreaseNumberPumpsCreated();
         fire = new Fire(x, y, bomberman.getFLAMES(), (GameScreen) screen);
         var s = Sounds.getInstance().getNewSound(Sounds.EXPLOSION_1);
         if (s != null)
@@ -80,8 +81,11 @@ public class Bomb extends Character {
         return detonate;
     }
 
-    boolean hasDetonated() {
+    public boolean hasDetonated() {
         return !isActive();
     }
-    
+
+    public boolean belongs(Bomberman bomberman) {
+        return bomberman == this.bomberman;
+    }
 }
