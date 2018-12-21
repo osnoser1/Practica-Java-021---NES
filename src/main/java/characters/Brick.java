@@ -4,19 +4,19 @@
  */
 package characters;
 
-import engine.core.graphics.Image;
 import dependencies.Images;
-import engine.core.map.Map;
-import utils.game.Screen;
-import game.players.ladrillo.states.DeathState;
-import engine.core.graphics.Sprite;
-import java.awt.Graphics2D;
-import java.util.HashMap;
 import engine.core.graphics.AnimationWrapper;
+import engine.core.graphics.Image;
+import engine.core.graphics.Sprite;
 import engine.core.graphics.spritedefaultstates.EmptyState;
+import engine.core.map.Map;
+import game.players.ladrillo.states.DeathState;
+import utils.game.Screen;
+
+import java.awt.*;
+import java.util.HashMap;
 
 /**
- *
  * @author hp
  */
 public class Brick extends Sprite {
@@ -67,7 +67,7 @@ public class Brick extends Sprite {
     }
 
     public void activateSpecialBrick() {
-        if(!isSpecial) {
+        if (!isSpecial) {
             return;
         }
         var map = Map.getInstance();

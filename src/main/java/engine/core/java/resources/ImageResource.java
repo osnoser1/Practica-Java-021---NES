@@ -5,12 +5,12 @@
  */
 package engine.core.java.resources;
 
-import java.awt.Image;
-import language.utils.FileManager;
 import engine.core.Resource;
+import language.utils.FileManager;
+
+import java.awt.*;
 
 /**
- *
  * @author AlfonsoAndrés
  */
 public class ImageResource implements Resource<Image> {

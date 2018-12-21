@@ -1,19 +1,10 @@
 package language.utils;
 
 
-import java.awt.GraphicsEnvironment;
-import java.awt.Transparency;
+import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.color.ICC_ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DirectColorModel;
-import java.awt.image.Raster;
-import java.awt.image.SinglePixelPackedSampleModel;
+import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -25,8 +16,8 @@ import java.io.RandomAccessFile;
  */
 public class RGBImageLoader {
 
-    private byte[] tempBuffer_;
     private final boolean fastLoading_;
+    private byte[] tempBuffer_;
 
     public RGBImageLoader() {
         fastLoading_ = canUseFastLoadingTechnique();

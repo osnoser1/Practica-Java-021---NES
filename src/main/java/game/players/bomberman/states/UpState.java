@@ -5,16 +5,17 @@
  */
 package game.players.bomberman.states;
 
-import dependencies.Sounds;
-import gui.GameScreen;
 import characters.Bomberman;
 import characters.Character;
-import utils.game.Screen;
-
-import java.util.function.Supplier;
+import dependencies.Sounds;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.SpriteState;
 import engine.core.input.GamePad;
+import gui.GameScreen;
+import utils.game.Screen;
+
+import java.util.function.Supplier;
+
 import static engine.core.input.GamePad.Buttons.*;
 
 public class UpState implements SpriteState {
@@ -37,14 +38,14 @@ public class UpState implements SpriteState {
             sprite.updateAnimation(elapsedTime);
             ((Character) sprite).moveUp((GameScreen) screen);
         }
-        if(sprite instanceof Bomberman) {
+        if (sprite instanceof Bomberman) {
             Sounds.getInstance().play(Sounds.UP, up);
         }
     }
 
     @Override
     public void onExit(Sprite sprite, Screen screen) {
-        if(sprite instanceof Bomberman) {
+        if (sprite instanceof Bomberman) {
             Sounds.getInstance().stop(Sounds.UP);
         }
     }

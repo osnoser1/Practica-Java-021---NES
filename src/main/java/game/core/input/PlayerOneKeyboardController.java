@@ -6,21 +6,21 @@
 
 package game.core.input;
 
+import engine.core.input.IGamePadController;
+import engine.core.input.KeyboardController;
+
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 import static engine.core.input.GamePad.Buttons.*;
-import engine.core.input.IGamePadController;
-import engine.core.input.KeyboardController;
 
 /**
- * 
  * @author AlfonsoAndres
  */
 public class PlayerOneKeyboardController extends KeyboardController {
 
     private static PlayerOneKeyboardController instance;
-    
+
     private PlayerOneKeyboardController() {
         super(new HashMap<>() {{
             put(KeyEvent.VK_DOWN, DOWN);
@@ -41,5 +41,5 @@ public class PlayerOneKeyboardController extends KeyboardController {
     public static IGamePadController getInstance() {
         return instance == null ? instance = new PlayerOneKeyboardController() : instance;
     }
-    
+
 }

@@ -2,18 +2,17 @@ package gui;
 
 import controllers.CSpecialPanel;
 import dependencies.Images;
-import java.awt.Color;
-import java.awt.Image;
-import java.util.ArrayList;
-import javax.swing.JToolBar;
-
 import game.constants.Objects;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 
 public class JToolBarEditorButtons extends JToolBar {
 
-    private ArrayList<SpecialButton> buttons;
-    private final int buttonsLength = 11;
     private static JToolBarEditorButtons instance;
+    private final int buttonsLength = 11;
+    private ArrayList<SpecialButton> buttons;
 
     private JToolBarEditorButtons() {
         super(JToolBar.VERTICAL);

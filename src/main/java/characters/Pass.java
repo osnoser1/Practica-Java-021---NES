@@ -9,11 +9,10 @@ import engine.core.input.GamePad;
 
 
 /**
- *
  * @author hp
  */
 public class Pass extends Enemy {
-    
+
     public Pass(int x, int y) {
         super(Images.PASS, x, y, new GamePad());
         speed = SPEED_MID;
@@ -24,5 +23,5 @@ public class Pass extends Enemy {
         intelligence = new Intelligence(this);
         initialize();
     }
-    
+
 }

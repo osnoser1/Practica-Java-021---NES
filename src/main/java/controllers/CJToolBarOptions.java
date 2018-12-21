@@ -5,20 +5,20 @@
 package controllers;
 
 import models.JToolbarOptionsModels;
+
 import java.awt.event.ActionEvent;
 
 /**
- *
  * @author Alfonso Andrés
  */
-public class CJToolBarOptions implements java.awt.event.ActionListener{
+public class CJToolBarOptions implements java.awt.event.ActionListener {
 
     private final JToolbarOptionsModels jToolbarOptionsModels;
 
     public CJToolBarOptions() {
         this.jToolbarOptionsModels = new JToolbarOptionsModels();
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
 /*

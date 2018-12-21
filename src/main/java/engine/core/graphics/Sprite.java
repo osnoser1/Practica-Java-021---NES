@@ -4,29 +4,34 @@
  */
 package engine.core.graphics;
 
-import utils.game.Screen;
-
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.util.HashMap;
-import java.util.function.Supplier;
-
 import engine.core.graphics.spritedefaultstates.NullState;
 import engine.core.input.GamePad;
+import utils.game.Screen;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.function.Supplier;
 
 /**
  * @author
  */
 public abstract class Sprite {
 
+    protected final Image image;
+    private final Point center;
     protected int speed, x, y;
     protected HashMap<Class<? extends SpriteState>, AnimationWrapper> animations;
-    protected final Image image;
     protected SpriteState currentState;
     protected GamePad gamePad;
     protected String id;
-    private final Point center;
     private AnimationWrapper currentAnimationWrapper;
+
+    protected Sprite(final Image image, final int x, final int y) {
+        this.image = image;
+        this.x = x;
+        this.y = y;
+        center = new Point();
+    }
 
     public void update(final Screen screen, final long elapsedTime) {
         if (currentState instanceof NullState) {
@@ -42,13 +47,6 @@ public abstract class Sprite {
             setCurrentState(supplier);
         }
         currentState.update(this, screen, elapsedTime);
-    }
-
-    protected Sprite(final Image image, final int x, final int y) {
-        this.image = image;
-        this.x = x;
-        this.y = y;
-        center = new Point();
     }
 
     public final String getId() {

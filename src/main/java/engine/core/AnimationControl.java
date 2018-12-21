@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public final class AnimationControl {
 
     private final ArrayList<Integer> frames;
-    private long elapsedTime;
     private final long frameTime;
+    private long elapsedTime;
     private int step;
 
     public AnimationControl(String frames, long frameTime) {
@@ -19,7 +19,6 @@ public final class AnimationControl {
     }
 
     /**
-     *
      * @param totalElapsedTime Total time elapsed in milliseconds
      * @return
      */
@@ -56,7 +55,6 @@ public final class AnimationControl {
     }
 
     /**
-     *
      * @return The index of the current frame to draw
      */
     public int getCurrentFrame() {

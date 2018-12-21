@@ -1,6 +1,6 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package dependencies;
 
@@ -8,14 +8,13 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
 /**
- *
  * @author Alfonso Andrés
  */
 public class Sound {
-    
+
+    private final Clip clip;
     private boolean loop;
     private boolean paused;
-    private final Clip clip;
     private boolean playing;
 
     public Sound(Clip clip) {
@@ -27,11 +26,11 @@ public class Sound {
     }
 
     public boolean play() {
-        if(clip == null || !clip.isOpen())
+        if (clip == null || !clip.isOpen())
             return (playing = false);
-        if(clip.getFramePosition() == clip.getFrameLength())
+        if (clip.getFramePosition() == clip.getFrameLength())
             clip.setFramePosition(0);
-        if(loop)
+        if (loop)
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         else
             clip.start();
@@ -42,7 +41,7 @@ public class Sound {
      * @return Value indicating if the sound stopped.
      */
     public boolean stop() {
-        if(clip == null || !clip.isOpen())
+        if (clip == null || !clip.isOpen())
             return false;
         clip.stop();
         clip.setFramePosition(0);
@@ -51,7 +50,7 @@ public class Sound {
     }
 
     public boolean pause() {
-        if(clip == null || !clip.isOpen())
+        if (clip == null || !clip.isOpen())
             return (playing = false);
         paused = true;
         clip.stop();
@@ -60,11 +59,11 @@ public class Sound {
     }
 
     public boolean loop() {
-        if(clip == null)
+        if (clip == null)
             return false;
-        if(!clip.isOpen())
+        if (!clip.isOpen())
             return false;
-        if(loop) {
+        if (loop) {
             clip.start();
             loop = false;
         } else {
@@ -79,16 +78,16 @@ public class Sound {
     }
 
     public void setVolume(int vol) {
-        if(clip == null)
+        if (clip == null)
             return;
-        if(vol < 0 || vol > 100)
+        if (vol < 0 || vol > 100)
             vol = 100;
         var val = vol / 100.0;
         try {
-            var volControl = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
-            var dB = (float)(Math.log(val == 0.0 ? 0.0001 : val) / Math.log(10.0) * 20.0);
+            var volControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            var dB = (float) (Math.log(val == 0.0 ? 0.0001 : val) / Math.log(10.0) * 20.0);
             volControl.setValue(dB);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Unable to adjust the volume.");
         }
     }
@@ -111,5 +110,5 @@ public class Sound {
     public int getFramePosition() {
         return clip.getFramePosition();
     }
-    
+
 }

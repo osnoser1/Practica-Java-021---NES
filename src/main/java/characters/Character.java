@@ -4,28 +4,25 @@
  */
 package characters;
 
-import gui.GameScreen;
-import engine.core.map.Map;
-import static characters.Character.Direction.*;
-import utils.game.Screen;
-import engine.core.graphics.Sprite;
 import engine.core.graphics.Image;
+import engine.core.graphics.Sprite;
 import engine.core.input.IGamePadController;
+import engine.core.map.Map;
+import gui.GameScreen;
+import utils.game.Screen;
+
+import static characters.Character.Direction.HORIZONTAL;
+import static characters.Character.Direction.VERTICAL;
 
 public abstract class Character extends Sprite {
 
-    public enum Direction {
-        HORIZONTAL, VERTICAL
-    }
-
+    protected static final int SPEED_SLOWEST = 1, SPEED_SLOW = 2, SPEED_MID = 4, SPEED_FAST = 5, SMART_LOW = 1, SMART_MID = 2, SMART_HIGH = 3, SMART_IMPOSSIBLE = 4;
     protected final int varX = 3;
     protected final int varY = 3;
     protected int smart;
-    protected static final int SPEED_SLOWEST = 1, SPEED_SLOW = 2, SPEED_MID = 4, SPEED_FAST = 5, SMART_LOW = 1, SMART_MID = 2, SMART_HIGH = 3, SMART_IMPOSSIBLE = 4;
     protected Intelligence intelligence;
     protected IGamePadController padController;
     protected boolean wallpass, insideBomb, BOMBPASS;
-
     protected Character(final Image image, final int x, final int y) {
         super(image, x, y);
     }
@@ -34,7 +31,7 @@ public abstract class Character extends Sprite {
     public void update(final Screen screen, final long elapsedTime) {
         super.update(screen, elapsedTime);
     }
-    
+
     public final Intelligence getIntelligence() {
         return intelligence;
     }
@@ -133,6 +130,10 @@ public abstract class Character extends Sprite {
 
     public void setBOMBPASS(boolean BOMBPASS) {
         this.BOMBPASS = BOMBPASS;
+    }
+
+    public enum Direction {
+        HORIZONTAL, VERTICAL
     }
 
 }

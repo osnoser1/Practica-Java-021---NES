@@ -7,11 +7,10 @@ package engine.core.java.gui;
 import engine.core.java.controllers.CJFramePrincipal;
 import language.utils.FileManager;
 import thread.PrincipalThread;
-import java.awt.Frame;
-import java.awt.Graphics;
+
+import java.awt.*;
 
 /**
- *
  * @author Alfonso Andrés
  */
 public class JFramePrincipal extends Frame {

@@ -6,26 +6,22 @@ package gui;
 
 import controllers.CMapEditorScreen;
 import dependencies.Images;
-import engine.core.map.Map;
 import engine.core.graphics.Sprite;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import engine.core.map.Map;
 import game.constants.Objects;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 /**
- *
  * @author AlfonsoAndrés
  */
 public class MapEditorScreen extends JPanel {
 
     private static MapEditorScreen instance;
-    private PanelEditor panelEditor;
     private final Dimension[] sizeRatio = {new Dimension(656, 620), new Dimension(1240, 520)};
+    private PanelEditor panelEditor;
     private Point bombermanPosition;
 
     private MapEditorScreen() {

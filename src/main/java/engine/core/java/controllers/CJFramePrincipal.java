@@ -5,6 +5,7 @@
 package engine.core.java.controllers;
 
 import bomberman.configuration.Configuration;
+import engine.core.java.gui.JFramePrincipal;
 import gui.JPanelContainer;
 
 import java.awt.event.ComponentEvent;
@@ -12,39 +13,13 @@ import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
-import engine.core.java.gui.JFramePrincipal;
-
 /**
  * @author Alfonso Andrés
  */
 public class CJFramePrincipal extends java.awt.event.WindowAdapter implements ComponentListener {
 
-    public static final class Keyboard extends java.awt.event.KeyAdapter {
-
-        private static Keyboard instance;
-
-        private Keyboard() {
-        }
-
-        public static Keyboard getInstance() {
-            return instance == null ? (instance = new Keyboard()) : instance;
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            engine.core.input.Keyboard.getInstance().keyPress(e.getKeyCode());
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            engine.core.input.Keyboard.getInstance().keyRelease(e.getKeyCode());
-        }
-
-    }
-
-    private JPanelContainer container;
     private static CJFramePrincipal instance;
-
+    private JPanelContainer container;
     private CJFramePrincipal() {
     }
 
@@ -121,6 +96,29 @@ public class CJFramePrincipal extends java.awt.event.WindowAdapter implements Co
     @Override
     public void componentHidden(ComponentEvent e) {
         System.out.println("componentHidden");
+    }
+
+    public static final class Keyboard extends java.awt.event.KeyAdapter {
+
+        private static Keyboard instance;
+
+        private Keyboard() {
+        }
+
+        public static Keyboard getInstance() {
+            return instance == null ? (instance = new Keyboard()) : instance;
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            engine.core.input.Keyboard.getInstance().keyPress(e.getKeyCode());
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            engine.core.input.Keyboard.getInstance().keyRelease(e.getKeyCode());
+        }
+
     }
 
 }

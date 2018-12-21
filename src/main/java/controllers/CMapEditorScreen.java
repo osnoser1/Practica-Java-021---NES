@@ -4,20 +4,20 @@
  */
 package controllers;
 
+import game.constants.Objects;
 import gui.MapEditorScreen;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import game.constants.Objects;
 
 /**
- *
  * @author AlfonsoAndrés
  */
-public class CMapEditorScreen extends MouseAdapter{
+public class CMapEditorScreen extends MouseAdapter {
 
     private static CMapEditorScreen instance;
     private String selectedObject;
-    
+
     private CMapEditorScreen() {
     }
 
@@ -34,12 +34,12 @@ public class CMapEditorScreen extends MouseAdapter{
     public void mouseDragged(MouseEvent e) {
         draw(e);
     }
-    
+
     private void draw(MouseEvent e) {
         var mapEditorScreen = MapEditorScreen.getInstance();
-        if("V".equals(selectedObject)){
+        if ("V".equals(selectedObject)) {
 //            mapEditorScreen.draw(mapEditorScreen.getSpriteFloor(), e.getPoint());
-        }else{
+        } else {
             mapEditorScreen.draw(Objects.getInstance(selectedObject), e.getPoint());
         }
     }
@@ -57,5 +57,5 @@ public class CMapEditorScreen extends MouseAdapter{
     public void setSelectedObject(String selectedObject) {
         this.selectedObject = selectedObject;
     }
-    
+
 }

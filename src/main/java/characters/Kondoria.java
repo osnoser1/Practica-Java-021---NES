@@ -9,11 +9,10 @@ import engine.core.input.GamePad;
 
 
 /**
- *
  * @author hp
  */
 public class Kondoria extends Enemy {
-    
+
     public Kondoria(int x, int y) {
         super(Images.KONDORIA, x, y, new GamePad());
         speed = SPEED_SLOWEST;
@@ -23,5 +22,5 @@ public class Kondoria extends Enemy {
         id = "K";
         initialize();
     }
-    
+
 }

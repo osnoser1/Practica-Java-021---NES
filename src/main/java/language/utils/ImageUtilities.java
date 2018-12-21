@@ -1,11 +1,6 @@
 package language.utils;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Transparency;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 

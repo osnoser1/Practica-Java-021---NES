@@ -5,34 +5,26 @@
 package characters;
 
 import dependencies.Images;
-import gui.GameScreen;
-import engine.core.graphics.Image;
-import utils.game.Screen;
-import game.players.fire.states.InitialState;
-
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.util.HashMap;
 import engine.core.graphics.AnimationWrapper;
+import engine.core.graphics.Image;
 import engine.core.graphics.spritedefaultstates.NullState;
 import engine.core.map.Position;
+import game.players.fire.states.InitialState;
+import gui.GameScreen;
+import utils.game.Screen;
+
+import java.awt.*;
+import java.util.HashMap;
 
 /**
- *
  * @author hp
  */
 public class Fire extends Character {
 
-    private enum Direction {
-
-        UP, DOWN, RIGHT, LEFT
-    }
-
+    private final int length;
     private int[] lengthDirections;
     private Point[] pos;
-    private final int length;
     private Image[] images;
-
     public Fire(final int x, final int y, final int length, final GameScreen gameScreen) {
         super(new Image(Images.FIRE, 7, 4, 2.5f), x, y);
         this.length = length;
@@ -129,7 +121,7 @@ public class Fire extends Character {
         if (b1) {
             gameScreen.eraseBrick(row, column);
             gameScreen.eraseBomb(row, column);
-        } 
+        }
         if (b2) {
             gameScreen.eraseEnemy(row, column);
             if (!gameScreen.firstPlayer().getFLAMEPASS())
@@ -140,14 +132,19 @@ public class Fire extends Character {
         lengthDirections[d.ordinal()] = b1 ? i - 1 : i;
         return true;
     }
-    
+
     private void checkPlayerDeathCenterExplosion(GameScreen gameScreen, Position position) {
-        if(gameScreen.getMap().contains(position.row, position.column, Enemy.class)) {
+        if (gameScreen.getMap().contains(position.row, position.column, Enemy.class)) {
             gameScreen.eraseEnemy(position.row, position.column);
-        } 
-        if(centralCollision(Bomberman.class) && !gameScreen.firstPlayer().getFLAMEPASS()) {
+        }
+        if (centralCollision(Bomberman.class) && !gameScreen.firstPlayer().getFLAMEPASS()) {
             gameScreen.erasePlayer(position.row, position.column);
         }
     }
-    
+
+    private enum Direction {
+
+        UP, DOWN, RIGHT, LEFT
+    }
+
 }

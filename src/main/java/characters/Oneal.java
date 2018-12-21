@@ -9,11 +9,10 @@ import engine.core.input.GamePad;
 
 
 /**
- *
  * @author hp
  */
 public class Oneal extends Enemy {
-    
+
     public Oneal(int x, int y) {
         super(Images.ONEAL, x, y, new GamePad());
         speed = SPEED_SLOW;
@@ -24,5 +23,5 @@ public class Oneal extends Enemy {
         intelligence = new Intelligence(this);
         initialize();
     }
-    
+
 }

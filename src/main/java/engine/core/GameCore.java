@@ -1,27 +1,26 @@
 package engine.core;
 
-import java.awt.DisplayMode;
-import java.awt.Graphics2D;
 import engine.core.java.graphics.ScreenManager;
 
+import java.awt.*;
+
 public abstract class GameCore {
-    
+
     protected static final int FONT_SIZE = 24;
 
     private static final DisplayMode[] POSSIBLE_MODES = {
-        new DisplayMode(620, 600, 32, 0),
-        new DisplayMode(1366, 768, 32, 0)
+            new DisplayMode(620, 600, 32, 0),
+            new DisplayMode(1366, 768, 32, 0)
     };
-    
+    protected ScreenManager screen;
     private boolean isRunning;
     private long loopTime, fpsTime;
     private int fps;
-    protected ScreenManager screen;
-    
+
     public void stop() {
         isRunning = false;
     }
-    
+
     public void run() {
         try {
             init();
@@ -31,22 +30,23 @@ public abstract class GameCore {
             lazilyExit();
         }
     }
-    
+
     public void lazilyExit() {
         var thread = new Thread(() -> {
             try {
-                Thread.sleep( 2000 );
-            } catch ( InterruptedException ignored) { }
-            System.exit( 0 );
+                Thread.sleep(2000);
+            } catch (InterruptedException ignored) {
+            }
+            System.exit(0);
         });
-        thread.setDaemon( true );
+        thread.setDaemon(true);
         thread.start();
     }
-    
+
     public void init() {
         screen = new ScreenManager();
         final var displayMode
-                =                screen.findFirstCompatibleMode( POSSIBLE_MODES );
+                = screen.findFirstCompatibleMode(POSSIBLE_MODES);
 //        screen.setFullScreen(displayMode);
 //        screen.setWideScreen(displayMode);
         screen.setWideScreen(POSSIBLE_MODES[0]);
@@ -56,8 +56,8 @@ public abstract class GameCore {
 //        window.setForeground(Color.WHITE);
         loopTime = 1000000000 / 5000;
         isRunning = true;
-    }    
-    
+    }
+
     public void gameLoop() {
         var previousTime = System.nanoTime();
         while (isRunning) {
@@ -96,7 +96,7 @@ public abstract class GameCore {
     }
 
     public abstract void update(final long elapsedTime);
-    
+
     public abstract void draw(final Graphics2D g);
-    
+
 }

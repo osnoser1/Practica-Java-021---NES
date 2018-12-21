@@ -6,20 +6,20 @@
 
 package game.players.bomberman.states;
 
-import dependencies.Sounds;
-import gui.GameScreen;
 import characters.Bomberman;
 import characters.Character;
-import utils.game.Screen;
-
-import java.util.function.Supplier;
+import dependencies.Sounds;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.SpriteState;
 import engine.core.input.GamePad;
+import gui.GameScreen;
+import utils.game.Screen;
+
+import java.util.function.Supplier;
+
 import static engine.core.input.GamePad.Buttons.*;
 
 /**
- * 
  * @author AlfonsoAndres
  */
 public class LeftState implements SpriteState {
@@ -39,19 +39,19 @@ public class LeftState implements SpriteState {
 
     @Override
     public void update(Sprite sprite, Screen screen, long elapsedTime) {
-        if(left || up || down) {
+        if (left || up || down) {
             sprite.updateAnimation(elapsedTime);
         }
         var p = (Character) sprite;
         if (left) {
             p.moveLeft((GameScreen) screen);
-        } 
-        if(up) {
+        }
+        if (up) {
             p.moveUp((GameScreen) screen);
-        } else if(down) {
+        } else if (down) {
             p.moveDown((GameScreen) screen);
         }
-        if(!(sprite instanceof Bomberman)) {
+        if (!(sprite instanceof Bomberman)) {
             return;
         }
         Sounds.getInstance().play(Sounds.UP, up);
@@ -61,7 +61,7 @@ public class LeftState implements SpriteState {
 
     @Override
     public void onExit(Sprite sprite, Screen screen) {
-        if(sprite instanceof Bomberman) {
+        if (sprite instanceof Bomberman) {
             Sounds.getInstance().stop(Sounds.RIGHT);
         }
     }

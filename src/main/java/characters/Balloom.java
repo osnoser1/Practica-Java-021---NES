@@ -9,11 +9,10 @@ import engine.core.input.GamePad;
 
 
 /**
- *
  * @author hp
  */
 public class Balloom extends Enemy {
-    
+
     public Balloom(int x, int y) {
         super(Images.BALLOOM, x, y, new GamePad());
         speed = SPEED_SLOWEST;
@@ -23,5 +22,5 @@ public class Balloom extends Enemy {
         id = "b";
         initialize();
     }
-    
+
 }

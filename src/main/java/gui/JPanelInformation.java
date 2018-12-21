@@ -1,34 +1,25 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package gui;
 
 import fonts.Fonts;
 import language.utils.ImageUtilities;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Transparency;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Timer;
 
 /**
- *
  * @author Alfonso Andrés
  */
 public class JPanelInformation {
-    
-    private int score;
+
     private static JPanelInformation instance;
-    private int remainingTime = 200, remainingLives = 2;
     private final int optionsLength = 3;
+    private int score;
+    private int remainingTime = 200, remainingLives = 2;
     private Image image;
     private Timer timer;
     private Dimension SIZE;
@@ -64,7 +55,7 @@ public class JPanelInformation {
             }
         });
     }
-    
+
     private void drawString(final Graphics g2, final String string, final Point point) {
         g2.setColor(background);
         g2.fillRect(point.x, point.y - 25, 300, 30);
@@ -84,10 +75,6 @@ public class JPanelInformation {
         this.remainingTime = remainingTime;
     }
 
-    public void setScore(int core) {
-        score = core;
-    }
-
     public void increaseScore(int count) {
         score += count;
     }
@@ -96,8 +83,8 @@ public class JPanelInformation {
         return score;
     }
 
-    public void setRemainingLives(int remainingLives) {
-        this.remainingLives = remainingLives;
+    public void setScore(int core) {
+        score = core;
     }
 
     public void decreaseRemainingLives() {
@@ -108,16 +95,20 @@ public class JPanelInformation {
         return remainingLives;
     }
 
+    public void setRemainingLives(int remainingLives) {
+        this.remainingLives = remainingLives;
+    }
+
     private void drawStrings(Graphics g2) {
-        for(var i = 0; i < this.optionsLength; i++) {
+        for (var i = 0; i < this.optionsLength; i++) {
             drawString(g2, getString(i), pos[i]);
         }
     }
 
     private String getString(int i) {
-        if(i == 0)
+        if (i == 0)
             return "TIME " + remainingTime();
-        if(i == 1)
+        if (i == 1)
             return score();
         return "LEFT " + remainingLives;
     }
@@ -142,7 +133,7 @@ public class JPanelInformation {
     }
 
     private void decreaseCounter() {
-        if(remainingTime == 0) {
+        if (remainingTime == 0) {
             stopCountdown();
             return;
         }
@@ -151,15 +142,15 @@ public class JPanelInformation {
     }
 
     public void setSIZE(Dimension dim) {
-        var y = (int)Math.round(dim.height / 14.0);
+        var y = (int) Math.round(dim.height / 14.0);
         SIZE = new Dimension(dim.width, y + y / 2);
         System.out.println(dim + " " + SIZE + " " + y);
     }
-    
+
     public int getHeight() {
         return SIZE.height;
     }
-    
+
     public void draw(final Graphics2D g2) {
         if (change) {
             var g2d = (Graphics2D) image.getGraphics();
@@ -169,5 +160,5 @@ public class JPanelInformation {
         }
         g2.drawImage(image, 0, 0, null);
     }
-    
+
 }

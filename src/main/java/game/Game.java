@@ -5,16 +5,18 @@
  */
 package game;
 
+import engine.core.GameCore;
 import engine.core.java.controllers.CJFramePrincipal;
 import gui.JPanelContainer;
-import java.awt.Graphics2D;
-import engine.core.GameCore;
+
+import java.awt.*;
 
 /**
- *
  * @author AlfonsoAndrés
  */
 public class Game extends GameCore {
+
+    private JPanelContainer jpc;
 
     public static void main(String[] args) {
 //        final String os = System.getProperty("os.name");
@@ -27,8 +29,6 @@ public class Game extends GameCore {
         System.setProperty("sun.java2d.noddraw", "true");
         new Game().run();
     }
-
-    private JPanelContainer jpc;
 
     @Override
     public void init() {

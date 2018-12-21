@@ -4,19 +4,19 @@
  */
 package dependencies;
 
-import java.awt.Image;
 import engine.core.java.resources.ImageResource;
-import static engine.core.java.resources.ImageResource.*;
+
+import java.awt.*;
+
+import static engine.core.java.resources.ImageResource.VOLATILE;
 
 /**
- *
  * @author estudiante
  */
 public class Images {
 
     public static final Image LOGO;
     public static final Image POINTER;
-    public static Image BACKGROUND;
     public static final Image FLOOR;
     public static final Image STEEL_BLOCK;
     public static final Image BOMB;
@@ -32,6 +32,7 @@ public class Images {
     public static final Image PONTAN;
     public static final Image BRICK;
     public static final Image SPECIAL_BRICK;
+    public static Image BACKGROUND;
 
     static {
         final var location = new Location();

@@ -4,16 +4,15 @@
  */
 package bomberman.core;
 
-import gui.GameScreen;
 import characters.Bomberman;
-import characters.Enemy;
 import characters.Brick;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import characters.Enemy;
+import gui.GameScreen;
+
+import java.awt.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- *
  * @author AlfonsoAndrés
  */
 public class GameControl {
@@ -28,15 +27,15 @@ public class GameControl {
     }
 
     public void update() {
-        
+
     }
 
     public void draw(Graphics g2) {
-        
+
     }
-    
+
     public boolean hasCollision(Rectangle rectangle) {
         return false;
     }
-    
+
 }

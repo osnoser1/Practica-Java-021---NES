@@ -4,11 +4,10 @@
  */
 package bomberman.configuration;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
- *
  * @author AlfonsoAndrés
  */
 public class Configuration {
@@ -40,9 +39,9 @@ public class Configuration {
     public double getScaleX() {
         return scale.x;
     }
-    
+
     public double getScaleY() {
         return scale.y;
     }
-    
+
 }

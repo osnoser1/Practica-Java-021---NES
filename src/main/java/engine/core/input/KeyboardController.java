@@ -5,14 +5,14 @@
  */
 package engine.core.input;
 
-import java.util.HashMap;
-
 import engine.core.input.GamePad.Buttons;
 import engine.core.input.Keyboard.KeyState;
+
+import java.util.HashMap;
+
 import static engine.core.input.Keyboard.KeyState.PRESSED;
 
 /**
- *
  * @author AlfonsoAndres
  */
 public abstract class KeyboardController implements IGamePadController {

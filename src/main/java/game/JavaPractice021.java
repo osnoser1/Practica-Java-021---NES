@@ -3,10 +3,10 @@
  * and open the template in the editor.
  */
 package game;
+
 import engine.core.java.gui.JFramePrincipal;
 
 /**
- *
  * @author Alfonso Andrés
  */
 public class JavaPractice021 {
@@ -14,7 +14,7 @@ public class JavaPractice021 {
     /**
      * @param args the command line arguments
      */
-    
+
     public static void main(String[] args) {
 //        final String os = System.getProperty("os.name");
 //        if (os.contains("Windows"))

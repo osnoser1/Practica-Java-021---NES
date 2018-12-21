@@ -5,20 +5,12 @@
  */
 package game.constants;
 
-import characters.Balloom;
-import characters.Bomberman;
-import characters.Doll;
-import characters.Kondoria;
-import characters.Minvo;
-import characters.Oneal;
-import characters.Ovapi;
-import characters.Pass;
-import characters.Pontan;
-import java.util.stream.Stream;
+import characters.*;
 import engine.core.graphics.Sprite;
 
+import java.util.stream.Stream;
+
 /**
- *
  * @author AlfonsoAndrés
  */
 public enum Objects {
@@ -36,21 +28,18 @@ public enum Objects {
     PONTAN("p"),
     FIRE;
     private static final String[] enemies;
-    private String value;
 
     static {
         enemies = Stream.of(getEnemies()).map(Objects::getValue).toArray(String[]::new);
     }
-    
+
+    private String value;
+
     Objects(String value) {
         this.value = value;
     }
 
     Objects() {
-    }
-
-    public String getValue() {
-        return value;
     }
 
     public static Objects[] getEnemies() {
@@ -60,7 +49,7 @@ public enum Objects {
     public static String[] getEnemiesValues() {
         return enemies;
     }
-    
+
     public static Sprite getInstance(String id) {
         if (id.equals(BOMBERMAN.value))
             return new Bomberman(0, 0);
@@ -81,6 +70,10 @@ public enum Objects {
         if (id.equals(PONTAN.value))
             return new Pontan(0, 0);
         return null;
+    }
+
+    public String getValue() {
+        return value;
     }
 
 }

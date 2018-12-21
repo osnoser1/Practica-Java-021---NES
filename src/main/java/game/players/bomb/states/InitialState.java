@@ -6,15 +6,15 @@
 package game.players.bomb.states;
 
 import characters.Bomb;
-import utils.game.Screen;
-import gui.GameScreen;
-import java.util.function.Supplier;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.SpriteState;
 import engine.core.input.GamePad;
+import gui.GameScreen;
+import utils.game.Screen;
+
+import java.util.function.Supplier;
 
 /**
- *
  * @author AlfonsoAndres
  */
 public class InitialState extends game.players.states.InitialState {

@@ -8,9 +8,8 @@ package game.players.states;
 import engine.core.graphics.SpriteState;
 
 /**
- *
  * @author AlfonsoAndres
  */
 public abstract class InitialState implements SpriteState {
-    
+
 }

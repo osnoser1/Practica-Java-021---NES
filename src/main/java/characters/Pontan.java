@@ -9,11 +9,10 @@ import engine.core.input.GamePad;
 
 
 /**
- *
  * @author hp
  */
 public class Pontan extends Enemy {
-    
+
     public Pontan(int x, int y) {
         super(Images.PONTAN, x, y, new GamePad());
         speed = SPEED_MID;
@@ -23,5 +22,5 @@ public class Pontan extends Enemy {
         id = "p";
         initialize();
     }
-    
+
 }

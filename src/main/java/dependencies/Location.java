@@ -4,19 +4,13 @@
  */
 
 package dependencies;
+
 /**
- *
  * @author Alfonso Andrés
  */
 public final class Location {
 
     private final String IMAGES_ROOT = "images";
-    private final String SOUNDS_ROOT = "sounds";
-
-    public final String TITLE_SCREEN = SOUNDS_ROOT + "/Title_Screen.wav";
-    public final String LEVEL_START = SOUNDS_ROOT + "/Level_Start.wav";
-    public final String STAGE_THEME = SOUNDS_ROOT + "/Stage_Theme.wav";
-    public final String FIND_THE_DOOR = SOUNDS_ROOT + "/Find_The_Door.wav";
     public final String LOGO = IMAGES_ROOT + "/map/logo.png";
     public final String POINTER = IMAGES_ROOT + "/map/pointer.png";
     public final String FLOOR = IMAGES_ROOT + "/map/floor.png";
@@ -35,6 +29,11 @@ public final class Location {
     public final String OVAPI = IMAGES_ROOT + "/enemies/Ovapi/Ovapi.png";
     public final String PASS = IMAGES_ROOT + "/enemies/Pass/Pass.png";
     public final String PONTAN = IMAGES_ROOT + "/enemies/Pontan/Pontan.png";
+    private final String SOUNDS_ROOT = "sounds";
+    public final String TITLE_SCREEN = SOUNDS_ROOT + "/Title_Screen.wav";
+    public final String LEVEL_START = SOUNDS_ROOT + "/Level_Start.wav";
+    public final String STAGE_THEME = SOUNDS_ROOT + "/Stage_Theme.wav";
+    public final String FIND_THE_DOOR = SOUNDS_ROOT + "/Find_The_Door.wav";
     public final String PRESENTATION = SOUNDS_ROOT + "/Presentation.wav";
     public final String BONUS_STAGE = SOUNDS_ROOT + "/Bonus_Stage.wav";
     public final String STAGE = SOUNDS_ROOT + "/Stage.wav";

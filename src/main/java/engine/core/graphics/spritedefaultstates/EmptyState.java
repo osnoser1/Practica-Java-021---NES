@@ -6,14 +6,14 @@
 
 package engine.core.graphics.spritedefaultstates;
 
-import utils.game.Screen;
-import java.util.function.Supplier;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.SpriteState;
 import engine.core.input.GamePad;
+import utils.game.Screen;
+
+import java.util.function.Supplier;
 
 /**
- * 
  * @author AlfonsoAndres
  */
 public class EmptyState implements SpriteState {

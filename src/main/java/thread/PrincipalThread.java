@@ -5,18 +5,14 @@
 package thread;
 
 import bomberman.configuration.Configuration;
+import engine.core.java.gui.JFramePrincipal;
 import gui.JPanelContainer;
 import language.utils.Runnable2;
-import engine.core.java.gui.JFramePrincipal;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 /**
- *
  * @author hp
  */
 public class PrincipalThread extends Runnable2 {
@@ -24,10 +20,10 @@ public class PrincipalThread extends Runnable2 {
     private final JFramePrincipal jFramePrincipal;
     private final BufferStrategy buffer;
     private final JPanelContainer jPanelContainer;
-//    private final GLG2DCanvas g2DCanvas;
-    private Graphics g;
     private final Insets in;
     private final Configuration c;
+    //    private final GLG2DCanvas g2DCanvas;
+    private Graphics g;
 
     public PrincipalThread(JFramePrincipal jFramePrincipal, int FPS) {
         super(FPS);

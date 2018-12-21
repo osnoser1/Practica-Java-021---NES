@@ -1,9 +1,9 @@
 package engine.core.java.graphics;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.lang.reflect.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author David Buzatto

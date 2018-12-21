@@ -8,10 +8,8 @@ import dependencies.Sounds;
 import utils.game.Screen;
 import utils.game.Screen.Scene;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import javax.swing.JComponent;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Alfonso Andrés
@@ -19,8 +17,8 @@ import javax.swing.JComponent;
 public class JPanelContainer extends JComponent {
 
     private static JPanelContainer instance;
-    private Screen currentScreen;
     public Scene selectedScene;
+    private Screen currentScreen;
 
     private JPanelContainer() {
         init();

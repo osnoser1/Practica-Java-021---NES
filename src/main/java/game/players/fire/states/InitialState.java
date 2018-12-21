@@ -1,11 +1,11 @@
 package game.players.fire.states;
 
-import utils.game.Screen;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.SpriteState;
 import engine.core.graphics.spritedefaultstates.NullState;
 import engine.core.input.GamePad;
 import gui.GameScreen;
+import utils.game.Screen;
 
 import java.util.function.Supplier;
 
@@ -16,7 +16,6 @@ import java.util.function.Supplier;
  */
 
 /**
- * 
  * @author AlfonsoAndres
  */
 public class InitialState extends game.players.states.InitialState {

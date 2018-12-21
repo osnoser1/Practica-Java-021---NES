@@ -9,7 +9,6 @@ package engine.core.graphics;
 import engine.core.AnimationControl;
 
 /**
- * 
  * @author AlfonsoAndres
  */
 public class AnimationWrapper {
@@ -21,5 +20,5 @@ public class AnimationWrapper {
         this.row = row;
         this.animation = new AnimationControl(frames, frameTime);
     }
-    
+
 }

@@ -5,15 +5,17 @@
  */
 package game.players.bomberman.states;
 
-import dependencies.Sounds;
 import characters.Bomberman;
 import characters.Character;
-import utils.game.Screen;
-import gui.GameScreen;
-import java.util.function.Supplier;
+import dependencies.Sounds;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.SpriteState;
 import engine.core.input.GamePad;
+import gui.GameScreen;
+import utils.game.Screen;
+
+import java.util.function.Supplier;
+
 import static engine.core.input.GamePad.Buttons.*;
 
 public class RightState implements SpriteState {
@@ -40,12 +42,12 @@ public class RightState implements SpriteState {
         if (right) {
             p.moveRight((GameScreen) screen);
         }
-        if(up) {
+        if (up) {
             p.moveUp((GameScreen) screen);
-        } else if(down) {
+        } else if (down) {
             p.moveDown((GameScreen) screen);
         }
-        if(!(sprite instanceof Bomberman)) {
+        if (!(sprite instanceof Bomberman)) {
             return;
         }
         Sounds.getInstance().play(Sounds.UP, up);
@@ -55,7 +57,7 @@ public class RightState implements SpriteState {
 
     @Override
     public void onExit(Sprite sprite, Screen screen) {
-        if(sprite instanceof Bomberman) {
+        if (sprite instanceof Bomberman) {
             Sounds.getInstance().stop(Sounds.LEFT);
         }
     }

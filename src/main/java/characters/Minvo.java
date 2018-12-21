@@ -9,7 +9,6 @@ import engine.core.input.GamePad;
 
 
 /**
- *
  * @author hp
  */
 public class Minvo extends Enemy {
@@ -23,5 +22,5 @@ public class Minvo extends Enemy {
         id = "M";
         initialize();
     }
-    
+
 }

@@ -6,26 +6,25 @@ package characters;
 
 import dependencies.Images;
 import dependencies.Sounds;
+import engine.core.graphics.Image;
+import engine.core.graphics.Sprite;
+import engine.core.map.Position;
 import gui.GameScreen;
 import utils.game.Screen;
-import engine.core.graphics.Sprite;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.swing.AbstractAction;
-import javax.swing.Timer;
-import engine.core.graphics.Image;
-import engine.core.map.Position;
 
 /**
- *
  * @author hp
  */
 public class SpecialBrick extends Sprite {
 
-    private Timer timer;
     private final int type;
-    private boolean removedStatus;
     private final AtomicInteger enemiesNumber;
+    private Timer timer;
+    private boolean removedStatus;
     private Position position;
 
     public SpecialBrick(final int x, final int y, int type) {
@@ -91,9 +90,9 @@ public class SpecialBrick extends Sprite {
 
     public void createEnemies(final GameScreen gameScreen) {
         position = gameScreen.getMap().getPosition(this);
-        if(timer != null && timer.isRunning()) {
+        if (timer != null && timer.isRunning()) {
             return;
-        } 
+        }
         timer = new Timer(500, new AbstractAction() {
             int time = 5;
 
@@ -108,20 +107,20 @@ public class SpecialBrick extends Sprite {
         timer.setInitialDelay(0);
         timer.start();
     }
-    
+
     private void increaseCounterEnemies() {
-        if(enemiesNumber.get() < 5) {
+        if (enemiesNumber.get() < 5) {
             enemiesNumber.incrementAndGet();
         }
     }
- 
+
     private void addPendingEnemies(GameScreen gameScreen) {
         for (int i = 0, n = enemiesNumber.get(); i < n; i++) {
             gameScreen.addEnemy(position.row, position.column, gameScreen.determinateEnemy(3));
         }
         enemiesNumber.set(0);
-    }   
-    
+    }
+
     public boolean isRemovedStatus() {
         return removedStatus;
     }

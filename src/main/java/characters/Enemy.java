@@ -1,14 +1,13 @@
 package characters;
 
-import game.players.bomberman.states.*;
-import gui.GameScreen;
+import engine.core.graphics.AnimationWrapper;
 import engine.core.graphics.Image;
 import engine.core.input.GamePad;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.util.HashMap;
+import game.players.bomberman.states.*;
+import gui.GameScreen;
 
-import engine.core.graphics.AnimationWrapper;
+import java.awt.*;
+import java.util.HashMap;
 
 public class Enemy extends Character {
 
@@ -35,12 +34,12 @@ public class Enemy extends Character {
         intelligence = new Intelligence(this);
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public int getScore() {
         return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     @Override

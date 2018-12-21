@@ -5,11 +5,10 @@
 package gui;
 
 /**
- *
  * @author Alfonso Andrés
  */
 public class EndgameScreen {
-    
+
     private static EndgameScreen instance;
 
     private EndgameScreen() {
@@ -19,7 +18,8 @@ public class EndgameScreen {
     public static EndgameScreen getInstance() {
         return instance == null ? (instance = new EndgameScreen()) : instance;
     }
-    
-    private void initComponents() { }
-    
+
+    private void initComponents() {
+    }
+
 }

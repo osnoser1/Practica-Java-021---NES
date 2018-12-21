@@ -8,11 +8,10 @@ import dependencies.Images;
 import engine.core.input.GamePad;
 
 /**
- *
  * @author hp
  */
 public class Doll extends Enemy {
-    
+
     public Doll(int x, int y) {
         super(Images.DOLL, x, y, new GamePad());
         speed = SPEED_SLOW;
@@ -22,5 +21,5 @@ public class Doll extends Enemy {
         id = "D";
         initialize();
     }
-    
+
 }

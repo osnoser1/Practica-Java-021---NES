@@ -6,10 +6,10 @@ package engine.core.map;
 
 import characters.SteelBlock;
 import engine.core.graphics.Sprite;
+
 import java.util.HashMap;
 
 /**
- *
  * @author hp
  */
 public class Map {
@@ -25,6 +25,10 @@ public class Map {
         init();
     }
 
+    public static Map getInstance() {
+        return instance == null ? (instance = new Map()) : instance;
+    }
+
     private void init() {
         for (var i = 0; i < ROWS; i++) {
             for (var j = 0; j < COLUMNS; j++) {
@@ -36,22 +40,18 @@ public class Map {
         }
     }
 
-    public static Map getInstance() {
-        return instance == null ? (instance = new Map()) : instance;
-    }
-    
     public Position getPosition(Sprite s) {
         return mapper.containsKey(s) ? mapper.get(s).getCurrentPosition() : null;
     }
-    
+
     public boolean contains(final int row, final int column, Sprite... s) {
         return map[row][column].containsAny(s);
     }
-    
+
     public boolean contains(final int row, final int column, final Class<?>... classes) {
         return map[row][column].containsAny(classes);
     }
-    
+
     public boolean contains(Sprite s, final Class<?>... classes) {
         var p = mapper.get(s).getCurrentPosition();
         return map[p.row][p.column].containsAny(classes);
@@ -71,9 +71,9 @@ public class Map {
     public Sprite[] getSprite(final int row, final int column, final Class<?>... c) {
         return map[row][column].get(c);
     }
-    
+
     public boolean delete(final Sprite s) {
-        if(mapper.get(s) == null) {
+        if (mapper.get(s) == null) {
             return false;
         }
         var p = mapper.get(s).getCurrentPosition();
@@ -85,7 +85,7 @@ public class Map {
     }
 
     public void update(final Sprite s) {
-        if(mapper.get(s) == null || !mapper.get(s).update()) {
+        if (mapper.get(s) == null || !mapper.get(s).update()) {
             return;
         }
         final Position pAct = mapper.get(s).getCurrentPosition(),
@@ -93,7 +93,7 @@ public class Map {
         map[pAnt.row][pAnt.column].remove(s);
         map[pAct.row][pAct.column].add(s);
     }
-    
+
     public void show() {
         var sb = new StringBuilder();
         for (var i = 0; i < ROWS; i++) {

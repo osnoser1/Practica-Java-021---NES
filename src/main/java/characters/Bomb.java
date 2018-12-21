@@ -4,25 +4,26 @@
  */
 package characters;
 
-import dependencies.Sounds;
-import engine.core.graphics.Image;
 import dependencies.Images;
+import dependencies.Sounds;
+import engine.core.graphics.AnimationWrapper;
+import engine.core.graphics.Image;
+import engine.core.graphics.spritedefaultstates.NullState;
+import game.players.bomb.states.DeathState;
+import game.players.bomb.states.InitialState;
 import gui.GameScreen;
 import utils.game.Screen;
-import game.players.bomb.states.InitialState;
-import game.players.bomb.states.DeathState;
-import java.awt.Graphics2D;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
-import javax.swing.Timer;
-import engine.core.graphics.AnimationWrapper;
-import engine.core.graphics.spritedefaultstates.NullState;
 
 public class Bomb extends Character {
 
+    private final Bomberman bomberman;
     private boolean detonate;
     private Fire fire;
     private Timer timer;
-    private final Bomberman bomberman;
 
     public Bomb(final int x, final int y, final Bomberman player) {
         super(new Image(Images.BOMB, 1, 3, (float) 2.5), x, y);
@@ -47,7 +48,7 @@ public class Bomb extends Character {
     }
 
     public void detonate(final Screen screen) {
-        if(!isActive()) {
+        if (!isActive()) {
             return;
         }
         setActive(false);
@@ -72,11 +73,11 @@ public class Bomb extends Character {
         if (fire != null)
             fire.draw(g);
     }
-    
+
     public boolean isExplosionEnded() {
         return fire != null && fire.getCurrentState() instanceof NullState;
     }
-    
+
     public boolean isTimeOver() {
         return detonate;
     }

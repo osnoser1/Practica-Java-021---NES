@@ -5,12 +5,12 @@
  */
 package engine.core.map;
 
-import java.util.ArrayList;
-import java.util.stream.Stream;
 import engine.core.graphics.Sprite;
 
+import java.util.ArrayList;
+import java.util.stream.Stream;
+
 /**
- *
  * @author AlfonsoAndres
  */
 class Tile {
@@ -24,11 +24,11 @@ class Tile {
     public boolean add(final Sprite s) {
         return al.add(s);
     }
-    
+
     Sprite[] get(final Class<?>... classes) {
         return al.stream().filter((t) -> Stream.of(classes).anyMatch(c -> c.isInstance(t))).toArray(Sprite[]::new);
     }
-    
+
     public boolean remove(final Sprite s) {
         return al.remove(s);
     }
@@ -36,18 +36,18 @@ class Tile {
     public boolean containsAny(final Class<?>... classes) {
         for (var sprite : al) {
             for (var c : classes) {
-                if(c.isInstance(sprite)) {
+                if (c.isInstance(sprite)) {
                     return true;
                 }
             }
         }
         return false;
     }
-    
+
     boolean containsAny(final Sprite... sprites) {
         return Stream.of(sprites).anyMatch(al::contains);
     }
-    
+
     public boolean isEmpty() {
         return al.isEmpty();
     }

@@ -6,11 +6,10 @@
 package engine.core.input;
 
 /**
- *
  * @author AlfonsoAndres
  */
 public interface IGamePadController {
-    
+
     void update(GamePad g);
-    
+
 }

@@ -4,16 +4,14 @@
  */
 package fonts;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
+import java.awt.*;
 import java.io.IOException;
 
 /**
- *
  * @author Alfonso Andrés
  */
 public class Fonts {
-    
+
     private static Font calibri;
     private static Font joystixMonospacce;
     private static Fonts instance;
@@ -42,5 +40,5 @@ public class Fonts {
     public Font getJoystixMonospacce(float size) {
         return joystixMonospacce != null ? joystixMonospacce.deriveFont(Font.CENTER_BASELINE, size) : null;
     }
-    
+
 }

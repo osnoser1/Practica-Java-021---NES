@@ -6,17 +6,19 @@
 
 package engine.core.graphics;
 
-import utils.game.Screen;
-import java.util.function.Supplier;
 import engine.core.input.GamePad;
+import utils.game.Screen;
+
+import java.util.function.Supplier;
 
 /**
- * 
  * @author AlfonsoAndres
  */
 public interface SpriteState {
 
     Supplier<SpriteState> handleInput(Sprite sprite, GamePad gamePad);
+
     void update(Sprite sprite, Screen screen, long elapsedTime);
+
     void onExit(Sprite sprite, Screen screen);
 }

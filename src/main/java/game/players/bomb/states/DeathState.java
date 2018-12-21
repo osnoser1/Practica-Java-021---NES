@@ -7,15 +7,15 @@
 package game.players.bomb.states;
 
 import characters.Bomb;
-import utils.game.Screen;
-import java.util.function.Supplier;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.SpriteState;
 import engine.core.graphics.spritedefaultstates.NullState;
 import engine.core.input.GamePad;
+import utils.game.Screen;
+
+import java.util.function.Supplier;
 
 /**
- * 
  * @author AlfonsoAndres
  */
 public class DeathState extends game.players.states.DeathState {

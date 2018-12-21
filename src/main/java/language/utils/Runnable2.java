@@ -5,7 +5,6 @@
 package language.utils;
 
 /**
- *
  * @author Alfonso
  * @author Felix
  * @author Juan
@@ -80,13 +79,13 @@ public abstract class Runnable2 implements Runnable {
         isActive = false;
     }
 
+    public int getFPS() {
+        return FPS;
+    }
+
     public void setFPS(short FPS) {
         this.FPS = FPS;
         nanoSeconds = 1000 / FPS;
-    }
-
-    public int getFPS() {
-        return FPS;
     }
 
     public void pause() {

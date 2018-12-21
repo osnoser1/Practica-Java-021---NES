@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- *
  * @author Alfonso Andrés
  */
 public class JToolbarOptionsModels {

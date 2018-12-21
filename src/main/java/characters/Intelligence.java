@@ -4,16 +4,15 @@
  */
 package characters;
 
+import engine.core.input.GamePad;
+import engine.core.input.GamePad.Buttons;
 import game.players.states.DeathState;
 import gui.GameScreen;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import javax.swing.Timer;
-
-import engine.core.input.GamePad;
-import engine.core.input.GamePad.Buttons;
 
 import static engine.core.input.GamePad.Buttons.*;
 
@@ -25,9 +24,8 @@ public class Intelligence {
     private final ArrayList<Buttons> buffer;
     private final Character character;
     private final GamePad gamePad;
-    private Timer timer;
     private final Random random;
-
+    private Timer timer;
     private int a = 1, time = -1;
 
     public Intelligence(Character character) {

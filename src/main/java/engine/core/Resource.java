@@ -6,9 +6,8 @@
 package engine.core;
 
 /**
- *
- * @author AlfonsoAndrés
  * @param <E>
+ * @author AlfonsoAndrés
  */
 public interface Resource<E> {
 

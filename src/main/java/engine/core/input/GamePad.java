@@ -5,13 +5,33 @@
 package engine.core.input;
 
 import java.util.HashMap;
-import static engine.core.input.GamePad.Buttons.*;
+
+import static engine.core.input.GamePad.Buttons.NONE;
 
 /**
- *
  * @author AlfonsoAndrés
  */
 public class GamePad {
+
+    private final HashMap<Buttons, ButtonState> buttons = new HashMap<>() {
+        {
+            for (var value : Buttons.values()) {
+                put(value, new ButtonState(false, true));
+            }
+            put(NONE, new ButtonState(true, true));
+        }
+    };
+
+    public boolean isPress(Buttons buttons) {
+        return this.buttons.get(buttons).isPressed();
+    }
+
+    public void setPress(Buttons buttons, boolean pressed) {
+        if (!this.buttons.get(buttons).isEnabled()) {
+            return;
+        }
+        this.buttons.get(buttons).setPressed(pressed);
+    }
 
     public enum Buttons {
         UP,
@@ -37,26 +57,6 @@ public class GamePad {
         NONE
     }
 
-    private final HashMap<Buttons, ButtonState> buttons = new HashMap<>() {
-        {
-            for (var value : Buttons.values()) {
-                put(value, new ButtonState(false, true));
-            }
-            put(NONE, new ButtonState(true, true));
-        }
-    };
-
-    public boolean isPress(Buttons buttons) {
-        return this.buttons.get(buttons).isPressed();
-    }
-
-    public void setPress(Buttons buttons, boolean pressed) {
-        if (!this.buttons.get(buttons).isEnabled()) {
-            return;
-        }
-        this.buttons.get(buttons).setPressed(pressed);
-    }
-
     private class ButtonState {
 
         private boolean pressed, enabled;
@@ -70,12 +70,12 @@ public class GamePad {
             return pressed;
         }
 
-        public boolean isEnabled() {
-            return enabled;
-        }
-
         public void setPressed(boolean pressed) {
             this.pressed = pressed;
+        }
+
+        public boolean isEnabled() {
+            return enabled;
         }
 
     }

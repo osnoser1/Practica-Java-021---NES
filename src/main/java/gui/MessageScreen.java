@@ -1,6 +1,6 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package gui;
 
@@ -9,21 +9,16 @@ import dependencies.Sound;
 import dependencies.Sounds;
 import engine.core.input.Keyboard;
 import fonts.Fonts;
-import utils.game.Screen;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Transparency;
 import language.utils.ImageUtilities;
+import utils.game.Screen;
+
+import java.awt.*;
 
 /**
- *
  * @author Alfonso Andrés
  */
 public class MessageScreen extends Screen {
-    
+
     private static MessageScreen instance;
     private short level = 1, MAX_LEVEL = 50;
     private Image image;
@@ -50,16 +45,8 @@ public class MessageScreen extends Screen {
         windowSize = Configuration.getInstance().getWindowSize();
     }
 
-    public void setMAX_LEVEL(short MAX_LEVEL) {
-        this.MAX_LEVEL = MAX_LEVEL > 50 ? 50 : MAX_LEVEL < 1 ? 1 : MAX_LEVEL;
-    }
-
-    public void setLevel(short level) {
-        this.level = level > 50 ? 50 : level < 1 ? 1 : level;
-    }
-
     public void increaseLevel() {
-        if(level != MAX_LEVEL)
+        if (level != MAX_LEVEL)
             level++;
     }
 
@@ -71,8 +58,16 @@ public class MessageScreen extends Screen {
         return level;
     }
 
+    public void setLevel(short level) {
+        this.level = level > 50 ? 50 : level < 1 ? 1 : level;
+    }
+
     public short getMAX_LEVEL() {
         return MAX_LEVEL;
+    }
+
+    public void setMAX_LEVEL(short MAX_LEVEL) {
+        this.MAX_LEVEL = MAX_LEVEL > 50 ? 50 : MAX_LEVEL < 1 ? 1 : MAX_LEVEL;
     }
 
     public void startStageScreen() {
@@ -103,7 +98,7 @@ public class MessageScreen extends Screen {
 
     @Override
     public void restart() {
-    
+
     }
 
     @Override
@@ -115,13 +110,13 @@ public class MessageScreen extends Screen {
     public void update(long elapsedTime) {
         if (sound != null && sound.isPlaying())
             System.out.println("Sound: " + sound.getFramePosition() + " " + sound.getFrameLength());
-        switch(jPanelContainer.selectedScene) {
+        switch (jPanelContainer.selectedScene) {
             case STAGE:
                 if (sound == null || !sound.isPlaying())
                     jPanelContainer.setScreen(Scene.GAME);
                 break;
             case GAME_OVER:
-                if(keyboard.isKeyPressed()) {
+                if (keyboard.isKeyPressed()) {
                     jPanelContainer.setScreen(Scene.MENU);
                     Sounds.getInstance().stop(Sounds.GAME_OVER);
                 }

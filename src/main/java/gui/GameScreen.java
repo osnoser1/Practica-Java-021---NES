@@ -6,31 +6,26 @@ package gui;
 
 import bomberman.configuration.Configuration;
 import bomberman.core.GameControl;
-import dependencies.Sounds;
-import engine.core.graphics.Sprite;
-import language.utils.ImageUtilities;
-import dependencies.Images;
-import engine.core.map.Map;
 import characters.*;
+import dependencies.Images;
+import dependencies.Sounds;
 import engine.core.Camera;
-import utils.game.Screen;
+import engine.core.graphics.Sprite;
+import engine.core.graphics.spritedefaultstates.NullState;
+import engine.core.map.Map;
+import game.constants.Objects;
 import game.players.states.DeathState;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Transparency;
+import language.utils.ImageUtilities;
+import utils.game.Screen;
+
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import game.constants.Objects;
-import engine.core.graphics.spritedefaultstates.NullState;
-
 /**
- *
  * @author Alfonso Andrés
  */
 public class GameScreen extends Screen implements PropertyChangeListener {
@@ -38,10 +33,8 @@ public class GameScreen extends Screen implements PropertyChangeListener {
     private static GameScreen instance;
     private final int x;
     private final int y;
-    private boolean defeated, powerUp, door;
     private final Map map;
     private final Image buffer;
-    private Dimension SIZE;
     private final Dimension windowSize;
     private final ArrayList<Bomb> bombs;
     private final ArrayList<Enemy> enemies;
@@ -51,12 +44,14 @@ public class GameScreen extends Screen implements PropertyChangeListener {
     private final GameControl gameControl;
     private final JPanelInformation jPanelInformation;
     private final double internalScaleX;
+    private boolean defeated, powerUp, door;
+    private Dimension SIZE;
 
     private GameScreen(JPanelContainer jPanelContainer) {
         super(jPanelContainer);
         SIZE = new Dimension(1240, 520);
         windowSize = Configuration.getInstance().getWindowSize();
-        internalScaleX = ((double)640) / (SIZE.width >> 1);
+        internalScaleX = ((double) 640) / (SIZE.width >> 1);
         window = new Camera(new Rectangle(SIZE.width >> 1, SIZE.height), SIZE);
         bombs = new ArrayList<>();
         bricks = new ArrayList<>();
@@ -166,11 +161,11 @@ public class GameScreen extends Screen implements PropertyChangeListener {
     public void eraseBrick(final int row, final int column) {
         var sprite = map.getSprite(row, column, Brick.class, SpecialBrick.class);
         Stream.of(sprite).forEach((l) -> {
-            if(l instanceof Brick && !(l.getCurrentState() instanceof NullState)) {
+            if (l instanceof Brick && !(l.getCurrentState() instanceof NullState)) {
                 ((Brick) l).destroy();
                 return;
             }
-            if(!(l instanceof SpecialBrick)) {
+            if (!(l instanceof SpecialBrick)) {
                 return;
             }
             var le = (SpecialBrick) l;
@@ -199,7 +194,7 @@ public class GameScreen extends Screen implements PropertyChangeListener {
             if (map.contains(row, column, enemy)) {
                 enemy.death(this);
                 jPanelInformation.increaseScore(enemy.getScore());
-            }   
+            }
     }
 
     public void eraseBomb(final int row, final int column) {
@@ -244,7 +239,7 @@ public class GameScreen extends Screen implements PropertyChangeListener {
                     defeated = true;
                 } else
                     defeated = false;
-            } else if(!(enemy.getCurrentState() instanceof DeathState)) {
+            } else if (!(enemy.getCurrentState() instanceof DeathState)) {
                 map.update(enemy);
             }
         }
@@ -253,7 +248,7 @@ public class GameScreen extends Screen implements PropertyChangeListener {
             brick.update(this, elapsedTime);
             if (brick.getCurrentState() instanceof NullState
                     && !brick.isSpecial()) {
-                if(!map.delete(brick)) {
+                if (!map.delete(brick)) {
                     map.delete(brick.getSpecialBrick());
                 }
                 bricks.remove(i--);
@@ -313,7 +308,7 @@ public class GameScreen extends Screen implements PropertyChangeListener {
 
     private void updatePlayer(final long elapsedTime) {
         final var b = firstPlayer();
-        if(!b.isEnteredTheDoor()) {
+        if (!b.isEnteredTheDoor()) {
             b.update(this, elapsedTime);
         }
         map.update(b);

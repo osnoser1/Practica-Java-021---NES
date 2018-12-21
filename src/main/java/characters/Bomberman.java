@@ -4,34 +4,29 @@
  */
 package characters;
 
-import dependencies.Sounds;
-import gui.GameScreen;
-import engine.core.graphics.Image;
 import dependencies.Images;
-import utils.game.Screen;
-import game.core.input.PlayerOneKeyboardController;
-import game.players.bomberman.states.*;
+import dependencies.Sounds;
+import engine.core.graphics.AnimationWrapper;
+import engine.core.graphics.Image;
+import engine.core.graphics.spritedefaultstates.NullState;
 import engine.core.input.GamePad;
 import engine.core.input.GamePad.Buttons;
+import game.core.input.PlayerOneKeyboardController;
+import game.players.bomberman.states.*;
+import gui.GameScreen;
+import utils.game.Screen;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
-import engine.core.graphics.AnimationWrapper;
-import engine.core.graphics.spritedefaultstates.NullState;
 
 public class Bomberman extends Character {
 
-    public enum Events {
-        ADD_BOMB,
-    }
-
+    private final PropertyChangeSupport changes = new PropertyChangeSupport(this);
     private boolean SPEED, DETONATOR, FLAMEPASS, MYSTERY;
     private int FLAMES, BOMBS;
     private boolean enteredTheDoor;
     private int numberPumpsCreated;
-
-    private final PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
     public Bomberman(final int x, final int y) {
         super(new Image(Images.BOMBERMAN, 6, 6, (float) 2.5), x, y);
@@ -80,22 +75,18 @@ public class Bomberman extends Character {
         super.update(gameScreen, elapsedTime);
         checkDeath(gameScreen);
     }
-    
+
     public void die() {
         Sounds.getInstance().stop(Sounds.UP, Sounds.DOWN, Sounds.LEFT, Sounds.RIGHT);
         Sounds.getInstance().play(Sounds.DEATH);
         setCurrentState(DeathState::new);
     }
-    
+
     private void checkDeath(GameScreen gameScreen) {
-        if(currentState instanceof DeathState || currentState instanceof NullState
+        if (currentState instanceof DeathState || currentState instanceof NullState
                 || !gameScreen.getMap().contains(this, Enemy.class))
             return;
         die();
-    }
-    
-    public void setDETONATOR(boolean DETONATOR) {
-        this.DETONATOR = DETONATOR;
     }
 
     public void setSPEED(boolean SPEED) {
@@ -104,14 +95,6 @@ public class Bomberman extends Character {
             speed = SPEED_FAST;
         else
             speed = SPEED_MID;
-    }
-
-    public void setMYSTERY(boolean MYSTERY) {
-        this.MYSTERY = MYSTERY;
-    }
-
-    public void setFLAMEPASS(boolean FLAMEPASS) {
-        this.FLAMEPASS = FLAMEPASS;
     }
 
     public void increaseBombs(final int count) {
@@ -130,6 +113,10 @@ public class Bomberman extends Character {
         return MYSTERY;
     }
 
+    public void setMYSTERY(boolean MYSTERY) {
+        this.MYSTERY = MYSTERY;
+    }
+
     public int getFLAMES() {
         return FLAMES;
     }
@@ -138,8 +125,16 @@ public class Bomberman extends Character {
         return DETONATOR;
     }
 
+    public void setDETONATOR(boolean DETONATOR) {
+        this.DETONATOR = DETONATOR;
+    }
+
     public boolean getFLAMEPASS() {
         return FLAMEPASS;
+    }
+
+    public void setFLAMEPASS(boolean FLAMEPASS) {
+        this.FLAMEPASS = FLAMEPASS;
     }
 
     public void addBomb(final GameScreen gameScreen) {
@@ -151,13 +146,13 @@ public class Bomberman extends Character {
             final var bomb = new Bomb(getCenter().x / image.getWidth() * image.getWidth(),
                     getCenter().y / image.getHeight() * image.getHeight(), this);
             insideBomb = true;
-            numberPumpsCreated +=1;
+            numberPumpsCreated += 1;
             changes.firePropertyChange(Events.ADD_BOMB.name(), null, bomb);
         }
     }
-    
+
     private void checkActionKeys(final GameScreen gameScreen) {
-        if(currentState instanceof DeathState || currentState instanceof NullState)
+        if (currentState instanceof DeathState || currentState instanceof NullState)
             return;
         if (gamePad.isPress(Buttons.A))
             addBomb(gameScreen);
@@ -177,18 +172,22 @@ public class Bomberman extends Character {
         screen.eraseBomb(this);
     }
 
-    public void setEnteredTheDoor(boolean b) {
-        enteredTheDoor = true;
-    }
-
     public boolean isEnteredTheDoor() {
         return enteredTheDoor;
+    }
+
+    public void setEnteredTheDoor(boolean b) {
+        enteredTheDoor = true;
     }
 
     public void decreaseNumberPumpsCreated() {
         if (numberPumpsCreated > 0) {
             numberPumpsCreated -= 1;
         }
+    }
+
+    public enum Events {
+        ADD_BOMB,
     }
 
 }

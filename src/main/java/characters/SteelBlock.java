@@ -11,7 +11,6 @@ import engine.core.graphics.Image;
 import engine.core.graphics.Sprite;
 
 /**
- * 
  * @author AlfonsoAndres
  */
 public class SteelBlock extends Sprite {

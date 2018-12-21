@@ -9,11 +9,10 @@ import engine.core.input.GamePad;
 
 
 /**
- *
  * @author hp
  */
 public class Ovapi extends Enemy {
-    
+
     public Ovapi(int x, int y) {
         super(Images.OVAPI, x, y, new GamePad());
         speed = SPEED_SLOWEST;
@@ -23,5 +22,5 @@ public class Ovapi extends Enemy {
         id = "o";
         initialize();
     }
-    
+
 }
