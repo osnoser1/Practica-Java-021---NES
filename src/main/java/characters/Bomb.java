@@ -6,13 +6,13 @@ package characters;
 
 import dependencies.Images;
 import dependencies.Sounds;
+import engine.core.game.Screen;
 import engine.core.graphics.AnimationWrapper;
 import engine.core.graphics.Image;
 import engine.core.graphics.spritedefaultstates.NullState;
 import game.players.bomb.states.DeathState;
 import game.players.bomb.states.InitialState;
 import gui.GameScreen;
-import utils.game.Screen;
 
 import javax.swing.*;
 import java.awt.*;

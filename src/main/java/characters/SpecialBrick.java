@@ -6,11 +6,11 @@ package characters;
 
 import dependencies.Images;
 import dependencies.Sounds;
+import engine.core.game.Screen;
 import engine.core.graphics.Image;
 import engine.core.graphics.Sprite;
 import engine.core.map.Position;
 import gui.GameScreen;
-import utils.game.Screen;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

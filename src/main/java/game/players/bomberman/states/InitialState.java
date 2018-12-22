@@ -6,10 +6,10 @@
 
 package game.players.bomberman.states;
 
+import engine.core.game.Screen;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.SpriteState;
 import engine.core.input.GamePad;
-import utils.game.Screen;
 
 import java.util.function.Supplier;
 

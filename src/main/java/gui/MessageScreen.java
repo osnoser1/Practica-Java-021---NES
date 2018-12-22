@@ -7,10 +7,12 @@ package gui;
 import bomberman.configuration.Configuration;
 import dependencies.Sound;
 import dependencies.Sounds;
+import engine.core.game.Game;
+import engine.core.game.Screen;
 import engine.core.input.Keyboard;
 import fonts.Fonts;
+import gui.BombermanGame.Scene;
 import language.utils.ImageUtilities;
-import utils.game.Screen;
 
 import java.awt.*;
 
@@ -28,13 +30,12 @@ public class MessageScreen extends Screen {
     private Font f1;
     private Color c;
 
-    private MessageScreen(final JPanelContainer jPanelContainer) {
-        super(jPanelContainer);
+    private MessageScreen() {
         init();
     }
 
-    public static MessageScreen getInstance(final JPanelContainer jPanelContainer) {
-        return instance == null ? (instance = new MessageScreen(jPanelContainer)) : instance;
+    public static MessageScreen getInstance() {
+        return instance == null ? (instance = new MessageScreen()) : instance;
     }
 
     private void init() {
@@ -107,17 +108,18 @@ public class MessageScreen extends Screen {
     }
 
     @Override
-    public void update(long elapsedTime) {
+    public void update(final long elapsedTime, final Game game) {
         if (sound != null && sound.isPlaying())
             System.out.println("Sound: " + sound.getFramePosition() + " " + sound.getFrameLength());
-        switch (jPanelContainer.selectedScene) {
+        final var scene = (Scene) game.getSelectedScene();
+        switch (scene) {
             case STAGE:
                 if (sound == null || !sound.isPlaying())
-                    jPanelContainer.setScreen(Scene.GAME);
+                    game.setScreen(Scene.GAME);
                 break;
             case GAME_OVER:
                 if (keyboard.isKeyPressed()) {
-                    jPanelContainer.setScreen(Scene.MENU);
+                    game.setScreen(Scene.MENU);
                     Sounds.getInstance().stop(Sounds.GAME_OVER);
                 }
                 break;

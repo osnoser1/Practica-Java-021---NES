@@ -7,14 +7,16 @@ package gui;
 import bomberman.configuration.Configuration;
 import dependencies.Images;
 import dependencies.Sounds;
+import engine.core.game.Game;
+import engine.core.game.Screen;
 import engine.core.input.GamePad;
 import engine.core.input.GamePad.Buttons;
 import engine.core.input.IGamePadController;
 import engine.core.input.Keyboard;
 import fonts.Fonts;
 import game.core.input.PlayerOneKeyboardController;
+import gui.BombermanGame.Scene;
 import language.utils.ImageUtilities;
-import utils.game.Screen;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -37,13 +39,12 @@ public class PresentationScreen extends Screen {
     private IGamePadController padController;
     private Font font;
 
-    private PresentationScreen(JPanelContainer jPanelContainer) {
-        super(jPanelContainer);
+    private PresentationScreen() {
         init();
     }
 
-    public static PresentationScreen getInstance(JPanelContainer jPanelContainer) {
-        return instance == null ? (instance = new PresentationScreen(jPanelContainer)) : instance;
+    public static PresentationScreen getInstance() {
+        return instance == null ? (instance = new PresentationScreen()) : instance;
     }
 
     private void init() {
@@ -137,7 +138,7 @@ public class PresentationScreen extends Screen {
     }
 
     @Override
-    public void update(final long elapsedTime) {
+    public void update(final long elapsedTime, final Game game) {
         padController.update(gamePad);
         if (gamePad.isPress(Buttons.SELECT))
             nextOption();
@@ -146,10 +147,10 @@ public class PresentationScreen extends Screen {
             Sounds.getInstance().stop(Sounds.TITLE_SCREEN);
             switch (selectedOption) {
                 case START:
-                    jPanelContainer.setScreen(Scene.STAGE);
+                    game.setScreen(Scene.STAGE);
                     break;
                 case MAP_EDITOR:
-                    jPanelContainer.setScreen(Scene.EDITOR);
+                    game.setScreen(Scene.EDITOR);
                     break;
             }
         }

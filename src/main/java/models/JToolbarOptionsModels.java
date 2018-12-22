@@ -56,7 +56,7 @@ public class JToolbarOptionsModels {
     }
 
     public void start() {
-//        var jPanelContainer = JPanelContainer.getInstance();
+//        var jPanelContainer = BombermanGame.getInstance();
 //        var messageScreen = MessageScreen.getInstance(jPanelContainer);
 //        jPanelContainer.removeAll();
 //        jPanelContainer.add(messageScreen);
@@ -66,13 +66,13 @@ public class JToolbarOptionsModels {
     }
 
     public void saveMap() {
-        var option = this.jFileChooser.showSaveDialog(JPanelContainer.getInstance());
+        var option = this.jFileChooser.showSaveDialog(BombermanGame.getInstance());
         if (option == JFileChooser.APPROVE_OPTION)
             saveFile(this.jFileChooser.getSelectedFile());
     }
 
     public void loadMap() {
-        var option = this.jFileChooser.showOpenDialog(JPanelContainer.getInstance());
+        var option = this.jFileChooser.showOpenDialog(BombermanGame.getInstance());
         if (option == JFileChooser.APPROVE_OPTION)
             loadFile(this.jFileChooser.getSelectedFile());
     }

@@ -5,13 +5,13 @@
 package characters;
 
 import dependencies.Images;
+import engine.core.game.Screen;
 import engine.core.graphics.AnimationWrapper;
 import engine.core.graphics.Image;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.spritedefaultstates.EmptyState;
 import engine.core.map.Map;
 import game.players.ladrillo.states.DeathState;
-import utils.game.Screen;
 
 import java.awt.*;
 import java.util.HashMap;

@@ -6,6 +6,7 @@ package characters;
 
 import dependencies.Images;
 import dependencies.Sounds;
+import engine.core.game.Screen;
 import engine.core.graphics.AnimationWrapper;
 import engine.core.graphics.Image;
 import engine.core.graphics.spritedefaultstates.NullState;
@@ -14,7 +15,6 @@ import engine.core.input.GamePad.Buttons;
 import game.core.input.PlayerOneKeyboardController;
 import game.players.bomberman.states.*;
 import gui.GameScreen;
-import utils.game.Screen;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

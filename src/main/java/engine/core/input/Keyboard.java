@@ -18,6 +18,7 @@ public final class Keyboard {
     private static Keyboard instance;
     private final HashMap<Integer, KeyState> keys;
     private final ArrayList<Consumer<Integer, KeyState, Void>> keyChanged;
+
     private Keyboard() {
         keys = new HashMap<>();
         keyChanged = new ArrayList<>();

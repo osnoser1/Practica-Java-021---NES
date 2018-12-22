@@ -9,11 +9,11 @@ package game.players.bomberman.states;
 import characters.Bomberman;
 import characters.Character;
 import dependencies.Sounds;
+import engine.core.game.Screen;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.SpriteState;
 import engine.core.input.GamePad;
 import gui.GameScreen;
-import utils.game.Screen;
 
 import java.util.function.Supplier;
 

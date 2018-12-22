@@ -7,7 +7,7 @@ package game;
 
 import engine.core.GameCore;
 import engine.core.java.controllers.CJFramePrincipal;
-import gui.JPanelContainer;
+import gui.BombermanGame;
 
 import java.awt.*;
 
@@ -16,7 +16,7 @@ import java.awt.*;
  */
 public class Game extends GameCore {
 
-    private JPanelContainer jpc;
+    private BombermanGame jpc;
 
     public static void main(String[] args) {
 //        final String os = System.getProperty("os.name");
@@ -34,7 +34,7 @@ public class Game extends GameCore {
     public void init() {
         super.init();
         screen.getScreenWindow().addKeyListener(CJFramePrincipal.Keyboard.getInstance());
-        jpc = JPanelContainer.getInstance();
+        jpc = new BombermanGame();
     }
 
     @Override

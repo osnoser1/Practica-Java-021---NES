@@ -6,7 +6,6 @@ package engine.core.java.controllers;
 
 import bomberman.configuration.Configuration;
 import engine.core.java.gui.JFramePrincipal;
-import gui.JPanelContainer;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -19,7 +18,7 @@ import java.awt.event.WindowEvent;
 public class CJFramePrincipal extends java.awt.event.WindowAdapter implements ComponentListener {
 
     private static CJFramePrincipal instance;
-    private JPanelContainer container;
+
     private CJFramePrincipal() {
     }
 
@@ -28,7 +27,6 @@ public class CJFramePrincipal extends java.awt.event.WindowAdapter implements Co
     }
 
     public CJFramePrincipal setJFramePrincipal(JFramePrincipal aThis) {
-        this.container = JPanelContainer.getInstance();
         return this;
     }
 

@@ -6,18 +6,20 @@ package gui;
 
 import bomberman.configuration.Configuration;
 import bomberman.core.GameControl;
-import characters.*;
 import characters.Character;
+import characters.*;
 import dependencies.Images;
 import dependencies.Sounds;
 import engine.core.Camera;
+import engine.core.game.Game;
+import engine.core.game.Screen;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.spritedefaultstates.NullState;
 import engine.core.map.Map;
 import game.constants.Objects;
 import game.players.states.DeathState;
+import gui.BombermanGame.Scene;
 import language.utils.ImageUtilities;
-import utils.game.Screen;
 
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -48,8 +50,7 @@ public class GameScreen extends Screen implements PropertyChangeListener {
     private boolean defeated, powerUp, door;
     private Dimension SIZE;
 
-    private GameScreen(JPanelContainer jPanelContainer) {
-        super(jPanelContainer);
+    private GameScreen() {
         SIZE = new Dimension(1240, 520);
         windowSize = Configuration.getInstance().getWindowSize();
         internalScaleX = ((double) 640) / (SIZE.width >> 1);
@@ -71,8 +72,8 @@ public class GameScreen extends Screen implements PropertyChangeListener {
         restart();
     }
 
-    public static GameScreen getInstance(JPanelContainer jPanelContainer) {
-        return instance == null ? (instance = new GameScreen(jPanelContainer)) : instance;
+    public static GameScreen getInstance() {
+        return instance == null ? (instance = new GameScreen()) : instance;
     }
 
     @Override
@@ -226,9 +227,9 @@ public class GameScreen extends Screen implements PropertyChangeListener {
     }
 
     @Override
-    public void update(final long elapsedTime) {
+    public void update(final long elapsedTime, final Game game) {
         window.update(firstPlayer().getCenter());
-        updatePlayer(elapsedTime);
+        updatePlayer(elapsedTime, game);
         updateBombs(elapsedTime);
         for (var i = 0; i < enemies.size(); i++) {
             final var enemy = enemies.get(i);
@@ -308,7 +309,7 @@ public class GameScreen extends Screen implements PropertyChangeListener {
         return c > 6 ? Objects.PONTAN.getValue() : Objects.getEnemies()[c].getValue();
     }
 
-    private void updatePlayer(final long elapsedTime) {
+    private void updatePlayer(final long elapsedTime, final Game game) {
         final var b = firstPlayer();
         if (!b.isEnteredTheDoor()) {
             b.update(this, elapsedTime);
@@ -324,20 +325,20 @@ public class GameScreen extends Screen implements PropertyChangeListener {
             if (jPanelInformation.getRemainingLives() < 0) {
                 jPanelInformation.setRemainingLives(2);
                 jPanelInformation.setScore(0);
-                MessageScreen.getInstance(null).setLevel((short) 1);
+                MessageScreen.getInstance().setLevel((short) 1);
                 players[0] = (Bomberman) Objects.getInstance("B");
-                jPanelContainer.setScreen(Scene.GAME_OVER);
+                game.setScreen(Scene.GAME_OVER);
             } else
-                jPanelContainer.setScreen(Scene.STAGE);
+                game.setScreen(Scene.STAGE);
         } else if (b.isEnteredTheDoor()) {
             if (Sounds.getInstance().isPlaying(Sounds.LEVEL_COMPLETE))
                 return;
             jPanelInformation.stopCountdown();
-            MessageScreen.getInstance(null).increaseLevel();
-            if (MessageScreen.getInstance(null).endgame()) {
+            MessageScreen.getInstance().increaseLevel();
+            if (MessageScreen.getInstance().endgame()) {
 
             } else
-                jPanelContainer.setScreen(Scene.STAGE);
+                game.setScreen(Scene.STAGE);
         }
     }
 

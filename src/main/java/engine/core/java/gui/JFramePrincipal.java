@@ -4,11 +4,14 @@
  */
 package engine.core.java.gui;
 
+import engine.core.game.Game;
 import engine.core.java.controllers.CJFramePrincipal;
 import language.utils.FileManager;
+import org.reflections.Reflections;
 import thread.PrincipalThread;
 
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author Alfonso Andrés
@@ -16,10 +19,12 @@ import java.awt.*;
 public class JFramePrincipal extends Frame {
 
     final PrincipalThread principalThread;
+    private final Game game;
 
-    public JFramePrincipal() {
+    public JFramePrincipal(Game game) {
         initComponents();
         setVisible(true);
+        this.game = game;
         principalThread = new PrincipalThread(this, (short) 60);
         principalThread.start();
     }
@@ -29,7 +34,6 @@ public class JFramePrincipal extends Frame {
         setFocusable(true);
         setAutoRequestFocus(true);
         setIgnoreRepaint(true);
-//        add(JPanelContainer.getInstance());
         setSize(656, 600);
         var controller = CJFramePrincipal.getInstance().setJFramePrincipal(this);
         addWindowFocusListener(controller);
@@ -53,5 +57,9 @@ public class JFramePrincipal extends Frame {
 
     @Override
     public void update(Graphics g) {
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

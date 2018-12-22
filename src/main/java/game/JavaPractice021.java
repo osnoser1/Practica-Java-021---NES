@@ -4,7 +4,11 @@
  */
 package game;
 
+import engine.core.game.Game;
 import engine.core.java.gui.JFramePrincipal;
+import org.reflections.Reflections;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author Alfonso Andrés
@@ -25,6 +29,22 @@ public class JavaPractice021 {
         System.setProperty("sun.java2d.opengl", "True");
         System.setProperty("sun.java2d.noddraw", "true");
 //        System.setProperty("sun.java2d.translaccel", "true");
-        java.awt.EventQueue.invokeLater(JFramePrincipal::new);
+        java.awt.EventQueue.invokeLater(JavaPractice021::run);
+    }
+
+    private static void run() {
+        try {
+            var reflection = new Reflections();
+            var game = reflection.getSubTypesOf(Game.class).stream().findFirst().get().getDeclaredConstructor().newInstance();
+            new JFramePrincipal(game);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 }

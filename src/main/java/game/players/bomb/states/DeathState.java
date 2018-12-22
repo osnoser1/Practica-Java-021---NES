@@ -7,11 +7,11 @@
 package game.players.bomb.states;
 
 import characters.Bomb;
+import engine.core.game.Screen;
 import engine.core.graphics.Sprite;
 import engine.core.graphics.SpriteState;
 import engine.core.graphics.spritedefaultstates.NullState;
 import engine.core.input.GamePad;
-import utils.game.Screen;
 
 import java.util.function.Supplier;
 

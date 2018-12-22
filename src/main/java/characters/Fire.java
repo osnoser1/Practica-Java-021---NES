@@ -5,13 +5,13 @@
 package characters;
 
 import dependencies.Images;
+import engine.core.game.Screen;
 import engine.core.graphics.AnimationWrapper;
 import engine.core.graphics.Image;
 import engine.core.graphics.spritedefaultstates.NullState;
 import engine.core.map.Position;
 import game.players.fire.states.InitialState;
 import gui.GameScreen;
-import utils.game.Screen;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -25,6 +25,7 @@ public class Fire extends Character {
     private int[] lengthDirections;
     private Point[] pos;
     private Image[] images;
+
     public Fire(final int x, final int y, final int length, final GameScreen gameScreen) {
         super(new Image(Images.FIRE, 7, 4, 2.5f), x, y);
         this.length = length;

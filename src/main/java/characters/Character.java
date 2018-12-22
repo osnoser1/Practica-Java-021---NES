@@ -4,12 +4,12 @@
  */
 package characters;
 
+import engine.core.game.Screen;
 import engine.core.graphics.Image;
 import engine.core.graphics.Sprite;
 import engine.core.input.IGamePadController;
 import engine.core.map.Map;
 import gui.GameScreen;
-import utils.game.Screen;
 
 import static characters.Character.Direction.HORIZONTAL;
 import static characters.Character.Direction.VERTICAL;
@@ -23,6 +23,7 @@ public abstract class Character extends Sprite {
     protected Intelligence intelligence;
     protected IGamePadController padController;
     protected boolean wallpass, insideBomb, BOMBPASS;
+
     protected Character(final Image image, final int x, final int y) {
         super(image, x, y);
     }

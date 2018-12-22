@@ -6,8 +6,8 @@
 
 package engine.core.graphics;
 
+import engine.core.game.Screen;
 import engine.core.input.GamePad;
-import utils.game.Screen;
 
 import java.util.function.Supplier;
 

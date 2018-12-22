@@ -4,9 +4,9 @@
  */
 package engine.core.graphics;
 
+import engine.core.game.Screen;
 import engine.core.graphics.spritedefaultstates.NullState;
 import engine.core.input.GamePad;
-import utils.game.Screen;
 
 import java.awt.*;
 import java.util.HashMap;
