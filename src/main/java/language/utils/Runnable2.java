@@ -19,12 +19,12 @@ public abstract class Runnable2 implements Runnable {
     protected int currentFps;
 
 
-    public Runnable2(int FPS) {
+    protected Runnable2(int FPS) {
         this.FPS = FPS;
         nanoSeconds = 1000000000 / FPS;
     }
 
-    public abstract void runProcess();
+    protected abstract void runProcess();
 
     protected void preInit() {
     }

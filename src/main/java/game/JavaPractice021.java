@@ -37,13 +37,7 @@ public class JavaPractice021 {
             var reflection = new Reflections();
             var game = reflection.getSubTypesOf(Game.class).stream().findFirst().get().getDeclaredConstructor().newInstance();
             new JFramePrincipal(game);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
+        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }

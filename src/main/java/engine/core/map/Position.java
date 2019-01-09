@@ -17,6 +17,7 @@ public class Position implements Cloneable {
         this.column = column;
     }
 
+    @SuppressWarnings("CloneDoesntDeclareCloneNotSupportedException")
     @Override
     protected Object clone() {
         return new Position(row, column); // To change body of generated methods, choose Tools | Templates.

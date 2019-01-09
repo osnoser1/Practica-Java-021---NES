@@ -137,7 +137,7 @@ public class Bomberman extends Character {
         this.FLAMEPASS = FLAMEPASS;
     }
 
-    public void addBomb(final GameScreen gameScreen) {
+    private void addBomb() {
         if (centralCollision(Bomb.class)) {
             insideBomb = true;
             return;
@@ -155,7 +155,7 @@ public class Bomberman extends Character {
         if (currentState instanceof DeathState || currentState instanceof NullState)
             return;
         if (gamePad.isPress(Buttons.A))
-            addBomb(gameScreen);
+            addBomb();
         if (gamePad.isPress(Buttons.B) && DETONATOR)
             detonatorBomb(gameScreen);
     }

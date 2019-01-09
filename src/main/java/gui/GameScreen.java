@@ -183,7 +183,7 @@ public class GameScreen extends Screen implements PropertyChangeListener {
         if (!map.contains(row, column, firstPlayer()))
             return;
         firstPlayer().die();
-        enemies.stream().forEach(Character::stopIntelligence);
+        enemies.forEach(Character::stopIntelligence);
     }
 
     public void eraseEnemies() {
@@ -231,32 +231,8 @@ public class GameScreen extends Screen implements PropertyChangeListener {
         window.update(firstPlayer().getCenter());
         updatePlayer(elapsedTime, game);
         updateBombs(elapsedTime);
-        for (var i = 0; i < enemies.size(); i++) {
-            final var enemy = enemies.get(i);
-            enemy.update(this, elapsedTime);
-            if (enemy.getCurrentState() instanceof NullState) {
-                enemies.remove(i--);
-                if (enemies.isEmpty()) {
-                    if (!defeated)
-                        Sounds.getInstance().play(Sounds.PAUSE);
-                    defeated = true;
-                } else
-                    defeated = false;
-            } else if (!(enemy.getCurrentState() instanceof DeathState)) {
-                map.update(enemy);
-            }
-        }
-        for (var i = 0; i < bricks.size(); i++) {
-            final var brick = bricks.get(i);
-            brick.update(this, elapsedTime);
-            if (brick.getCurrentState() instanceof NullState
-                    && !brick.isSpecial()) {
-                if (!map.delete(brick)) {
-                    map.delete(brick.getSpecialBrick());
-                }
-                bricks.remove(i--);
-            }
-        }
+        updateEnemies(elapsedTime);
+        updateBricks(elapsedTime);
         gameControl.update();
     }
 
@@ -349,6 +325,38 @@ public class GameScreen extends Screen implements PropertyChangeListener {
             if (bomb.getCurrentState() instanceof NullState) {
                 this.map.delete(bomb);
                 bombs.remove(i--);
+            }
+        }
+    }
+
+    private void updateBricks(long elapsedTime) {
+        for (var i = 0; i < bricks.size(); i++) {
+            final var brick = bricks.get(i);
+            brick.update(this, elapsedTime);
+            if (brick.getCurrentState() instanceof NullState
+                    && !brick.isSpecial()) {
+                if (!map.delete(brick)) {
+                    map.delete(brick.getSpecialBrick());
+                }
+                bricks.remove(i--);
+            }
+        }
+    }
+
+    private void updateEnemies(long elapsedTime) {
+        for (var i = 0; i < enemies.size(); i++) {
+            final var enemy = enemies.get(i);
+            enemy.update(this, elapsedTime);
+            if (enemy.getCurrentState() instanceof NullState) {
+                enemies.remove(i--);
+                if (enemies.isEmpty()) {
+                    if (!defeated)
+                        Sounds.getInstance().play(Sounds.PAUSE);
+                    defeated = true;
+                } else
+                    defeated = false;
+            } else if (!(enemy.getCurrentState() instanceof DeathState)) {
+                map.update(enemy);
             }
         }
     }

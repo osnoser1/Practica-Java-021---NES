@@ -7,18 +7,16 @@ package engine.core.java.gui;
 import engine.core.game.Game;
 import engine.core.java.controllers.CJFramePrincipal;
 import language.utils.FileManager;
-import org.reflections.Reflections;
 import thread.PrincipalThread;
 
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author Alfonso Andrés
  */
 public class JFramePrincipal extends Frame {
 
-    final PrincipalThread principalThread;
+    private final PrincipalThread principalThread;
     private final Game game;
 
     public JFramePrincipal(Game game) {

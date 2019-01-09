@@ -22,8 +22,6 @@ public class PrincipalThread extends Runnable2 {
     private final Game game;
     private final Insets in;
     private final Configuration c;
-    //    private final GLG2DCanvas g2DCanvas;
-    private Graphics g;
 
     public PrincipalThread(JFramePrincipal jFramePrincipal, int FPS) {
         super(FPS);
@@ -48,7 +46,8 @@ public class PrincipalThread extends Runnable2 {
         }
 //        final Graphics g = g2DCanvas.getGraphics();
         game.update(elapsedTime / 1000000);
-        g = buffer.getDrawGraphics();
+        //    private final GLG2DCanvas g2DCanvas;
+        var g = buffer.getDrawGraphics();
         g.translate(in.left, in.top);
         ((Graphics2D) g).scale(c.getScaleX(), c.getScaleY());
 //        g2DCanvas.repaint();
